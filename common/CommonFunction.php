@@ -39,6 +39,18 @@ class CommonFunction {
         return $randomNo;
     }
 
+    public static function logger($apiUrl,$request, $response) {
+        $logMessage = new ApiLog();
+        $logMessage->url = $apiUrl;
+        $logMessage->request = $request;
+        $logMessage->response = $response;
+        $logMessage->created_at = CommonFunction::currentTimestamp();
+        echo "<pre/>";
+        print_r($logMessage);
+        exit;
+        $logMessage->save();
+    }
+
     // RETURN LOGGED_IN USER NAME ELSE EMPTY
     public static function getLoggedInUserFullname() {
         $name = "";

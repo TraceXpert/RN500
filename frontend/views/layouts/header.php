@@ -123,10 +123,10 @@ $frontendDir = yii\helpers\Url::base(true);
         </div>
         <!-- row end --> 
     </div>
-    <?php if (!empty(Yii::$app->user->identity)) { ?>  
-    <div class="user-name">
-        <p><?= Yii::$app->user->identity->fullName ?></p>
-    </div>
-    <?php } ?>
+    <?php // if (!empty(Yii::$app->user->identity)) { ?>  
+    <!--<div class="user-name">-->
+        <!--<p><?php // echo Yii::$app->user->identity->fullName ?></p>-->
+    <!--</div>-->
+    <?php // } ?>
     <!-- Header container end --> 
 </div>
