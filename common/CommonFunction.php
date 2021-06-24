@@ -11,6 +11,7 @@ use common\models\CompanySubscriptionPayment;
 use yii\helpers\Html;
 use common\models\LeadMaster;
 use common\models\LeadRecruiterJobSeekerMapping;
+use common\models\ApiLog;
 
 class CommonFunction {
 
@@ -39,15 +40,12 @@ class CommonFunction {
         return $randomNo;
     }
 
-    public static function logger($apiUrl,$request, $response) {
+    public static function logger($apiUrl, $request, $response) {
         $logMessage = new ApiLog();
         $logMessage->url = $apiUrl;
         $logMessage->request = $request;
         $logMessage->response = $response;
         $logMessage->created_at = CommonFunction::currentTimestamp();
-        echo "<pre/>";
-        print_r($logMessage);
-        exit;
         $logMessage->save();
     }
 

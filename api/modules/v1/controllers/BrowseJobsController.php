@@ -56,6 +56,7 @@ class BrowseJobsController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -86,6 +87,7 @@ class BrowseJobsController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -116,6 +118,7 @@ class BrowseJobsController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -150,6 +153,7 @@ class BrowseJobsController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -175,6 +179,7 @@ class BrowseJobsController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -262,6 +267,7 @@ class BrowseJobsController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -270,6 +276,7 @@ class BrowseJobsController extends Controller {
         $data = [];
         $code = 201;
         $msg = "Required Data Missing in Request.";
+        $request = [];
         try {
             $model = LeadMaster::findOne(['id' => $id]);
             $benefit = LeadBenefit::findAll(['lead_id' => $id]);
@@ -300,6 +307,7 @@ class BrowseJobsController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }

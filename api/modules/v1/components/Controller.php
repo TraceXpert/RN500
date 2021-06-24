@@ -20,7 +20,7 @@ class Controller extends ActiveController {
     public $email;
     public $user_id;
     public $token;
-
+    
     /**
      * check allowed domains and ip addresse for media syndication
      */
@@ -67,7 +67,7 @@ class Controller extends ActiveController {
 //            }
 //        }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
-        \common\CommonFunction::logger(Yii::$app->request->url, json_encode($request), json_encode($response));
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -91,7 +91,7 @@ class Controller extends ActiveController {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
-        \common\CommonFunction::logger(Yii::$app->request->url, json_encode($request), json_encode($response));
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
