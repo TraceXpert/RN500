@@ -101,18 +101,17 @@ class LeadsReceivedController extends Controller {
                     if ($status == LeadRecruiterJobSeekerMapping::STATUS_APPROVED) {
                         $flashMsgType = "warning";
                         $flashMsg = "Application approved successfully, but there is some issue while sending mail.";
-                        $jobSeekerMailSent = $model->sendMailToJobSeekerAboutRecruiterApproval();
-
                         if (CommonFunction::isLeadAppliedBranchAndPostedBranchSame($model->lead_id, $model->branch_id)) {
                             $model->employer_status = LeadRecruiterJobSeekerMapping::STATUS_APPROVED;
                             $model->save(false);
+                            $jobSeekerMailSent = $model->sendMailToJobSeekerAboutRecruiterApproval();
                             if ($jobSeekerMailSent['status'] == '1') {
                                 $flashMsg = "Application approved successfully.";
                                 $flashMsgType = "success";
                             }
                         } else {
                             $employerMailSent = $model->sendMailToEmployerAboutRecruiterApproval();
-                            if ($jobSeekerMailSent['status'] == '1' && $employerMailSent['status'] == '1') {
+                            if ($employerMailSent['status'] == '1') {
                                 $flashMsg = "Application approved successfully.";
                                 $flashMsgType = "success";
                             }

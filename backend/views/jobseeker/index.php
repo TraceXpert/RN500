@@ -38,6 +38,13 @@ use common\CommonFunction;
                             }
                         ],
                         [
+                            'attribute' => 'interest_level',
+                            'filter' => Html::activeDropDownList($searchModel, 'interest_level', Yii::$app->params['INTERESTS_LEVEL'], ['prompt'=>'All', 'class'=>'form-control']),
+                            'value' => function ($model) {
+                                return (isset(Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level])) ? Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level] : '';
+                            }
+                        ],
+                        [
                             'class' => 'yii\grid\ActionColumn',
                             'contentOptions' => ['style' => 'width:10%;'],
                             'header' => 'Actions',
