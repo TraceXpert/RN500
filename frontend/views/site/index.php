@@ -39,20 +39,20 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                             </select> 
                         </div>
                     </div>
-<!--                    <div class="col-md-3 p-0">
-                        <div class="form-group">
-                            <img src="<?= $assetDir ?>/img/location-icon-dropdown.png" alt="location-icon-dropdown">
-                            <select id="choose-city" class="form-control select2-hidden-accessible border-right-0" data-select2-id="New York, USA" tabindex="-1" aria-hidden="true">
-                                <option data-select2-id="2">New York, USA</option>
-                                <option data-select2-id="5">Chandigarh</option>
-                                <option data-select2-id="6">London</option>
-                                <option data-select2-id="7">England</option>
-                                <option data-select2-id="8">Pratapcity</option>
-                                <option data-select2-id="9">Ukrain</option>
-                                <option data-select2-id="10">Wilangana</option>
-                            </select>                                
-                        </div>
-                    </div>-->
+                    <!--                    <div class="col-md-3 p-0">
+                                            <div class="form-group">
+                                                <img src="<?= $assetDir ?>/img/location-icon-dropdown.png" alt="location-icon-dropdown">
+                                                <select id="choose-city" class="form-control select2-hidden-accessible border-right-0" data-select2-id="New York, USA" tabindex="-1" aria-hidden="true">
+                                                    <option data-select2-id="2">New York, USA</option>
+                                                    <option data-select2-id="5">Chandigarh</option>
+                                                    <option data-select2-id="6">London</option>
+                                                    <option data-select2-id="7">England</option>
+                                                    <option data-select2-id="8">Pratapcity</option>
+                                                    <option data-select2-id="9">Ukrain</option>
+                                                    <option data-select2-id="10">Wilangana</option>
+                                                </select>                                
+                                            </div>
+                                        </div>-->
                     <div class="col-md-2 p-0">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary full-width">Search Job</button>
@@ -876,35 +876,6 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                     <div class="ads-title">
                         <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <img src="<?= $assetDir ?>/img/application-splash.png" alt="application-splash" class="img-fluid mx-auto d-block mb-md-0 mb-5">
-            </div>
-            <div class="col-md-6">
-                <div class="the-rn-app">
-                    <h5>Step Forword Now</h5>
-                    <h2>THE RN500 APP</h2>
-                    <h3 class="mb-4">A world of opportunity in your hand</h3>
-
-                    <p class="text-justify">
-                        Aliquam vestibulum cursus felis. In iaculis iaculis sapien ac condimentum. Vestibulum congue posuere lacus,
-                        id tincidunt nisi porta sit amet. Suspendisse et sapien varius, pellentesque dui non, semper orci. Curabitur
-                        blandit, diam ut ornare ultricies.
-                    </p>
-
-                    <h3 class="mb-4">We are available on</h3>
-
-                    <a href=""> 
-                        <img src="<?= $assetDir ?>/img/google-play.png" alt="google-play" class="img-fluid mr-3">
-                    </a>
-
-                    <a href="">
-                        <img src="<?= $assetDir ?>/img/app-store.png" alt="app-store" class="img-fluid">
-                    </a>
                 </div>
             </div>
         </div>

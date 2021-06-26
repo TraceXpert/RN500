@@ -20,22 +20,22 @@ use yii\web\View;
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active position-relative">
-                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/index"); ?>">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item position-relative">
-                    <a class="nav-link" href="">About Us</a>
+                    <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a>
                 </li>
                 <li class="nav-item position-relative">
-                    <a class="nav-link" href="">Browse Job</a>
+                    <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Browse Job</a>
                 </li>
                 <li class="nav-item position-relative">
-                    <a class="nav-link" href="">Contact </a>
+                    <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact </a>
                 </li>
                 <li class="nav-item position-relative">
-                    <a class="nav-link" href="">Advertise</a>
+                    <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/advertise"); ?>">Advertise</a>
                 </li>
                 <li class="nav-item position-relative d-flex align-items-center">
-                    <a href="" class="btn btn-primary readmore ml-md-3 ml-0 mb-3 mb-md-0 mt-2 mt-md-0">Sign In /
+                    <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/login"); ?>" class="btn btn-primary readmore ml-md-3 ml-0 mb-3 mb-md-0 mt-2 mt-md-0">Sign In /
                         Sign Up</a>
                 </li>
             </ul>
