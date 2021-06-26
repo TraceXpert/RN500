@@ -24,7 +24,7 @@ class UserDetailsSearch extends UserDetails {
     public function rules() {
         return [
 //            [['id', 'user_id', 'city', 'job_title', 'travel_preference', 'ssn', 'work_authorization', 'created_at', 'updated_at'], 'integer'],
-            [['user_type', 'unique_id', 'city', 'role_id', 'email', 'first_name', 'last_name', 'mobile_no', 'street_no', 'street_address', 'apt', 'zip_code', 'profile_pic', 'current_position', 'speciality', 'work experience', 'job_looking_from', 'work_authorization_comment', 'license_suspended', 'professional_liability', 'branchName', 'companyNames'], 'safe'],
+            [['user_type', 'unique_id', 'city', 'role_id', 'email', 'first_name', 'last_name', 'mobile_no', 'street_no', 'street_address', 'apt', 'zip_code', 'profile_pic', 'current_position', 'speciality', 'work experience', 'job_looking_from', 'work_authorization_comment', 'license_suspended', 'professional_liability', 'branchName', 'companyNames', 'interest_level'], 'safe'],
         ];
     }
 
@@ -500,6 +500,7 @@ class UserDetailsSearch extends UserDetails {
             'attributes' => [
                 'id',
                 'unique_id',
+                'interest_level',
                 'first_name' => [
                     'asc' => ['first_name' => SORT_ASC],
                     'desc' => ['first_name' => SORT_DESC],
@@ -541,6 +542,7 @@ class UserDetailsSearch extends UserDetails {
             'work_authorization' => $this->work_authorization,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'interest_level' => $this->interest_level,
         ]);
 
         $query->andFilterWhere(['like', 'first_name', $this->first_name])
