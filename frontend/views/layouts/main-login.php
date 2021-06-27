@@ -8,6 +8,7 @@
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 use frontend\assets\ThemeAsset;
+use common\components\FlashmessageWidget;
 
 ThemeAsset::register($this);
 $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
@@ -49,7 +50,18 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                 </div>
             </div>
         </div>
+        <?php
+        echo FlashmessageWidget::widget();
+        ?>
         <?php $this->endBody() ?>
     </body>
 </html>
 <?php $this->endPage() ?>
+<?php
+$style = <<< CSS
+.right-pane {
+    background-image: url($assetDir/img/login-bg.png);
+}
+CSS;
+$this->registerCss($style);
+?>

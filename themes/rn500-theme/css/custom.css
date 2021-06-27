@@ -275,3 +275,10 @@ footer hr{border-top: 1px solid #8C97AC;}
 @media (max-width: 350px){
     .the-rn-app img{margin-bottom: 16px;}
 }
+
+
+/*BY MOHAN */ 
+.invalid-feedback{
+    text-align: left;
+}
+/*BY MOHAN END */ 

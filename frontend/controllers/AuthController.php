@@ -44,11 +44,11 @@ class AuthController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['logout', 'index', 'get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                 'rules' => [
-                    [
+                        [
                         'actions' => ['get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                         'allow' => true,
                     ],
-                    [
+                        [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -92,15 +92,19 @@ class AuthController extends Controller {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $model = new LoginForm();
+        if (Yii::$app->request->isPost && isset($_POST['LoginForm']['otp_digits']) && !empty($_POST['LoginForm']['otp_digits'])) {
+            $model->load(Yii::$app->request->post());
+            $model->otp = implode("", $_POST['LoginForm']['otp_digits']);
+        }
         if (
                 $model->load(Yii::$app->request->post()) &&
-                $model->validatePassword('password', []) &&
+                $model->validate(['username', 'password']) &&
                 $model->sendOTP() &&
                 $model->OTPVerified() &&
                 $model->login()
         ) {
+            Yii::$app->session->setFlash("success", "Logged-in successfully");
             if (Yii::$app->user->identity->type == 1) {
                 return $this->redirect(['/site/index']);
             } else {
