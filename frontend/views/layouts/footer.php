@@ -7,6 +7,40 @@
 
 use common\CommonFunction;
 ?>
+<section class="">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="<?= $assetDir ?>/img/application-splash.png" alt="application-splash" class="img-fluid mx-auto d-block mb-md-0 mb-5">
+            </div>
+            <div class="col-md-6">
+                <div class="the-rn-app">
+                    <h5>Step Forword Now</h5>
+                    <h2>THE RN500 APP</h2>
+                    <h3 class="mb-4">A world of opportunity in your hand</h3>
+
+                    <p class="text-justify">
+                        Aliquam vestibulum cursus felis. In iaculis iaculis sapien ac condimentum. Vestibulum congue
+                        posuere lacus,
+                        id tincidunt nisi porta sit amet. Suspendisse et sapien varius, pellentesque dui non, semper
+                        orci. Curabitur
+                        blandit, diam ut ornare ultricies.
+                    </p>
+
+                    <h3 class="mb-4">We are available on</h3>
+
+                    <a href="">
+                        <img src="<?= $assetDir ?>/img/google-play.png" alt="google-play" class="img-fluid mr-3">
+                    </a>
+
+                    <a href="">
+                        <img src="<?= $assetDir ?>/img/app-store.png" alt="app-store" class="img-fluid">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <footer>
     <div class="container">
         <div class="row">

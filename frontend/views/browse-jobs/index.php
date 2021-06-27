@@ -13,402 +13,1036 @@ use yii\web\JsExpression;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/jobs-portal');
-$shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
+$assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 ?>
-<style>
-    .browse-jobs li p {line-height: 22px;color: #333;margin: 0;font-weight: 600}
-    .select2-container--krajee .select2-selection--multiple .select2-selection__choice{margin: 5px 0 0 3px;
-                                                                                       padding: 0 15px;}
-    .select2-container--krajee .select2-selection--multiple .select2-selection__choice__remove{margin: -5px 0 0 0px;}
-    .optionlist li span{right: 2px;}
-</style>
-
-<!-- Page Title start -->
-<div class="pageTitle">
+<section class="inner-banner browse-banner">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-sm-6">
-                <h1 class="page-heading">Find Your Jobs</h1>
+            <div class="col-xl-12">
+                <h1>Find Your Jobs</h1>
             </div>
         </div>
     </div>
-</div>
-<!-- Page Title End -->
+</section>
 
-<div class="listpgWraper">
-    <div class="container"> 
 
-        <!-- Search Result and sidebar start -->
-        <div class="row">
-            <div class="col-md-3 col-sm-12">  
-                <!-- Side Bar start -->
-                <div class="sidebar"> 
-                    <form method="GET">
-                        <!-- Jobs By Discipline -->
-                        <div class="widget" id="discipline-widget">
-                            <h4 class="widget-title">Discipline</h4>
-                            <ul class="optionlist" id="optionlist-discipline">
 
-                            </ul>
+<section class="about-us browse-search pb-5">
+    <div class="container">
+
+        <div class="row filter-block">
+            <div class="col-xl-12 col-lg-12">
+                <form class="d-flex">
+                    <div class="col-md-4 p-0">
+                        <div class="form-group">
+                            <img src="<?= $assetDir ?>/img/search-icon.png" alt="search-icon"><input type="text"
+                                                                                                     class="form-control br-1" id="joblist" placeholder="Search Open Jobs">
                         </div>
-
-                        <!-- Jobs By Specialty -->
-                        <div class="widget" id="speciality-widget">
-                            <h4 class="widget-title">Specialty</h4>
-                            <ul class="optionlist" id="optionlist-speciality">
-
-                            </ul>
+                    </div>
+                    <div class="col-md-3 p-0">
+                        <div class="form-group">
+                            <img src="<?= $assetDir ?>/img/location-icon-dropdown.png" alt="location-icon-dropdown">
+                            <select id="choose-city" class="form-control select2-hidden-accessible"
+                                    data-select2-id="City Name" tabindex="-1" aria-hidden="true">
+                                <option data-select2-id="2">City Name</option>
+                                <option data-select2-id="5">Chandigarh</option>
+                                <option data-select2-id="6">London</option>
+                                <option data-select2-id="7">England</option>
+                                <option data-select2-id="8">Pratapcity</option>
+                                <option data-select2-id="9">Ukrain</option>
+                                <option data-select2-id="10">Wilangana</option>
+                            </select>
                         </div>
-                        
-                        <div class="widget" id="emergency-widget">
-                            <h4 class="widget-title">Emergency</h4>
-                            <ul class="optionlist" id="optionlist-emergency">
-
-                            </ul>
+                    </div>
+                    <div class="col-md-3 p-0">
+                        <div class="form-group">
+                            <img src="<?= $assetDir ?>/img/location-icon-dropdown.png" alt="location-icon-dropdown">
+                            <select id="choose-city" class="form-control select2-hidden-accessible border-right-0"
+                                    data-select2-id="New York, USA" tabindex="-1" aria-hidden="true">
+                                <option data-select2-id="2">New York, USA</option>
+                                <option data-select2-id="5">Chandigarh</option>
+                                <option data-select2-id="6">London</option>
+                                <option data-select2-id="7">England</option>
+                                <option data-select2-id="8">Pratapcity</option>
+                                <option data-select2-id="9">Ukrain</option>
+                                <option data-select2-id="10">Wilangana</option>
+                            </select>
                         </div>
-
-                        <!-- Jobs By Shift -->
-                        <div class="widget">
-                            <h4 class="widget-title">Shift</h4>
-                            <ul class="optionlist">
-                                <li>
-                                    <?php if (in_array(1, $shift_prams)) { ?>
-                                        <input type="checkbox" name="shift[]" value="1" id="shift-1" checked />
-                                    <?php } else { ?>
-                                        <input type="checkbox" name="shift[]" value="1" id="shift-1" />
-                                    <?php } ?>
-                                    <label for="shift-1"></label>
-                                    All
-                                </li>
-                                <li>
-                                    <?php if (in_array(2, $shift_prams)) { ?>
-                                        <input type="checkbox" name="shift[]" value="2" id="shift-2" checked />
-                                    <?php } else { ?>
-                                        <input type="checkbox" name="shift[]" value="2" id="shift-2" />
-                                    <?php } ?>
-                                    <label for="shift-2"></label>
-                                    Morning
-                                </li>
-                                <li>
-                                    <?php if (in_array(3, $shift_prams)) { ?>
-                                        <input type="checkbox" name="shift[]" value="3" id="shift-3" checked />
-                                    <?php } else { ?>
-                                        <input type="checkbox" name="shift[]" value="3" id="shift-3" />
-                                    <?php } ?>
-                                    <label for="shift-3"></label>
-                                    Evening
-                                </li>
-                                <li>
-                                    <?php if (in_array(4, $shift_prams)) { ?>
-                                        <input type="checkbox" name="shift[]" value="4" id="shift-4" checked />
-                                    <?php } else { ?>
-                                        <input type="checkbox" name="shift[]" value="4" id="shift-4" />
-                                    <?php } ?>
-                                    <label for="shift-4"></label>
-                                    Night
-                                </li>
-                                <li>
-                                    <?php if (in_array(5, $shift_prams)) { ?>
-                                        <input type="checkbox" name="shift[]" value="5" id="shift-5" checked />
-                                    <?php } else { ?>
-                                        <input type="checkbox" name="shift[]" value="5" id="shift-5" />
-                                    <?php } ?>
-                                    <label for="shift-5"></label>
-                                    Flatulate
-                                </li>
-                            </ul>
+                    </div>
+                    <div class="col-md-2 p-0">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary full-width">Search Job</button>
                         </div>
-
-                        <!-- Jobs By Location -->
-                        <div class="widget">
-                            <h4 class="widget-title">Location</h4>
-                            <ul class="optionlist">
-                                <?php
-                                $url = Url::to(['browse-jobs/get-cities']);
-                                echo Select2::widget([
-                                    'name' => 'location',
-                                    'value' => $selectedLocations,
-                                    'options' => [
-                                        'id' => 'select_location',
-                                        'placeholder' => 'Select Location...',
-                                        'multiple' => true,
-                                    ],
-                                    'pluginOptions' => [
-                                        'allowClear' => true,
-                                        'minimumInputLength' => 1,
-                                        'ajax' => [
-                                            'url' => $url,
-                                            'dataType' => 'json',
-                                            'data' => new JsExpression('function(params) {return {q:params.term, page:params.page || 1}; }'),
-                                            'cache' => true,
-                                        ],
-                                        'escapeMarkup' => new JsExpression('function (markup) {return markup; }'),
-                                        'templateResult' => new JsExpression('function(location) {return "<b>"+location.name+"</b>"; }'),
-                                        'templateSelection' => new JsExpression('function (location) {
-                                if(location.selected==true){
-                                    return location.text; 
-                                }else{
-                                    return location.name;
-                                }
-                            }'),
-                                    ],
-                                ]);
-                                ?>
-                            </ul>
-                        </div>
-
-                        <!-- Top Benefits -->
-                        <div class="widget" id="benefit-widget">
-                            <h4 class="widget-title">Benefits</h4>
-                            <ul class="optionlist" id="optionlist-benefit">
-                            </ul>
-                        </div>
-
-                        <!-- Salary -->
-                        <div class="widget">
-                            <h4 class="widget-title">Salary Range</h4>
-                            <ul class="optionlist">
-                                <li>
-                                    <?php if (isset($_GET['salary']) && in_array(1, $_GET['salary'])) { ?>
-                                        <input type="checkbox" name="salary[]" value="1" checked id="price1" />
-                                    <?php } else { ?>
-                                        <input type="checkbox" name="salary[]" value="1" id="price1" />
-                                    <?php } ?>
-                                    <label for="price1"></label>
-                                    0 to $100
-                                </li>
-                                <li>
-                                    <?php if (isset($_GET['salary']) && in_array(2, $_GET['salary'])) { ?>
-                                        <input type="checkbox" name="salary[]" value="2" checked id="price2" />
-                                    <?php } else { ?>
-                                        <input type="checkbox" name="salary[]" value="2" id="price2" />
-                                    <?php } ?>
-                                    <label for="price2"></label>
-                                    $100 to $199
-                                </li>
-                                <li>
-                                    <?php if (isset($_GET['salary']) && in_array(3, $_GET['salary'])) { ?>
-                                        <input type="checkbox" name="salary[]" value="3" checked id="price3" />
-                                    <?php } else { ?>
-                                        <input type="checkbox" name="salary[]" value="3" id="price3" />
-                                    <?php } ?>
-                                    <label for="price3"></label>
-                                    $199 to $499
-                                </li>
-                                <li>
-                                    <?php if (isset($_GET['salary']) && in_array(4, $_GET['salary'])) { ?>
-                                        <input type="checkbox" name="salary[]" value="4" checked id="price4" />
-                                    <?php } else { ?>
-                                        <input type="checkbox" name="salary[]" value="4" id="price4" />
-                                    <?php } ?>
-                                    <label for="price4"></label>
-                                    $499 to $999
-                                </li>
-                                <li>
-                                    <?php if (isset($_GET['salary']) && in_array(5, $_GET['salary'])) { ?>
-                                        <input type="checkbox" name="salary[]" value="5" checked id="price5" />
-                                    <?php } else { ?>
-                                        <input type="checkbox" name="salary[]" value="5" id="price5" />
-                                    <?php } ?>
-                                    <label for="price5"></label>
-                                    $999 to $4999
-                                </li>
-                                <li>
-                                    <?php if (isset($_GET['salary']) && in_array(6, $_GET['salary'])) { ?>
-                                        <input type="checkbox" name="salary[]" value="6" checked id="price6" />
-                                    <?php } else { ?>
-                                        <input type="checkbox" name="salary[]" value="6" id="price6" />
-                                    <?php } ?>
-                                    <label for="price6"></label>
-                                    Above $4999
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="searchnt">
-                            <button class="btn" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search Lead</button>
-                        </div>
-                    </form>
-                </div>
-                <!-- Side Bar end --> 
+                    </div>
+                </form>
             </div>
-            <div class="col-md-9 col-sm-12"> 
-                <!-- Search List -->
-                <ul class="searchList browse-jobs">
-                    <?php foreach ($models as $model) { ?>
-                        <!-- Candidate -->
-                        <li>
-                            <div class="row">
-                                <div class="col-md-4 col-sm-4">
-                                    <div class="jobimg"><img src="<?= $assetDir ?>/images/RN500_logo177X53.png" alt="Candidate Name" /></div><br/><br/>
-                                    <div class="jobinfo">
-                                        <div class="companyName">5.0 &#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div>
-                                        <!--<div class="location"><label class="fulltime">Full Time</label>   - <span>New York</span></div>-->
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="col-md-4 col-sm-4 employee-details">
-                                    <h3><a href="#."><?= $model->title ?></a></h3>
-                                    <p><?= $model->citiesName ?></p>
-                                    <p>Posted <?= CommonFunction::dateDiffInDays($model->created_at) == 0 ? "Today" : CommonFunction::dateDiffInDays($model->created_at) . " days ago"; ?></p>
-                                    <p>Benefits starts from Day 1</p>
-                                </div>
-                                <div class="col-md-4 col-sm-4 employee-details">
-                                    <p><b>Estimated Pay:</b> $<?= $model->jobseeker_payment ?>/<?= Yii::$app->params['job.payment_type'][$model->payment_type] ?></p>
-                                    <br/>
-                                    <p><b>Response Time:</b> within a day</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-9 col-sm-9">
-                                    <p>&nbsp;</p>
-                                    <div class="row">
-                                        <div class="col-md-4 col-sm-12"><span><b>Starting Date</b> :</span> <?= date('m-d-Y', strtotime($model->start_date)); ?></div>
-                                        <div class="col-md-4 col-sm-12"><span><b>Shift</b> :</span> <?= $model->shift == 1 ? "Morning, Evening, Night, Flatulate" : Yii::$app->params['job.shift'][$model->shift] ?></div>
-                                        <div class="col-md-4 col-sm-12"><span><b>Job Type</b> :</span> <?= Yii::$app->params['job.type'][$model->job_type] ?></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-3">
-                                    <div class="listbtn"><a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->id]) ?>">View Profile</a></div>
-                                </div>
-                            </div>
-                        </li>
-                        <?php
-                    }
-                    if (count($models) <= 0) {
-                        echo "<h1>No Leads Found</h1>";
-                    }
-                    ?>
-                </ul>
+        </div>
+    </div>
+</section>
 
-                <!-- Pagination Start -->
-                <div class="pagiWrap">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 text-right">
-                            <?php echo \yii\widgets\LinkPager::widget(['pagination' => $pages]); ?>
+
+<section class="most-popular-jobs">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="filter-accordion">
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                                    Discipline
+                                </a>
+                            </div>
+                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="one" checked>
+                                            <label for="one">RN</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="two" checked>
+                                            <label for="two">Allied Health Professional</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">Therapy</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">School Services</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">LPN / LVN</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">Social Work</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">CNA</label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">Advance Practice</label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">CMA</label>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+                                    Specialty
+                                </a>
+                            </div>
+                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="one" checked>
+                                            <label for="one">Med Surg</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="two" checked>
+                                            <label for="two">OR - Operating Room</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">Med Surg / Telemetry</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">ICU - Intensive Care unit</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">Medical Lab Tech</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">Speech Language </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">Pathologist</label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">ED - Emergency </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="checkbox" id="three">
+                                            <label for="three">DepartmentTelemetry</label>
+                                        </div>
+
+                                        <div class="view-more">View More</div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+                                    Emergency
+                                </a>
+                            </div>
+                            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
+                                    Shift
+                                </a>
+                            </div>
+                            <div id="collapseFour" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
+                                    Benefits
+                                </a>
+                            </div>
+                            <div id="collapseFive" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseSix">
+                                    Salary Range
+                                </a>
+                            </div>
+                            <div id="collapseSix" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-8">
+                <div class="job-details">
+                    <div class="title-location">
+                        <div class="row m-0 job-d">
+                            <div class="col-md-6 p-0">
+                                <p class="job-title mb-0">Med Surg / Telemetry</p>
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/location.png" alt="location" class="mr-2">
+                                    <div class="media-body">
+                                        Mooreville, Canada
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-right mt-2 mt-sm-0">
+                                <span class="badge badge-warning">Urgent</span>
+                                <span class="badge badge-success">Permanent</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-0 job-d">
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Shift :</p>
+                                <p>Morning</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Estimated Pay</p>
+                                <p>$51/Weekly</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Response Time:</p>
+                                <p>within a day</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Posted by</p>
+                                <p>Today</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Starting Date :</p>
+                                <p>06-23-2021</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Benefits starts from</p>
+                                <p>Day 1</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating">
+
+                        <div class="row m-0 job-d">
+                            <div class="col-sm-6 p-0">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
+                                    <div class="media-body">
+                                        <p class="mb-0">Rattings</p>
+
+                                        <div class="star-rating">
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847ZM8.46109 13.175C8.81125 13.175 9.12249 13.251 9.43374 13.4029L11.9626 14.6938C12.2739 14.8457 12.6629 14.8457 12.9353 14.6178C13.2465 14.428 13.3632 14.0863 13.3243 13.7446L12.8575 10.9729C12.7407 10.2894 12.9742 9.64398 13.48 9.15039L15.542 7.17603C15.8143 6.91026 15.8921 6.56854 15.7754 6.22682C15.6587 5.88511 15.3864 5.6573 15.0362 5.61933L12.1961 5.20168C11.4958 5.08777 10.9122 4.67012 10.6009 4.06263L9.31703 1.55671C9.1614 1.25296 8.85015 1.06312 8.46109 1.06312C8.07203 1.06312 7.79969 1.25296 7.60516 1.55671L6.32126 4.06263C6.01001 4.67012 5.42642 5.08777 4.72611 5.20168L1.88598 5.61933C1.53583 5.6573 1.26349 5.88511 1.14677 6.22682C1.03005 6.56854 1.10785 6.91026 1.38019 7.17603L3.44222 9.15039C3.948 9.60601 4.18144 10.2894 4.06472 10.9729L3.59784 13.7446C3.52003 14.0863 3.67565 14.428 3.9869 14.6178C4.29815 14.8077 4.6483 14.8457 4.95955 14.6938L7.48844 13.4029C7.79969 13.251 8.14984 13.175 8.46109 13.175Z"
+                                                fill="#2E2842"></path>
+                                            </svg>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 p-0 text-right">
+                                <a href="" class="read-more contact-us mb-0">View Profile</a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="job-details">
+                    <div class="title-location">
+                        <div class="row m-0 job-d">
+                            <div class="col-md-6 p-0">
+                                <p class="job-title mb-0">Med Surg / Telemetry</p>
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/location.png" alt="location" class="mr-2">
+                                    <div class="media-body">
+                                        Mooreville, Canada
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-right mt-2 mt-sm-0">
+                                <span class="badge badge-warning">Urgent</span>
+                                <span class="badge badge-success">Permanent</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-0 job-d">
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Shift :</p>
+                                <p>Morning</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Estimated Pay</p>
+                                <p>$51/Weekly</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Response Time:</p>
+                                <p>within a day</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Posted by</p>
+                                <p>Today</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Starting Date :</p>
+                                <p>06-23-2021</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Benefits starts from</p>
+                                <p>Day 1</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating">
+
+                        <div class="row m-0 job-d">
+                            <div class="col-sm-6 p-0">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
+                                    <div class="media-body">
+                                        <p class="mb-0">Rattings</p>
+
+                                        <div class="star-rating">
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847ZM8.46109 13.175C8.81125 13.175 9.12249 13.251 9.43374 13.4029L11.9626 14.6938C12.2739 14.8457 12.6629 14.8457 12.9353 14.6178C13.2465 14.428 13.3632 14.0863 13.3243 13.7446L12.8575 10.9729C12.7407 10.2894 12.9742 9.64398 13.48 9.15039L15.542 7.17603C15.8143 6.91026 15.8921 6.56854 15.7754 6.22682C15.6587 5.88511 15.3864 5.6573 15.0362 5.61933L12.1961 5.20168C11.4958 5.08777 10.9122 4.67012 10.6009 4.06263L9.31703 1.55671C9.1614 1.25296 8.85015 1.06312 8.46109 1.06312C8.07203 1.06312 7.79969 1.25296 7.60516 1.55671L6.32126 4.06263C6.01001 4.67012 5.42642 5.08777 4.72611 5.20168L1.88598 5.61933C1.53583 5.6573 1.26349 5.88511 1.14677 6.22682C1.03005 6.56854 1.10785 6.91026 1.38019 7.17603L3.44222 9.15039C3.948 9.60601 4.18144 10.2894 4.06472 10.9729L3.59784 13.7446C3.52003 14.0863 3.67565 14.428 3.9869 14.6178C4.29815 14.8077 4.6483 14.8457 4.95955 14.6938L7.48844 13.4029C7.79969 13.251 8.14984 13.175 8.46109 13.175Z"
+                                                fill="#2E2842"></path>
+                                            </svg>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 p-0 text-right">
+                                <a href="" class="read-more contact-us mb-0">View Profile</a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="job-details">
+                    <div class="title-location">
+                        <div class="row m-0 job-d">
+                            <div class="col-md-6 p-0">
+                                <p class="job-title mb-0">Med Surg / Telemetry</p>
+                                <div class="media">
+                                    <img src="img/location.png" alt="location" class="mr-2">
+                                    <div class="media-body">
+                                        Mooreville, Canada
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-right mt-2 mt-sm-0">
+                                <span class="badge badge-warning">Urgent</span>
+                                <span class="badge badge-success">Permanent</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-0 job-d">
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Shift :</p>
+                                <p>Morning</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Estimated Pay</p>
+                                <p>$51/Weekly</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Response Time:</p>
+                                <p>within a day</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Posted by</p>
+                                <p>Today</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Starting Date :</p>
+                                <p>06-23-2021</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Benefits starts from</p>
+                                <p>Day 1</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating">
+
+                        <div class="row m-0 job-d">
+                            <div class="col-sm-6 p-0">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
+                                    <div class="media-body">
+                                        <p class="mb-0">Rattings</p>
+
+                                        <div class="star-rating">
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847ZM8.46109 13.175C8.81125 13.175 9.12249 13.251 9.43374 13.4029L11.9626 14.6938C12.2739 14.8457 12.6629 14.8457 12.9353 14.6178C13.2465 14.428 13.3632 14.0863 13.3243 13.7446L12.8575 10.9729C12.7407 10.2894 12.9742 9.64398 13.48 9.15039L15.542 7.17603C15.8143 6.91026 15.8921 6.56854 15.7754 6.22682C15.6587 5.88511 15.3864 5.6573 15.0362 5.61933L12.1961 5.20168C11.4958 5.08777 10.9122 4.67012 10.6009 4.06263L9.31703 1.55671C9.1614 1.25296 8.85015 1.06312 8.46109 1.06312C8.07203 1.06312 7.79969 1.25296 7.60516 1.55671L6.32126 4.06263C6.01001 4.67012 5.42642 5.08777 4.72611 5.20168L1.88598 5.61933C1.53583 5.6573 1.26349 5.88511 1.14677 6.22682C1.03005 6.56854 1.10785 6.91026 1.38019 7.17603L3.44222 9.15039C3.948 9.60601 4.18144 10.2894 4.06472 10.9729L3.59784 13.7446C3.52003 14.0863 3.67565 14.428 3.9869 14.6178C4.29815 14.8077 4.6483 14.8457 4.95955 14.6938L7.48844 13.4029C7.79969 13.251 8.14984 13.175 8.46109 13.175Z"
+                                                fill="#2E2842"></path>
+                                            </svg>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 p-0 text-right">
+                                <a href="" class="read-more contact-us mb-0">View Profile</a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="job-details">
+                    <div class="title-location">
+                        <div class="row m-0 job-d">
+                            <div class="col-md-6 p-0">
+                                <p class="job-title mb-0">Med Surg / Telemetry</p>
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/location.png" alt="location" class="mr-2">
+                                    <div class="media-body">
+                                        Mooreville, Canada
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-right mt-2 mt-sm-0">
+                                <span class="badge badge-warning">Urgent</span>
+                                <span class="badge badge-success">Permanent</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-0 job-d">
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Shift :</p>
+                                <p>Morning</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Estimated Pay</p>
+                                <p>$51/Weekly</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Response Time:</p>
+                                <p>within a day</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Posted by</p>
+                                <p>Today</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Starting Date :</p>
+                                <p>06-23-2021</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Benefits starts from</p>
+                                <p>Day 1</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating">
+
+                        <div class="row m-0 job-d">
+                            <div class="col-sm-6 p-0">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
+                                    <div class="media-body">
+                                        <p class="mb-0">Rattings</p>
+
+                                        <div class="star-rating">
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847ZM8.46109 13.175C8.81125 13.175 9.12249 13.251 9.43374 13.4029L11.9626 14.6938C12.2739 14.8457 12.6629 14.8457 12.9353 14.6178C13.2465 14.428 13.3632 14.0863 13.3243 13.7446L12.8575 10.9729C12.7407 10.2894 12.9742 9.64398 13.48 9.15039L15.542 7.17603C15.8143 6.91026 15.8921 6.56854 15.7754 6.22682C15.6587 5.88511 15.3864 5.6573 15.0362 5.61933L12.1961 5.20168C11.4958 5.08777 10.9122 4.67012 10.6009 4.06263L9.31703 1.55671C9.1614 1.25296 8.85015 1.06312 8.46109 1.06312C8.07203 1.06312 7.79969 1.25296 7.60516 1.55671L6.32126 4.06263C6.01001 4.67012 5.42642 5.08777 4.72611 5.20168L1.88598 5.61933C1.53583 5.6573 1.26349 5.88511 1.14677 6.22682C1.03005 6.56854 1.10785 6.91026 1.38019 7.17603L3.44222 9.15039C3.948 9.60601 4.18144 10.2894 4.06472 10.9729L3.59784 13.7446C3.52003 14.0863 3.67565 14.428 3.9869 14.6178C4.29815 14.8077 4.6483 14.8457 4.95955 14.6938L7.48844 13.4029C7.79969 13.251 8.14984 13.175 8.46109 13.175Z"
+                                                fill="#2E2842"></path>
+                                            </svg>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 p-0 text-right">
+                                <a href="" class="read-more contact-us mb-0">View Profile</a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="job-details">
+                    <div class="title-location">
+                        <div class="row m-0 job-d">
+                            <div class="col-md-6 p-0">
+                                <p class="job-title mb-0">Med Surg / Telemetry</p>
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/location.png" alt="location" class="mr-2">
+                                    <div class="media-body">
+                                        Mooreville, Canada
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-right mt-2 mt-sm-0">
+                                <span class="badge badge-warning">Urgent</span>
+                                <span class="badge badge-success">Permanent</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-0 job-d">
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Shift :</p>
+                                <p>Morning</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Estimated Pay</p>
+                                <p>$51/Weekly</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Response Time:</p>
+                                <p>within a day</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Posted by</p>
+                                <p>Today</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Starting Date :</p>
+                                <p>06-23-2021</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Benefits starts from</p>
+                                <p>Day 1</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating">
+
+                        <div class="row m-0 job-d">
+                            <div class="col-sm-6 p-0">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
+                                    <div class="media-body">
+                                        <p class="mb-0">Rattings</p>
+
+                                        <div class="star-rating">
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847ZM8.46109 13.175C8.81125 13.175 9.12249 13.251 9.43374 13.4029L11.9626 14.6938C12.2739 14.8457 12.6629 14.8457 12.9353 14.6178C13.2465 14.428 13.3632 14.0863 13.3243 13.7446L12.8575 10.9729C12.7407 10.2894 12.9742 9.64398 13.48 9.15039L15.542 7.17603C15.8143 6.91026 15.8921 6.56854 15.7754 6.22682C15.6587 5.88511 15.3864 5.6573 15.0362 5.61933L12.1961 5.20168C11.4958 5.08777 10.9122 4.67012 10.6009 4.06263L9.31703 1.55671C9.1614 1.25296 8.85015 1.06312 8.46109 1.06312C8.07203 1.06312 7.79969 1.25296 7.60516 1.55671L6.32126 4.06263C6.01001 4.67012 5.42642 5.08777 4.72611 5.20168L1.88598 5.61933C1.53583 5.6573 1.26349 5.88511 1.14677 6.22682C1.03005 6.56854 1.10785 6.91026 1.38019 7.17603L3.44222 9.15039C3.948 9.60601 4.18144 10.2894 4.06472 10.9729L3.59784 13.7446C3.52003 14.0863 3.67565 14.428 3.9869 14.6178C4.29815 14.8077 4.6483 14.8457 4.95955 14.6938L7.48844 13.4029C7.79969 13.251 8.14984 13.175 8.46109 13.175Z"
+                                                fill="#2E2842"></path>
+                                            </svg>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 p-0 text-right">
+                                <a href="" class="read-more contact-us mb-0">View Profile</a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="job-details">
+                    <div class="title-location">
+                        <div class="row m-0 job-d">
+                            <div class="col-md-6 p-0">
+                                <p class="job-title mb-0">Med Surg / Telemetry</p>
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/location.png" alt="location" class="mr-2">
+                                    <div class="media-body">
+                                        Mooreville, Canada
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-right mt-2 mt-sm-0">
+                                <span class="badge badge-warning">Urgent</span>
+                                <span class="badge badge-success">Permanent</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-0 job-d">
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Shift :</p>
+                                <p>Morning</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Estimated Pay</p>
+                                <p>$51/Weekly</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Response Time:</p>
+                                <p>within a day</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Posted by</p>
+                                <p>Today</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Starting Date :</p>
+                                <p>06-23-2021</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Benefits starts from</p>
+                                <p>Day 1</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating">
+
+                        <div class="row m-0 job-d">
+                            <div class="col-sm-6 p-0">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
+                                    <div class="media-body">
+                                        <p class="mb-0">Rattings</p>
+
+                                        <div class="star-rating">
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847ZM8.46109 13.175C8.81125 13.175 9.12249 13.251 9.43374 13.4029L11.9626 14.6938C12.2739 14.8457 12.6629 14.8457 12.9353 14.6178C13.2465 14.428 13.3632 14.0863 13.3243 13.7446L12.8575 10.9729C12.7407 10.2894 12.9742 9.64398 13.48 9.15039L15.542 7.17603C15.8143 6.91026 15.8921 6.56854 15.7754 6.22682C15.6587 5.88511 15.3864 5.6573 15.0362 5.61933L12.1961 5.20168C11.4958 5.08777 10.9122 4.67012 10.6009 4.06263L9.31703 1.55671C9.1614 1.25296 8.85015 1.06312 8.46109 1.06312C8.07203 1.06312 7.79969 1.25296 7.60516 1.55671L6.32126 4.06263C6.01001 4.67012 5.42642 5.08777 4.72611 5.20168L1.88598 5.61933C1.53583 5.6573 1.26349 5.88511 1.14677 6.22682C1.03005 6.56854 1.10785 6.91026 1.38019 7.17603L3.44222 9.15039C3.948 9.60601 4.18144 10.2894 4.06472 10.9729L3.59784 13.7446C3.52003 14.0863 3.67565 14.428 3.9869 14.6178C4.29815 14.8077 4.6483 14.8457 4.95955 14.6938L7.48844 13.4029C7.79969 13.251 8.14984 13.175 8.46109 13.175Z"
+                                                fill="#2E2842"></path>
+                                            </svg>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 p-0 text-right">
+                                <a href="" class="read-more contact-us mb-0">View Profile</a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="job-details">
+                    <div class="title-location">
+                        <div class="row m-0 job-d">
+                            <div class="col-md-6 p-0">
+                                <p class="job-title mb-0">Med Surg / Telemetry</p>
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/location.png" alt="location" class="mr-2">
+                                    <div class="media-body">
+                                        Mooreville, Canada
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-right mt-2 mt-sm-0">
+                                <span class="badge badge-warning">Urgent</span>
+                                <span class="badge badge-success">Permanent</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-0 job-d">
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Shift :</p>
+                                <p>Morning</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Estimated Pay</p>
+                                <p>$51/Weekly</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Response Time:</p>
+                                <p>within a day</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Posted by</p>
+                                <p>Today</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <div>
+                                <p class="mb-0 small-text">Starting Date :</p>
+                                <p>06-23-2021</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 small-text">Benefits starts from</p>
+                                <p>Day 1</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating">
+
+                        <div class="row m-0 job-d">
+                            <div class="col-sm-6 p-0">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
+                                    <div class="media-body">
+                                        <p class="mb-0">Rattings</p>
+
+                                        <div class="star-rating">
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847Z"
+                                                fill="#F6A123"></path>
+                                            </svg>
+
+                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.4295 15.9847C12.0794 15.9847 11.7681 15.9088 11.4569 15.7569L8.92797 14.466C8.65563 14.3141 8.34437 14.3141 8.07203 14.466L5.54314 15.7569C4.84283 16.1366 3.9869 16.0606 3.3255 15.605C2.66409 15.1494 2.35285 14.39 2.50848 13.5927L2.97534 10.821C3.01425 10.5173 2.93644 10.2135 2.70301 10.0237L0.640983 8.04931C0.0573929 7.51775 -0.137135 6.68245 0.0963013 5.96105C0.329737 5.20168 0.991137 4.67012 1.80816 4.55621L4.64831 4.13856C4.95956 4.10059 5.23189 3.91075 5.34861 3.64497L6.6325 1.13905C6.98266 0.417653 7.72188 0 8.5 0C9.31703 0 10.0173 0.455621 10.3675 1.13905L11.6514 3.64497C11.7681 3.91075 12.0404 4.10059 12.3517 4.13856L15.1918 4.55621C15.9699 4.67012 16.6314 5.20168 16.9037 5.96105C17.1371 6.72042 16.9426 7.51775 16.359 8.04931L14.297 10.0237C14.0636 10.2515 13.9857 10.5173 14.0246 10.821L14.4915 13.5927C14.6082 14.3521 14.297 15.1494 13.6745 15.605C13.2854 15.8328 12.8575 15.9847 12.4295 15.9847ZM8.46109 13.175C8.81125 13.175 9.12249 13.251 9.43374 13.4029L11.9626 14.6938C12.2739 14.8457 12.6629 14.8457 12.9353 14.6178C13.2465 14.428 13.3632 14.0863 13.3243 13.7446L12.8575 10.9729C12.7407 10.2894 12.9742 9.64398 13.48 9.15039L15.542 7.17603C15.8143 6.91026 15.8921 6.56854 15.7754 6.22682C15.6587 5.88511 15.3864 5.6573 15.0362 5.61933L12.1961 5.20168C11.4958 5.08777 10.9122 4.67012 10.6009 4.06263L9.31703 1.55671C9.1614 1.25296 8.85015 1.06312 8.46109 1.06312C8.07203 1.06312 7.79969 1.25296 7.60516 1.55671L6.32126 4.06263C6.01001 4.67012 5.42642 5.08777 4.72611 5.20168L1.88598 5.61933C1.53583 5.6573 1.26349 5.88511 1.14677 6.22682C1.03005 6.56854 1.10785 6.91026 1.38019 7.17603L3.44222 9.15039C3.948 9.60601 4.18144 10.2894 4.06472 10.9729L3.59784 13.7446C3.52003 14.0863 3.67565 14.428 3.9869 14.6178C4.29815 14.8077 4.6483 14.8457 4.95955 14.6938L7.48844 13.4029C7.79969 13.251 8.14984 13.175 8.46109 13.175Z"
+                                                fill="#2E2842"></path>
+                                            </svg>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 p-0 text-right">
+                                <a href="" class="read-more contact-us mb-0">View Profile</a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
     </div>
-</div>
-<?php
-$discipline_prams = isset($_GET['discipline']) ? implode(',', $_GET['discipline']) : '';
-$specialty_prams = isset($_GET['speciality']) ? implode(',', $_GET['speciality']) : '';
-$benefits_prams = isset($_GET['benefit']) ? implode(',', $_GET['benefit']) : '';
-$emergency_prams = isset($_GET['emergency']) ? implode(',', $_GET['emergency']) : '';
-$get_discipline_url = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/get-discipline']);
-$get_specialty_url = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/get-specialty']);
-$get_benefits_url = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/get-benefits']);
-$get_emergency_url = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/get-emergency']);
-$csrfParam = Yii::$app->request->csrfParam;
-$csrfToken = Yii::$app->request->getCsrfToken();
-$script_new = <<<JS
-getDisciplineRecords();
-getSpecialtyRecords();
-getBenefitsRecords();
-getEmergencyRecords();
-        
-    function getDisciplineRecords(pageno=0) {
-        let params='$discipline_prams';
-        let availabel=pageno;
-        $.post("$get_discipline_url", {"$csrfParam":"$csrfToken",page: pageno,filter:params}, function(result){
-            let data=JSON.parse(result);
-            availabel+=data.offset;
-            if(data.offset==0){
-                $("#optionlist-discipline").html(data.options)
-                let nextPage=parseInt(data.offset);
-                if(data.options != ''){
-                    $("#discipline-widget").append("<a href='javascript:void(0)' id='discipline-viewmore' onClick='getDisciplineRecords("+nextPage+")'>View More</a>")
-                }
-            }else{
-               $("#optionlist-discipline").append(data.options);
-               $("#discipline-viewmore").remove();
-               if(availabel<data.totalPage){
-                    let nextPage=parseInt(data.offset);
-                    if(data.options != ''){
-                        $("#discipline-widget").append("<a href='javascript:void(0)' id='discipline-viewmore' onClick='getDisciplineRecords("+availabel+")'>View More</a>") 
-                    }
-               }
-            }
-        });
-    }
-        
-    function getSpecialtyRecords(pageno=0) {
-        let params='$specialty_prams';
-        let availabel=pageno;
-        $.post("$get_specialty_url", {"$csrfParam":"$csrfToken",page: pageno,filter:params}, function(result){
-             let data=JSON.parse(result);
-            availabel+=data.offset;
-            if(data.offset==0){
-                $("#optionlist-speciality").html(data.options)
-                let nextPage=parseInt(data.offset);
-                if(data.options != ''){
-                    $("#speciality-widget").append("<a href='javascript:void(0)' id='speciality-viewmore' onClick='getSpecialtyRecords("+nextPage+")'>View More</a>")
-                }
-            }else{
-               $("#optionlist-speciality").append(data.options);
-               $("#speciality-viewmore").remove();
-               if(availabel<data.totalPage){
-                    let nextPage=parseInt(data.offset);
-                    if(data.options != ''){
-                        $("#speciality-widget").append("<a href='javascript:void(0)' id='speciality-viewmore' onClick='getSpecialtyRecords("+availabel+")'>View More</a>") 
-                    }
-               }
-            }
-        });
-    }
-        
-    function getEmergencyRecords(pageno=0) {
-        let params='$emergency_prams';
-        let availabel=pageno;
-        $.post("$get_emergency_url", {"$csrfParam":"$csrfToken",page: pageno,filter:params}, function(result){
-             let data=JSON.parse(result);
-            availabel+=data.offset;
-            if(data.offset==0){
-                $("#optionlist-emergency").html(data.options)
-                let nextPage=parseInt(data.offset);
-                if(data.options != ''){
-                    $("#emergency-widget").append("<a href='javascript:void(0)' id='emergency-viewmore' onClick='getEmergencyRecords("+nextPage+")'>View More</a>")
-                }
-            }else{
-               $("#optionlist-emergency").append(data.options);
-               $("#emergency-viewmore").remove();
-               if(availabel<data.totalPage){
-                    let nextPage=parseInt(data.offset);
-                    if(data.options != ''){
-                        $("#emergency-widget").append("<a href='javascript:void(0)' id='emergency-viewmore' onClick='getEmergencyRecords("+availabel+")'>View More</a>") 
-                    }
-               }
-            }
-        });
-    }
-        
-    function getBenefitsRecords(pageno=0) {
-        let params='$benefits_prams';
-        let availabel=pageno;
-        $.post("$get_benefits_url", {"$csrfParam":"$csrfToken",page: pageno,filter:params}, function(result){
-             let data=JSON.parse(result);
-            availabel+=data.offset;
-            if(data.offset==0){
-                $("#optionlist-benefit").html(data.options)
-                let nextPage=parseInt(data.offset);
-                if(data.options != ''){
-                    $("#benefit-widget").append("<a href='javascript:void(0)' id='benefit-viewmore' onClick='getBenefitsRecords("+nextPage+")'>View More</a>")
-                }
-            }else{
-               $("#optionlist-benefit").append(data.options);
-               $("#benefit-viewmore").remove();
-               if(availabel<data.totalPage){
-                    let nextPage=parseInt(data.offset);
-                    if(data.options != ''){
-                        $("#benefit-widget").append("<a href='javascript:void(0)' id='benefit-viewmore' onClick='getBenefitsRecords("+availabel+")'>View More</a>") 
-                    }
-               }
-            }
-        });
-    }
-JS;
-$this->registerJS($script_new, 3);
-?>
+</section>
