@@ -12,12 +12,14 @@ class ThemeAsset extends AssetBundle {
     public $sourcePath = '@themes/rn500-theme';
     public $css = [
         'css/bootstrap.min.css',
+        'css/toastr.min.css',
         'css/custom.css',
     ];
     public $js = [
-        'js/jquery.min.js',
+//        'js/jquery.min.js',
         'js/popper.min.js',
-        'js/bootstrap.min.js'
+        'js/bootstrap.min.js',
+        'js/toastr.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -9,6 +9,8 @@ use common\CommonFunction;
 use yii\widgets\Pjax;
 use yii\web\View;
 
+$controller = Yii::$app->controller->id;
+$action = Yii::$app->controller->action->id;
 ?>
 <nav class="navbar navbar-expand-lg bg-white navbar-dark fixed-top">
     <div class="container">
@@ -18,25 +20,31 @@ use yii\web\View;
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active position-relative">
+                <li class="nav-item position-relative <?php echo $controller == 'site' && $action == 'index' ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/index"); ?>">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item position-relative">
+                <li class="nav-item position-relative  <?php echo $controller == 'site' && $action == 'about-us' ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a>
                 </li>
-                <li class="nav-item position-relative">
+                <li class="nav-item position-relative <?php echo $controller == 'browse-jobs' && $action == 'index' ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Browse Job</a>
                 </li>
-                <li class="nav-item position-relative">
+                <li class="nav-item position-relative  <?php echo $controller == 'site' && $action == 'contact-us' ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact </a>
                 </li>
-                <li class="nav-item position-relative">
+                <li class="nav-item position-relative <?php echo $controller == 'site' && $action == 'advertise' ? 'active' : '' ?>    ">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/advertise"); ?>">Advertise</a>
                 </li>
-                <li class="nav-item position-relative d-flex align-items-center">
-                     <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/login"); ?>" class="btn btn-primary readmore mt-md-0 ml-0 mb-3 mb-md-0 mt-2 mt-md-0">Sign In /
-                            Sign Up</a>
-                </li>
+                <?php if (Yii::$app->user->isGuest) { ?>
+
+                    <li class="nav-item position-relative d-flex align-items-center">
+                        <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/login"); ?>" class="btn btn-primary readmore mt-md-0 ml-0 mb-3 mb-md-0 mt-2 mt-md-0">Sign In / Sign Up</a>
+                    </li>
+                <?php } else { ?>
+                    <li class="nav-item position-relative d-flex align-items-center">
+                        <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/logout"); ?>" class="btn btn-primary readmore mt-md-0 ml-0 mb-3 mb-md-0 mt-2 mt-md-0">Logout</a>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
 
