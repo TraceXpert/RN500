@@ -31,16 +31,15 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
 
 <section class="about-us browse-search pb-5">
     <div class="container">
-
         <div class="row filter-block">
             <div class="col-xl-12 col-lg-12">
                 <form class="d-flex" method="GET">
-                    <div class="col-md-4 p-0">
+                    <div class="col-md-5 p-0">
                         <div class="form-group">
                             <img src="<?= $assetDir ?>/img/search-icon.png" alt="search-icon"><input type="text" class="form-control br-1" name="title" id="lead_title" value="<?= isset($_GET['title']) && !empty($_GET['title']) ? $_GET['title'] : "" ?>" placeholder="Search Open Jobs">
                         </div>
                     </div>
-                    <div class="col-md-6 p-0">
+                    <div class="col-md-5 p-0">
                         <div class="form-group">
                             <img src="<?= $assetDir ?>/img/location-icon-dropdown.png" alt="location-icon-dropdown">
                             <?php
@@ -99,13 +98,28 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                     <div id="accordion">
                         <div class="card">
                             <div class="card-header">
+                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+                                    Emergency
+                                </a>
+                            </div>
+                            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                <div class="card-body" id="emergency">
+                                    <form method="GET">
+                                        <div id="options"></div>
+                                        <div class='view-more'></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
                                 <a class="card-link" data-toggle="collapse" href="#collapseOne">
                                     Discipline
                                 </a>
                             </div>
                             <div id="collapseOne" class="collapse" data-parent="#accordion">
                                 <div class="card-body" id="discipline">
-                                    <form>
+                                    <form method="GET">
                                         <div id="options"></div>
                                         <div class='view-more'></div>
                                     </form>
@@ -120,29 +134,13 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                             </div>
                             <div id="collapseTwo" class="collapse" data-parent="#accordion">
                                 <div class="card-body" id="speciality">
-                                    <form>
+                                    <form method="GET">
                                         <div id="options"></div>
                                         <div class='view-more'></div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
-                                    Emergency
-                                </a>
-                            </div>
-                            <div id="collapseThree" class="collapse" data-parent="#accordion">
-                                <div class="card-body" id="emergency">
-                                    <form>
-                                        <div id="options"></div>
-                                        <div class='view-more'></div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="card">
                             <div class="card-header">
                                 <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
@@ -158,7 +156,6 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                 </div>
                             </div>
                         </div>
-
                         <div class="card">
                             <div class="card-header">
                                 <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
@@ -196,7 +193,6 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                 </div>
                             </div>
                         </div>
-
                         <div class="card">
                             <div class="card-header">
                                 <a class="collapsed card-link" data-toggle="collapse" href="#collapseSix">
@@ -228,7 +224,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                             <?php } else { ?>
                                                 <div class="form-group"><input type="checkbox" value="4" name="salary[]" id="salary-4"><label for="shift-4">$499 to $999</label></div>
                                             <?php } ?>
-                                            <?php if ( isset($_GET['salary']) && in_array(5, $_GET['salary'])) { ?>
+                                            <?php if (isset($_GET['salary']) && in_array(5, $_GET['salary'])) { ?>
                                                 <div class="form-group"><input type="checkbox" value="5" name="salary[]" id="salary-5" checked><label for="shift-4">$999 to $4999</label></div>
                                             <?php } else { ?>
                                                 <div class="form-group"><input type="checkbox" value="5" name="salary[]" id="salary-5"><label for="shift-4">$999 to $4999</label></div>
@@ -244,7 +240,6 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

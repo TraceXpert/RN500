@@ -2,6 +2,12 @@
 /* @var $this yii\web\View */
 
 use common\CommonFunction;
+use yii\bootstrap4\ActiveForm;
+use kartik\select2\Select2;
+use kartik\date\DatePicker;
+use yii\helpers\Url;
+use yii\web\JsExpression;
+use kartik\rating\StarRating;
 
 $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 ?>
@@ -20,39 +26,48 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         <div class="row filter-block mb-4">
             <div class="col-xl-12 col-lg-12">
                 <form class="d-flex">
-                    <div class="col-md-4 p-0">
+                    <div class="col-md-5 p-0">
                         <div class="form-group">
-                            <img src="<?= $assetDir ?>/img/search-icon.png" alt="search-icon"><input type="text" class="form-control br-1" id="joblist" placeholder="Search Open Jobs"> 
+                            <img src="<?= $assetDir ?>/img/search-icon.png" alt="search-icon"><input type="text" class="form-control br-1" name="title" id="lead_title" value="<?= isset($_GET['title']) && !empty($_GET['title']) ? $_GET['title'] : "" ?>" placeholder="Search Open Jobs">
                         </div>
                     </div>
-                    <div class="col-md-3 p-0">                            
+                    <div class="col-md-5 p-0">
                         <div class="form-group">
                             <img src="<?= $assetDir ?>/img/location-icon-dropdown.png" alt="location-icon-dropdown">
-                            <select id="choose-city" class="form-control select2-hidden-accessible" data-select2-id="City Name" tabindex="-1" aria-hidden="true">
-                                <option data-select2-id="2">City Name</option>
-                                <option data-select2-id="5">Chandigarh</option>
-                                <option data-select2-id="6">London</option>
-                                <option data-select2-id="7">England</option>
-                                <option data-select2-id="8">Pratapcity</option>
-                                <option data-select2-id="9">Ukrain</option>
-                                <option data-select2-id="10">Wilangana</option>
-                            </select> 
+                            <?php
+                            $url = Url::to(['browse-jobs/get-cities']);
+                            echo Select2::widget([
+                                'name' => 'location',
+                                'options' => [
+                                    'id' => 'choose-city',
+                                    'placeholder' => 'Select Location...',
+                                    'multiple' => true,
+                                    'class' => 'form-control select2-hidden-accessible'
+                                ],
+                                'pluginOptions' => [
+                                    'allowClear' => true,
+                                    'minimumInputLength' => 1,
+                                    'ajax' => [
+                                        'url' => $url,
+                                        'dataType' => 'json',
+                                        'data' => new JsExpression('function(params) {return {q:params.term, page:params.page || 1}; }'),
+                                        'cache' => true,
+                                    ],
+                                    'escapeMarkup' => new JsExpression('function (markup) {return markup; }'),
+                                    'templateResult' => new JsExpression('function(location) {return "<b>"+location.name+"</b>"; }'),
+                                    'templateSelection' => new JsExpression('function (location) {
+                                        console.log(location);
+                                if(location.selected==true){
+                                    return location.text; 
+                                }else{
+                                    return location.name;
+                                }
+                            }'),
+                                ],
+                            ]);
+                            ?>
                         </div>
                     </div>
-                    <!--                    <div class="col-md-3 p-0">
-                                            <div class="form-group">
-                                                <img src="<?= $assetDir ?>/img/location-icon-dropdown.png" alt="location-icon-dropdown">
-                                                <select id="choose-city" class="form-control select2-hidden-accessible border-right-0" data-select2-id="New York, USA" tabindex="-1" aria-hidden="true">
-                                                    <option data-select2-id="2">New York, USA</option>
-                                                    <option data-select2-id="5">Chandigarh</option>
-                                                    <option data-select2-id="6">London</option>
-                                                    <option data-select2-id="7">England</option>
-                                                    <option data-select2-id="8">Pratapcity</option>
-                                                    <option data-select2-id="9">Ukrain</option>
-                                                    <option data-select2-id="10">Wilangana</option>
-                                                </select>                                
-                                            </div>
-                                        </div>-->
                     <div class="col-md-2 p-0">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary full-width">Search Job</button>

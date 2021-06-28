@@ -209,9 +209,9 @@ class BrowseJobsController extends Controller {
             foreach ($lists as $key => $list) {
                 $options .= "<div class='form-group'>";
                 if (in_array($key, $filter)) {
-                    $options .= "<input type='checkbox' value='$key' name='discipline[]' id='desc-$key' checked><label for='desc-$key'>$list</label>";
+                    $options .= "<input type='checkbox' value='$key' name='discipline[]' id='desc-$key' onchange = 'this.form.submit()' checked><label for='desc-$key'>$list</label>";
                 } else {
-                    $options .= "<input type='checkbox' value='$key' name='discipline[]' id='desc-$key'><label for='desc-$key'>$list</label>";
+                    $options .= "<input type='checkbox' value='$key' name='discipline[]' id='desc-$key' onchange = 'this.form.submit()'><label for='desc-$key'>$list</label>";
                 }
                 $options .= "</div>";
             }
@@ -236,9 +236,9 @@ class BrowseJobsController extends Controller {
             foreach ($lists as $key => $list) {
                 $options .= "<div class='form-group'>";
                 if (in_array($key, $filter)) {
-                    $options .= "<input type='checkbox' value='$key' name='speciality[]' id='spec-$key' checked><label for='spec-$key'>$list</label>";
+                    $options .= "<input type='checkbox' value='$key' name='speciality[]' onchange = 'this.form.submit()' id='spec-$key' checked><label for='spec-$key'>$list</label>";
                 } else {
-                    $options .= "<input type='checkbox' value='$key' name='speciality[]' id='spec-$key'><label for='spec-$key'>$list</label>";
+                    $options .= "<input type='checkbox' value='$key' name='speciality[]' onchange = 'this.form.submit()' id='spec-$key'><label for='spec-$key'>$list</label>";
                 }
                 $options .= "</div>";
             }
@@ -262,9 +262,9 @@ class BrowseJobsController extends Controller {
             foreach ($lists as $key => $list) {
                 $options .= "<div class='form-group'>";
                 if (in_array($key, $filter)) {
-                    $options .= "<input type='checkbox' value='$key' name='benefit[]' id='benefit-$key' checked><label for='benefit-$key'>$list</label>";
+                    $options .= "<input type='checkbox' value='$key' name='benefit[]' onchange = 'this.form.submit()' id='benefit-$key' checked><label for='benefit-$key'>$list</label>";
                 } else {
-                    $options .= "<input type='checkbox' value='$key' name='benefit[]' id='benefit-$key'><label for='benefit-$key'>$list</label>";
+                    $options .= "<input type='checkbox' value='$key' name='benefit[]' onchange = 'this.form.submit()' id='benefit-$key'><label for='benefit-$key'>$list</label>";
                 }
                 $options .= "</div>";
             }
@@ -288,9 +288,9 @@ class BrowseJobsController extends Controller {
             foreach ($lists as $key => $list) {
                 $options .= "<div class='form-group'>";
                 if (in_array($key, $filter)) {
-                    $options .= "<input type='checkbox' value='$key' name='emergency[]' id='emergency-$key' checked><label for='emergency-$key'>$list</label>";
+                    $options .= "<input type='checkbox' value='$key' name='emergency[]' onchange = 'this.form.submit()' id='emergency-$key' checked><label for='emergency-$key'>$list</label>";
                 } else {
-                    $options .= "<input type='checkbox' value='$key' name='emergency[]' id='emergency-$key'><label for='emergency-$key'>$list</label>";
+                    $options .= "<input type='checkbox' value='$key' name='emergency[]' onchange = 'this.form.submit()' id='emergency-$key'><label for='emergency-$key'>$list</label>";
                 }
                 $options .= "</div>";
             }

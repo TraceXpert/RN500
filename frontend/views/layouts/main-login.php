@@ -27,7 +27,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         <!-- Fav Icon -->
         <link rel="shortcut icon" href="<?= $assetDir ?>/img/favicon.ico">
     </head>
-    <body>
+    <body class="m-0">
         <?php $this->beginBody() ?>
         <div class="forny-container">
             <div class="forny-inner">
