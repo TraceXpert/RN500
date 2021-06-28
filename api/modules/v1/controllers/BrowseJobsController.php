@@ -187,10 +187,11 @@ class BrowseJobsController extends Controller {
         try {
             $paging = (isset($request['page']) && $request['page'] != '' && $request['page'] != 0) ? $request['page'] : 1;
             $search = (isset($request['search']) && !empty($request['search'])) ? $request['search'] : "";
+            $limitForDashboard = (isset($request['limit_for_dashboard']) && $request['limit_for_dashboard'] != '') ? $request['limit_for_dashboard'] : "";
+
             $query = LeadMaster::find()->joinWith(['benefits', 'disciplines', 'specialty', 'branch'])->where(['lead_master.status' => LeadMaster::STATUS_APPROVED]);
             if (!empty($search)) {
-                $query->andFilterWhere(['like', 'title', $search]);
-                $query->andFilterWhere(['like', 'reference_no', $search]);
+                $query->andWhere(['OR', ['like', 'lead_master.title', $search], ['like', 'lead_master.reference_no', $search]]);
             }
             if (isset($request['discipline']) && !empty($request['discipline'])) {
                 $query->andWhere(['IN', 'lead_discipline.discipline_id', implode(',', $request['discipline'])]);
@@ -235,9 +236,14 @@ class BrowseJobsController extends Controller {
             $query->orderBy(['lead_master.created_at' => SORT_DESC]);
             $leadList = [];
             $total_pages = (ceil($query->count() / Yii::$app->params['API_PAGINATION_RECORD_LIMIT'])) ? ceil($query->count() / Yii::$app->params['API_PAGINATION_RECORD_LIMIT']) : 1;
-            if ($paging <= $total_pages) {
-                $query->offset(($paging - 1) * Yii::$app->params['API_PAGINATION_RECORD_LIMIT'])->limit(Yii::$app->params['API_PAGINATION_RECORD_LIMIT']);
+            if ($paging <= $total_pages || $limitForDashboard != '') {
+                if ($limitForDashboard != '') {
+                    $query->limit($limitForDashboard);
+                } else {
+                    $query->offset(($paging - 1) * Yii::$app->params['API_PAGINATION_RECORD_LIMIT'])->limit(Yii::$app->params['API_PAGINATION_RECORD_LIMIT']);
+                }
                 $lists = $query->all();
+
                 foreach ($lists as $value) {
                     $leadList[] = [
                         'id' => $value->id,
@@ -249,7 +255,9 @@ class BrowseJobsController extends Controller {
                         'start_date' => $value->start_date,
                         'shift' => $value->shift == 1 ? "Morning,Evening,Night,Flatulate" : Yii::$app->params['job.shift'][$value->shift],
                         'job_type' => Yii::$app->params['job.type'][$value->job_type],
-                        'description' => $value->description
+                        'description' => $value->description,
+                        'rating' => $value->getAvgRating(),
+                        'sharing_url' => $value->getSharableUrl()
                     ];
                 }
             }
@@ -272,28 +280,42 @@ class BrowseJobsController extends Controller {
         $msg = "Required Data Missing in Request.";
         try {
             $model = LeadMaster::findOne(['id' => $id]);
-            $benefit = LeadBenefit::findAll(['lead_id' => $id]);
-            $specialty = LeadSpeciality::findAll(['lead_id' => $id]);
-            $discipline = LeadDiscipline::findAll(['lead_id' => $id]);
-            $blist = $slist = $dlist = [];
-            foreach ($benefit as $value) {
-                $blist[] = $value->benefit->name;
+            if ($model != null) {
+                $benefit = LeadBenefit::findAll(['lead_id' => $id]);
+                $specialty = LeadSpeciality::findAll(['lead_id' => $id]);
+                $discipline = LeadDiscipline::findAll(['lead_id' => $id]);
+                $blist = $slist = $dlist = [];
+                foreach ($benefit as $value) {
+                    $blist[] = $value->benefit->name;
+                }
+                foreach ($specialty as $value) {
+                    $slist[] = $value->speciality->name;
+                }
+                foreach ($discipline as $value) {
+                    $dlist[] = $value->discipline->name;
+                }
+                $code = 200;
+                $msg = "Success";
+                $data = [
+                    'title' => $model->title,
+                    'created_at' => CommonFunction::getAPIDateDisplayFormat($model->created_at),
+                    'location' => $model->citiesName,
+                    'salary' => $model->jobseeker_payment,
+                    'salary_type' => Yii::$app->params['job.payment_type'][$model->payment_type],
+                    'description' => $model->description,
+                    'benefit' => $blist,
+                    'specialty' => $slist,
+                    'discipline' => $dlist,
+                    'reference_no' => $model->reference_no,
+                    'employment_status' => Yii::$app->params['job.type'][$model->job_type],
+                    'shift' => $model->shift == 1 ? "Morning,Evening,Night,Flatulate" : Yii::$app->params['job.shift'][$model->shift],
+                    'rating' => $model->getAvgRating(),
+                    'sharing_url' => $model->getSharableUrl()
+                ];
+            } else {
+                $code = 202;
+                $msg = "Lead with such reference does not exists.";
             }
-            foreach ($specialty as $value) {
-                $slist[] = $value->speciality->name;
-            }
-            foreach ($discipline as $value) {
-                $dlist[] = $value->discipline->name;
-            }
-            $code = 200;
-            $msg = "Success";
-            $data = [
-                'title' => $model->title, 'created_at' => date('m-d-Y', $model->created_at),
-                'location' => $model->citiesName, 'salary' => $model->jobseeker_payment, 'salary_type' => Yii::$app->params['job.payment_type'][$model->payment_type],
-                'description' => $model->description, 'benefit' => $blist, 'specialty' => $slist, 'discipline' => $dlist,
-                'reference_no' => $model->reference_no, 'employment_status' => Yii::$app->params['job.type'][$model->job_type],
-                'shift' => $model->shift == 1 ? "Morning,Evening,Night,Flatulate" : Yii::$app->params['job.shift'][$model->shift]
-            ];
         } catch (\Exception $exc) {
             $code = 500;
             $msg = "Internal server error";

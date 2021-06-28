@@ -255,4 +255,11 @@ class CommonFunction {
         }
     }
 
+    public static function getAPIDateDisplayFormat($date, $format = 'm-d-Y') {
+        if ($date != '' && $date != '0000-00-00' && date('Y-m-d', strtotime($date)) != '1970-01-01') {
+            return date($format, strtotime($date));
+        }
+        return '';
+    }
+
 }
