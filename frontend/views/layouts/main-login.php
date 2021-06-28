@@ -25,7 +25,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         <title>RN500</title>
         <?php $this->head() ?>
         <!-- Fav Icon -->
-        <link rel="shortcut icon" href="<?= $assetDir ?>/images/favicon.ico">
+        <link rel="shortcut icon" href="<?= $assetDir ?>/img/favicon.ico">
     </head>
     <body>
         <?php $this->beginBody() ?>

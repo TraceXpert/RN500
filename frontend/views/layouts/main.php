@@ -4,6 +4,7 @@
 
 use yii\helpers\Html;
 use frontend\assets\ThemeAsset;
+use yii\bootstrap4\ActiveForm;
 use common\components\FlashmessageWidget;
 
 ThemeAsset::register($this);
@@ -21,8 +22,8 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         <title>RN500</title>
         <?php $this->head() ?>
         <!-- Fav Icon -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
-        <link rel="shortcut icon" href="<?= $assetDir ?>/images/favicon.ico">
+<!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>-->
+        <link rel="shortcut icon" href="<?= $assetDir ?>/img/favicon.ico">
     </head>
     <body>
         <?php $this->beginBody() ?>
@@ -36,7 +37,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         <!-- Footer end --> 
         <?php $this->endBody() ?>
         <?php
-        echo FlashmessageWidget::widget();
+//        echo FlashmessageWidget::widget();
         ?>
     </body>
 </html>

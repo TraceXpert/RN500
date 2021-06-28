@@ -11,23 +11,23 @@ class ThemeAsset extends AssetBundle {
 
     public $sourcePath = '@themes/rn500-theme';
     public $css = [
-        'css/bootstrap.min.css',
+//        'css/bootstrap.min.css',
         'css/toastr.min.css',
         'css/custom.css',
         'css/font-awesome.css',
-        'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css',
+        'css/jquery-ui.min.css',
     ];
     public $js = [
 //        'js/jquery.min.js',
         'js/popper.min.js',
-        'js/bootstrap.min.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js',
+//        'js/bootstrap.min.js',
+        'js/jquery-ui.min.js',
         'js/toastr.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
-//        'yii\bootstrap\BootstrapAsset',
-//        'yii\bootstrap\BootstrapPluginAsset',
+        'yii\bootstrap4\BootstrapAsset',
+        'yii\bootstrap4\BootstrapPluginAsset',
     ];
 
 }
