@@ -20,6 +20,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         <title>RN500</title>
         <?php $this->head() ?>
         <!-- Fav Icon -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
         <link rel="shortcut icon" href="<?= $assetDir ?>/images/favicon.ico">
     </head>
     <body>

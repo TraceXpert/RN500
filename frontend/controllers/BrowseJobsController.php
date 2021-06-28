@@ -28,7 +28,6 @@ use common\models\LeadRating;
 use common\models\ReferralMaster;
 use common\models\LeadEmergency;
 
-
 /**
  * BrowseJobs controller
  */
@@ -43,17 +42,17 @@ class BrowseJobsController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['recruiter-lead', 'recruiter-view', 'apply', 'apply-job'],
                 'rules' => [
-                        [
+                    [
                         'actions' => ['apply', 'apply-job'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*']
                     ],
-                        [
+                    [
                         'actions' => ['recruiter-lead', 'recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isRecruiter() ? ['@'] : ['*'] : ['*'],
                     ],
-                        [
+                    [
                         'actions' => ['recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isEmployer() ? ['@'] : ['*'] : ['*'],
@@ -80,6 +79,9 @@ class BrowseJobsController extends Controller {
         }
         if (isset($request['benefit']) && !empty($request['benefit'])) {
             $query->andFilterWhere(['IN', 'lead_benefit.benefit_id', implode(',', $request['benefit'])]);
+        }
+        if (isset($request['title']) && !empty($request['title'])) {
+            $query->andFilterWhere(['like', 'title', $request['title']]);
         }
         if (isset($request['location']) && !empty($request['location'])) {
             $query->andFilterWhere(['IN', 'lead_master.city', implode(',', $request['location'])]);
@@ -123,11 +125,12 @@ class BrowseJobsController extends Controller {
         $pages->setPageSize(10);
         $models = $query->offset($pages->offset)->limit($pages->limit)->all();
         if (isset($request['location']) && !empty($request['location'])) {
-            $selectedLocations = ArrayHelper::map(Cities::find()->where(['IN', 'id', $request['location']])->all(), 'id', 'city');
+            $selectedLocations = ArrayHelper::map(Cities::find()->where(['IN', 'id', $request['location']])->all(), 'id', function($model) {
+                        return $model->city . "-" . $model->state_code;
+                    });
         } else {
             $selectedLocations = [];
         }
-
         return $this->render('index', ['models' => $models, 'pages' => $pages, 'selectedLocations' => $selectedLocations]);
     }
 
@@ -185,6 +188,7 @@ class BrowseJobsController extends Controller {
         $models = $query->offset($pages->offset)->limit($pages->limit)->all();
         if (isset($request['location']) && !empty($request['location'])) {
             $selectedLocations = ArrayHelper::map(Cities::find()->where(['IN', 'id', $request['location']])->all(), 'id', 'city');
+//            $selectedLocations = ['id' => 6429, 'text' => 'Dallardsville-TX'];
         } else {
             $selectedLocations = [];
         }
@@ -373,10 +377,9 @@ class BrowseJobsController extends Controller {
     public function actionReferToFriend($lead_id) {
         $model = new ReferralMaster();
         $model->lead_id = $lead_id;
-        if(isset(Yii::$app->user->identity->id)){
+        if (isset(Yii::$app->user->identity->id)) {
             $model->from_name = Yii::$app->user->identity->getFullName();
             $model->from_email = Yii::$app->user->identity->email;
-            
         }
         return $this->renderAjax("_refer_form", ['model' => $model]);
     }
@@ -384,7 +387,7 @@ class BrowseJobsController extends Controller {
     public function actionReferToFriendPost($lead_id) {
         $model = new ReferralMaster();
         $model->lead_id = $lead_id;
-        
+
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post()) && $model->sendReferralMail()) {
             Yii::$app->session->setFlash("success", "Referral mail sent successfully.");
             echo json_encode(['code' => 200]);
