@@ -4,6 +4,7 @@
 
 use yii\helpers\Html;
 use frontend\assets\ThemeAsset;
+use common\components\FlashmessageWidget;
 
 ThemeAsset::register($this);
 $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
@@ -34,6 +35,9 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         <?= $this->render('footer', ['assetDir' => $assetDir]) ?>
         <!-- Footer end --> 
         <?php $this->endBody() ?>
+        <?php
+        echo FlashmessageWidget::widget();
+        ?>
     </body>
 </html>
 <?php $this->endPage() ?>

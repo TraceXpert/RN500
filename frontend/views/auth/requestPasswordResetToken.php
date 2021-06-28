@@ -7,44 +7,28 @@ use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 
 $this->title = 'RN500';
-
 ?>
 
-<div class="listpgWraper">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="userccount">
-                    <h5>Forgot Password Request</h5>
-                    <!-- login form -->
-                    <div class="formpanel">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <p>Please fill out your registered email, a link to reset password will be sent.</p> <br/>
-                                <?php $form = ActiveForm::begin(['id' => 'password-reset-form', 'options' => ['autocomplete' => 'off']]) ?>
+<div class="signin-form text-center">
+    <h1>Forgot Password</h1>
+    <p>Please fill out your registered email, a link to reset password will be sent.</p>
 
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'email', [
-                                        'options' => ['class' => 'form-group has-feedback', 'autofocus' => true,],
-                                        'inputTemplate' => '{input}',
-                                        'template' => '{input}{error}',
-                                    ])->label(false)->textInput(['placeholder' => $model->getAttributeLabel('email'),])
-                                    ?>
-                                </div>
+    <?php $form = ActiveForm::begin(['id' => 'password-reset-form', 'options' => ['autocomplete' => 'off', 'class' => 'w-100']]) ?>
 
-                                <div class="form-group">
-                                    <?= Html::submitButton('Reset Password', ['class' => 'btn btn-primary']) ?>
-                                </div>
-
-                                <?php ActiveForm::end(); ?>
-                            </div>
-                            <div class="newuser"><i class="fa fa-lock" aria-hidden="true"></i> <a href="<?= Yii::$app->urlManagerFrontend->createUrl('/auth/login'); ?>">Click here to login</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="form-group mb-4">
+        <?php
+        echo $form->field($model, 'email', [
+            'options' => ['class' => 'form-group has-feedback', 'autofocus' => true,],
+            'inputTemplate' => '{input}',
+            'template' => '{input}{error}',
+        ])->label(false)->textInput(['placeholder' => $model->getAttributeLabel('email'),])
+        ?>
     </div>
-</div>
 
+    <div class="form-group">
+        <?= Html::submitButton('Reset Password', ['class' => 'read-more contact-us d-block w-100']) ?>
+    </div>
+
+    <p class="create-link mt-3 mb-3">I Remembered My Password. <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/login"); ?>">Login</a></p>
+    <?php ActiveForm::end(); ?>
+</div>
