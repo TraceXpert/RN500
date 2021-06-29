@@ -185,23 +185,16 @@ class LeadMaster extends \yii\db\ActiveRecord {
         return $names;
     }
 
-    public function getRating() {
-        return $this->hasMany(LeadRating::className(), ['lead_id' => 'id']);
+    public function getAvgRating() {
+        $avgRating = $this->hasMany(LeadRating::className(), ['lead_id' => 'id'])
+                ->select(['ROUND(AVG(`rating`),1) AS average_rate'])
+                ->groupBy(['lead_id'])
+                ->scalar();
+        return ($avgRating != '') ? $avgRating : '0';
     }
 
-    public function getAvgRating() {
-        $avg = 0;
-        $total = 0;
-        $count = 1;
-        if (isset($this->rating) && !empty($this->rating)) {
-            foreach ($this->rating as $value) {
-//                echo "<pre/>";print_r($value);exit;
-                $total += $value->rating;
-                $count++;
-            }
-            $avg = $total / $count;
-        }
-        return $avg;
+    public function getSharableUrl() {
+        return Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $this->reference_no]);
     }
 
 }
