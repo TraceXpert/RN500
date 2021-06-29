@@ -14,6 +14,7 @@ class ThemeAsset extends AssetBundle {
 //        'css/bootstrap.min.css',
         'css/toastr.min.css',
         'css/custom.css',
+        'css/custom_ma.css',
         'css/font-awesome.css',
         'css/jquery-ui.min.css',
     ];
