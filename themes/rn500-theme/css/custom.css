@@ -1,7 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-body{font-family: 'Poppins', sans-serif;color: #232731;margin-top: 80px;}
+body{font-family: 'Poppins', sans-serif;color: #232731;margin-top: 80px;font-size: 16px;}
 a,a:hover{text-decoration: none;transition: all 0.3s ease-in;}
 
 .top-navbar{border: 1px solid rgb(182 182 182 / 20%);padding: 10px 0 !important}
