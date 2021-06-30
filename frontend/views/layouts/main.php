@@ -35,6 +35,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         <!-- Footer start -->
         <?= $this->render('footer', ['assetDir' => $assetDir]) ?>
         <!-- Footer end --> 
+         <?= $this->render('common-modal', ['assetDir' => $assetDir]) ?>
         <?php $this->endBody() ?>
         <?php
 //        echo FlashmessageWidget::widget();
