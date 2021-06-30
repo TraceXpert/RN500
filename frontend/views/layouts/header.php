@@ -27,19 +27,19 @@ $action = Yii::$app->controller->action->id;
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a>
                 </li>
                 <?php if (CommonFunction::isEmployer() || CommonFunction::isRecruiter()) { ?>
-                    <li class="nav-item position-relative  <?php echo $controller == 'site' && $action == 'about-us' ? 'active' : '' ?>">
+                    <li class="nav-item position-relative">
                         <a class="nav-link" href="<?= Yii::$app->urlManagerAdmin->createUrl("site/index"); ?>">Dashboard</a>
                     </li>
                 <?php } ?>
-                <li class="nav-item position-relative <?php echo $controller == 'browse-jobs' && $action == 'index' ? 'active' : '' ?>">
+                <li class="nav-item position-relative <?php echo $controller == 'browse-jobs' && ($action == 'index' || $action == 'view') ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Browse Job</a>
                 </li>
                 <li class="nav-item position-relative  <?php echo $controller == 'site' && $action == 'contact-us' ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact </a>
                 </li>
-<!--                <li class="nav-item position-relative <?php echo $controller == 'site' && $action == 'advertise' ? 'active' : '' ?>    ">
-                    <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/advertise"); ?>">Advertise</a>
-                </li>-->
+                <li class="nav-item position-relative  <?php echo $controller == 'browse-jobs' && ($action == 'recruiter-lead' || $action == 'recruiter-view') ? 'active' : '' ?>">
+                    <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/recruiter-lead"); ?>">For Recruiter</a>
+                </li>
                 <?php if (Yii::$app->user->isGuest) { ?>
 
                     <li class="nav-item position-relative d-flex align-items-center">

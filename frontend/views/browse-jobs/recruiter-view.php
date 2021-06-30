@@ -7,202 +7,262 @@ use common\CommonFunction;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 
-$assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/jobs-portal');
+$assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertisement/";
 ?>
-
-<style>
-    .job-header .description{text-align: justify;}
-</style>
-<!-- Page Title start -->
-<div class="pageTitle">
+<section class="inner-banner">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-sm-6">
-                <h1 class="page-heading">Job Detail</h1>
+            <div class="col-xl-12">
+                <h1><?= $model->title ?></h1>
             </div>
         </div>
+
     </div>
-</div>
-<!-- Page Title End -->
+</section>
 
-<div class="listpgWraper">
-    <div class="container"> 
 
-        <!-- Job Header start -->
-        <div class="job-header">
-            <div class="jobinfo">
-                <div class="row">
-                    <div class="col-md-8">
-                        <h2><?= $model->title ?></h2>
-                        <div class="ptext">Date Posted: <?= date('m-d-Y', $model->created_at) ?></div>
-                        <div class="ptext"><?= $model->citiesName ?></div>
-                        <div class="salary">Salary: <strong>$<?= $model->jobseeker_payment ?>/<?= Yii::$app->params['job.payment_type'][$model->payment_type] ?></strong></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class='col-md-12'>
-                    <?=
-                    \ymaker\social\share\widgets\SocialShare::widget([
-                        'configurator' => 'socialShare',
-                        'url' => Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->id]),
-                        'title' => $model->title,
-                        'description' => $model->description,
-                        'imageUrl' => "$assetDir/images/RN500_logo177X53.png",
-                    ]);
-                    ?>
-                </div>
+
+<section class="about-us about-inner-block">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12 main-title">
+                <h2 class="mb-4"><?= $model->title ?></h2>
             </div>
         </div>
 
-        <!-- Job Detail start -->
-        <div class="row">
-            <div class="col-md-8"> 
-                <!-- Job Description start -->
-                <div class="job-header">
-                    <div class="contentbox">
-                        <h3>Job Description</h3>
-                        <p class="description"><?= $model->description ?></p>
-                        <?php if (!empty($benefit)) { ?>
-                            <h3>Benifits</h3>
-                            <ul>
-                                <?php foreach ($benefit as $value) { ?>
-                                    <li><?= $value->benefit->name ?></li>
-                                <?php } ?>
-                            </ul>
-                        <?php } ?>
-                        <?php if (!empty($discipline)) { ?>
-                            <h3>Discipline</h3>
-                            <ul>
-                                <?php foreach ($discipline as $value) { ?>
-                                    <li><?= $value->discipline->name ?></li>
-                                <?php } ?>
-                            </ul>
-                        <?php } ?>
-                        <?php if (!empty($specialty)) { ?>
-                            <h3>Specialty</h3>
-                            <ul>
-                                <?php foreach ($specialty as $value) { ?>
-                                    <li><?= $value->speciality->name ?></li>
-                                <?php } ?>
-                            </ul>
-                        <?php } ?>
-                        <?php if (isset($emergency) && !empty($emergency)) { ?>
-                            <h3>Emergency</h3>
-                            <ul>
-                                <?php foreach ($emergency as $value) { ?>
-                                    <li><?= $value->emergency->name ?></li>
-                                <?php } ?>
-                            </ul>
-                        <?php } ?>
-                    </div>
-                </div>
-                <!-- Job Description end --> 
-            </div>
-            <!-- related jobs end -->
+        <div class="row view-details mb-4 m-0">
+            <div class="col-md-4">
+                <p class="mb-0">Date Posted: <?= date('m-d-Y', $model->created_at) ?></p>
+                <p><?= $model->citiesName ?></p>
 
-            <div class="col-md-4"> 
-                <!-- Job Detail start -->
-                <div class="job-header">
-                    <div class="jobdetail">
-                        <h3>Job Detail</h3>
-                        <ul class="jbdetail">
-                            <li class="row">
-                                <div class="col-md-6 col-xs-6">Job Id</div>
-                                <div class="col-md-6 col-xs-6"><span><?= $model->reference_no ?></span></div>
-                            </li>
-                            <li class="row">
-                                <div class="col-md-6 col-xs-6">Location</div>
-                                <div class="col-md-6 col-xs-6"><span><?= $model->citiesName ?></span></div>
-                            </li>
-                            <li class="row">
-                                <div class="col-md-6 col-xs-6">Employment Status</div>
-                                <div class="col-md-6 col-xs-6"> <span><?= Yii::$app->params['job.type'][$model->job_type] ?></span></div>
-                            </li>
-                            <li class="row">
-                                <div class="col-md-6 col-xs-6">Shift</div>
-                                <div class="col-md-6 col-xs-6"><span><?= $model->shift == 1 ? "Morning,Evening,Night,Flatulate" : Yii::$app->params['job.shift'][$model->shift] ?></span></div>
-                            </li>
-                        </ul>
-                    </div>
+                <!-- Twitter icon-->
+                <a onClick="window.open('https://twitter.com/share?hashtags=job,sharing&text=<?= $model->title ?>&via=MyTwitterHandle');" target="_parent" href="javascript: void(0)">
+                    <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M15.4455 30.8531C6.91574 30.8531 0 23.9459 0 15.4265C0 6.90724 6.91574 0 15.4455 0C23.9753 0 30.891 6.90724 30.891 15.4265C30.891 23.9459 23.9753 30.8531 15.4455 30.8531Z"
+                            fill="#1656A0" />
+                        <path
+                            d="M7.21582 20.5903C8.70937 21.5474 10.4859 22.1044 12.3914 22.1044C18.6599 22.1044 22.2018 16.8148 21.9888 12.071C22.6473 11.5952 23.2218 11.0019 23.6729 10.3246C23.0677 10.5932 22.4176 10.7752 21.7338 10.8563C22.4316 10.4393 22.9668 9.77882 23.219 8.98958C22.5661 9.37581 21.8431 9.65568 21.0753 9.80961C20.4588 9.15471 19.5818 8.74609 18.6094 8.74609C16.4293 8.74609 14.8293 10.778 15.3197 12.8882C12.5119 12.7483 10.0264 11.4049 8.3591 9.36461C7.47362 10.8815 7.89955 12.863 9.40431 13.8678C8.84948 13.851 8.32828 13.697 7.87433 13.4451C7.8379 15.0068 8.95877 16.4678 10.584 16.7952C10.1077 16.924 9.58925 16.9547 9.05964 16.854C9.48838 18.1946 10.7353 19.1685 12.2149 19.1965C10.797 20.3048 9.0064 20.803 7.21582 20.5903Z"
+                            fill="white" />
+                    </svg>
+                </a>
+
+                <!-- Email icon-->
+
+                <a href="">
+                    <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M15.9729 30.8531C7.44308 30.8531 0.527344 23.9459 0.527344 15.4265C0.527344 6.90724 7.44308 0 15.9729 0C24.5026 0 31.4184 6.90724 31.4184 15.4265C31.4184 23.9459 24.5026 30.8531 15.9729 30.8531Z"
+                            fill="#1656A0" />
+                        <path
+                            d="M24.9061 13.1765C24.6763 11.7659 24.0654 10.778 23.0931 10.235C21.9106 9.57731 20.5907 9.44857 19.313 9.32543L19.0608 9.30024C16.5052 9.03436 14.0029 9.10153 11.4081 9.49895C10.9205 9.57451 10.2844 9.68646 9.67914 9.90476C8.95338 10.1678 8.40976 10.5233 8.02026 10.9963C7.37296 11.7799 7.23565 12.7902 7.15719 13.6746C7.07593 14.5898 6.99467 15.6813 7.0283 16.8092C7.0395 17.2318 7.05631 17.7216 7.09554 18.2058C7.17681 19.1517 7.35335 20.3664 8.01185 21.3739C8.89173 22.7201 10.3517 23.0364 11.3744 23.1595C12.8932 23.3386 14.3812 23.5009 15.8999 23.5065H15.998C17.3459 23.5065 18.789 23.389 20.5263 23.1343C21.6948 22.9636 22.8941 22.7033 23.7376 21.9561C24.6763 21.1248 24.85 19.899 24.9509 18.7151C25.0938 17.0359 25.2171 15.0852 24.9061 13.1765ZM21.7144 13.3136L16.8499 17.1423C16.6117 17.3326 16.3343 17.4277 16.0597 17.4277C15.785 17.4277 15.5076 17.3326 15.2694 17.1423L10.4049 13.3136C10.2003 13.1513 10.1639 12.8518 10.3264 12.6447C10.489 12.4404 10.7888 12.404 10.9962 12.5663L15.8579 16.395C15.9896 16.5013 16.1297 16.5013 16.2614 16.395L21.1232 12.5663C21.3305 12.404 21.6304 12.4404 21.7929 12.6447C21.9554 12.8518 21.919 13.1513 21.7144 13.3136Z"
+                            fill="white" />
+                    </svg>
+                </a>
+
+                <!--facobook icon-->
+
+                <a onClick="window.open('http://www.facebook.com/sharer.php?s=100&amp;p[title]=<?php echo $model->title; ?>&amp;p[url]=<?php echo $model->sharableUrl; ?>&amp;&p[images][0]=<?php echo $assetDir . "/img/job-icon.png" ?>', 'sharer', 'toolbar=0,status=0,width=548,height=325');" target="_parent" href="javascript: void(0)">
+                    <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M15.5002 30.8531C6.97043 30.8531 0.0546875 23.9459 0.0546875 15.4265C0.0546875 6.90724 6.97043 0 15.5002 0C24.03 0 30.9457 6.90724 30.9457 15.4265C30.9457 23.9459 24.03 30.8531 15.5002 30.8531Z"
+                            fill="#1656A0" />
+                        <path
+                            d="M13.1463 25.3116H16.9068V15.9079H19.5296L19.8099 12.7593H16.9068C16.9068 12.7593 16.9068 11.5838 16.9068 10.9653C16.9068 10.2237 17.0553 9.92979 17.7755 9.92979C18.3527 9.92979 19.8099 9.92979 19.8099 9.92979V6.66089C19.8099 6.66089 17.6634 6.66089 17.2067 6.66089C14.4101 6.66089 13.1463 7.89233 13.1463 10.2461C13.1463 12.2975 13.1463 12.7565 13.1463 12.7565H11.1904V15.9442H13.1463V25.3116Z"
+                            fill="white" />
+                    </svg>
+                </a>
+
+                <!--linked in-->
+
+                <a href="">
+                    <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M16.0276 30.8531C7.49777 30.8531 0.582031 23.9459 0.582031 15.4265C0.582031 6.90724 7.49777 0 16.0276 0C24.5573 0 31.4731 6.90724 31.4731 15.4265C31.4731 23.9459 24.5573 30.8531 16.0276 30.8531Z"
+                            fill="#1656A0" />
+                        <path d="M12.2227 11.9871H9.02539V22.3003H12.2227V11.9871Z" fill="white" />
+                        <path
+                            d="M10.6083 10.638C11.6535 10.638 12.4997 9.78444 12.4997 8.73492C12.4997 7.6854 11.6535 6.83179 10.6083 6.83179C9.56305 6.83179 8.7168 7.6826 8.7168 8.73492C8.7168 9.78724 9.56305 10.638 10.6083 10.638Z"
+                            fill="white" />
+                        <path
+                            d="M17.3311 16.8875C17.3311 15.4378 17.998 14.5729 19.2786 14.5729C20.4527 14.5729 21.0187 15.4014 21.0187 16.8875C21.0187 18.3736 21.0187 22.303 21.0187 22.303H24.1992C24.1992 22.303 24.1992 18.5359 24.1992 15.7736C24.1992 13.0113 22.63 11.6763 20.4415 11.6763C18.2502 11.6763 17.3283 13.3807 17.3283 13.3807V11.9925H14.2627V22.3058H17.3283C17.3311 22.303 17.3311 18.4772 17.3311 16.8875Z"
+                            fill="white" />
+                    </svg>
+                </a>
+
+                <!--refferal-->
+
+                <a href="">
+                    <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M15.5549 30.8531C7.0251 30.8531 0.109375 23.9459 0.109375 15.4265C0.109375 6.90724 7.0251 0 15.5549 0C24.0846 0 31.0004 6.90724 31.0004 15.4265C31.0004 23.9459 24.0846 30.8531 15.5549 30.8531Z"
+                            fill="#1656A0" />
+                        <path
+                            d="M19.6822 17.5534C18.6902 17.5534 17.8131 18.0544 17.2863 18.8157L13.778 16.6467C13.8845 16.3892 13.9546 16.1149 13.9826 15.8322C14.033 15.3453 13.9602 14.8639 13.7752 14.4217L17.7459 12.1995C17.8748 12.3618 18.0233 12.5129 18.1886 12.6473C18.7126 13.0699 19.3515 13.2966 20.0156 13.2966C20.1165 13.2966 20.2202 13.291 20.3239 13.2798C21.0973 13.1986 21.7922 12.8236 22.2798 12.2219C22.7702 11.6202 22.9943 10.8617 22.9131 10.0921C22.8318 9.31961 22.4563 8.62552 21.8539 8.13855C21.2514 7.64877 20.492 7.42487 19.7214 7.50603C18.948 7.5872 18.2531 7.96223 17.7655 8.56395C17.2751 9.16568 17.0509 9.92413 17.1322 10.6938C17.1546 10.9093 17.2023 11.1192 17.2695 11.3207L13.2372 13.5765C12.7552 13.0503 12.1079 12.7173 11.3906 12.6445C9.79056 12.485 8.36425 13.6464 8.20173 15.2389C8.12327 16.0113 8.35025 16.767 8.84063 17.3687C9.33101 17.9705 10.0259 18.3455 10.7993 18.4238C10.9002 18.435 11.0011 18.4378 11.0992 18.4378C11.7661 18.4378 12.4078 18.2111 12.9318 17.7857C13.0439 17.6934 13.1475 17.5926 13.2428 17.4863L16.8744 19.7309C16.8156 19.9631 16.7792 20.2066 16.7792 20.4557C16.7792 22.0566 18.0821 23.3608 19.6878 23.3608C21.2934 23.3608 22.5964 22.0594 22.5964 20.4557C22.5964 18.8521 21.285 17.5534 19.6822 17.5534Z"
+                            fill="white" />
+                    </svg>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <div class="salary-block mt-3 mb-3 mt-md-0 mb-md-0">
+                    <p class="mb-0">Salary: $<?= $model->jobseeker_payment ?>/<?= Yii::$app->params['job.payment_type'][$model->payment_type] ?></p>
                 </div>
             </div>
 
-            <div class="col-md-4"> 
-                <!-- Job Detail start -->
-                <div class="job-header">
-                    <div class="jobdetail">
-                        <h3>Employer Detail</h3>
-                        <ul class="jbdetail">
-                            <li class="row">
-                                <div class="col-md-6 col-xs-6">Employer Name</div>
-                                <div class="col-md-6 col-xs-6"><span><?= $model->branch->company->company_name . "-" . $model->branch->branch_name ?></span></div>
-                            </li>
-                            <li class="row">
-                                <div class="col-md-6 col-xs-6">Address</div>
-                                <div class="col-md-6 col-xs-6"><span><?= $model->branch->street_no . " " . $model->branch->street_address . " " . $model->branch->apt . " " . $model->branch->location . " " . $model->branch->zip_code ?></span></div>
-                            </li>
-                            <li class="row">
-                                <div class="col-md-6 col-xs-6">Email Id</div>
-                                <div class="col-md-6 col-xs-6"> <span><?= $model->branch->company->company_email ?></span></div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="col-md-4 text-right">
+                <a href="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/apply', 'ref' => $model->reference_no]) ?>" class="read-more contact-us mb-0">Apply Now</a>
             </div>
         </div>
+
+
         <div class="row">
-            <div class="col-md-12">
-                <!-- How it Works start -->
-                <div class="section howitwrap">
-                    <div class="container"> 
-                        <div class="row">
-                            <?php
-                            $i = 0;
-                            if (isset($advertisment) && !empty($advertisment)) {
-                                ?>
-                                <?php foreach ($advertisment as $key => $value) { ?>
-                                    <div class="col-md-4 col-sm-6 col-xl-12 moreFTypeBox blogFTypeBox" <?php if ($i >= 3) { ?> style="display:none;" <?php } ?>>
-                                        <?php if (isset($value['icon']) && !empty($value['icon'])) { ?>
-                                            <?php if (file_exists(Yii::getAlias('@frontend') . "/web/uploads/advertisement/" . $value['icon'])) { ?>
-                                                <a href="<?= $value['link_url'] ?>" target="_blank"><img height="250px" width="350px" src="<?= $frontendDir . $value['icon'] ?>"></a>
-                                            <?php } ?>
-                                            <?php
-                                        } else {
-                                            if (isset($value['video_link']) && !empty($value['video_link'])) {
-                                                ?>
-                                                <video width="350" height="250" controls>
-                                                    <source src="<?= $value['video_link'] ?>">
-                                                </video>
-                                                <?php
-                                            }
-                                        }
-                                        ?>
-                                        <p><?= $value['name'] ?></p>
-                                        <p>&nbsp;</p>
-                                    </div>
-                                    <?php
-                                    $i++;
-                                }
-                                ?>
+            <div class="col-lg-8">
+                <div class="view-details mb-4 mb-lg-0">
+                    <h3 class="job-title">Job Description</h3>
+
+                    <p class="job-black"><?= $model->description ?></p>
+                    <?php if (isset($benefit) && !empty($benefit)) { ?>
+                        <p class="ul-t">Benifits</p>
+
+                        <ul class="list-unstyled mb-4">
+                            <?php foreach ($benefit as $value) { ?>
+                                <li><?= $value->benefit->name ?></li>
                             <?php } ?>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 text-center" id="viewFTypeMore">
-                                <p>&nbsp;</p>
+                        </ul>
+                    <?php } ?>
+                    <?php if (isset($discipline) && !empty($discipline)) { ?>
+                        <p class="ul-t">Discipline</p>
 
-                                <?php if (isset($advertisment) && !empty($advertisment)) { ?>
-                                    <?php if (count($advertisment) > 3) { ?>
-                                        <a href="#" class="wp_view_more btn btn-info">View More</a>
-                                    <?php } ?>
-                                <?php } ?>
-                            </div>
+                        <ul class="list-unstyled mb-4">
+                            <?php foreach ($discipline as $value) { ?>
+                                <li><?= $value->discipline->name ?></li>
+                            <?php } ?>
+                        </ul>
+                    <?php } ?>
+                    <?php if (isset($specialty) && !empty($specialty)) { ?>
+                        <p class="ul-t">Specialty</p>
+
+                        <ul class="list-unstyled mb-4">
+                            <?php foreach ($specialty as $value) { ?>
+                                <li><?= $value->speciality->name ?></li>
+                            <?php } ?>
+                        </ul>
+                    <?php } ?>
+                    <?php if (isset($emergency) && !empty($emergency)) { ?>
+                        <p class="ul-t">Emergency</p>
+
+                        <ul class="list-unstyled mb-4">
+                            <?php foreach ($emergency as $value) { ?>
+                                <li><?= $value->emergency->name ?></li>
+                            <?php } ?>
+                        </ul>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="view-details">
+                    <h3 class="job-title mb-4">Job Detail</h3>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="ul-right">
+                                <li>Job Id</li>
+                                <li>Location</li>
+                                <li>Job Type</li>
+                                <li>Shift</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul class="ul-right ul-last-child">
+                                <li><?= $model->reference_no ?></li>
+                                <li><?= $model->citiesName ?></li>
+                                <li><?= Yii::$app->params['job.type'][$model->job_type] ?></li>
+                                <li><?= $model->shift == 1 ? "Morning, Evening, Night, Flaxible" : Yii::$app->params['job.shift'][$model->shift] ?></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <!-- How it Works Ends --> 
+                <div class="view-details">
+                    <h3 class="job-title mb-4">Employer Detail</h3>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="ul-right">
+                                <li>Employer Name</li>
+                                <li>Address</li>
+                                <li>Email Id</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul class="ul-right ul-last-child">
+                                <li><?= $model->branch->company->company_name . "-" . $model->branch->branch_name ?></li>
+                                <li><?= $model->branch->street_no . " " . $model->branch->street_address . " " . $model->branch->apt . " " . $model->branch->location . " " . $model->branch->zip_code ?></li>
+                                <li><?= $model->branch->company->company_email ?></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+<section class="">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-12 main-title">
+                <h2 class="mb-4">Featured New Advertise </h2>                
+            </div>
+            <div class="col-sm-3 col-12 main-title">
+                <a href="" class="float-right mb-3">View All </a>
+            </div>
+        </div>
+
+
+        <div class="row mb-5 pb-5">
+            <div class="col-md-4">
+                <div class="featured-img-block position-relative mb-4">
+                    <img src="<?= $assetDir ?>/img/featured-video.png" alt="featured-video" class="img-fluid mx-auto d-block">
+                        <div class="ads-title">
+                            <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
+                        </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="featured-img-block position-relative mb-4">
+                    <img src="<?= $assetDir ?>/img/featured-video-1.png" alt="featured-video" class="img-fluid mx-auto d-block">
+                        <div class="ads-title">
+                            <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
+                        </div>
+                        <div class="most-popular-jobs-block-hover">
+                            <img src="<?= $assetDir ?>/img/play-icon.png" alt="play-icon">
+                        </div>
+                </div>
+
+                <div class="featured-img-block position-relative mb-4">
+                    <img src="<?= $assetDir ?>/img/featured-video-2.png" alt="featured-video" class="img-fluid mx-auto d-block">
+                        <div class="ads-title">
+                            <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
+                        </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="featured-img-block position-relative mb-4">
+                    <img src="<?= $assetDir ?>/img/featured-video-3.png" alt="featured-video" class="img-fluid mx-auto d-block">
+                        <div class="ads-title">
+                            <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
+                        </div>
+                </div>
+
+                <div class="featured-img-block position-relative mb-4">
+                    <img src="<?= $assetDir ?>/img/featured-video-4.png" alt="featured-video" class="img-fluid mx-auto d-block">
+                        <div class="ads-title">
+                            <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

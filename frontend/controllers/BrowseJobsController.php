@@ -353,7 +353,7 @@ class BrowseJobsController extends Controller {
     }
 
     public function actionRecruiterView($id) {
-        $model = LeadMaster::findOne(['id' => $id]);
+        $model = LeadMaster::find()->where(['OR', ['id' => $id], ['reference_no' => $id]])->one();
         $today = date('Y-m-d');
         $advertisment = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere(['location' => $model->city])->andWhere("'$today' BETWEEN active_from AND active_to")->asArray()->all();
         $benefit = LeadBenefit::findAll(['lead_id' => $id]);
