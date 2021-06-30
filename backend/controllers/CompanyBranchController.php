@@ -169,8 +169,9 @@ class CompanyBranchController extends Controller {
                 }
             } catch (\Exception $ex) {
                 $transaction->rollBack();
+                Yii::$app->session->setFlash("warning", "Something went wrong.");
             } finally {
-//                return $this->redirect(['index']);
+                return $this->redirect(['index']);
             }
         }
 
@@ -230,6 +231,7 @@ class CompanyBranchController extends Controller {
                     $transaction->commit();
                     Yii::$app->session->setFlash("success", "Branch Updated Successfully.");
                 } else {
+                    $transaction->rollBack();
                     Yii::$app->session->setFlash("warning", "Something went wrong.");
                 }
             } catch (\Exception $ex) {

@@ -16,6 +16,7 @@ class AppAsset extends AssetBundle {
         'css/main.css',
         'css/site.css',
         'css/custom.css',
+        'css/custom_ma.css',
         'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css'
     ];
     public $js = [

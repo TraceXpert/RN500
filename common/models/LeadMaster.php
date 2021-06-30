@@ -53,19 +53,19 @@ class LeadMaster extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-                [['street_no', 'state', 'street_address', 'city', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'title', 'reference_no', 'jobseeker_payment', 'payment_type', 'job_type', 'shift', 'start_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'description', 'branch_id'], 'required'],
-                [['description', 'apt', 'zip_code'], 'string'],
-                [['payment_type', 'job_type', 'shift', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'price', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-                [['jobseeker_payment',], 'number'],
-                [['title'], 'string', 'max' => 250],
-                [['reference_no'], 'string', 'max' => 50],
-                [['comment'], 'string', 'max' => 500],
-                [['reference_no'], 'unique'],
-                [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
+            [['street_no', 'state', 'street_address', 'city', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'title', 'reference_no', 'jobseeker_payment', 'payment_type', 'job_type', 'shift', 'start_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'description', 'branch_id'], 'required'],
+            [['description', 'apt', 'zip_code'], 'string'],
+            [['payment_type', 'job_type', 'shift', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'price', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['jobseeker_payment',], 'number'],
+            [['title'], 'string', 'max' => 250],
+            [['reference_no'], 'string', 'max' => 50],
+            [['comment'], 'string', 'max' => 500],
+            [['reference_no'], 'unique'],
+            [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
 //            [['street_no'], 'match', 'pattern' => '/^([0-9])?$/', 'message' => 'Please enter a digit numeric for {attribute}.'],
             [['comment', 'visible_to'], 'safe', 'on' => 'approve'],
-                [['price'], 'required', 'on' => 'approve'],
-                [['approved_at', 'branch_id', 'state', 'comment', 'disciplines', 'benefits', 'specialies', 'end_date', 'start_date', 'emergency'], 'safe'],
+            [['price'], 'required', 'on' => 'approve'],
+            [['approved_at', 'branch_id', 'state', 'comment', 'disciplines', 'benefits', 'specialies', 'end_date', 'start_date', 'emergency'], 'safe'],
         ];
     }
 
@@ -190,11 +190,11 @@ class LeadMaster extends \yii\db\ActiveRecord {
                 ->select(['ROUND(AVG(`rating`),1) AS average_rate'])
                 ->groupBy(['lead_id'])
                 ->scalar();
-        return ($avgRating !='') ? $avgRating :'0';
+        return ($avgRating != '') ? $avgRating : '0';
     }
-    
-    public function getSharableUrl(){
-        return  Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $this->reference_no]);
+
+    public function getSharableUrl() {
+        return Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $this->reference_no]);
     }
 
 }

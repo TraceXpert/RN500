@@ -36,7 +36,7 @@ class CompanyBranch extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['branch_name', 'street_no', 'street_address', 'city', 'updated_at', 'zip_code'], 'required'],
+            [['email','branch_name', 'street_no', 'street_address', 'city', 'updated_at', 'zip_code'], 'required'],
             [['company_id', 'city', 'is_default', 'created_at', 'updated_at'], 'integer'],
             [['branch_name'], 'string', 'max' => 200],
             [['street_no', 'street_address', 'apt'], 'string', 'max' => 255],
@@ -45,6 +45,7 @@ class CompanyBranch extends \yii\db\ActiveRecord {
             ['company_id', 'required', 'when' => function ($model) {
                     return isset(\Yii::$app->user->identity->id) ? CommonFunction::isMasterAdmin(\Yii::$app->user->identity->id) : false;
                 }],
+            [['email'],'email'],
             [['email', 'branch_name', 'street_no', 'street_address', 'apt', 'zip_code'], 'safe']
         ];
     }
