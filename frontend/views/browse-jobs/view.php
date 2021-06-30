@@ -36,7 +36,8 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                 <p class="mb-0">Date Posted: <?= date('m-d-Y', $model->created_at) ?></p>
                 <p><?= $model->citiesName ?></p>
 
-                <a href="">
+                <!-- Twitter icon-->
+                <a onClick="window.open('https://twitter.com/share?hashtags=job,sharing&text=<?= $model->title ?>&via=MyTwitterHandle');" target="_parent" href="javascript: void(0)">
                     <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M15.4455 30.8531C6.91574 30.8531 0 23.9459 0 15.4265C0 6.90724 6.91574 0 15.4455 0C23.9753 0 30.891 6.90724 30.891 15.4265C30.891 23.9459 23.9753 30.8531 15.4455 30.8531Z"
@@ -46,6 +47,8 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                             fill="white" />
                     </svg>
                 </a>
+
+                <!-- Email icon-->
 
                 <a href="">
                     <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,8 +61,9 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                     </svg>
                 </a>
 
+                <!--facobook icon-->
 
-                <a href="">
+                <a onClick="window.open('http://www.facebook.com/sharer.php?s=100&amp;p[title]=<?php echo $model->title; ?>&amp;p[url]=<?php echo $model->sharableUrl; ?>&amp;&p[images][0]=<?php echo $assetDir . "/img/job-icon.png" ?>', 'sharer', 'toolbar=0,status=0,width=548,height=325');" target="_parent" href="javascript: void(0)">
                     <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M15.5002 30.8531C6.97043 30.8531 0.0546875 23.9459 0.0546875 15.4265C0.0546875 6.90724 6.97043 0 15.5002 0C24.03 0 30.9457 6.90724 30.9457 15.4265C30.9457 23.9459 24.03 30.8531 15.5002 30.8531Z"
@@ -69,6 +73,8 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                             fill="white" />
                     </svg>
                 </a>
+
+                <!--linked in-->
 
                 <a href="">
                     <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -84,6 +90,8 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                             fill="white" />
                     </svg>
                 </a>
+
+                <!--refferal-->
 
                 <a href="">
                     <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">

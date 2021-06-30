@@ -8,6 +8,9 @@ use common\CommonFunction;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 use kartik\rating\StarRating;
+use kartik\icons\FontAwesomeAsset;
+
+FontAwesomeAsset::register($this);
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -259,7 +262,9 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-right mt-2 mt-sm-0">
-                                    <!--<span class="badge badge-warning">Urgent</span>-->
+                                    <?php if (isset($model->emergency) && !empty($model->emergency)) { ?>
+                                        <span class="badge badge-warning">Urgent</span>
+                                    <?php } ?>
                                     <span class="badge badge-success"><?= Yii::$app->params['job.type'][$model->job_type] ?></span>
                                 </div>
                             </div>
@@ -317,7 +322,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                     </div>
                                 </div>
                                 <div class="col-sm-6 p-0 text-right">
-                                    <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->id]) ?>" class="read-more contact-us mb-0">View Profile</a>
+                                    <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->reference_no]) ?>" class="read-more contact-us mb-0">View Profile</a>
                                 </div>
 
 
