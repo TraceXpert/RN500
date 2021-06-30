@@ -90,6 +90,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -205,6 +206,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -251,6 +253,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -336,6 +339,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -409,8 +413,8 @@ class ProfileController extends Controller {
                 if ($model !== null) {
 //                    $data = array_map('strval', $model);
                     $data = array_map('strval', $model->getAttributes());
-                    $data['start_date'] = ($model->start_date != '') ? date("Y-m", strtotime($model->start_date)) : '';
-                    $data['end_date'] = ($model->end_date != '') ? date("Y-m", strtotime($model->end_date)) : '';
+                    $data['start_date'] = CommonFunction::getAPIDateDisplayFormat($model->start_date, 'Y-m');
+                    $data['end_date'] = CommonFunction::getAPIDateDisplayFormat($model->end_date, 'Y-m');
                     $data['discipline_name'] = (isset($model->discipline->name)) ? $model->discipline->name : '';
                     $data['specialty_name'] = (isset($model->specialityRel->name)) ? $model->specialityRel->name : '';
                     $data['employment_type_name'] = $model->getEmploymentTypeName();
@@ -432,6 +436,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -476,6 +481,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -512,6 +518,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -532,7 +539,7 @@ class ProfileController extends Controller {
                 $model = Education::find()->where(['id' => $id, 'user_id' => $loggedInUserId])->one();
                 if ($model !== null) {
                     $data = array_map('strval', $model->getAttributes());
-                    $data['year_complete'] = ($model['year_complete'] != '') ? date("Y-m", strtotime($model['year_complete'])) : '';
+                    $data['year_complete'] = CommonFunction::getAPIDateDisplayFormat($model['year_complete'], 'Y-m');
                     $data['degree_complete_name'] = $model->getDegreeTypeName();
                     $data['location_name'] = $model->getCityStateName();
 
@@ -552,6 +559,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -594,6 +602,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -630,6 +639,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -650,8 +660,7 @@ class ProfileController extends Controller {
                 $model = Licenses::find()->where(['id' => $id, 'user_id' => $loggedInUserId])->one();
                 if ($model !== null) {
                     $data = array_map('strval', $model->getAttributes());
-                    $data['expiry_date'] = ($model->expiry_date != '') ? date("Y-m", strtotime($model['expiry_date'])) : '';
-
+                    $data['expiry_date'] = CommonFunction::getAPIDateDisplayFormat($model['expiry_date'], 'Y-m');
                     $data['license_name_text'] = (isset(Yii::$app->params['LICENSE_TYPE'][$model->license_name])) ? Yii::$app->params['LICENSE_TYPE'][$model->license_name] : '';
                     $data['issuing_state_name'] = $model->getCityStateName();
 
@@ -676,6 +685,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -762,6 +772,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -798,6 +809,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -835,6 +847,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -877,6 +890,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -913,6 +927,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -977,6 +992,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -1013,6 +1029,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -1035,7 +1052,7 @@ class ProfileController extends Controller {
                     $data = array_map('strval', $model->getAttributes());
                     $data['certificate_name_text'] = (isset(Yii::$app->params['CERTIFICATION_TYPE'][$model->certificate_name])) ? Yii::$app->params['CERTIFICATION_TYPE'][$model->certificate_name] : '';
                     $data['issuing_state_name'] = $model->getCityStateName();
-                    $data['expiry_date'] = ($model->expiry_date && $model->expiry_date != '1970-01-01' && $model->expiry_date != '0000-00-00') ? date('Y-m', strtotime($model->expiry_date)) : '';
+                    $data['expiry_date'] = CommonFunction::getAPIDateDisplayFormat($model->expiry_date, 'Y-m');
                     $data['certification_active_status'] = (isset(Yii::$app->params['CERTIFICATION_ACTIVE_STATUS'][$model->certification_active])) ? Yii::$app->params['CERTIFICATION_ACTIVE_STATUS'][$model->certification_active] : '';
                     if ($model->document != '' && file_exists(CommonFunction::getCertificateBasePath() . "/" . $model->document)) {
                         $data['document_url'] = Url::to(Yii::$app->urlManagerFrontend->createUrl(["/uploads/user-details/certification/" . $model->document]), true);
@@ -1058,6 +1075,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -1150,6 +1168,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -1188,6 +1207,7 @@ class ProfileController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }

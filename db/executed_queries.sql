@@ -1192,8 +1192,6 @@ CREATE TABLE `lead_rating` (
 );
 #  ***********************13-JUN-2021***BY Mohan END**************************
 
-<<<<<<< HEAD
-
 #  ***********************14-JUN-2021***BY Mohan **************************
 CREATE TABLE `referral_master` (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -1235,3 +1233,13 @@ CREATE TABLE `lead_emergency` (
   `emergency_id` int NOT NULL
 );
 #  ***********************14-JUN-2021***BY Mehul END**************************
+
+CREATE TABLE `api_log` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `request` text NOT NULL,
+  `response` text NOT NULL,
+  `created_at` int NOT NULL
+);
+
+ALTER TABLE `api_log`
+ADD `url` text NOT NULL AFTER `id`;

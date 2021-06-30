@@ -83,6 +83,9 @@ $disable = $companyBranchModel->is_default;
                         <div class="col-md-6 col-sm-12">
                             <?= $form->field($companyBranchModel, 'zip_code')->textInput(['maxlength' => 5]) ?>
                         </div>
+                        <div class="col-md-6 col-sm-12">
+                            <?= $form->field($companyBranchModel, 'email')->textInput() ?>
+                        </div>
                     </div>
 
                 </div>

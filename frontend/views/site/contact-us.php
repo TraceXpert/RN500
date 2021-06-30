@@ -2,58 +2,113 @@
 
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
+$assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 ?>
-<style>
-    @media (max-width:767px){
-        .mt-10{margin-top: 10px;}
-    }
-</style>
-<div class="listpgWraper">
+<section class="inner-banner browse-banner">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <div class="wp_signup_right">
-                    <h4>Contact Us</h4>
-
-                    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <?php echo $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name'])->label(false) ?>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <?php echo $form->field($model, 'email')->textInput(['maxlength' => true, 'placeholder' => 'Email'])->label(false) ?>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <?php echo $form->field($model, 'subject')->textInput(['maxlength' => true, 'placeholder' => 'Subject'])->label(false) ?>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <?php echo $form->field($model, 'message')->textInput(['maxlength' => true, 'placeholder' => 'Message'])->label(false) ?>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <?php echo Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>                        
-                        </div>
-                    </div>
-
-                    <?php ActiveForm::end(); ?>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="wp_cont_right mt-10">
-                    <h3>RN500</h3>
-                    <p>3100, North Ocean Dr, Fort Lauderdale, FL 33308. USA. </p>
-                    <p>Phone: +1 123 – 456 – 7890</p>
-                    <p>Email : <a href="mailto:info@RN500.com">info@RN500.com</a></p><br/>
-                </div>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.8662982361125!2d-80.10120853501806!3d26.168483483453706!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d901fe31a55947%3A0x86cafcd957a8660e!2s3100%20N%20Ocean%20Blvd%2C%20Fort%20Lauderdale%2C%20FL%2033308%2C%20USA!5e0!3m2!1sen!2sin!4v1623780628609!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <div class="col-xl-12">
+                <h1>Contact Us</h1>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+
+
+<section class="about-us about-inner-block contact-form">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-lg-12">
+                <div class="contact-us-shape mb-5">
+                    <div class="row">
+
+                        <div class="col-lg-8">
+                            <div class="main-title ml-4 ml-sm-5">
+                                <h2 class="mb-2 pt-5">Contact Us</h2>
+                                <p class="mb-4">Fill up the form and our team will get back to you within 24 hours.
+                                </p>
+
+                                <div class="media mb-4 pb-3 ml-0 ml-sm-3">                                        
+                                    <svg class="mr-3" width="32" height="34" viewBox="0 0 32 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M28.6638 9.08508L28.5934 9.01466L19.0153 1.40854C18.0997 0.492989 16.8321 0 15.4939 0C14.1558 0 12.9586 0.492989 11.9726 1.40854L2.46495 9.01466L2.39451 9.08508C0.84512 10.6345 0 12.7473 0 14.9305V25.2129C0 29.6498 3.59178 33.312 8.09911 33.312H22.9592C27.3961 33.312 31.0583 29.7202 31.0583 25.2129V14.9305C31.0583 12.7473 30.2132 10.6345 28.6638 9.08508ZM28.9455 25.2129C28.9455 28.5229 26.2693 31.1992 22.9592 31.1992H8.02867C4.71861 31.1992 2.04238 28.5229 2.04238 25.2129V14.9305C2.04238 13.3107 2.67622 11.7613 3.80305 10.6345L13.3811 3.02836L13.4516 2.95793C14.015 2.39452 14.7192 2.11281 15.4939 2.11281C16.2686 2.11281 16.9729 2.39452 17.5363 2.95793L17.6068 3.02836L27.1848 10.6345C28.3117 11.7613 28.9455 13.3107 28.9455 14.9305V25.2129Z" fill="#46AEE0"/>
+                                        <path d="M19.9307 25.1426H11.1978C10.6343 25.1426 10.1414 25.6356 10.1414 26.199C10.1414 26.7624 10.6343 27.2554 11.1978 27.2554H19.9307C20.4941 27.2554 20.9871 26.7624 20.9871 26.199C20.9871 25.6356 20.4941 25.1426 19.9307 25.1426Z" fill="#46AEE0"/>
+                                    </svg>
+
+                                    <div class="media-body">
+                                        <a href="mailto:info@RN500.com">
+                                            info@RN500.com
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="media mb-4 ml-0 ml-sm-3">
+                                    <svg class="mr-3" width="21" height="31" viewBox="0 0 21 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.679 0H5.60788C2.93165 0 0.818848 2.18319 0.818848 4.78899V26.058C0.818848 28.7342 3.00208 30.847 5.60788 30.847H15.679C18.3552 30.847 20.468 28.6638 20.468 26.058V4.78899C20.5384 2.18319 18.3552 0 15.679 0ZM18.4256 26.058C18.4256 27.537 17.2283 28.7342 15.7494 28.7342H5.67831C4.19934 28.7342 3.00209 27.537 3.00209 26.058V4.78899C3.00209 3.31002 4.19934 2.11281 5.67831 2.11281H15.7494C17.2283 2.11281 18.4256 3.31002 18.4256 4.78899V26.058Z" fill="#46AEE0"/>
+                                        <path d="M14.4114 23.1704H6.87574C6.31232 23.1704 5.81934 23.6634 5.81934 24.2268C5.81934 24.7902 6.31232 25.2832 6.87574 25.2832H14.4114C14.9748 25.2832 15.4678 24.7902 15.4678 24.2268C15.4678 23.6634 14.9748 23.1704 14.4114 23.1704Z" fill="#46AEE0"/>
+                                    </svg>                                            
+                                    <div class="media-body">
+                                        <a href="tel:+1 123 – 456 – 7890">
+                                            +1 123 – 456 – 7890
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="media ml-0 ml-sm-3 pt-3">
+                                    <svg class="mr-3" width="31" height="36" viewBox="0 0 31 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M30.8018 14.3763C30.3792 6.62934 23.9704 0.361339 16.2234 0.00920357C12.0682 -0.13165 8.1243 1.34732 5.09594 4.23482C2.06757 7.12233 0.447754 10.9958 0.447754 15.151C0.447754 17.8272 1.15202 20.433 2.49014 22.6867C4.25081 25.7855 9.74412 31.1379 12.8429 34.0254C13.6176 34.8001 14.674 35.1523 15.7304 35.1523C16.7868 35.1523 17.7728 34.8001 18.5475 34.0254C21.928 30.9971 27.7734 25.1516 29.4637 21.5599C30.5201 19.3062 30.9427 16.8413 30.8018 14.3763ZM27.5622 20.6443C26.4353 23.0388 22.6323 27.4053 17.139 32.5465C16.3643 33.2508 15.0966 33.2508 14.3219 32.5465C9.1807 27.7574 5.5185 23.8135 4.32124 21.7007C3.19441 19.7288 2.56056 17.4751 2.56056 15.2214C2.56056 11.6297 3.9691 8.24916 6.5749 5.78422C9.03985 3.3897 12.2091 2.12201 15.66 2.12201C15.8713 2.12201 16.0121 2.12201 16.2234 2.12201C22.914 2.40372 28.4073 7.8266 28.7594 14.4467C28.8298 16.63 28.4073 18.7428 27.5622 20.6443Z" fill="#46AEE0"/>
+                                        <path d="M15.8714 9.86914C13.4768 9.86914 11.5049 11.8411 11.5049 14.2356C11.5049 16.6301 13.4768 18.6021 15.8714 18.6021C18.2659 18.6021 20.3083 16.7006 20.3083 14.306C20.3083 11.8411 18.3363 9.86914 15.8714 9.86914ZM15.8714 16.5597C14.6037 16.5597 13.6177 15.5033 13.6177 14.306C13.6177 13.0384 14.6741 12.0524 15.8714 12.0524C17.139 12.0524 18.125 13.1088 18.125 14.306C18.1954 15.5737 17.139 16.5597 15.8714 16.5597Z" fill="#46AEE0"/>
+                                    </svg>                                            
+                                    <div class="media-body">
+                                        <p class="mb-0">
+                                            3100, North Ocean Dr, Fort <br />Lauderdale, FL 33308. USA.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="contact-form-block">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" class="form-control" id="name">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="subject">Subject</label>
+                                        <input type="text" class="form-control" id="subject">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="message">Message</label>
+                                        <textarea class="form-control" rows="2" id="message"></textarea>
+                                    </div>
+
+                                    <a href="" class="read-more contact-us">Send Message</a>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.8662982361125!2d-80.10120853501806!3d26.168483483453706!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d901fe31a55947%3A0x86cafcd957a8660e!2s3100%20N%20Ocean%20Blvd%2C%20Fort%20Lauderdale%2C%20FL%2033308%2C%20USA!5e0!3m2!1sen!2sin!4v1623780628609!5m2!1sen!2sin"
+                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+
+    </div>
+</section>

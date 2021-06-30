@@ -11,6 +11,7 @@ use common\models\CompanySubscriptionPayment;
 use yii\helpers\Html;
 use common\models\LeadMaster;
 use common\models\LeadRecruiterJobSeekerMapping;
+use common\models\ApiLog;
 
 class CommonFunction {
 
@@ -37,6 +38,15 @@ class CommonFunction {
             $randomNo .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomNo;
+    }
+
+    public static function logger($apiUrl, $request, $response) {
+        $logMessage = new ApiLog();
+        $logMessage->url = $apiUrl;
+        $logMessage->request = $request;
+        $logMessage->response = $response;
+        $logMessage->created_at = CommonFunction::currentTimestamp();
+        $logMessage->save();
     }
 
     // RETURN LOGGED_IN USER NAME ELSE EMPTY
@@ -253,6 +263,13 @@ class CommonFunction {
         } finally {
             return $flag;
         }
+    }
+
+    public static function getAPIDateDisplayFormat($date, $format = 'm-d-Y') {
+        if ($date != '' && $date != '0000-00-00' && date('Y-m-d', strtotime($date)) != '1970-01-01') {
+            return date($format, strtotime($date));
+        }
+        return '';
     }
 
 }

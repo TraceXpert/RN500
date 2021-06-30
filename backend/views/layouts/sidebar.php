@@ -145,10 +145,17 @@ $action = Yii::$app->controller->action->id;
                                 'visible' => (isset(Yii::$app->user->id)) ? true : false
                             ],
                                 [
-                                'label' => 'Payment Report',
+                                'label' => 'Payment',
                                 'url' => ['/report/payment'],
                                 'icon' => 'book',
                                 'active' => ($controller == "report" && $action == "payment"),
+                                'visible' => (isset(Yii::$app->user->id)) ? true : false
+                            ],
+                                [
+                                'label' => 'Recruited Job Seeker',
+                                'url' => ['/report/recruited-jobseeker'],
+                                'icon' => 'book',
+                                'active' => ($controller == "report" && $action == "recruited-jobseeker"),
                                 'visible' => (isset(Yii::$app->user->id)) ? true : false
                             ]
                         ]

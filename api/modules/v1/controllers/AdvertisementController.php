@@ -49,8 +49,8 @@ class AdvertisementController extends Controller {
                         'name' => (string) $model->name,
                         'location' => $model->location,
                         'location_name' => isset($model->city->city) ? $model->city->city : '',
-                        'active_from' => ($model->active_from != '' && $model->active_from != '0000-00-00') ? date('d-M-y', strtotime($model->active_from)) : '',
-                        'active_to' => ($model->active_to != '' && $model->active_to != '0000-00-00') ? date('d-M-y', strtotime($model->active_to)) : '',
+                        'active_from' => CommonFunction::getAPIDateDisplayFormat($model->active_from),
+                        'active_to' => CommonFunction::getAPIDateDisplayFormat($model->active_to),
                         'file_type' => $model->file_type,
                         'file_type_name' => (isset(Yii::$app->params['ADS_FILE_TYPE'][$model->file_type])) ? Yii::$app->params['ADS_FILE_TYPE'][$model->file_type] : '',
                         'link_url' => $model->link_url,
@@ -68,6 +68,7 @@ class AdvertisementController extends Controller {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }

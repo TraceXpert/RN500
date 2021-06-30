@@ -15,6 +15,8 @@ class LoginForm extends Model {
     public $password;
     public $rememberMe = true;
     public $otp;
+    public $otp_digits;
+    public $otp_error;
     public $is_otp_sent;
     public $general_info;
     private $_user;
@@ -25,18 +27,28 @@ class LoginForm extends Model {
     public function rules() {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
-            ['username', 'email', 'message' => 'Please enter valid email.'],
+                [['username', 'password'], 'required'],
+                ['username', 'email', 'message' => 'Please enter valid {attribute}.'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
             // otp validation
             ['is_otp_sent', 'boolean'],
-            ['otp', 'number', 'message' => 'Please eneter numeric values only.'],
-            ['otp', 'required', 'when' => function ($model) {
+                ['otp_digits', 'safe'],
+                ['otp_digits', 'each', 'rule' => ['integer']],
+//            ['otp_digits', 'each', 'rule' => ['in',   'message' =>'Invalid', 'strict'=>true, 'allowArray' => true, 'range' => [0,1,2,3,4,5,6,7,8,9]], ],
+            ['otp_digits', 'required', 'message' => 'Required', 'when' => function ($model) {
                     return $model->is_otp_sent;
                 }],
+        ];
+    }
+
+    public function attributeLabels() {
+        return [
+            'username' => 'Email Id',
+            'otp' => 'OTP',
+            'password' => 'Password',
         ];
     }
 

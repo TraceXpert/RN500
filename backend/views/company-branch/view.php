@@ -21,6 +21,7 @@ use common\CommonFunction;
                     'model' => $model,
                     'attributes' => [
                         'branch_name',
+                        'email',
                         'street_no',
                         'street_address',
                         'apt',

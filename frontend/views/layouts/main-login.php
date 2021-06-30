@@ -1,54 +1,67 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $content string */
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use frontend\assets\AppAsset;
-use common\widgets\Alert;
+use yii\bootstrap4\ActiveForm;
+use frontend\assets\ThemeAsset;
+use common\components\FlashmessageWidget;
 
-AppAsset::register($this);
-$assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/jobs-portal');
-Yii::$app->assetManager->publish('@vendor/almasaeed2010/adminlte');
-$assetThemeDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte');
+ThemeAsset::register($this);
+$assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php $this->registerCsrfMetaTags() ?>
         <title>RN500</title>
-        <link rel="stylesheet" href="<?php echo $assetThemeDir ?>/plugins/toastr/toastr.min.css">
         <?php $this->head() ?>
         <!-- Fav Icon -->
-        <link rel="shortcut icon" href="<?= $assetDir ?>/images/favicon.ico">
-        <style>
-            .listpgWraper {background: #f9f9ff;}
-        </style>
+        <link rel="shortcut icon" href="<?= $assetDir ?>/img/favicon.ico">
     </head>
-    <body>
+    <body class="m-0">
         <?php $this->beginBody() ?>
+        <div class="forny-container">
+            <div class="forny-inner">
+                <div class="forny-two-pane">
+                    <div class="position-relative">
+                        <div class="login-header">
+                            <div>
+                                <a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/index"); ?>">
+                                    <img src="<?= $assetDir ?>/img/logo.png" alt="logo" />
+                                </a>
 
-        <!-- Header start -->
-        <?= $this->render('header', ['assetDir' => $assetDir]) ?>
-        <!-- Header end --> 
-        
+                                <a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/index"); ?>">Home</a>
+                            </div>
+                        </div>
+                        <?= $content ?>
+                    </div>
+                    <div class="right-pane">
 
-        <?= $content ?>
-
-        <!-- Footer start -->
-        <?= $this->render('footer', ['assetDir' => $assetDir]) ?>
-        <!-- Footer end --> 
-        <?php $this->endBody() ?>
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php
-//        echo \common\components\FlashmessageWidget::widget();
+        echo FlashmessageWidget::widget();
         ?>
-        <script src="<?php echo $assetThemeDir ?>/plugins/toastr/toastr.min.js"></script>
+        <?php $this->endBody() ?>
     </body>
 </html>
 <?php $this->endPage() ?>
+<?php
+$style = <<< CSS
+.right-pane {
+    background-image: url($assetDir/img/login-bg.png);
+}
+CSS;
+$this->registerCss($style);
+?>

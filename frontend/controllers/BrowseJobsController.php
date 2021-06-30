@@ -28,7 +28,6 @@ use common\models\LeadRating;
 use common\models\ReferralMaster;
 use common\models\LeadEmergency;
 
-
 /**
  * BrowseJobs controller
  */
@@ -43,17 +42,17 @@ class BrowseJobsController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['recruiter-lead', 'recruiter-view', 'apply', 'apply-job'],
                 'rules' => [
-                        [
+                    [
                         'actions' => ['apply', 'apply-job'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*']
                     ],
-                        [
+                    [
                         'actions' => ['recruiter-lead', 'recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isRecruiter() ? ['@'] : ['*'] : ['*'],
                     ],
-                        [
+                    [
                         'actions' => ['recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isEmployer() ? ['@'] : ['*'] : ['*'],
@@ -80,6 +79,9 @@ class BrowseJobsController extends Controller {
         }
         if (isset($request['benefit']) && !empty($request['benefit'])) {
             $query->andFilterWhere(['IN', 'lead_benefit.benefit_id', implode(',', $request['benefit'])]);
+        }
+        if (isset($request['title']) && !empty($request['title'])) {
+            $query->andFilterWhere(['like', 'title', $request['title']]);
         }
         if (isset($request['location']) && !empty($request['location'])) {
             $query->andFilterWhere(['IN', 'lead_master.city', implode(',', $request['location'])]);
@@ -123,11 +125,12 @@ class BrowseJobsController extends Controller {
         $pages->setPageSize(10);
         $models = $query->offset($pages->offset)->limit($pages->limit)->all();
         if (isset($request['location']) && !empty($request['location'])) {
-            $selectedLocations = ArrayHelper::map(Cities::find()->where(['IN', 'id', $request['location']])->all(), 'id', 'city');
+            $selectedLocations = ArrayHelper::map(Cities::find()->where(['IN', 'id', $request['location']])->all(), 'id', function($model) {
+                        return $model->city . "-" . $model->state_code;
+                    });
         } else {
             $selectedLocations = [];
         }
-
         return $this->render('index', ['models' => $models, 'pages' => $pages, 'selectedLocations' => $selectedLocations]);
     }
 
@@ -185,6 +188,7 @@ class BrowseJobsController extends Controller {
         $models = $query->offset($pages->offset)->limit($pages->limit)->all();
         if (isset($request['location']) && !empty($request['location'])) {
             $selectedLocations = ArrayHelper::map(Cities::find()->where(['IN', 'id', $request['location']])->all(), 'id', 'city');
+//            $selectedLocations = ['id' => 6429, 'text' => 'Dallardsville-TX'];
         } else {
             $selectedLocations = [];
         }
@@ -203,17 +207,14 @@ class BrowseJobsController extends Controller {
 
         if (isset($lists) && !empty($lists)) {
             foreach ($lists as $key => $list) {
-                $options .= "<li>";
+                $options .= "<div class='form-group'>";
                 if (in_array($key, $filter)) {
-                    $options .= "<input type='checkbox' name='discipline[]' value='$key' id='desc-$key' checked />";
+                    $options .= "<input type='checkbox' value='$key' name='discipline[]' id='desc-$key' onchange = 'this.form.submit()' checked><label for='desc-$key'>$list</label>";
                 } else {
-                    $options .= "<input type='checkbox' name='discipline[]' value='$key' id='desc-$key' />";
+                    $options .= "<input type='checkbox' value='$key' name='discipline[]' id='desc-$key' onchange = 'this.form.submit()'><label for='desc-$key'>$list</label>";
                 }
-                $options .= "<label for='desc-$key'></label>" . $list;
-                $options .= "</li>";
+                $options .= "</div>";
             }
-        } else {
-            $options .= "<li>-</li>";
         }
 
         $response = ['options' => $options, 'totalPage' => $totalRecord, 'offset' => count($lists)];
@@ -230,19 +231,17 @@ class BrowseJobsController extends Controller {
         $totalRecord = Speciality::find()->count();
         $lists = ArrayHelper::map(Speciality::find()->limit($limit)->offset($offset)->all(), 'id', 'name');
         $options = "";
+
         if (isset($lists) && !empty($lists)) {
             foreach ($lists as $key => $list) {
-                $options .= "<li>";
+                $options .= "<div class='form-group'>";
                 if (in_array($key, $filter)) {
-                    $options .= "<input type='checkbox' name='speciality[]' value='$key' id='spec-$key' checked />";
+                    $options .= "<input type='checkbox' value='$key' name='speciality[]' onchange = 'this.form.submit()' id='spec-$key' checked><label for='spec-$key'>$list</label>";
                 } else {
-                    $options .= "<input type='checkbox' name='speciality[]' value='$key' id='spec-$key' />";
+                    $options .= "<input type='checkbox' value='$key' name='speciality[]' onchange = 'this.form.submit()' id='spec-$key'><label for='spec-$key'>$list</label>";
                 }
-                $options .= "<label for='spec-$key'></label>" . $list;
-                $options .= "</li>";
+                $options .= "</div>";
             }
-        } else {
-            $options .= "<li>-</li>";
         }
         $response = ['options' => $options, 'totalPage' => $totalRecord, 'offset' => count($lists)];
         echo Json::encode($response);
@@ -258,19 +257,17 @@ class BrowseJobsController extends Controller {
         $totalRecord = Benefits::find()->count();
         $lists = ArrayHelper::map(Benefits::find()->limit($limit)->offset($offset)->all(), 'id', 'name');
         $options = "";
+
         if (isset($lists) && !empty($lists)) {
             foreach ($lists as $key => $list) {
-                $options .= "<li>";
+                $options .= "<div class='form-group'>";
                 if (in_array($key, $filter)) {
-                    $options .= "<input type='checkbox' name='benefit[]' value='$key' id='benefit-$key' checked />";
+                    $options .= "<input type='checkbox' value='$key' name='benefit[]' onchange = 'this.form.submit()' id='benefit-$key' checked><label for='benefit-$key'>$list</label>";
                 } else {
-                    $options .= "<input type='checkbox' name='benefit[]' value='$key' id='benefit-$key' />";
+                    $options .= "<input type='checkbox' value='$key' name='benefit[]' onchange = 'this.form.submit()' id='benefit-$key'><label for='benefit-$key'>$list</label>";
                 }
-                $options .= "<label for='benefit-$key'></label>" . $list;
-                $options .= "</li>";
+                $options .= "</div>";
             }
-        } else {
-            $options .= "<li>-</li>";
         }
         $response = ['options' => $options, 'totalPage' => $totalRecord, 'offset' => count($lists)];
         echo Json::encode($response);
@@ -286,19 +283,17 @@ class BrowseJobsController extends Controller {
         $totalRecord = Emergency::find()->count();
         $lists = ArrayHelper::map(Emergency::find()->limit($limit)->offset($offset)->all(), 'id', 'name');
         $options = "";
+
         if (isset($lists) && !empty($lists)) {
             foreach ($lists as $key => $list) {
-                $options .= "<li>";
+                $options .= "<div class='form-group'>";
                 if (in_array($key, $filter)) {
-                    $options .= "<input type='checkbox' name='emergency[]' value='$key' id='eme-$key' checked />";
+                    $options .= "<input type='checkbox' value='$key' name='emergency[]' onchange = 'this.form.submit()' id='emergency-$key' checked><label for='emergency-$key'>$list</label>";
                 } else {
-                    $options .= "<input type='checkbox' name='emergency[]' value='$key' id='eme-$key' />";
+                    $options .= "<input type='checkbox' value='$key' name='emergency[]' onchange = 'this.form.submit()' id='emergency-$key'><label for='emergency-$key'>$list</label>";
                 }
-                $options .= "<label for='eme-$key'></label>" . $list;
-                $options .= "</li>";
+                $options .= "</div>";
             }
-        } else {
-            $options .= "<li>-</li>";
         }
         $response = ['options' => $options, 'totalPage' => $totalRecord, 'offset' => count($lists)];
         echo Json::encode($response);
@@ -373,10 +368,9 @@ class BrowseJobsController extends Controller {
     public function actionReferToFriend($lead_id) {
         $model = new ReferralMaster();
         $model->lead_id = $lead_id;
-        if(isset(Yii::$app->user->identity->id)){
+        if (isset(Yii::$app->user->identity->id)) {
             $model->from_name = Yii::$app->user->identity->getFullName();
             $model->from_email = Yii::$app->user->identity->email;
-            
         }
         return $this->renderAjax("_refer_form", ['model' => $model]);
     }
@@ -384,7 +378,7 @@ class BrowseJobsController extends Controller {
     public function actionReferToFriendPost($lead_id) {
         $model = new ReferralMaster();
         $model->lead_id = $lead_id;
-        
+
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post()) && $model->sendReferralMail()) {
             Yii::$app->session->setFlash("success", "Referral mail sent successfully.");
             echo json_encode(['code' => 200]);

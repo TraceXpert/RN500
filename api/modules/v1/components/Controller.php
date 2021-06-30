@@ -20,7 +20,7 @@ class Controller extends ActiveController {
     public $email;
     public $user_id;
     public $token;
-
+    
     /**
      * check allowed domains and ip addresse for media syndication
      */
@@ -29,44 +29,45 @@ class Controller extends ActiveController {
         $code = 201;
         $msg = "Required Data Missing in Request.";
         $request = Yii::$app->request;
-        if (isset($request->headers['Platform']) && !empty($request->headers['Platform']) && isset($request->headers['Current-Version']) && !empty($request->headers['Current-Version'])) {
-            $platform = $request->headers['Platform'] == 2 ? 'ios' : 'android';
-            $mobileVersion = MobileVersionMaster::findOne(['device_type' => $platform]);
-            if ($mobileVersion->version != $request->headers['Current-Version'] && $mobileVersion->force_update == 1) {
-                $code = 304;
-                $msg = "Update your app.";
-            } else {
-                if (!in_array($action->id, Yii::$app->params['disableAuth'])) {
-                    if (isset($request->headers['Authorization']) && !empty($request->headers['Authorization'])) {
-                        $jwtToken = $request->headers['Authorization'];
-                        $checkAuthentication = $this->checkAuthentication($jwtToken);
-                        if ($checkAuthentication) {
-                            $user = User::findOne(['id' => $checkAuthentication->id, 'status' => User::STATUS_APPROVED, 'type' => User::TYPE_JOB_SEEKER]);
-                            if (isset($user) && !empty($user)) {
-                                if ($user->is_suspend == 1) {
-                                    $code = 201;
-                                    $msg = "Your Account Has Been Suspended.";
-                                } else {
-                                    $this->user_id = $user->id;
-                                    $this->email = $user->email;
-                                    $this->token = $jwtToken;
-                                    return parent::beforeAction($action);
-                                }
-                            } else {
-                                $code = 403;
-                                $msg = "You are not authorized user.";
-                            }
+//        if (isset($request->headers['Platform']) && !empty($request->headers['Platform']) && isset($request->headers['Current-Version']) && !empty($request->headers['Current-Version'])) {
+//            $platform = $request->headers['Platform'] == 2 ? 'ios' : 'android';
+//            $mobileVersion = MobileVersionMaster::findOne(['device_type' => $platform]);
+//            if ($mobileVersion->version != $request->headers['Current-Version'] && $mobileVersion->force_update == 1) {
+//                $code = 304;
+//                $msg = "Update your app.";
+//            } else {
+        if (!in_array($action->id, Yii::$app->params['disableAuth'])) {
+            if (isset($request->headers['Authorization']) && !empty($request->headers['Authorization'])) {
+                $jwtToken = $request->headers['Authorization'];
+                $checkAuthentication = $this->checkAuthentication($jwtToken);
+                if ($checkAuthentication) {
+                    $user = User::findOne(['id' => $checkAuthentication->id, 'status' => User::STATUS_APPROVED, 'type' => User::TYPE_JOB_SEEKER]);
+                    if (isset($user) && !empty($user)) {
+                        if ($user->is_suspend == 1) {
+                            $code = 201;
+                            $msg = "Your Account Has Been Suspended.";
                         } else {
-                            $code = 440;
-                            $msg = "You are not authorized user.";
+                            $this->user_id = $user->id;
+                            $this->email = $user->email;
+                            $this->token = $jwtToken;
+                            return parent::beforeAction($action);
                         }
+                    } else {
+                        $code = 403;
+                        $msg = "You are not authorized user.";
                     }
                 } else {
-                    return parent::beforeAction($action);
+                    $code = 440;
+                    $msg = "You are not authorized user.";
                 }
             }
+        } else {
+            return parent::beforeAction($action);
         }
+//            }
+//        }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }
@@ -90,6 +91,7 @@ class Controller extends ActiveController {
             $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }

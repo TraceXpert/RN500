@@ -51,15 +51,6 @@ return [
                     'maxFileSize' => 1024 * 2,
                     'maxLogFiles' => 20,
                 ],
-            // [
-            //     'class' => 'yii\log\FileTarget',
-            //     'levels' => ['info'],
-            //     'categories' => ['lifetime_points'],
-            //     'logFile' => $params['logPath']."/lifetime_points/lifetime_points.log",
-            //     'logVars' => [],
-            //     'maxFileSize' => 1024 * 2,
-            //     'maxLogFiles' => 20,
-            // ],
             ],
         ],
         'urlManager' => [
