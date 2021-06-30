@@ -42,17 +42,17 @@ class BrowseJobsController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['recruiter-lead', 'recruiter-view', 'apply', 'apply-job'],
                 'rules' => [
-                    [
+                        [
                         'actions' => ['apply', 'apply-job'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*']
                     ],
-                    [
+                        [
                         'actions' => ['recruiter-lead', 'recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isRecruiter() ? ['@'] : ['*'] : ['*'],
                     ],
-                    [
+                        [
                         'actions' => ['recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isEmployer() ? ['@'] : ['*'] : ['*'],
@@ -353,7 +353,7 @@ class BrowseJobsController extends Controller {
     }
 
     public function actionRecruiterView($id) {
-        $model = LeadMaster::findOne(['id' => $id]);
+        $model = LeadMaster::find()->where(['OR', ['id' => $id], ['reference_no' => $id]])->one();
         $today = date('Y-m-d');
         $advertisment = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere(['location' => $model->city])->andWhere("'$today' BETWEEN active_from AND active_to")->asArray()->all();
         $benefit = LeadBenefit::findAll(['lead_id' => $id]);

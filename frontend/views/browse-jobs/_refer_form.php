@@ -15,25 +15,21 @@ $actionUrl = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/refe
             <?php echo $form->field($model, 'lead_id')->hiddenInput()->label(false) ?>
 
             <div class="row">
-                <div class="col-md-12 mb-3">
+                <div class="col-md-6 mb-3">
                     <?php echo $form->field($model, 'from_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('from_name')]) ?>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-12 mb-3">
+                <div class="col-md-6 mb-3">
                     <?php echo $form->field($model, 'from_email')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('from_email')]) ?>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-12 mb-3">
+                <div class="col-md-6 mb-3">
                     <?php echo $form->field($model, 'to_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('to_name')]) ?>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-12 mb-3">
+                <div class="col-md-6 mb-3">
                     <?php echo $form->field($model, 'to_email')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('to_email')]) ?>
                 </div>
             </div>
