@@ -95,7 +95,7 @@ class AuthController extends Controller {
         $model = new LoginForm();
         if (Yii::$app->request->isPost && isset($_POST['LoginForm']['otp_digits']) && !empty($_POST['LoginForm']['otp_digits'])) {
             $model->load(Yii::$app->request->post());
-            $model->otp = implode("", $_POST['LoginForm']['otp_digits']);
+//            $model->otp = implode("", $_POST['LoginForm']['otp_digits']);
         }
         if (
                 $model->load(Yii::$app->request->post()) &&

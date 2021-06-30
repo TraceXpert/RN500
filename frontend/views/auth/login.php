@@ -12,17 +12,12 @@ use yii\bootstrap4\ActiveForm;
 //use yii\bootstrap\ActiveForm;
 
 $is_otp_sent = $model->is_otp_sent;
-$otp_errors = $model->getErrors('otp');
-$otp_error = '';
-if (!empty($otp_errors)) {
-    $otp_error = $otp_errors[0];
-}
 ?>
-
 <div class="signin-form text-center"> 
     <h1>Sign in</h1>
     <p>Sign in on the RN500 platform</p>
-
+    <div class="alert alert-success message" role="alert" style="display:none">
+    </div>
     <?php
     $form = ActiveForm::begin([
                 'id' => 'login-form',
@@ -44,7 +39,6 @@ if (!empty($otp_errors)) {
     echo $form->field($model, 'password', ['options' => ['class' => 'form-group has-feedback']])->label(false)
             ->passwordInput(['placeholder' => $model->getAttributeLabel('password'), 'readOnly' => $is_otp_sent])
     ?>
-
     <?php if ($is_otp_sent) { ?>
         <div class="text-left">
             <div class="row">
@@ -52,27 +46,17 @@ if (!empty($otp_errors)) {
                     <p class="otp-text">We have sent an OTP to your registered email. </p>
                 </div>
                 <div class="col-md-4">
-                    <a href="" class="float-right">Resend OTP</a>
+                    <a href="javascript:void(0)" id="resend_otp" url="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['auth/resend-otp', 'email' => $model->username]) ?>" class="float-right">Resend OTP</a>
                 </div>
             </div>
         </div>
 
 
-        <div class="form-group otp mt-2">
+        <div class="form-group otp mt-2 otp-input-wrapper">
             <?php
-            for ($i = 0; $i <= 5; $i++) {
-                echo $form->field($model, "otp_digits[{$i}]", ['options' => ['class' => 'form-group']])->label(false)->textInput();
-            }
+            echo $form->field($model, "otp", ['template' => "\n{input}\n<svg viewBox='0 0 240 1' xmlns='http://www.w3.org/2000/svg'><line x1='0' y1='0' x2='240' y2='0' stroke='#3e3e3e' stroke-width='2' stroke-dasharray='30,11' /></svg>\n{hint}\n{error}"])->label(false)->textInput(['class' => '', 'maxlength' => 6, "pattern" => "[0-9]*", "autocomplete" => "off"]);
             ?>
         </div>
-
-        <?php if ($otp_error != '') { ?> 
-            <p class="text-danger"> <?php echo $otp_error ?></p>
-        <?php } ?>
-
-        <?php
-//        echo $form->field($model, "otp", ['options' => ['class' => 'form-group']])->label(false)->hiddenInput();
-        ?>
     <?php } ?>
 
     <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/request-password-reset"); ?>" class="text-right d-block mb-3">Fogot Password?</a>
@@ -83,5 +67,34 @@ if (!empty($otp_errors)) {
     <p class="create-link mt-3 mb-3">New User? <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/register"); ?>">Create an Account</a></p>
     <?php ActiveForm::end(); ?>
 </div>
+<?php
+$script = <<< JS
+        $(document).on('click', '.toggle-password', function() {
 
-
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    
+    var input = $("#loginform-password");
+    input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
+});
+    function showPassword() {
+        var x = document.getElementById("loginform-password");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+    }
+  $(document).on('click', '#resend_otp', function() {
+        var action=$(this).attr('url');
+        $.ajax({
+            url    : action,
+            type   : 'post',
+            success: function (response){
+                var res=JSON.parse(response);
+                $('.message').html(res.msg);        
+                $('.message').css("display","block");        
+            },
+        });
+  });
+JS;
+$this->registerJs($script);
