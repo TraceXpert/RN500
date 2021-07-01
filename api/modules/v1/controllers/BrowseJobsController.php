@@ -22,6 +22,7 @@ use common\models\Cities;
 use common\models\LeadBenefit;
 use common\models\LeadDiscipline;
 use common\models\LeadSpeciality;
+use common\models\ReferralMaster;
 
 /**
  * Company Controller API
@@ -322,6 +323,63 @@ class BrowseJobsController extends Controller {
             } else {
                 $code = 202;
                 $msg = "Lead with such reference does not exists.";
+            }
+        } catch (\Exception $exc) {
+            $code = 500;
+            $msg = "Internal server error";
+            $data = ['message' => $exc->getMessage(), 'line' => $exc->getLine(), 'file' => $exc->getFile()];
+        }
+        $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
+        echo $response;
+        exit;
+    }
+
+    public function actionReferToFriend() {
+        $data = [];
+        $code = 201;
+        $msg = "Required Data Missing in Request.";
+        $request = array_map("trim", Yii::$app->request->post());
+       
+        try {
+            $reference_no = (isset($request['reference_no']) && !empty($request['reference_no'])) ? $request['reference_no'] : '';
+            $from_name = (isset($request['from_name']) && !empty($request['from_name'])) ? $request['from_name'] : '';
+            $from_email = (isset($request['from_email']) && !empty($request['from_email'])) ? $request['from_email'] : '';
+            $description = (isset($request['description']) && !empty($request['description'])) ? $request['description'] : '';
+            $to_name = (isset($request['to_name']) && !empty($request['to_name'])) ? $request['to_name'] : '';
+            $to_email = (isset($request['to_email']) && !empty($request['to_email'])) ? $request['to_email'] : '';
+
+      
+            if ($reference_no != '' && $from_name != '' && $from_email != '' && $to_name != '' && $to_email != '') {
+                $lead = LeadMaster::find()->where(['reference_no' => $reference_no])->one();
+
+                if ($lead != null) {
+                    $model = new ReferralMaster();
+                    $model->load(Yii::$app->request->post());
+                    $model->lead_id =$lead->id;
+                    $model->from_name =$from_name;
+                    $model->from_email =$from_email;
+                    $model->to_name =$to_name;
+                    $model->to_email = $to_email;
+                         
+                    if ($model->sendReferralMail()) {
+                        $code = 200;
+                        $msg = 'Referral mail sent successfully.';
+                        $data = [];
+                    } else {
+                        $code = 205;
+                        $msg = 'Something went wrong, please try after some time.';
+                        $data = [];
+                    }
+                } else {
+                    $code = 202;
+                    $msg = "Lead with such reference does not exists.";
+                    $data = [];
+                }
+            } else {
+                $data = [];
+                $code = 201;
+                $msg = "Required Data Missing in Request : reference_no , from_name , from_email , description , to_name or to_email ";
             }
         } catch (\Exception $exc) {
             $code = 500;

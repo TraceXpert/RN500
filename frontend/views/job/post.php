@@ -5,6 +5,7 @@ use yii\bootstrap4\ActiveForm;
 use kartik\select2\Select2;
 use kartik\date\DatePicker;
 use common\CommonFunction;
+use yii\helpers\Html;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,6 +13,19 @@ use common\CommonFunction;
  * and open the template in the editor.
  */
 ?>
+<style>
+    /*.select2 .select2-container  input{*/
+    .select2-container--krajee-bs4 .select2-selection--multiple .select2-search--inline .select2-search__field,
+    .input-lg.select2-container--krajee-bs4 .select2-selection--single, .input-group-lg .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+
+</style>
 
 <!-- Page Title start -->
 <!--<div class="pageTitle">
@@ -28,355 +42,199 @@ use common\CommonFunction;
 </div>-->
 <!-- Page Title End -->
 
-<div class="listpgWraper">
+<section class="about-us about-inner-block">
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="userccount">
-                    <div class="formpanel"> 
+        <div class="row align-items-center">
+            <div class="col-lg-12 main-title">
+                <h2 class="mb-4">Job Information</h2>
+            </div>
+        </div>
 
-                        <!-- Job Information -->
-                        <h5>Job Information</h5>
-                        <?php $form = ActiveForm::begin(['id' => 'login-form', 'options' => ['autocomplete' => 'off']]) ?>
-                        <?php if (CommonFunction::isLoggedInUserDefaultBranch()) { ?>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="formrow">
-                                        <?php
-                                        echo $form->field($model, 'branch_id')->widget(Select2::classname(), [
-                                            'data' => $branchList,
-                                            'options' => ['placeholder' => $model->getAttributeLabel('branch_id')],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ])->label(false);
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
+        <div class="post-job">
+            <?php $form = ActiveForm::begin(['id' => 'login-form', 'options' => ['autocomplete' => 'off']]) ?>
+            <div class="row">
+                <?php if (CommonFunction::isLoggedInUserDefaultBranch()) { ?>
+                    <div class="col-md-6">
+                        <?php
+//                        echo $form->field($model, 'branch_id')->widget(Select2::classname(), [
+//                            'data' => $branchList,
+//                            'size' => Select2::LARGE,
+//                            'options' => ['placeholder' => $model->getAttributeLabel('branch_id')],
+//                            'pluginOptions' => [
+//                                'allowClear' => true
+//                            ],
+//                        ]);
+                        ?>
+                        <?php echo $form->field($model, 'branch_id')->dropdownList($branchList, ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('branch_id')]); ?>
+                    </div>
+                <?php } ?>
 
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'title')->textInput(['placeholder' => $model->getAttributeLabel('title'), 'maxlength' => true]); ?>
+                </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'title', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->textInput(['placeholder' => $model->getAttributeLabel('title'), 'maxlength' => true]);
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'disciplines')->widget(Select2::classname(), [
-                                        'data' => $disciplinesList,
-                                        'options' => ['placeholder' => $model->getAttributeLabel('disciplines'), 'multiple' => true],
-                                        'pluginOptions' => [
-                                            'allowClear' => true
-                                        ],
-                                    ])->label(false);
-                                    ?>
-                                </div>
-                            </div>
+                <div class="col-md-6">
+                    <?php
+                    echo $form->field($model, 'disciplines')->widget(Select2::classname(), [
+                        'data' => $disciplinesList,
+                        'options' => ['placeholder' => $model->getAttributeLabel('disciplines'), 'multiple' => true],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                    ?>
+                </div>
 
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'benefits')->widget(Select2::classname(), [
-                                        'data' => $benefitList,
-                                        'options' => ['placeholder' => $model->getAttributeLabel('benefits'), 'multiple' => true],
-                                        'pluginOptions' => [
-                                            'allowClear' => true
-                                        ],
-                                    ])->label(false);
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'specialies')->widget(Select2::classname(), [
-                                        'data' => $specialiesList,
-                                        'options' => ['placeholder' => $model->getAttributeLabel('specialies'), 'multiple' => true],
-                                        'pluginOptions' => [
-                                            'allowClear' => true
-                                        ],
-                                    ])->label(false);
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-md-6">
+                    <?php
+                    echo $form->field($model, 'benefits')->widget(Select2::classname(), [
+                        'data' => $benefitList,
+                        'options' => ['placeholder' => $model->getAttributeLabel('benefits'), 'multiple' => true],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                    ?>
+                </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'emergency')->widget(Select2::classname(), [
-                                        'data' => $emergencyList,
-                                        'options' => ['placeholder' => $model->getAttributeLabel('emergency'), 'multiple' => true],
-                                        'pluginOptions' => [
-                                            'allowClear' => true
-                                        ],
-                                    ])->label(false);
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'jobseeker_payment', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->textInput(['placeholder' => $model->getAttributeLabel('jobseeker_payment')]);
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'payment_type', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->dropdownList(Yii::$app->params['job.payment_type'], ['class' => 'form-control', 'prompt' => $model->getAttributeLabel('payment_type')]);
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'job_type', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->dropdownList(Yii::$app->params['job.type'], ['class' => 'form-control', 'prompt' => $model->getAttributeLabel('job_type')]);
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-md-6">
+                    <?php
+                    echo $form->field($model, 'specialies')->widget(Select2::classname(), [
+                        'data' => $specialiesList,
+                        'options' => ['placeholder' => $model->getAttributeLabel('specialies'), 'multiple' => true],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                    ?>
+                </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'shift', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->dropdownList(Yii::$app->params['job.shift'], ['class' => 'form-control', 'prompt' => $model->getAttributeLabel('shift')]);
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'start_date')->widget(DatePicker::classname(), [
-                                        'options' => ['placeholder' => $model->getAttributeLabel('start_date')],
-                                        'pluginOptions' => [
-                                            'autoclose' => true,
-                                            'format' => Yii::$app->params['date.format.datepicker.js'],
-                                        ],
-                                        'pluginEvents' => [
-                                            "changeDate" => "function(e) {
-                                                
+                <div class="col-md-6">
+                    <?php
+                    echo $form->field($model, 'emergency')->widget(Select2::classname(), [
+                        'data' => $emergencyList,
+                        'options' => ['placeholder' => $model->getAttributeLabel('emergency'), 'multiple' => true],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                    ?>
+                </div>
+
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'jobseeker_payment')->textInput(['placeholder' => $model->getAttributeLabel('jobseeker_payment')]); ?>
+                </div>
+
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'payment_type')->dropdownList(Yii::$app->params['job.payment_type'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('payment_type')]); ?>
+                </div>
+
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'job_type')->dropdownList(Yii::$app->params['job.type'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('job_type')]); ?>
+                </div>
+
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'shift')->dropdownList(Yii::$app->params['job.shift'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('shift')]); ?>
+                </div>
+
+                <div class="col-md-6">
+
+                    <?php
+                    echo $form->field($model, 'start_date')->widget(DatePicker::classname(), [
+                        'options' => ['placeholder' => $model->getAttributeLabel('start_date')],
+                        'type' => DatePicker::TYPE_INPUT,
+                        'pluginOptions' => [
+                            'autoclose' => true,
+                            'format' => Yii::$app->params['date.format.datepicker.js'],
+                        ],
+                        'pluginEvents' => [
+                            "changeDate" => "function(e) {
                                                 $('#leadmaster-end_date').kvDatepicker({
                                                     autoclose : true,
                                                     format : 'd-M-yyyy'
                                                 });
                                                 $('#leadmaster-end_date').kvDatepicker('setStartDate', e.date);
                                             }"
-                                        ]
-                                    ])->label(false);
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
+                        ]
+                    ]);
+                    ?>
+                </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'end_date')->widget(DatePicker::classname(), [
-                                        'options' => ['placeholder' => $model->getAttributeLabel('end_date')],
-                                        'pluginOptions' => [
-                                            'autoclose' => true,
-                                            'format' => Yii::$app->params['date.format.datepicker.js'],
-                                        ],
-                                        'pluginEvents' => [
-                                            "changeDate" => "function(e) {
+                <div class="col-md-6">
+                    <?php
+                    echo $form->field($model, 'end_date')->widget(DatePicker::classname(), [
+                        'options' => ['placeholder' => $model->getAttributeLabel('end_date')],
+                        'type' => DatePicker::TYPE_INPUT,
+                        'pluginOptions' => [
+                            'autoclose' => true,
+                            'format' => Yii::$app->params['date.format.datepicker.js'],
+                        ],
+                        'pluginEvents' => [
+                            "changeDate" => "function(e) {
                                                 $('#leadmaster-start_date').kvDatepicker({
                                                     autoclose : true,
                                                     format : 'd-M-yyyy'
                                                 });
                                                 $('#leadmaster-start_date').kvDatepicker('setEndDate', e.date);
                                             }"
-                                        ]
-                                    ])->label(false);
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'recruiter_commission', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->textInput(['placeholder' => $model->getAttributeLabel('recruiter_commission')]);
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
+                        ]
+                    ]);
+                    ?>
+                </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'recruiter_commission_type', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->dropdownList([1 => 'Percentage (%)', 0 => 'Amount ($)'], ['class' => 'form-control', 'prompt' => $model->getAttributeLabel('recruiter_commission_type')]);
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'recruiter_commission_mode', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->dropdownList(Yii::$app->params['COMMISSION_MODE'], ['class' => 'form-control', 'prompt' => $model->getAttributeLabel('recruiter_commission_mode')]);
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'recruiter_commission')->textInput(['placeholder' => $model->getAttributeLabel('recruiter_commission')]); ?>
+                </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'street_no', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->textInput(['placeholder' => $model->getAttributeLabel('street_no')]);
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'street_address', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->textInput(['placeholder' => $model->getAttributeLabel('street_address')]);
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'recruiter_commission_type')->dropdownList(Yii::$app->params['RECRUITER_COMMISSION_TYPE'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('recruiter_commission_type')]); ?>
+                </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'apt', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->textInput(['placeholder' => $model->getAttributeLabel('apt')]);
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'state', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->dropdownList($states, ['class' => 'form-control', 'prompt' => $model->getAttributeLabel('state')]);
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'city', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->dropdownList($cities, ['class' => 'form-control', 'prompt' => $model->getAttributeLabel('city')]);
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'recruiter_commission_mode')->dropdownList(Yii::$app->params['COMMISSION_MODE'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('recruiter_commission_mode')]); ?>
+                </div>
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="formrow">
-                                    <?php
-                                    echo $form->field($model, 'description', [
-                                                'options' => ['class' => 'form-group has-feedback'],
-                                                'inputTemplate' => '{input}',
-                                                'template' => '{input}{error}',
-                                            ])
-                                            ->label(false)
-                                            ->textarea(['placeholder' => $model->getAttributeLabel('description')]);
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'street_no')->textInput(['placeholder' => $model->getAttributeLabel('street_no')]); ?>
+                </div>
 
-                        <br>
-                        <input type="submit" class="btn" value="Post Job">
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'street_address')->textInput(['placeholder' => $model->getAttributeLabel('street_address')]); ?>
+                </div>
 
-                        <?php ActiveForm::end(); ?>
-                    </div>
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'apt')->textInput(['placeholder' => $model->getAttributeLabel('apt')]); ?>
+                </div>
+
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'state')->dropdownList($states, ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('state')]); ?>
+                </div>
+
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'city')->dropdownList($cities, ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('city')]); ?>
+                </div>
+
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'description')->textInput(['placeholder' => $model->getAttributeLabel('description')]); ?>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php echo Html::submitButton('Submit', ['class' => 'read-more contact-us mb-3 mt-2  w-100']) ?>
+                    <!--                    <div class="form-group text-center">
+                                            <a href="" class="read-more contact-us mb-3 mt-3 w-100">Post Job</a>
+                                        </div>-->
+                </div>
+            </div>
+            <?php ActiveForm::end(); ?>
         </div>
+
     </div>
-</div>
+</section>
+
+
+
+
 <?php
 $getCitiesUrl = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['job/get-cities']);
 $script = <<< JS

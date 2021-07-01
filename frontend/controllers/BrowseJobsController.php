@@ -383,6 +383,10 @@ class BrowseJobsController extends Controller {
             Yii::$app->session->setFlash("success", "Referral mail sent successfully.");
             echo json_encode(['code' => 200]);
             exit;
+        } else {
+            Yii::$app->session->setFlash("warning", "Something went wrong while sending the mail.");
+            echo json_encode(['code' => 201]);
+            exit;
         }
     }
 
