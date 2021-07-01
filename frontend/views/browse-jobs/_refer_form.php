@@ -66,12 +66,22 @@ $(document).ready(function() {
         if (form.find('.has-error').length > 0) { 
             return false;
         } else {
-            var ajaxRequest= $.post(form.attr('action'), form.serialize(), function(data) {
-            console.log('****data***',data);
+            var ajaxRequest = $.post(form.attr('action'), form.serialize(), function(data) {
             }).always(function() {
                 $("#commonModal").modal('hide');
                 $.pjax.reload({container: '#res-messages', timeout:false, async: false});
             });
+        
+//            var request = $.ajax({
+//                            url: form.attr('action'),
+//                            method: "POST",
+//                            data: form.serialize(),
+//                            async :false
+//                          });
+//                request.done(function( msg ) {
+//                    $("#commonModal").modal('hide');
+//                    $.pjax.reload({container: '#res-messages', timeout:false, async: false});
+//                });
         }
     })
 })
