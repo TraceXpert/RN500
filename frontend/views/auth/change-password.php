@@ -6,95 +6,63 @@ use kartik\date\DatePicker;
 
 $is_otp_sent = $model->is_otp_sent;
 ?>
-<style>
-    .field_icon {
-        float: right;
-        margin-top: -27px;
-        margin-right: 10px;
-    }
-</style>
-<div class="listpgWraper">
+<section>
     <div class="container">
         <div class="row">
-            <div class="col-md-3">
-            </div>
-            <div class="col-md-6">
-                <div class="userccount">
-                    <h5>Change Password</h5>
-                    <div class="alert alert-success message" role="alert" style="display:none">
+            <div class="col-lg-12 col-md-12">
+                <div class="signin-form text-center h-auto mt-0">
+                    <h1 class="mb-4 pb-2">Change Password</h1>                        
+                    <?php $form = ActiveForm::begin(['class' => 'w-100']); ?>
+                    <div class="form-group">
+                        <?=
+                                $form->field($model, 'password')
+                                ->label(false)
+                                ->passwordInput(['placeholder' => $model->getAttributeLabel('password')])
+                        ?>
                     </div>
-                    <div class="formpanel"> 
-                        <?php $form = ActiveForm::begin(); ?>
-                        <div class="row">
-                            <div  class="col-sm-12">
-                                <?=
-                                        $form->field($model, 'password', [
-                                            'options' => ['class' => 'form-group has-feedback'],
-//                                        'inputTemplate' => '{input}',
-                                            'template' => '{input}<span toggle="#password-field" class="fa fa-fw fa-eye field_icon toggle-password" id="p1"></span>{error}',
-                                        ])
-                                        ->label(false)
-                                        ->passwordInput(['placeholder' => $model->getAttributeLabel('password')])
-                                ?>
+
+                    <div class="form-group">
+                        <?=
+                                $form->field($model, 'new_password')
+                                ->label(false)
+                                ->passwordInput(['placeholder' => $model->getAttributeLabel('new_password')])
+                        ?>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <?=
+                                $form->field($model, 'confirm_password')
+                                ->label(false)
+                                ->passwordInput(['placeholder' => $model->getAttributeLabel('confirm_password')])
+                        ?>
+                    </div>
+                    <?php if ($is_otp_sent) { ?>
+                        <div class="text-left">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <p class="otp-text">We have sent an OTP to your registered email. </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="javascript:void(0)" id="resend_otp" url="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['auth/resend-otp', 'email' => Yii::$app->user->identity->email]) ?>" class="float-right">Resend OTP</a>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div  class="col-sm-12">
-                                <?=
-                                        $form->field($model, 'new_password', [
-                                            'options' => ['class' => 'form-group has-feedback'],
-//                                        'inputTemplate' => '{input}',
-                                            'template' => '{input}<span toggle="#password-field" id="p2" class="fa fa-fw fa-eye field_icon toggle-password"></span>{error}',
-                                        ])
-                                        ->label(false)
-                                        ->passwordInput(['placeholder' => $model->getAttributeLabel('new_password')])
-                                ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div  class="col-sm-12">
-                                <?=
-                                        $form->field($model, 'confirm_password', [
-                                            'options' => ['class' => 'form-group has-feedback'],
-//                                        'inputTemplate' => '{input}',
-                                            'template' => '{input}<span toggle="#password-field" id="p3" class="fa fa-fw fa-eye field_icon toggle-password"></span>{error}',
-                                        ])
-                                        ->label(false)
-                                        ->passwordInput(['placeholder' => $model->getAttributeLabel('confirm_password')])
-                                ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div  class="col-sm-12">
-                                <?php
-                                if ($is_otp_sent) {
-                                    echo "<p> We have sent an OTP to your registered email. </p>";
-                                    echo $form->field($model, 'otp', [
-                                                'options' => ['class' => 'form-group']
-                                            ])
-                                            ->label(false)
-                                            ->textInput(['placeholder' => 'OTP']);
-                                    echo Html::a('Resend OTP', 'javascript:void(0)', ['id' => 'resend_otp', 'url' => Yii::$app->urlManagerFrontend->createAbsoluteUrl(['auth/resend-otp', 'email' => Yii::$app->user->identity->email])]);
-                                }
-                                ?>
-                            </div>
-                        </div>
-                        <br/>
-                        <div class = "form-group">
-                            <?= Html::submitButton('Save', ['class' => 'btn btn-success'])
+
+
+                        <div class="form-group otp mt-2 otp-input-wrapper">
+                            <?php
+                            echo $form->field($model, "otp", ['template' => "\n{input}\n<svg viewBox='0 0 240 1' xmlns='http://www.w3.org/2000/svg'><line x1='0' y1='0' x2='240' y2='0' stroke='#3e3e3e' stroke-width='2' stroke-dasharray='30,11' /></svg>\n{hint}\n{error}"])->label(false)->textInput(['class' => '', 'maxlength' => 6, "pattern" => "[0-9]*", "autocomplete" => "off"]);
                             ?>
                         </div>
+                    <?php } ?>
 
-                        <?php ActiveForm::end(); ?>
-
-                    </div>
+                    <?= Html::submitButton('Change Password', ['class' => 'read-more contact-us d-block']) ?>         
+                    <?php ActiveForm::end(); ?>
                 </div>
-            </div>
-            <div class="col-md-3">
             </div>
         </div>
     </div>
-</div>
+</section>
 <?php
 $script = <<< JS
         $(document).on('click', '#p1', function() {
