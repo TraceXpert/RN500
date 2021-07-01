@@ -14,7 +14,7 @@ $action = Yii::$app->controller->action->id;
 ?>
 <nav class="navbar navbar-expand-lg bg-white navbar-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="index.html"><img src="<?= $assetDir ?>/img/logo.png" alt="logo" class="img-fluid logo-w"></a>
+        <a class="navbar-brand" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/index"); ?>"><img src="<?= $assetDir ?>/img/logo.png" alt="logo" class="img-fluid logo-w"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -37,17 +37,61 @@ $action = Yii::$app->controller->action->id;
                 <li class="nav-item position-relative  <?php echo $controller == 'site' && $action == 'contact-us' ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact </a>
                 </li>
-                <li class="nav-item position-relative  <?php echo $controller == 'browse-jobs' && ($action == 'recruiter-lead' || $action == 'recruiter-view') ? 'active' : '' ?>">
-                    <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/recruiter-lead"); ?>">For Recruiter</a>
-                </li>
+                <?php if (CommonFunction::isRecruiter()) { ?>
+                    <li class="nav-item position-relative  <?php echo $controller == 'browse-jobs' && ($action == 'recruiter-lead' || $action == 'recruiter-view') ? 'active' : '' ?>">
+                        <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/recruiter-lead"); ?>">For Recruiter</a>
+                    </li>
+                <?php } ?>
                 <?php if (Yii::$app->user->isGuest) { ?>
 
                     <li class="nav-item position-relative d-flex align-items-center">
                         <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/login"); ?>" class="btn btn-primary readmore mt-md-0 ml-0 mb-3 mb-md-0 mt-2 mt-md-0">Sign In / Sign Up</a>
                     </li>
                 <?php } else { ?>
-                    <li class="nav-item position-relative d-flex align-items-center">
-                        <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/logout"); ?>" class="btn btn-primary readmore mt-md-0 ml-0 mb-3 mb-md-0 mt-2 mt-md-0">Logout</a>
+                    <li class="nav-item dropdown position-relative profile-d">
+                        <a class="nav-link p-0 m-0 mr-3 dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <div class="media">
+                                <img src="<?= $assetDir ?>/img/profile-img.png" alt="profile-img" class="mr-3 rounded-circle">
+                                <div class="media-body">
+                                    <p class="mb-0"><?= Yii::$app->user->identity->fullName ?> </p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown07">
+                            <a class="dropdown-item" href="profile.html">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/drop-profile.png" alt="profile-img" class="mr-2 rounded-circle">
+                                    <div class="media-body">
+                                        <p class="mb-0">Profile</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl("/auth/change-password"); ?>">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/drop-password.png" alt="profile-img" class="mr-2 rounded-circle">
+                                    <div class="media-body">
+                                        <p class="mb-0">Change Password</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/drop-track-app.png" alt="profile-img" class="mr-2 rounded-circle">
+                                    <div class="media-body">
+                                        <p class="mb-0">Track My Application</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/logout"); ?>">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/drop-logout.png" alt="profile-img" class="mr-2 rounded-circle">
+                                    <div class="media-body">
+                                        <p class="mb-0">Logout</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </li>
                 <?php } ?>
             </ul>

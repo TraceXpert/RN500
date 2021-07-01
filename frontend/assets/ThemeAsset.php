@@ -23,7 +23,8 @@ class ThemeAsset extends AssetBundle {
         'js/popper.min.js',
         'js/bootstrap.min.js',
         'js/jquery-ui.min.js',
-        'js/toastr.min.js'
+        'js/toastr.min.js',
+        'https://js.stripe.com/v3/',
     ];
     public $depends = [
         'yii\web\YiiAsset',
