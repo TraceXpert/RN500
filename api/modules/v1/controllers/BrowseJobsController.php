@@ -345,7 +345,7 @@ class BrowseJobsController extends Controller {
             $reference_no = (isset($request['reference_no']) && !empty($request['reference_no'])) ? $request['reference_no'] : '';
             $from_name = (isset($request['from_name']) && !empty($request['from_name'])) ? $request['from_name'] : '';
             $from_email = (isset($request['from_email']) && !empty($request['from_email'])) ? $request['from_email'] : '';
-            $description = (isset($request['description']) && !empty($request['description'])) ? $request['description'] : '';
+            $description = (isset($request['description']) && !empty($request['description'])) ? $request['description'] : null;
             $to_name = (isset($request['to_name']) && !empty($request['to_name'])) ? $request['to_name'] : '';
             $to_email = (isset($request['to_email']) && !empty($request['to_email'])) ? $request['to_email'] : '';
 
@@ -361,6 +361,7 @@ class BrowseJobsController extends Controller {
                     $model->from_email =$from_email;
                     $model->to_name =$to_name;
                     $model->to_email = $to_email;
+                    $model->description = $description;
                          
                     if ($model->sendReferralMail()) {
                         $code = 200;

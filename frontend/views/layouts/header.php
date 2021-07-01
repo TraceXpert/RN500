@@ -42,6 +42,12 @@ $action = Yii::$app->controller->action->id;
                         <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/recruiter-lead"); ?>">For Recruiter</a>
                     </li>
                 <?php } ?>
+
+                <?php if (CommonFunction::isEmployer() || CommonFunction::isRecruiter()) { ?>
+                    <li class="nav-item position-relative  <?php echo $controller == 'job' && $action == 'post' ? 'active' : '' ?>">
+                        <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("job/post"); ?>">Post A Job</a>
+                    </li>
+                <?php } ?>
                 <?php if (Yii::$app->user->isGuest) { ?>
 
                     <li class="nav-item position-relative d-flex align-items-center">

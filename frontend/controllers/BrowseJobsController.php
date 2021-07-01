@@ -378,16 +378,16 @@ class BrowseJobsController extends Controller {
     public function actionReferToFriendPost($lead_id) {
         $model = new ReferralMaster();
         $model->lead_id = $lead_id;
-
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post()) && $model->sendReferralMail()) {
             Yii::$app->session->setFlash("success", "Referral mail sent successfully.");
             echo json_encode(['code' => 200]);
             exit;
-        } else {
-            Yii::$app->session->setFlash("warning", "Something went wrong while sending the mail.");
-            echo json_encode(['code' => 201]);
-            exit;
-        }
+        } 
+//        else {
+//            Yii::$app->session->setFlash("warning", "Something went wrong while sending the mail.");
+//            echo json_encode(['code' => 201]);
+//            exit;
+//        }
     }
 
     public function actionApply($ref) {
