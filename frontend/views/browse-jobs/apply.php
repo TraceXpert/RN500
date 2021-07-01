@@ -10,78 +10,82 @@ use common\models\LeadRecruiterJobSeekerMapping;
 $lead_id = $model->id;
 ?>
 <!-- Page Title start -->
-<div class="pageTitle">
+<section class="inner-banner">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-sm-6">
-                <h1 class="page-heading">Job Detail</h1>
+            <div class="col-xl-12">
+                <h1>Job Apply</h1>
             </div>
         </div>
+
     </div>
-</div>
+</section>
 <!-- Page Title End -->
 
-<div class="listpgWraper">
-    <div class="container"> 
 
-        <!-- Job Detail start -->
+<section class="about-us about-inner-block">
+    <div class="container">
+        <!--        <div class="row align-items-center">
+                    <div class="col-lg-12 main-title">
+                        <h2 class="mb-4">Job Applied</h2>
+                    </div>
+                </div>-->
+
         <div class="row">
-            <div class="col-md-12"> 
-                <!-- Job Description start -->
-                <div class="job-header">
-                    <div class="contentbox">
-                        <?php Pjax::begin(); ?>
+            <div class="col-md-12">
+                <div class="table-design table-responsive">
+                    <?php Pjax::begin(); ?>
 
-                        <?=
-                        GridView::widget([
-                            'dataProvider' => $dataProvider,
-                            'filterModel' => $searchModel,
-                            'columns' => [
-                                    ['class' => 'yii\grid\SerialColumn'],
-                                'company_name',
-                                    [
-                                    'attribute' => 'branch_name',
-                                    'enableSorting' => false
-                                ],
-                                    [
-                                    'class' => 'yii\grid\ActionColumn',
-                                    'contentOptions' => ['style' => 'width:5%;'],
-                                    'header' => 'Actions',
-                                    'template' => '{proceed}',
-                                    'buttons' => [
-                                        //view button
-                                        'proceed' => function ($url, $model) use ($lead_id) {
-                                            if (!$model->is_already_applied) {
-                                                $url = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/apply-job', 'lead_id' => $lead_id, 'branch_id' => $model->id]);
-                                                return Html::a('Proceed', 'javascript:void(0)', [
-                                                            'onclick' => "applyToThisbranch('$url')",
-                                                            'data-pjax' => 0,
-                                                            'title' => Yii::t('app', 'Proceed'),
-                                                            'class' => 'btn btn-success',
-                                                ]);
-                                            } else {
-                                                return Html::a('Applied', 'javascript:void(0)', [
-                                                            'data-pjax' => 0,
-                                                            'title' => Yii::t('app', 'Applied'),
-                                                            'class' => 'btn btn-primary',
-                                                ]);
-                                            }
+                    <?=
+                    GridView::widget([
+                        'dataProvider' => $dataProvider,
+                        'filterModel' => $searchModel,
+                        'tableOptions' => ['class' => 'table table-bordered'],
+                        'columns' => [
+                                ['class' => 'yii\grid\SerialColumn'],
+                            'company_name',
+                                [
+                                'attribute' => 'branch_name',
+                                'enableSorting' => false
+                            ],
+                                [
+                                'class' => 'yii\grid\ActionColumn',
+                                'contentOptions' => ['style' => 'width:5%;'],
+                                'header' => 'Actions',
+                                'template' => '{proceed}',
+                                'buttons' => [
+                                    //view button
+                                    'proceed' => function ($url, $model) use ($lead_id) {
+                                        if (!$model->is_already_applied) {
+                                            $url = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/apply-job', 'lead_id' => $lead_id, 'branch_id' => $model->id]);
+                                            return Html::a('Proceed', 'javascript:void(0)', [
+                                                        'onclick' => "applyToThisbranch('$url')",
+                                                        'data-pjax' => 0,
+                                                        'title' => Yii::t('app', 'Proceed'),
+                                                        'class' => 'read-more',
+                                            ]);
+                                        } else {
+                                            return Html::a('Applied', 'javascript:void(0)', [
+                                                        'data-pjax' => 0,
+                                                        'title' => Yii::t('app', 'Applied'),
+                                                        'class' => 'already-applied',
+                                            ]);
                                         }
-                                    ],
+                                    }
                                 ],
                             ],
-                        ]);
-                        ?>
-                        <?php Pjax::end(); ?>
-                    </div>
+                        ],
+                    ]);
+                    ?>
+                    <?php Pjax::end(); ?>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<?php
-$script_new = <<<JS
+
+    <?php
+    $script_new = <<<JS
     function applyToThisbranch(url){
         
         swal("Are you sure, you want to apply this job?",{
@@ -99,5 +103,5 @@ $script_new = <<<JS
         });
     }
 JS;
-$this->registerJS($script_new, 3);
-?>
+    $this->registerJS($script_new, 3);
+    ?>

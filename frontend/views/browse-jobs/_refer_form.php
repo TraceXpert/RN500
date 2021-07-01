@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use kartik\date\DatePicker;
 
 $actionUrl = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/refer-to-friend-post', 'lead_id' => $model->lead_id]);
@@ -15,25 +15,21 @@ $actionUrl = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/refe
             <?php echo $form->field($model, 'lead_id')->hiddenInput()->label(false) ?>
 
             <div class="row">
-                <div class="col-md-12 mb-3">
+                <div class="col-md-6 mb-3">
                     <?php echo $form->field($model, 'from_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('from_name')]) ?>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-12 mb-3">
+                <div class="col-md-6 mb-3">
                     <?php echo $form->field($model, 'from_email')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('from_email')]) ?>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-12 mb-3">
+                <div class="col-md-6 mb-3">
                     <?php echo $form->field($model, 'to_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('to_name')]) ?>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-12 mb-3">
+                <div class="col-md-6 mb-3">
                     <?php echo $form->field($model, 'to_email')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('to_email')]) ?>
                 </div>
             </div>
@@ -46,8 +42,8 @@ $actionUrl = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/refe
 
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <?php echo Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>                        
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <?php echo Html::submitButton('Submit', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+                    <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
                 </div>
             </div>
 

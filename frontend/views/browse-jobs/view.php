@@ -76,7 +76,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
 
                 <!--linked in-->
 
-                <a href="">
+                <a href="" >
                     <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M16.0276 30.8531C7.49777 30.8531 0.582031 23.9459 0.582031 15.4265C0.582031 6.90724 7.49777 0 16.0276 0C24.5573 0 31.4731 6.90724 31.4731 15.4265C31.4731 23.9459 24.5573 30.8531 16.0276 30.8531Z"
@@ -93,7 +93,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
 
                 <!--refferal-->
 
-                <a href="">
+                <a href="javascript:void(0)" data-url="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/refer-to-friend', 'lead_id' => $model->id]) ?>" class="refer-to-friend" modal-title="Refer To Friend">
                     <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M15.5549 30.8531C7.0251 30.8531 0.109375 23.9459 0.109375 15.4265C0.109375 6.90724 7.0251 0 15.5549 0C24.0846 0 31.0004 6.90724 31.0004 15.4265C31.0004 23.9459 24.0846 30.8531 15.5549 30.8531Z"
@@ -247,3 +247,18 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
         </div>
     </div>
 </section>
+
+<?php
+$script_new = <<<JS
+    $(document).on("click", ".refer-to-friend", function() {
+        $("#commonModal").find(".modal-title").text($(this).attr('modal-title'));
+        $("#commonModal").modal('show').find("#modalContent").load($(this).attr('data-url'));
+
+    });
+
+    function reload(id){
+        $.pjax.reload({container:'#'+id, timeout:false, async:false});
+    }
+JS;
+$this->registerJS($script_new, 3);
+?>

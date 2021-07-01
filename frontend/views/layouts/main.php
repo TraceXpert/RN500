@@ -24,6 +24,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         <!-- Fav Icon -->
 <!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>-->
         <link rel="shortcut icon" href="<?= $assetDir ?>/img/favicon.ico">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
     <body>
         <?php $this->beginBody() ?>
@@ -35,10 +36,9 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         <!-- Footer start -->
         <?= $this->render('footer', ['assetDir' => $assetDir]) ?>
         <!-- Footer end --> 
+        <?= $this->render('common-modal', ['assetDir' => $assetDir]) ?>
+        <?php echo FlashmessageWidget::widget(); ?>
         <?php $this->endBody() ?>
-        <?php
-//        echo FlashmessageWidget::widget();
-        ?>
     </body>
 </html>
 <?php $this->endPage() ?>
