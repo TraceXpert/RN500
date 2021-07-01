@@ -44,11 +44,11 @@ class AuthController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['logout', 'index', 'get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                 'rules' => [
-                        [
+                    [
                         'actions' => ['get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                         'allow' => true,
                     ],
-                        [
+                    [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -95,7 +95,7 @@ class AuthController extends Controller {
         $model = new LoginForm();
         if (Yii::$app->request->isPost && isset($_POST['LoginForm']['otp_digits']) && !empty($_POST['LoginForm']['otp_digits'])) {
             $model->load(Yii::$app->request->post());
-            $model->otp = implode("", $_POST['LoginForm']['otp_digits']);
+//            $model->otp = implode("", $_POST['LoginForm']['otp_digits']);
         }
         if (
                 $model->load(Yii::$app->request->post()) &&
@@ -314,6 +314,7 @@ class AuthController extends Controller {
     }
 
     public function actionChangePassword() {
+        $this->layout = 'blank';
         $model = new \frontend\models\ChangePasswordForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->sendOTP() && $model->OTPVerified()) {
             $user = User::findIdentity(Yii::$app->user->identity->id);

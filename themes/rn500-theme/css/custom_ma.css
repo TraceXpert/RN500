@@ -1,3 +1,50 @@
 .iti{
-        display: block;
-    }
+    display: block;
+}
+.pop-up-close-button{
+    border-radius: 50px;
+    font-size: 14px;
+    padding: 12px 30px;
+    font-weight: 600;
+}
+.table-design .already-applied{
+    background-color: #6c757d;
+    border-color: #6c757d;
+    border-radius: 4px;
+    color: #ffffff;
+    font-weight: 400;
+    padding: 10px 20px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+/* login otp css*/
+.otp-input-wrapper {
+    width: 240px;
+    text-align: left;
+    display: inline-block;
+}
+.otp-input-wrapper input {
+    border:none !important;
+    padding: 0 !important;
+    width: 248px !important;
+    font-size: 33px !important;
+    font-weight: 600 !important;
+    color: #3e3e3e !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    margin-left: 7px !important;
+    letter-spacing: 23px !important;
+    font-family: sans-serif !important;
+}
+.otp-input-wrapper input:focus {
+    box-shadow: none;
+    outline: none;
+}
+.otp-input-wrapper svg {
+    position: relative;
+    display: block;
+    width: 240px;
+    height: 2px;
+}
+/* login otp css end */

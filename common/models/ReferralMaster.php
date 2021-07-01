@@ -89,21 +89,20 @@ class ReferralMaster extends \yii\db\ActiveRecord {
     }
 
     public function sendReferralMail() {
-
+        $successFlag = false;
         try {
-            $referralLink = Yii::$app->urlManager->createAbsoluteUrl(['browse-jobs/view', 'id' => (isset($this->lead->reference_no) && $this->lead->reference_no != '') ? (string) $this->lead->reference_no : '']);
-            $status = Yii::$app->mailer->compose('lead-referral', ['model' => $this, 'referralLink' => $referralLink])
+            $referralLink = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => (isset($this->lead->reference_no) && $this->lead->reference_no != '') ? (string) $this->lead->reference_no : '']);
+            $successFlag = Yii::$app->mailer->compose('lead-referral', ['model' => $this, 'referralLink' => $referralLink])
                     ->setFrom([$this->from_email => $this->from_name])
                     ->setTo($this->to_email)
                     ->setSubject('Invited to apply the Job')
                     ->send();
-            if ($status) {
-                $this->created_at = date('Y-m-d h:i:s', CommonFunction::currentTimestamp());
-                $this->save(false);
-            }
-            return $status;
         } catch (\Exception $ex) {
-            return false;
+            $successFlag = false;
+        } finally {
+            $this->created_at = date('Y-m-d h:i:s', CommonFunction::currentTimestamp());
+            $this->save(false);
+            return $successFlag;
         }
     }
 

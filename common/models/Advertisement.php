@@ -21,10 +21,9 @@ use Yii;
  */
 class Advertisement extends \yii\db\ActiveRecord {
 
-    
     const FILE_TYPE_IMAGE = 1;
     const FILE_TYPE_YOUTUBE_LINK = 2;
-    
+
     public static function tableName() {
         return 'advertisement';
     }
@@ -34,27 +33,27 @@ class Advertisement extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['description', 'is_active', 'video_link', 'link_url'], 'string'],
-            [['is_active', 'vendor_id', 'name', 'link_url', 'active_from','location'], 'required'],
-            [['file_type'], 'integer'],
-            [['link_url'], 'url'],
-            [['name'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
-            [['description'], 'match', 'pattern' => '/^[a-zA-Z0-9 ,.]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
+                [['description', 'is_active', 'video_link', 'link_url'], 'string'],
+                [['is_active', 'vendor_id', 'name', 'link_url', 'active_from', 'location'], 'required'],
+                [['file_type'], 'integer'],
+                [['link_url'], 'url'],
+                [['name'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
+                [['description'], 'match', 'pattern' => '/^[a-zA-Z0-9 ,.]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
 //            [['link_url','video_link'], 'match', 'pattern' => '/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/', 'message' => 'Please Enter Valid Url For {attribute} field'],
             [['icon'], 'required', "message" => "Please select {attribute}.", 'when' => function($model) {
                     return $model->file_type != 2 && empty($model->icon);
                 }, 'whenClient' => "function (attribute, value) {
                 return ($('#type_1').is(':checked') && $('#image').val() == '');
             }"],
-            [['video_link'], 'required', "message" => "Please Enter {attribute}.", 'when' => function($model) {
+                [['video_link'], 'required', "message" => "Please Enter {attribute}.", 'when' => function($model) {
                     return $model->file_type != 1;
                 }, 'whenClient' => "function (attribute, value) {
                 return ($('#type_2').is(':checked'));
             }"],
-            [['name', 'link_url', 'video_link', 'active_from', 'description', 'active_to', 'created_at', 'updated_at', 'created_by', 'updated_by', 'vendor_id'], 'safe'],
-            [['name', 'icon'], 'string', 'max' => 255],
-            [['location'], 'integer'],
-            [['icon'], 'file', 'extensions' => ['jpg', 'png', 'jpeg'], 'checkExtensionByMimeType' => false, "wrongExtension" => "File type is not compatible. Please upload a PNG or JPG file."],
+                [['name', 'link_url', 'video_link', 'active_from', 'description', 'active_to', 'created_at', 'updated_at', 'created_by', 'updated_by', 'vendor_id'], 'safe'],
+                [['name', 'icon'], 'string', 'max' => 255],
+                [['location'], 'integer'],
+                [['icon'], 'file', 'extensions' => ['jpg', 'png', 'jpeg'], 'checkExtensionByMimeType' => false, "wrongExtension" => "File type is not compatible. Please upload a PNG or JPG file."],
         ];
     }
 
@@ -80,6 +79,18 @@ class Advertisement extends \yii\db\ActiveRecord {
 
     public function getCity() {
         return $this->hasOne(Cities::className(), ['id' => 'location']);
+    }
+
+    public function getYoutubeEmbedUrl() {
+        $url = '';
+        if ($this->file_type == self::FILE_TYPE_YOUTUBE_LINK) {
+            $url = $this->video_link;
+            if (strpos($this->video_link, 'watch?v=') !== false) { // WATCHING URL COVERTS INTO EMBED
+                $watchUrl = explode('?v=', $this->video_link);
+                $url = 'https://www.youtube.com/embed/' . $watchUrl[1];
+            }
+        }
+        return $url;
     }
 
 }
