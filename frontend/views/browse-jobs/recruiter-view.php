@@ -163,44 +163,64 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
             </div>
 
             <div class="col-lg-4">
-                <div class="view-details">
+                <div class="view-details job-details-b">
                     <h3 class="job-title mb-4">Job Detail</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <ul class="ul-right">
-                                <li>Job Id</li>
-                                <li>Location</li>
-                                <li>Job Type</li>
-                                <li>Shift</li>
-                            </ul>
+                            <p class="font-weight-400">Job Id</p>
                         </div>
+                        <div class="col-lg-6">                   
+                            <p><?= $model->reference_no ?></p>
+                        </div>
+                      
                         <div class="col-lg-6">
-                            <ul class="ul-right ul-last-child">
-                                <li><?= $model->reference_no ?></li>
-                                <li><?= $model->citiesName ?></li>
-                                <li><?= Yii::$app->params['job.type'][$model->job_type] ?></li>
-                                <li><?= $model->shift == 1 ? "Morning, Evening, Night, Flaxible" : Yii::$app->params['job.shift'][$model->shift] ?></li>
-                            </ul>
+                            <p class="font-weight-400">Location</p>                             
                         </div>
+                        <div class="col-lg-6">                            
+                            <p><?= $model->citiesName ?></p>                            
+                        </div>
+                          
+                        <div class="col-lg-6">
+                            <p class="font-weight-400">Job Type</p>                             
+                        </div>
+                        <div class="col-lg-6">                            
+                              <p><?= Yii::$app->params['job.type'][$model->job_type] ?></p>                              
+                        </div>
+
+                        <div class="col-lg-6">
+                            <p class="font-weight-400">Shift</p>                             
+                        </div>
+                        <div class="col-lg-6">                            
+                             <p><?= $model->shift == 1 ? "Morning, Evening, Night, Flaxible" : Yii::$app->params['job.shift'][$model->shift] ?></p>
+                        </div>                
+
                     </div>
                 </div>
-                <div class="view-details">
+                <div class="view-details job-details-b">
                     <h3 class="job-title mb-4">Employer Detail</h3>
-                    <div class="row">
+                    <div class="row">    
                         <div class="col-lg-6">
-                            <ul class="ul-right">
-                                <li>Employer Name</li>
-                                <li>Address</li>
-                                <li>Email Id</li>
-                            </ul>
+                            <p class="font-weight-400">Employer Name</p>
                         </div>
+                        <div class="col-lg-6">                   
+                            <p><?= $model->branch->company->company_name . "-" . $model->branch->branch_name ?></p>
+                        </div>
+
                         <div class="col-lg-6">
-                            <ul class="ul-right ul-last-child">
-                                <li><?= $model->branch->company->company_name . "-" . $model->branch->branch_name ?></li>
-                                <li><?= $model->branch->street_no . " " . $model->branch->street_address . " " . $model->branch->apt . " " . $model->branch->location . " " . $model->branch->zip_code ?></li>
-                                <li><?= $model->branch->company->company_email ?></li>
-                            </ul>
+                            <p class="font-weight-400">Address</p>
                         </div>
+                        <div class="col-lg-6">                   
+                            <p><?= $model->branch->street_no . " " . $model->branch->street_address . " " . $model->branch->apt . " " . $model->branch->location . " " . $model->branch->zip_code ?></p>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <p class="font-weight-400">Email Id</p>
+                        </div>
+                        <div class="col-lg-6">                   
+                            <p><?= $model->branch->company->company_email ?></p>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
