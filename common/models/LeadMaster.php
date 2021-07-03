@@ -53,19 +53,19 @@ class LeadMaster extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['street_no', 'state', 'street_address', 'city', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'title', 'reference_no', 'jobseeker_payment', 'payment_type', 'job_type', 'shift', 'start_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'description', 'branch_id'], 'required'],
-            [['description', 'apt', 'zip_code'], 'string'],
-            [['payment_type', 'job_type', 'shift', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'price', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['jobseeker_payment',], 'number'],
-            [['title'], 'string', 'max' => 250],
-            [['reference_no'], 'string', 'max' => 50],
-            [['comment'], 'string', 'max' => 500],
-            [['reference_no'], 'unique'],
-            [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
+                [['street_no', 'state', 'street_address', 'city', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'title', 'reference_no', 'jobseeker_payment', 'payment_type', 'job_type', 'shift', 'start_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'description', 'branch_id'], 'required'],
+                [['description', 'apt', 'zip_code'], 'string'],
+                [['payment_type', 'job_type', 'shift', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'price', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+                [['jobseeker_payment',], 'number'],
+                [['title'], 'string', 'max' => 250],
+                [['reference_no'], 'string', 'max' => 50],
+                [['comment'], 'string', 'max' => 500],
+                [['reference_no'], 'unique'],
+                [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
 //            [['street_no'], 'match', 'pattern' => '/^([0-9])?$/', 'message' => 'Please enter a digit numeric for {attribute}.'],
             [['comment', 'visible_to'], 'safe', 'on' => 'approve'],
-            [['price'], 'required', 'on' => 'approve'],
-            [['approved_at', 'branch_id', 'state', 'comment', 'disciplines', 'benefits', 'specialies', 'end_date', 'start_date', 'emergency'], 'safe'],
+                [['price'], 'required', 'on' => 'approve'],
+                [['approved_at', 'branch_id', 'state', 'comment', 'disciplines', 'benefits', 'specialies', 'end_date', 'start_date', 'emergency'], 'safe'],
         ];
     }
 
@@ -195,6 +195,42 @@ class LeadMaster extends \yii\db\ActiveRecord {
 
     public function getSharableUrl() {
         return Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $this->reference_no]);
+    }
+
+    // CITY , STATE FOR EMAIL PURPOSE
+    public function getLocation() {
+        $cityStateName = '';
+        if ($this->cities) {
+            $cityName = isset($this->cities->city) ? $this->cities->city : '';
+            if ($this->cities && $this->cities->stateRef) {
+                $stateName = isset($this->cities->stateRef) ? ', ' . $this->cities->stateRef->state : '';
+            }
+            $cityStateName = $cityName . $stateName;
+        }
+        return $cityStateName;
+    }
+
+    /* SENDS MAIL TO JOB POSTING BRANCH ABOUT ACKNOWLEDGEMENT OF JOB */
+
+    public function sendMailForPostedJobAck() {
+        $flag = false;
+        try {
+            $htmlLayout = '@common/mail/job-posting-acknowledgement';
+            $subject = 'Acknowledgement of posted job ' . $this->title . '(' . $this->reference_no . ')';
+            $postingBranch = $this->branch;
+            $postingCompany = isset($postingBranch->company) ? $postingBranch->company : [];
+            if (!empty($postingBranch) && !empty($postingCompany)) {
+                $flag = Yii::$app->mailer->compose(['html' => $htmlLayout,], ['lead' => $this, 'postingBranch' => $postingBranch, 'postingCompany' => $postingCompany])
+                        ->setFrom([Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
+                        ->setTo($postingCompany->company_email)
+                        ->setSubject($subject)
+                        ->send();
+            }
+        } catch (\Exception $ex) {
+            $flag = false;
+        } finally {
+            return $flag;
+        }
     }
 
 }

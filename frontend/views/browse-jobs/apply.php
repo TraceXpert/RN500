@@ -25,28 +25,29 @@ $lead_id = $model->id;
 
 <section class="about-us about-inner-block">
     <div class="container">
-        <!--        <div class="row align-items-center">
-                    <div class="col-lg-12 main-title">
-                        <h2 class="mb-4">Job Applied</h2>
-                    </div>
-                </div>-->
 
         <div class="row">
             <div class="col-md-12">
                 <div class="table-design table-responsive">
-                    <?php Pjax::begin(); ?>
+                    <?php Pjax::begin(['id' => 'pjx_xompany_branch_selection', 'enablePushState' => false, 'timeout' => false]); ?>
 
                     <?=
                     GridView::widget([
                         'dataProvider' => $dataProvider,
                         'filterModel' => $searchModel,
                         'tableOptions' => ['class' => 'table table-bordered'],
+                        'summaryOptions' => ['class' => 'showing'],
+                        'layout' => "<p>{summary}</p>\n{items}\n{pager}",
                         'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
-                            'company_name',
+                                [
+                                'attribute' => 'company_name',
+                                'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
+                            ],
                                 [
                                 'attribute' => 'branch_name',
-                                'enableSorting' => false
+                                'enableSorting' => false,
+                                'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                             ],
                                 [
                                 'class' => 'yii\grid\ActionColumn',
@@ -82,26 +83,44 @@ $lead_id = $model->id;
             </div>
         </div>
     </div>
+</section>
 
 
-    <?php
-    $script_new = <<<JS
+<?php
+$script_new = <<<JS
     function applyToThisbranch(url){
+        Swal.fire({
+        title: 'Confirm',
+        text: "Are you sure, you want to apply this job?",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Apply'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                method: "POST",
+                url: url,
+            }).done(function( res ) {
+                $.pjax.reload({container: '#res-messages', timeout:false, async: false});
+                $.pjax.reload({container: '#pjx_xompany_branch_selection', timeout:false, async: false});
+            });
+        }
+      })
+
         
-        swal("Are you sure, you want to apply this job?",{
-            buttons: ["Cancel", "Yes!"],
-        }).then((value) => {
-            if(value){
-                $('#overlay').show();
-                $.ajax({
-                    method: "POST",
-                    url: url,
-                }).done(function( res ) {
-                    $('#overlay').hide();
-                });
-            }
-        });
+//        swal("Are you sure, you want to apply this job?",{
+//            buttons: ["Cancel", "Yes!"],
+//        }).then((value) => {
+//            if(value){
+//                $.ajax({
+//                    method: "POST",
+//                    url: url,
+//                }).done(function( res ) {
+//                });
+//            }
+//        });
     }
 JS;
-    $this->registerJS($script_new, 3);
-    ?>
+$this->registerJS($script_new, 3);
+?>

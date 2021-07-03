@@ -1,10 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-use kartik\date\DatePicker;
-use yii\helpers\Url;
-use yii\web\JsExpression;
+//use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use borales\extensions\phoneInput\PhoneInput;
 
 /* @var $this yii\web\View */
@@ -17,26 +15,25 @@ use borales\extensions\phoneInput\PhoneInput;
 <div class="user-details-form">
     <?php
     $form = ActiveForm::begin([
-                'id' => 'add-reference'
+                'id' => 'add-reference',
+                'options' => ['autocomplete' => 'off']
     ]);
     ?>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-6">
             <?= $form->field($model, 'first_name')->textInput(); ?>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
+
+        <div class="col-md-6">
             <?= $form->field($model, 'last_name')->textInput(); ?>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-6">
             <?= $form->field($model, 'email')->textInput(); ?>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
+
+        <div class="col-md-6">
             <?=
             $form->field($model, 'mobile_no')->widget(PhoneInput::className(), [
                 'jsOptions' => [
@@ -47,18 +44,18 @@ use borales\extensions\phoneInput\PhoneInput;
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-6">
             <?= $form->field($model, 'title')->dropDownList(Yii::$app->params['REFERENCE_TYPE']) ?>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
+
+        <div class="col-md-6">
             <?= $form->field($model, 'relation')->textInput() ?>
         </div>
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?php echo Html::submitButton('Submit', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+        <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
     </div>
 
     <?php ActiveForm::end(); ?>

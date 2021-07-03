@@ -25,6 +25,7 @@ class ThemeAsset extends AssetBundle {
         'js/bootstrap.min.js',
         'js/jquery-ui.min.js',
         'js/toastr.min.js',
+        'js/sweetalert.2.1.2.min.js',
         'https://js.stripe.com/v3/',
     ];
     public $depends = [

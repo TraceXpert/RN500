@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use kartik\date\DatePicker;
 use common\models\LeadRecruiterJobSeekerMapping;
 use common\CommonFunction;
@@ -24,7 +24,8 @@ $actionUrl = (CommonFunction::isRecruiter()) ? Yii::$app->urlManagerFrontend->cr
                 <div class="col-md-12 mb-3">
                     <?php
                     echo $form->field($model, 'rec_joining_date')->widget(DatePicker::classname(), [
-                        'options' => ['placeholder' => 'Select ' . $model->getAttributeLabel('rec_joining_date')],
+                        'options' => ['placeholder' => 'Select ' . $model->getAttributeLabel('rec_joining_date'), 'readonly' => true],
+                        'type' => DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
                             'autoclose' => true,
                             'format' => 'dd-M-yyyy'
@@ -47,8 +48,8 @@ $actionUrl = (CommonFunction::isRecruiter()) ? Yii::$app->urlManagerFrontend->cr
 
     <div class="row">
         <div class="col-md-12 mb-3">
-            <?php echo Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>                        
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <?php echo Html::submitButton('Submit', ['class' => 'read-more contact-us mb-3 mt-2']) ?>                        
+            <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
         </div>
     </div>
 

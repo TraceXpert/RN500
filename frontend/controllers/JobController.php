@@ -34,7 +34,7 @@ class JobController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['post'],
                 'rules' => [
-                    [
+                        [
                         'actions' => ['post'],
                         'allow' => true,
                         'roles' => (CommonFunction::isEmployer() || CommonFunction::isRecruiter()) ? ['@'] : ['*'],
@@ -53,7 +53,6 @@ class JobController extends Controller {
     public function actionPost() {
         $model = new LeadMaster();
         $model->reference_no = $model->getUniqueReferenceNumber();
-        $model->branch_id = CommonFunction::getLoggedInUserBranchId();
         $disciplineList = ArrayHelper::map(Discipline::getAllDiscipline(), 'id', 'name');
         $benefitList = ArrayHelper::map(Benefits::getAllBenefits(), 'id', 'name');
         $specialiesList = ArrayHelper::map(Speciality::getAllSpecialities(), 'id', 'name');
@@ -116,7 +115,7 @@ class JobController extends Controller {
                             $leadSpeciality->save();
                         }
                     }
-                    
+
                     if (isset($model->emergency) && !empty($model->emergency)) {
                         foreach ($model->emergency as $key => $emergency_id) {
                             $leadEmergency = new LeadEmergency();
@@ -125,9 +124,14 @@ class JobController extends Controller {
                             $leadEmergency->save();
                         }
                     }
-                    
+
                     $transaction->commit();
-                    Yii::$app->session->setFlash("success", "Job Posted Successfully.");
+                    $mailSent = $model->sendMailForPostedJobAck();
+                    if ($mailSent) {
+                        Yii::$app->session->setFlash("success", "Job Posted Successfully.");
+                    } else {
+                        Yii::$app->session->setFlash("warning", "Job posted successfully, but there is a issue with mail server.");
+                    }
                 }
             } catch (\Exception $ex) {
                 Yii::$app->session->setFlash("warning", "Something went wrong.");
