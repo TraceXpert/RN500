@@ -1276,6 +1276,3 @@ VALUES ('banner', 'banner-update');
 
 INSERT INTO `auth_item_child` (`parent`, `child`)
 VALUES ('banner', 'banner-view');
-
-DELETE FROM `auth_item_child`
-WHERE ((`parent` = 'banner' AND `parent` = 'banner' COLLATE utf8mb4_bin AND `child` = 'banner-delete' AND `child` = 'banner-delete' COLLATE utf8mb4_bin));

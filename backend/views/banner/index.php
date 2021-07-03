@@ -36,8 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         [
                             'attribute' => 'status',
+                            'filter' => \yii\bootstrap\Html::activeDropDownList($searchModel, 'status', ['' => 'All', '1' => 'Active', '0' => 'Inactive'], ['class' => 'form-control']),
                             'value' => function($model) {
-                                return $model->status;
+                                return $model->status == 1 ? "Active" : "Inactive";
                             }
                         ],
                         [
