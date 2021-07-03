@@ -140,11 +140,12 @@ use yii\helpers\Html;
 
                     <?php
                     echo $form->field($model, 'start_date')->widget(DatePicker::classname(), [
-                        'options' => ['placeholder' => $model->getAttributeLabel('start_date')],
+                        'options' => ['placeholder' => $model->getAttributeLabel('start_date'), 'readonly' => true],
                         'type' => DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
                             'autoclose' => true,
                             'format' => Yii::$app->params['date.format.datepicker.js'],
+                            'startDate' => date('d-m-Y'),
                         ],
                         'pluginEvents' => [
                             "changeDate" => "function(e) {
@@ -162,7 +163,7 @@ use yii\helpers\Html;
                 <div class="col-md-6">
                     <?php
                     echo $form->field($model, 'end_date')->widget(DatePicker::classname(), [
-                        'options' => ['placeholder' => $model->getAttributeLabel('end_date')],
+                        'options' => ['placeholder' => $model->getAttributeLabel('end_date'), 'readonly' => true],
                         'type' => DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
                             'autoclose' => true,

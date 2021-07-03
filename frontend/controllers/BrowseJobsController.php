@@ -40,7 +40,7 @@ class BrowseJobsController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['recruiter-lead', 'recruiter-view', 'apply', 'apply-job'],
+                'only' => ['recruiter-lead', 'recruiter-view', 'apply', 'apply-job', 'track-my-application', 'set-rating'],
                 'rules' => [
                         [
                         'actions' => ['apply', 'apply-job'],
@@ -56,6 +56,11 @@ class BrowseJobsController extends Controller {
                         'actions' => ['recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isEmployer() ? ['@'] : ['*'] : ['*'],
+                    ],
+                        [
+                        'actions' => ['track-my-application', 'set-rating'],
+                        'allow' => true,
+                        'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isJobSeeker() ? ['@'] : ['*'] : ['*'],
                     ]
                 ],
             ],
@@ -382,7 +387,7 @@ class BrowseJobsController extends Controller {
             Yii::$app->session->setFlash("success", "Referral mail sent successfully.");
             echo json_encode(['code' => 200]);
             exit;
-        } 
+        }
 //        else {
 //            Yii::$app->session->setFlash("warning", "Something went wrong while sending the mail.");
 //            echo json_encode(['code' => 201]);
@@ -415,17 +420,22 @@ class BrowseJobsController extends Controller {
             if ($model->save()) {
                 $mailSent = $model->sendMailToBranch();
                 if ($mailSent['status'] == '1') {
+
                     Yii::$app->session->setFlash("success", "Job applied successfully.");
+                    echo Json::encode(['code' => '200']);
+                    exit;
                 } else {
                     Yii::$app->session->setFlash("warning", "Job applied successfully, but there was a issue while sending the mail.");
+                    echo Json::encode(['code' => '201']);
+                    exit;
                 }
             }
-            $ref = LeadMaster::findOne($lead_id)->reference_no;
+//            $ref = LeadMaster::findOne($lead_id)->reference_no;
         } else {
             Yii::$app->session->setFlash("warning", "You have already applied to this branch");
         }
-        $ref = LeadMaster::findOne($lead_id)->reference_no;
-        $this->redirect(['apply', 'ref' => $ref]);
+//        $ref = LeadMaster::findOne($lead_id)->reference_no;
+//        return $this->redirect(['apply', 'ref' => $ref]);
     }
 
     public function actionTrackMyApplication() {

@@ -24,6 +24,7 @@ class AppAsset extends AssetBundle {
         'js/owl.carousel.js',
         'js/script.js',
         'js/toastr/toastr.min.js',
+        'js/sweetalert.2.1.2.min.js',
         'https://js.stripe.com/v3/',
         'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'
     ];

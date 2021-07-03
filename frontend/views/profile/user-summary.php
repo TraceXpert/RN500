@@ -3,19 +3,26 @@
 use yii\helpers\Html;
 ?>
 <!-- Page Title start -->
-<div class="pageTitle">
+<section class="inner-banner">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-sm-6">
-                <h1 class="page-heading">Profile</h1>
+            <div class="col-xl-12">
+                <h1>Job Seeker Summary</h1>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- Page Title End -->
+
+<div class="well-lg"></div>
+<section class="about-us about-inner-block leads-tab">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <?= $this->render('core-profile-detail', ['model' => $model, 'workExperiences' => $workExperiences, 'certifications' => $certifications, 'documents' => $documents, 'licenses' => $licenses, 'educations' => $educations, 'references' => $references]); ?>
             </div>
         </div>
     </div>
-</div>
-<!-- Page Title End -->
-
-<div class="listpgWraper" style="background-color: white">
-    <div class="container"> 
-        <?= $this->render('core-profile-detail', ['model' => $model, 'workExperiences' => $workExperiences, 'certifications' => $certifications, 'documents' => $documents, 'licenses' => $licenses, 'educations' => $educations, 'references' => $references]); ?>
-    </div>
-</div>
+</section>

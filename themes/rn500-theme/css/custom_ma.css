@@ -1,6 +1,12 @@
 .iti{
     display: block;
 }
+.invalid-feedback{
+    text-align: left;
+}
+.swal2-confirm{
+    background-color: #1656A0 !important;
+}
 .pop-up-close-button{
     border-radius: 50px;
     font-size: 14px;
@@ -48,3 +54,46 @@
     height: 2px;
 }
 /* login otp css end */
+
+.toast.toast-success{
+    background-color: #1656A0 !important;
+}
+#toast-container>div{
+    opacity: 1 !important;
+}
+.theme-button-color,.theme-button-color:hover, .theme-button-color:focus {
+    padding: 10px 20px;
+    color: white !important;
+    background-color: #1656A0;
+    border: 1px solid #1656A0;
+    cursor: pointer;
+}
+.btn-reject,.btn-reject:hover, .btn-reject:focus {
+    padding: 10px 20px;
+    color: white !important;
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+    cursor: pointer;
+}
+
+.margin-top-20{
+    margin-top: 20px;   
+}
+.leads-tab .nav-tabs .nav-link.active{
+    background: #1656A0 !important;
+    color: whitesmoke  !important;
+}
+.leads-tab .nav-tabs .nav-link{
+    color:  #1656A0  !important;
+    font-weight: 600  !important;
+}
+.leads-tab .nav-tabs .nav-link:not(:focus) {
+    border: none  !important;
+}
+.leads-tab table td:not(:last-child)  a{
+    color:  #1656A0  !important;
+}
+.header-profile-img-size{
+    width:46px !important; 
+    height: 46px !important; 
+}
