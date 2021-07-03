@@ -1243,3 +1243,39 @@ CREATE TABLE `api_log` (
 
 ALTER TABLE `api_log`
 ADD `url` text NOT NULL AFTER `id`;
+
+CREATE TABLE `banner` (
+  `id` int NOT NULL,
+  `headline` text NOT NULL,
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '1:active 0: inactive',
+  `created_at` int NOT NULL,
+  `updated_at` int NOT NULL
+);
+
+
+ALTER TABLE `banner`
+CHANGE `id` `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`)
+VALUES ('Banner', '1', 'Banner', NULL, NULL, NULL, NULL);
+
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`)
+VALUES ('banner-create', '2', 'Create', NULL, NULL, NULL, NULL);
+
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`)
+VALUES ('banner-update', '2', 'Update', NULL, NULL, NULL, NULL);
+
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`)
+VALUES ('banner-view', '2', 'View', NULL, NULL, NULL, NULL);
+
+INSERT INTO `auth_item_child` (`parent`, `child`)
+VALUES ('banner', 'banner-create');
+
+INSERT INTO `auth_item_child` (`parent`, `child`)
+VALUES ('banner', 'banner-update');
+
+INSERT INTO `auth_item_child` (`parent`, `child`)
+VALUES ('banner', 'banner-view');
+
+DELETE FROM `auth_item_child`
+WHERE ((`parent` = 'banner' AND `parent` = 'banner' COLLATE utf8mb4_bin AND `child` = 'banner-delete' AND `child` = 'banner-delete' COLLATE utf8mb4_bin));

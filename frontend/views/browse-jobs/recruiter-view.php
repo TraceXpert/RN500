@@ -6,6 +6,7 @@ use kartik\date\DatePicker;
 use common\CommonFunction;
 use yii\helpers\Url;
 use yii\web\JsExpression;
+use common\models\Advertisement;
 
 $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertisement/";
@@ -21,8 +22,6 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
     </div>
 </section>
 
-
-
 <section class="about-us about-inner-block">
     <div class="container">
         <div class="row align-items-center">
@@ -36,8 +35,9 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                 <p class="mb-0">Date Posted: <?= date('m-d-Y', $model->created_at) ?></p>
                 <p><?= $model->citiesName ?></p>
 
+
                 <!-- Twitter icon-->
-                <a onClick="window.open('https://twitter.com/share?hashtags=job,sharing&text=<?= $model->title ?>&via=MyTwitterHandle');" target="_parent" href="javascript: void(0)">
+                <a onClick="window.open('https://twitter.com/share?hashtags=job,sharing&text=<?= $model->title ?>&url=<?= $model->sharableUrl; ?>');" target="_parent" href="javascript: void(0)">
                     <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M15.4455 30.8531C6.91574 30.8531 0 23.9459 0 15.4265C0 6.90724 6.91574 0 15.4455 0C23.9753 0 30.891 6.90724 30.891 15.4265C30.891 23.9459 23.9753 30.8531 15.4455 30.8531Z"
@@ -50,7 +50,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
 
                 <!-- Email icon-->
 
-                <a href="">
+                <a href='mailto:?subject= I want to share this job with you &amp;body= Hi there, Check out this job <?= $model->sharableUrl ?> Thanks.'>
                     <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M15.9729 30.8531C7.44308 30.8531 0.527344 23.9459 0.527344 15.4265C0.527344 6.90724 7.44308 0 15.9729 0C24.5026 0 31.4184 6.90724 31.4184 15.4265C31.4184 23.9459 24.5026 30.8531 15.9729 30.8531Z"
@@ -63,7 +63,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
 
                 <!--facobook icon-->
 
-                <a onClick="window.open('http://www.facebook.com/sharer.php?s=100&amp;p[title]=<?php echo $model->title; ?>&amp;p[url]=<?php echo $model->sharableUrl; ?>&amp;&p[images][0]=<?php echo $assetDir . "/img/job-icon.png" ?>', 'sharer', 'toolbar=0,status=0,width=548,height=325');" target="_parent" href="javascript: void(0)">
+                <a onClick="window.open('http://www.facebook.com/sharer.php?u=<?php echo urlencode($model->sharableUrl); ?>&amp;&t=<?php echo $model->title ?>', 'sharer', 'toolbar=0,status=0,width=548,height=325');" target="_parent" href="javascript: void(0)">
                     <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M15.5002 30.8531C6.97043 30.8531 0.0546875 23.9459 0.0546875 15.4265C0.0546875 6.90724 6.97043 0 15.5002 0C24.03 0 30.9457 6.90724 30.9457 15.4265C30.9457 23.9459 24.03 30.8531 15.5002 30.8531Z"
@@ -76,7 +76,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
 
                 <!--linked in-->
 
-                <a href="">
+                <a onClick="window.open('https://www.linkedin.com/sharing/share-offsite/?url=<?php echo urlencode($model->sharableUrl); ?>&text=<?php echo $model->title; ?>');" target="_parent" href="javascript: void(0)">
                     <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M16.0276 30.8531C7.49777 30.8531 0.582031 23.9459 0.582031 15.4265C0.582031 6.90724 7.49777 0 16.0276 0C24.5573 0 31.4731 6.90724 31.4731 15.4265C31.4731 23.9459 24.5573 30.8531 16.0276 30.8531Z"
@@ -93,7 +93,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
 
                 <!--refferal-->
 
-                <a href="">
+                <a href="javascript:void(0)" data-url="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/refer-to-friend', 'lead_id' => $model->id]) ?>" class="refer-to-friend" modal-title="Refer To Friend">
                     <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M15.5549 30.8531C7.0251 30.8531 0.109375 23.9459 0.109375 15.4265C0.109375 6.90724 7.0251 0 15.5549 0C24.0846 0 31.0004 6.90724 31.0004 15.4265C31.0004 23.9459 24.0846 30.8531 15.5549 30.8531Z"
@@ -172,26 +172,26 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                         <div class="col-lg-6">                   
                             <p><?= $model->reference_no ?></p>
                         </div>
-                      
+
                         <div class="col-lg-6">
                             <p class="font-weight-400">Location</p>                             
                         </div>
                         <div class="col-lg-6">                            
                             <p><?= $model->citiesName ?></p>                            
                         </div>
-                          
+
                         <div class="col-lg-6">
                             <p class="font-weight-400">Job Type</p>                             
                         </div>
                         <div class="col-lg-6">                            
-                              <p><?= Yii::$app->params['job.type'][$model->job_type] ?></p>                              
+                            <p><?= Yii::$app->params['job.type'][$model->job_type] ?></p>                              
                         </div>
 
                         <div class="col-lg-6">
                             <p class="font-weight-400">Shift</p>                             
                         </div>
                         <div class="col-lg-6">                            
-                             <p><?= $model->shift == 1 ? "Morning, Evening, Night, Flaxible" : Yii::$app->params['job.shift'][$model->shift] ?></p>
+                            <p><?= $model->shift == 1 ? "Morning, Evening, Night, Flaxible" : Yii::$app->params['job.shift'][$model->shift] ?></p>
                         </div>                
 
                     </div>
@@ -227,62 +227,48 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
         </div>
     </div>
 </section>
-<section class="">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-9 col-12 main-title">
-                <h2 class="mb-4">Featured New Advertise </h2>                
-            </div>
-            <div class="col-sm-3 col-12 main-title">
-                <a href="" class="float-right mb-3">View All </a>
-            </div>
-        </div>
-
-
-        <div class="row mb-5 pb-5">
-            <div class="col-md-4">
-                <div class="featured-img-block position-relative mb-4">
-                    <img src="<?= $assetDir ?>/img/featured-video.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                        <div class="ads-title">
-                            <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                        </div>
+<?php if (!empty($advertisments)) { ?>
+    <section class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9 col-12 main-title">
+                    <h2 class="mb-4">Featured New Advertise </h2>                
+                </div>
+                <div class="col-sm-3 col-12 main-title">
+                    <a href="" class="float-right mb-3">View All </a>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="featured-img-block position-relative mb-4">
-                    <img src="<?= $assetDir ?>/img/featured-video-1.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                        <div class="ads-title">
-                            <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                        </div>
-                        <div class="most-popular-jobs-block-hover">
-                            <img src="<?= $assetDir ?>/img/play-icon.png" alt="play-icon">
-                        </div>
-                </div>
 
-                <div class="featured-img-block position-relative mb-4">
-                    <img src="<?= $assetDir ?>/img/featured-video-2.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                        <div class="ads-title">
-                            <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                        </div>
-                </div>
-            </div>
+            <div class="row mb-5 pb-5">
+                <?php foreach ($advertisments as $key => $ads) { ?> 
+                    <?php $adsName = (strlen($ads->name) > 30) ? substr($ads->name, 0, 30) . ' ...' : $ads->name ?> 
+                    <div class="col-md-4">
+                        <div class="featured-img-block position-relative mb-4">
+                            <?php if ($ads->file_type == Advertisement::FILE_TYPE_YOUTUBE_LINK) { ?>
+                                <iframe width="100%"  height="195" src="<?php echo $ads->getYoutubeEmbedUrl() ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="max-height-ads-home"></iframe>
+                                <div class="ads-title">
+                                    <p class="mb-0"><?php echo $adsName ?> <a href="<?php echo $ads->link_url ?>" target="_blank"> <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"> </a></p>                             
+                                </div>
 
-            <div class="col-md-4">
-                <div class="featured-img-block position-relative mb-4">
-                    <img src="<?= $assetDir ?>/img/featured-video-3.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                        <div class="ads-title">
-                            <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                        </div>
-                </div>
+                            <?php } else { ?>
 
-                <div class="featured-img-block position-relative mb-4">
-                    <img src="<?= $assetDir ?>/img/featured-video-4.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                        <div class="ads-title">
-                            <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
+                                <?php if ($ads != '' && file_exists(CommonFunction::getAdvertisementBasePath() . DIRECTORY_SEPARATOR . $ads->icon)) { ?>
+                                    <img src="<?= CommonFunction::getAdvertisementBaseUrl() . DIRECTORY_SEPARATOR . $ads->icon ?>" alt="<?php echo $ads->icon ?>" class="img-fluid mx-auto d-block max-height-ads-home w-100">
+                                <?php } else { ?>
+                                    <img src="<?= $assetDir ?>/img/featured-video-2.png" alt="featured-video" class="img-fluid mx-auto d-block max-height-ads-home">
+                                <?php } ?>
+                                <div class="ads-title">
+                                    <p class="mb-0"> <?php echo $adsName ?> <a href="<?php echo $ads->link_url ?>" target="_blank"> <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"> </a></p>                             
+                                </div>
+
+                            <?php } ?>
                         </div>
-                </div>
+                    </div>
+
+
+                <?php } ?>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+<?php } ?>
