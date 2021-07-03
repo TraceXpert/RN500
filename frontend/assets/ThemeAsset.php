@@ -17,6 +17,7 @@ class ThemeAsset extends AssetBundle {
         'css/custom_ma.css',
         'css/font-awesome.css',
         'css/jquery-ui.min.css',
+        'css/font-awesome.min.css'
     ];
     public $js = [
 //        'js/jquery.min.js',

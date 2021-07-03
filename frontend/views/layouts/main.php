@@ -144,7 +144,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         setInterval(function () {
             $('#overlay').removeClass("show");
             $('#overlay').addClass("hide");
-        }, 4000);
+        }, 2000);
     });
     $(document).bind("ajaxStart.mine", function () {
         $('#overlay').removeClass("hide");

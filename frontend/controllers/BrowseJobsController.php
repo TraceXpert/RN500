@@ -339,14 +339,14 @@ class BrowseJobsController extends Controller {
 //        $model = LeadMaster::findOne(['id' => $id]);
         $model = LeadMaster::find()->where(['OR', ['id' => $id], ['reference_no' => $id]])->one();
         $today = date('Y-m-d');
-        $advertisment = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere(['location' => $model->city])->andWhere("'$today' BETWEEN active_from AND active_to")->asArray()->all();
+        $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->andWhere(['location' => $model->city])->orderBy(['id'=>SORT_DESC])->limit(6)->all();
 
         if ($model != null) {
             $benefit = LeadBenefit::findAll(['lead_id' => $model->id]);
             $specialty = LeadSpeciality::findAll(['lead_id' => $model->id]);
             $discipline = LeadDiscipline::findAll(['lead_id' => $model->id]);
             $emergency = LeadEmergency::findAll(['lead_id' => $model->id]);
-            return $this->render('view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency, 'advertisment' => $advertisment]);
+            return $this->render('view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency, 'advertisments' => $advertisments]);
         } else {
             throw new \yii\web\NotFoundHttpException("In valid lead");
         }
@@ -355,12 +355,12 @@ class BrowseJobsController extends Controller {
     public function actionRecruiterView($id) {
         $model = LeadMaster::find()->where(['OR', ['id' => $id], ['reference_no' => $id]])->one();
         $today = date('Y-m-d');
-        $advertisment = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere(['location' => $model->city])->andWhere("'$today' BETWEEN active_from AND active_to")->asArray()->all();
+        $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->andWhere(['location' => $model->city])->orderBy(['id'=>SORT_DESC])->limit(6)->all();
         $benefit = LeadBenefit::findAll(['lead_id' => $id]);
         $specialty = LeadSpeciality::findAll(['lead_id' => $id]);
         $discipline = LeadDiscipline::findAll(['lead_id' => $id]);
         $emergency = LeadEmergency::findAll(['lead_id' => $id]);
-        return $this->render('recruiter-view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency, 'advertisment' => $advertisment]);
+        return $this->render('recruiter-view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency,  'advertisments' => $advertisments]);
     }
 
     /*     * ******** ADDED BY MOHAN*** */

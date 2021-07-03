@@ -16,170 +16,247 @@ use common\CommonFunction;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <style>
-    label {display: inline-block;max-width: 100%;margin-bottom: 5px;font-weight: 700;}
-    .mb-100{margin-bottom: 100px;}
-    .mt-100{margin-top: 100px;}
-    .iti--allow-dropdown{width: 100%;}
+    .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+        padding: .375rem 2rem;
+    }
 </style>
-
-<div class="listpgWraper">
+<section class="about-us about-inner-block">
     <div class="container">
-        <?php
-        $form = ActiveForm::begin([
-                    "id" => "user-details",
-                    'options' => ['enctype' => 'multipart/form-data']
-        ]);
-        ?>
-        <div class="row">
-            <div class="col-sm-6">
-                <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="col-sm-6">
-                <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
+        <div class="row align-items-center">
+            <div class="col-lg-12 main-title">
+                <h2 class="mb-4">Personal Information</h2>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <?=
-                $form->field($model, 'mobile_no')->widget(PhoneInput::className(), [
-                    'jsOptions' => [
-                        'preferredCountries' => ['us', 'in'],
-                    ]
-                ]);
-                ?>
-            </div>
-            <div class="col-sm-6">
-                <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->email, 'readonly' => true]) ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <?= $form->field($model, 'apt')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="col-sm-6">
-                <?= $form->field($model, 'street_no')->textInput(['maxlength' => true]) ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <?= $form->field($model, 'street_address')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="col-sm-6">
-                <?=
-                $form->field($model, 'state')->widget(Select2::classname(), [
-                    'data' => $states,
-                    'options' => ['placeholder' => 'Select a province'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-                ?>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-sm-6">
-                <?=
-                $form->field($model, 'city')->widget(Select2::classname(), [
-                    'data' => $city,
-                    'options' => ['placeholder' => 'Select a city'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-                ?>
-            </div>
-            <div class="col-sm-6">
-                <?php
-                echo $form->field($model, 'dob')->widget(DatePicker::classname(), [
-                    'name' => 'dob',
-//                'value' => date('d-M-Y'),
-                    'options' => ['placeholder' => 'Enter DOB..'],
-                    'pluginOptions' => [
-                        'format' => 'dd-mm-yyyy',
-                        'todayHighlight' => true,
-                        'autoclose' => true,
-                        'endDate' => "-0d"
-//                    'startDate' => date('d-m-Y'),
-                    ],
-                    'pluginEvents' => [
-                        "changeDate" => "function(e) {
+
+        <div class="post-job">
+            <?php
+            $form = ActiveForm::begin([
+                        "id" => "user-details",
+                        'options' => ['enctype' => 'multipart/form-data']
+            ]);
+            ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?=
+                        $form->field($model, 'mobile_no')->widget(PhoneInput::className(), [
+                            'jsOptions' => [
+                                'preferredCountries' => ['us', 'in'],
+                            ]
+                        ]);
+                        ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->email, 'readonly' => true]) ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?= $form->field($model, 'apt')->textInput(['maxlength' => true]) ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?= $form->field($model, 'street_no')->textInput(['maxlength' => true]) ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?= $form->field($model, 'street_address')->textInput(['maxlength' => true]) ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?=
+                        $form->field($model, 'state')->widget(Select2::classname(), [
+                            'data' => $states,
+                            'options' => ['placeholder' => 'Select a province'],
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]);
+                        ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?=
+                        $form->field($model, 'city')->widget(Select2::classname(), [
+                            'data' => $city,
+                            'options' => ['placeholder' => 'Select a city'],
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]);
+                        ?>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?php
+                        echo $form->field($model, 'dob')->widget(DatePicker::classname(), [
+                            'name' => 'dob',
+                            'options' => ['placeholder' => 'Enter Date of Birth..'],
+                            'type' => DatePicker::TYPE_INPUT,
+                            'pluginOptions' => [
+                                'format' => 'dd-mm-yyyy',
+                                'todayHighlight' => true,
+                                'autoclose' => true,
+                                'endDate' => "-0d"
+                            ],
+                            'pluginEvents' => [
+                                "changeDate" => "function(e) {
 
                             }"
-                    ]
-                ]);
-                ?>
-            </div>
-        </div>
-        <div class="row">
-            <?php if (isset(Yii::$app->user->id) && !empty(Yii::$app->user->id)) { ?>
-                <?php if (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
-                    <div class="col-sm-6">
-                        <?= $form->field($model, 'ssn')->textInput(['maxlength' => true]) ?>
+                            ]
+                        ]);
+                        ?>
+                    </div>
+                </div>
+                <?php if (isset(Yii::$app->user->id) && !empty(Yii::$app->user->id) && Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <?= $form->field($model, 'ssn')->textInput(['maxlength' => true]) ?>
+                        </div>
                     </div>
                 <?php } ?>
-            <?php } ?>
-            <div class="col-sm-6">
-                <?= $form->field($model, 'profile_pic')->fileInput() ?>
 
-                <?php if (file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $model->profile_pic)) { ?>
-                    <?php if (isset($model->profile_pic)) { ?>
-                        <p><?= $model->profile_pic ?></p>
-                    <?php } ?>
-                <?php } ?>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <?=
+                        $form->field($model, 'profile_pic', [
+                            'template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='real-file' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>"])->fileInput()
+                        ?>
+                        <?php if (!empty($model->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $model->profile_pic)) { ?>
+                            <span id="custom-text"><?= $model->profile_pic ?></span>
+                            <?php
+                        } else {
+                            echo '<span id="custom-text">No file selected.</span>';
+                        }
+                        ?>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <?php echo Html::submitButton('Submit', ['class' => 'read-more contact-us mb-3 mt-3']) ?>
+                    </div>
+                </div>
+
+            </div>
+            <?php ActiveForm::end(); ?>
+        </div>
+
+    </div>
+</section>
+<?php if (isset($comppanyDetail) && !empty($comppanyDetail)) { ?>
+    <section class="about-us about-inner-block">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 main-title">
+                    <h3 class="mb-4">Company Details</h3>
+                </div>
+            </div>
+            <div class="view-company">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php
+                        echo DetailView::widget([
+                            'model' => $companyDetail,
+                            'attributes' => [
+                                'company_name',
+                                'reference_no',
+                                'company_email',
+                                'company_mobile',
+                            ],
+                        ]);
+                        ?>
+                    </div>
+                </div>
             </div>
         </div>
-        <?php if (isset($comppanyDetail) && !empty($comppanyDetail)) { ?>
-            <p>&nbsp;</p>
-            <h3>Company Details</h3>
-            <?php
-            echo DetailView::widget([
-                'model' => $companyDetail,
-                'attributes' => [
-                    'company_name',
-                    'reference_no',
-                    'company_email',
-                    'company_mobile',
-                ],
-            ]);
-        }
-        ?>
-        <?php if (isset($branch) && !empty($branch)) { ?>
-            <p>&nbsp;</p>
-            <h3>Company Branch Details</h3>
-            <?php
-            echo DetailView::widget([
-                'model' => $branch,
-                'attributes' => [
-                    'branch_name',
-                    [
-                        'label' => 'Company Name',
-                        'value' => (isset($branch->company_id) && !empty($branch->company_id)) ? $branch->company->company_name : '',
-                    ],
-                    'street_no',
-                    'street_address',
-                    'apt',
-                    [
-                        'label' => 'city',
-                        'value' => (isset($model->city) && !empty($model->city)) ? $model->cityRef->city : "",
-                    ],
-                    'zip_code',
-                ],
-            ]);
-        }
-        ?>
-
-        <div class="form-group">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    </section>
+<?php } ?>
+<?php if (isset($branch) && !empty($branch)) { ?>
+    <section class="about-us about-inner-block">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 main-title">
+                    <h3 class="mb-4">Branch Details</h3>
+                </div>
+            </div>
+            <div class="view-company">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php
+                        echo DetailView::widget([
+                            'model' => $branch,
+                            'attributes' => [
+                                'branch_name',
+                                [
+                                    'label' => 'Company Name',
+                                    'value' => (isset($branch->company_id) && !empty($branch->company_id)) ? $branch->company->company_name : '',
+                                ],
+                                'street_no',
+                                'street_address',
+                                'apt',
+                                [
+                                    'label' => 'city',
+                                    'value' => (isset($model->city) && !empty($model->city)) ? $model->cityRef->city : "",
+                                ],
+                                'zip_code',
+                            ],
+                        ]);
+                        ?>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <?php ActiveForm::end(); ?>
-    </div>
-</div>
-</div>
+    </section>
+<?php } ?>
 <?php
 $getCitiesUrl = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['user-details/get-cities']);
 $script = <<< JS
+   const realFileBtn = document.getElementById("real-file");
+            const customBtn = document.getElementById("custom-button");
+            const customTxt = document.getElementById("custom-text");
+
+            customBtn.addEventListener("click", function () {
+                realFileBtn.click();
+            });
+
+            realFileBtn.addEventListener("change", function () {
+                if (realFileBtn.value) {
+                var filename = realFileBtn.value;
+                if (filename.substring(3,11) == 'fakepath') {
+                   filename = filename.substring(12);
+               } // Remove c:\fake at beginning from localhost chrome
+                    customTxt.innerHTML = filename;
+                } else {
+                    customTxt.innerHTML = "No file chosen, yet.";
+                }
+            });
    $(document).on('change','#userdetails-state',function(){
         var state=$(this).val();
        $.ajax({

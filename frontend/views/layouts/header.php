@@ -65,7 +65,7 @@ $action = Yii::$app->controller->action->id;
                             </div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdown07">
-                            <a class="dropdown-item" href="profile.html">
+                            <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl(["user-details/profile", 'id' => Yii::$app->user->identity->id]); ?>">
                                 <div class="media">
                                     <img src="<?= $assetDir ?>/img/drop-profile.png" alt="profile-img" class="mr-2 rounded-circle">
                                     <div class="media-body">
