@@ -418,9 +418,10 @@ class BrowseJobsController extends Controller {
             $model->updated_at = CommonFunction::currentTimestamp();
             $model->updated_by = $loggedInUserId;
             if ($model->save()) {
-                $mailSent = $model->sendMailToBranch();
-                if ($mailSent['status'] == '1') {
-
+                $mailSentJobSeeker = $model->sendMailToJobSeekerAboutAppliedAcknowledgement();
+                $mailSentRecBranch = $model->sendMailToRecruiterBranch();
+                
+                if ($mailSentJobSeeker['status'] == '1' && $mailSentRecBranch['status'] == '1') {
                     Yii::$app->session->setFlash("success", "Job applied successfully.");
                     echo Json::encode(['code' => '200']);
                     exit;

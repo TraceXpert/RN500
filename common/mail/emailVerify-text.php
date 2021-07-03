@@ -8,6 +8,7 @@ Dear <?= $name ?>,
 
 
 You recently signed up at RN500.com. Please click to VERIFY EMAIL to activate your Account. 
+
 <?= $resetLink ?>
 
 Thank you, 

@@ -126,7 +126,12 @@ class JobController extends Controller {
                     }
 
                     $transaction->commit();
-                    Yii::$app->session->setFlash("success", "Job Posted Successfully.");
+                    $mailSent = $model->sendMailForPostedJobAck();
+                    if ($mailSent) {
+                        Yii::$app->session->setFlash("success", "Job Posted Successfully.");
+                    } else {
+                        Yii::$app->session->setFlash("warning", "Job posted successfully, but there is a issue with mail server.");
+                    }
                 }
             } catch (\Exception $ex) {
                 Yii::$app->session->setFlash("warning", "Something went wrong.");

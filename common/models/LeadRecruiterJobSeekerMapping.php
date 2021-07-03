@@ -30,10 +30,10 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
     const STATUS_INPROGRESS = 3; // ADD FOR CONCEPTUALIZATION ONLY, WE DIDN'T STORE IN DB
 
     public $rating;
+
     /**
      * {@inheritdoc}
      */
-
     public static function tableName() {
         return 'lead_recruiter_job_seeker_mapping';
     }
@@ -173,10 +173,39 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
         $getStatusList = self::getStatusList();
         return (isset($getStatusList[$status]) && $getStatusList[$status]) ? $getStatusList[$status] : '';
     }
-    
+
 //     public static function getRating() {
 //        return 0;
 //    }
+
+    /**
+     *  SENDS MAIL TO JOB-SEEKER ABOUT TO SUCCESSFULLY JOB APPLIED
+     *  0: Issue in mail server
+     *  1: Mail sent successfully
+     *  3: issue Mail sending
+     */
+    public function sendMailToJobSeekerAboutAppliedAcknowledgement() {
+        $status = '3';
+        $message = 'Something went wrong.';
+        try {
+
+            $lead = $this->lead;
+            $jobSeeker = $this->jobSeeker;
+            if (!empty($lead) && !empty($jobSeeker)) {
+                $status = Yii::$app->mailer->compose('job-applied-acknowledgement', ['lead' => $lead, 'jobSeeker' => $jobSeeker])
+                        ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
+                        ->setTo($jobSeeker->email)
+                        ->setSubject('Acknowledgement of applied job : ' . $lead->title . ' (' . $lead->reference_no . ')')
+                        ->send();
+                $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
+            }
+        } catch (\Exception $ex) {
+            $status = '3';
+            $message = 'Something went wrong.';
+        } finally {
+            return ['status' => (string) $status, 'message' => $message];
+        }
+    }
 
     /**
      *  SENDS MAIL TO RECRUITER BRANCH
@@ -185,7 +214,7 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
      *  2: Branch has doesn't any email registered / branch doesn't exists
      *  3: something went wrong
      */
-    public function sendMailToBranch() {
+    public function sendMailToRecruiterBranch() {
         $status = '2';
         $message = 'Branch not mapped';
         try {
