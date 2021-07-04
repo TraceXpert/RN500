@@ -22,11 +22,10 @@ class LeadRecruiterJobSeekerMappingSearch extends LeadRecruiterJobSeekerMapping 
     public $loggedInUserId;
     public $recruiterComapnyWithBranch;
     public $statusText;
-    
 
     public function rules() {
         return [
-                [['branch_id', 'lead_id', 'job_seeker_id', 'rec_comment', 'rec_status ', 'updated_at', 'updated_by', 'rec_joining_date', 'employer_comment', 'employer_status', 'leadTitleWithRef', 'cityName', 'jobSeekerName', 'rec_joining_date_selected', 'recruiterComapnyWithBranch', 'rating'], 'safe'],
+                [['branch_id', 'lead_id', 'job_seeker_id', 'rec_comment', 'rec_status ', 'updated_at', 'updated_by', 'rec_joining_date', 'employer_comment', 'employer_status', 'leadTitleWithRef', 'cityName', 'jobSeekerName', 'rec_joining_date_selected', 'recruiterComapnyWithBranch', 'rating', 'statusText', 'statusCalculated'], 'safe'],
                 [['leadTitleWithRef', 'cityName', 'jobSeekerName', 'rec_joining_date_selected', 'recruiterComapnyWithBranch', 'statusText', 'rating'], 'trim']
         ];
     }
@@ -292,7 +291,9 @@ class LeadRecruiterJobSeekerMappingSearch extends LeadRecruiterJobSeekerMapping 
 
     public function searchMyApplication($params) {
         $rating = new Expression("IF(lead_rating.rating,lead_rating.rating,0 ) as rating");
-        $query = LeadRecruiterJobSeekerMapping::find()->alias('lrjs')->select(["lrjs.*", "$rating"])
+        $calculateStatus = new Expression("CASE WHEN lrjs.rec_status=0 AND  lrjs.employer_status=0 THEN 0 WHEN lrjs.rec_status=1 AND  lrjs.employer_status=1 THEN 1 WHEN lrjs.rec_status=2 OR  lrjs.employer_status=2 THEN 2 ELSE 3  END as statusCalculated");
+
+        $query = LeadRecruiterJobSeekerMapping::find()->alias('lrjs')->select(['lrjs.*', $rating, $calculateStatus])
                 ->joinWith(['lead  lead', 'jobSeeker jobSeeker', 'branch recruiter_branch'])
                 ->leftJoin("cities", "cities.id = lead.city")
                 ->leftJoin("company_master recruiter_company", "recruiter_company.id = recruiter_branch.company_id")
@@ -300,10 +301,6 @@ class LeadRecruiterJobSeekerMappingSearch extends LeadRecruiterJobSeekerMapping 
 
         $query->andWhere(['lrjs.job_seeker_id' => $this->loggedInUserId]);
 
-//        echo '<pre/>';
-//        
-//        print_r($query->all());
-//        exit;
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 ?>
-
 <!DOCTYPE html>
 <html>
 
@@ -56,7 +55,7 @@ use yii\helpers\Html;
 
                                         <tr>
                                             <td style="padding: 10px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                At this moment, we pursue with other candidate for above said job. We will keep your information handy with us for future reference. 
+                                                Application is under review. We will update you once decision will be taken. 
                                             </td>
                                         </tr>
 

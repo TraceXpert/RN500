@@ -42,6 +42,9 @@ FontAwesomeAsset::register($this);
                                 'attribute' => 'leadTitleWithRef',
                                 'format' => 'raw',
                                 'enableSorting' => false,
+                                'value' => function($model) {
+                                    return Html::a($model->leadTitleWithRef, Yii::$app->urlManager->createAbsoluteUrl(['/browse-jobs/view', 'id' => $model->lead->reference_no]), ['target' => '_blank', 'data-pjax' => 0, 'class' => 'theme-primary-color']);
+                                },
                                 'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                             ],
                                 [
@@ -64,12 +67,6 @@ FontAwesomeAsset::register($this);
                                 'attribute' => 'rating',
                                 'format' => 'raw',
                                 'enableSorting' => false,
-//                                    'filter' => \kartik\rating\StarRating::widget(['model' => $searchModel, 'attribute' => 'rating',
-//                                        'pluginOptions' => [
-//                                            'theme' => 'krajee-uni',
-//                                            'filledStar' => '&#x2605;',
-//                                            'emptyStar' => '&#x2606;'
-//                                ]]),
                                 'value' => function($model) {
 
                                     return StarRating::widget([
@@ -90,32 +87,6 @@ FontAwesomeAsset::register($this);
                                 },
                                 'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                             ],
-//                                    [
-//                                    'class' => 'yii\grid\ActionColumn',
-//                                    'contentOptions' => ['style' => 'width:5%;'],
-//                                    'header' => 'Actions',
-//                                    'template' => '{proceed}',
-//                                    'buttons' => [
-//                                        //view button
-//                                        'proceed' => function ($url, $model) use ($lead_id) {
-//                                            if (!$model->is_already_applied) {
-//                                                $url = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/apply-job', 'lead_id' => $lead_id, 'branch_id' => $model->id]);
-//                                                return Html::a('Proceed', 'javascript:void(0)', [
-//                                                            'onclick' => "applyToThisbranch('$url')",
-//                                                            'data-pjax' => 0,
-//                                                            'title' => Yii::t('app', 'Proceed'),
-//                                                            'class' => 'btn btn-success',
-//                                                ]);
-//                                            } else {
-//                                                return Html::a('Applied', 'javascript:void(0)', [
-//                                                            'data-pjax' => 0,
-//                                                            'title' => Yii::t('app', 'Applied'),
-//                                                            'class' => 'btn btn-primary',
-//                                                ]);
-//                                            }
-//                                        }
-//                                    ],
-//                                ],
                         ],
                     ]);
                     ?>

@@ -95,9 +95,10 @@ class JobApplyController extends Controller {
                         $model->updated_at = CommonFunction::currentTimestamp();
                         $model->updated_by = $loggedInUserId;
                         if ($model->save()) {
-                            $mailSent = $model->sendMailToBranch();
+                            $mailSentRecruiter = $model->sendMailToRecruiterBranch();
+                            $mailSentJobSeeker = $model->sendMailToJobSeekerAboutAppliedAcknowledgement();
                             $code = 200;
-                            $msg = ($mailSent['status'] == '1') ? 'Job applied successfully.' : 'Job applied successfully, but there was a issue while sending the mail.';
+                            $msg = ($mailSentRecruiter['status'] == '1' && $mailSentJobSeeker['status'] == '1') ? 'Job applied successfully.' : 'Job applied successfully, but there was a issue while sending the mail.';
                             $data = [];
                         } else {
                             $code = 205;
@@ -138,16 +139,12 @@ class JobApplyController extends Controller {
         try {
             $paging = (isset($request['page']) && $request['page'] != '' && $request['page'] != 0) ? $request['page'] : 1;
             $search = (isset($request['filter']) && !empty($request['filter'])) ? $request['filter'] : '';
-
+            $searchStatus = (isset($request['filter_status']) && $request['filter_status'] != '') ? (int) $request['filter_status'] : '';
             $leadList = [];
 
             $searchModel = new LeadRecruiterJobSeekerMappingSearch();
             $searchModel->loggedInUserId = $this->user_id;
             $dataProvider = $searchModel->searchMyApplication([]);
-
-//            $searchModel = new LeadMasterSearch();
-//            $searchModel->loggedInUserId = $this->user_id;
-//            $dataProvider = $searchModel->searchJobApplicableBranchList(['ref' => $reference_no]);
             $query = $dataProvider->query;
 
             if ($search != '') {
@@ -161,18 +158,32 @@ class JobApplyController extends Controller {
                         ['like', 'cities.city', $search]
                 ]);
             }
+            if ((string) $searchStatus != '') {
+                if ($searchStatus == LeadRecruiterJobSeekerMapping::STATUS_PENDING) {
+                    $query->andWhere(['AND', ['lrjs.rec_status' => LeadRecruiterJobSeekerMapping::STATUS_PENDING], ['lrjs.employer_status' => LeadRecruiterJobSeekerMapping::STATUS_PENDING]]);
+                } else if ($searchStatus == LeadRecruiterJobSeekerMapping::STATUS_APPROVED) {
+                    $query->andWhere(['AND', ['lrjs.rec_status' => LeadRecruiterJobSeekerMapping::STATUS_APPROVED], ['lrjs.employer_status' => LeadRecruiterJobSeekerMapping::STATUS_APPROVED]]);
+                } else if ($searchStatus == LeadRecruiterJobSeekerMapping::STATUS_REJECTED) {
+                    $query->andWhere(['OR', ['lrjs.rec_status' => LeadRecruiterJobSeekerMapping::STATUS_REJECTED], ['lrjs.employer_status' => LeadRecruiterJobSeekerMapping::STATUS_REJECTED]]);
+                } else {
+                    $query->andWhere(['OR', ['AND', ['lrjs.rec_status' => LeadRecruiterJobSeekerMapping::STATUS_APPROVED], ['lrjs.employer_status' => LeadRecruiterJobSeekerMapping::STATUS_PENDING]], ['AND', ['lrjs.rec_status' => LeadRecruiterJobSeekerMapping::STATUS_PENDING], ['lrjs.employer_status' => LeadRecruiterJobSeekerMapping::STATUS_APPROVED]]]);
+                }
+            }
 
+            $query->orderBy(['updated_at' => SORT_DESC]);
             $total_pages = (ceil($query->count() / Yii::$app->params['API_PAGINATION_RECORD_LIMIT'])) ? ceil($query->count() / Yii::$app->params['API_PAGINATION_RECORD_LIMIT']) : 1;
             if ($paging <= $total_pages) {
                 $query->offset(($paging - 1) * Yii::$app->params['API_PAGINATION_RECORD_LIMIT'])->limit(Yii::$app->params['API_PAGINATION_RECORD_LIMIT']);
                 $lists = $query->all();
+
                 foreach ($lists as $model) {
                     $leadList[] = [
                         'lead_id' => (string) $model->lead_id,
                         'leadTitleWithRef' => (string) $model->leadTitleWithRef,
                         'cityName' => $model->cityName,
-                        'recruiterComapnyWithBranch' => $model->recruiterComapnyWithBranch, 
-                        'statusText' => $model->statusText, 
+                        'recruiterComapnyWithBranch' => $model->recruiterComapnyWithBranch,
+                        'statusCalculated' => $model->statusCalculated,
+                        'statusText' => $model->statusText,
                         'rating' => $model->rating];
                 }
             }
