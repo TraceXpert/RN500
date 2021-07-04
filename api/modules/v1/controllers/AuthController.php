@@ -42,12 +42,12 @@ class AuthController extends Controller {
                             $code = 200;
                             $msg = "You have successfully Logged In!";
                             $data = [
-                                'token' => $jwtToken, 
-                                'first_name' => $user->details->first_name, 
-                                'last_name' => $user->details->last_name, 
-                                'email' => $user->email, 
-                                'profile_image' => (isset($user->details->profile_pic) && !empty($user->details->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $user->details->profile_pic) ) ? Url::to(Yii::$app->urlManagerFrontend->createUrl(["/uploads/user-details/profile/".$user->details->profile_pic]), true) : ''
-                                ];
+                                'token' => $jwtToken,
+                                'first_name' => $user->details->first_name,
+                                'last_name' => $user->details->last_name,
+                                'email' => $user->email,
+                                'profile_image' => (isset($user->details->profile_pic) && !empty($user->details->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $user->details->profile_pic) ) ? Url::to(Yii::$app->urlManagerFrontend->createUrl(["/uploads/user-details/profile/" . $user->details->profile_pic]), true) : ''
+                            ];
                         } else {
                             $code = 202;
                             $msg = "Invalid OTP.";
@@ -179,6 +179,128 @@ class AuthController extends Controller {
         }
         $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
         \common\CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
+        echo $response;
+        exit;
+    }
+
+    public function actionForgotpassword() {
+        $data = [];
+        $code = 201;
+        $msg = "Required Data Missing in Request.";
+        $request = Yii::$app->request->post();
+
+        if (isset($request["email"]) && !empty($request["email"])) {
+            $model = new PasswordResetRequestForm();
+            $model->email = trim($request["email"]);
+            if ($model->validate()) {
+                if ($model->sendEmail()) {
+                    $code = 200;
+                    $msg = "Password reset link sent successfully. Please check your inbox.";
+                } else {
+                    $code = 404;
+                    $msg = "something went wrong, while sending the mail.";
+                    Yii::$app->session->setFlash('error', "");
+                }
+            } else {
+                $code = 404;
+                $msg = $model->getFirstError('email');
+            }
+        }
+        $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
+        echo $response;
+        exit;
+    }
+
+    public function actionChangepasswordvalidate() {
+        $data = [];
+        $code = 201;
+        $msg = "Required Data Missing in Request.";
+        $request = Yii::$app->request->post();
+
+        if (isset($request["password"]) && !empty($request["password"]) && isset($request["new_password"]) && !empty($request["new_password"]) && isset($request["confirm_password"]) && !empty($request["confirm_password"])) {
+
+            $password = $request["password"];
+            $new_password = $request["new_password"];
+            $confirm_password = $request["confirm_password"];
+            $model = new \frontend\models\ChangePasswordForm([], $this->user_id);
+
+            $model->password = $password;
+            $model->new_password = $new_password;
+            $model->confirm_password = $confirm_password;
+
+            if ($model->validate(['password', 'new_password', 'confirm_password'])) {
+                if ($model->sendOTP()) {
+                    $code = 200;
+                    $msg = "Otp was sent, please check your inbox.";
+                } else {
+                    $code = 404;
+                    $msg = "something went wrong.";
+                }
+            } else {
+                $modelErrors = $model->getErrorSummary(true);
+                $code = 404;
+                $msg = $modelErrors[0];
+            }
+        } else {
+            $code = 201;
+            $msg = "Required Data Missing in Request : password, new_password  or confirm_password";
+        }
+        $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
+        echo $response;
+        exit;
+    }
+
+    public function actionChangepassword() {
+        $data = [];
+        $code = 201;
+        $msg = "Required Data Missing in Request.";
+        $request = Yii::$app->request->post();
+
+        if (isset($request["password"]) && !empty($request["password"]) && isset($request["new_password"]) && !empty($request["new_password"]) && isset($request["confirm_password"]) && !empty($request["confirm_password"]) && isset($request["otp"]) && !empty($request["otp"])) {
+
+            $password = $request["password"];
+            $new_password = $request["new_password"];
+            $confirm_password = $request["confirm_password"];
+            $otp = $request["otp"];
+            $model = new \frontend\models\ChangePasswordForm([], $this->user_id);
+
+            $model->password = $password;
+            $model->new_password = $new_password;
+            $model->confirm_password = $confirm_password;
+            $model->is_otp_sent = true;
+            $model->otp = $otp;
+
+            if ($model->validate(['password', 'new_password', 'confirm_password', 'otp'])) {
+                
+                if ($model->OTPVerified()) {
+                    $user = User::findOne($this->user_id);
+                    $user->password = Yii::$app->security->generatePasswordHash($model->new_password);
+                    $user->original_password = $model->new_password;
+                    if ($user->save(false)) {
+                        $code = 440;
+                        $msg = "Password changed successfully.";
+                    } else {
+                        $code = 404;
+                        $msg = "something went wrong.";
+                    }
+                } else {
+                    $modelErrors = $model->getErrorSummary(true);
+                    $code = 404;
+                    $msg = $modelErrors[0];
+                }
+            } else {
+                $modelErrors = $model->getErrorSummary(true);
+                $code = 404;
+                $msg = $modelErrors[0];
+            }
+        } else {
+            $code = 201;
+            $msg = "Required Data Missing in Request : password, new_password  onfirm_password ot otp";
+        }
+        $response = Json::encode(['code' => $code, 'msg' => $msg, "data" => $data]);
+        CommonFunction::logger(Yii::$app->request->url, json_encode(Yii::$app->request->bodyParams), json_encode($response));
         echo $response;
         exit;
     }

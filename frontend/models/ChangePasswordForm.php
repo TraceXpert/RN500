@@ -19,14 +19,20 @@ class ChangePasswordForm extends Model {
     public $confirm_password;
     public $otp;
     public $is_otp_sent;
+    public $user_id ='';
 
     /**
      * @var \common\models\User
      */
     private $_user;
 
-    public function __construct($config = []) {
-        $this->_user = User::findIdentity(Yii::$app->user->identity->id);
+    public function __construct($config = [],$userId ='') {
+        if($userId ==''){
+           $this->user_id = Yii::$app->user->identity->id;
+        } else {
+           $this->user_id = $userId;
+        }
+        $this->_user = User::findIdentity($this->user_id);
         parent::__construct($config);
     }
 
@@ -109,6 +115,9 @@ class ChangePasswordForm extends Model {
         $user = $this->_user;
         if ($otp = $this->otp) {
             $sent_otp_detail = OtpRequest::find()->where(['user_id' => $user->id, 'is_verified' => OtpRequest::STATUS_NOT_VERIFIED, 'otp' => $otp])->orderBy("id desc")->one();
+//        echo "<pre/>";
+//        print_r($sent_otp_detail);
+//        exit;
             if (!empty($sent_otp_detail) || $otp == '123456') {
                 if (!empty($sent_otp_detail)) {
 
