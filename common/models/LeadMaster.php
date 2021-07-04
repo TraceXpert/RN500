@@ -222,7 +222,7 @@ class LeadMaster extends \yii\db\ActiveRecord {
             if (!empty($postingBranch) && !empty($postingCompany)) {
                 $flag = Yii::$app->mailer->compose(['html' => $htmlLayout,], ['lead' => $this, 'postingBranch' => $postingBranch, 'postingCompany' => $postingCompany])
                         ->setFrom([Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
-                        ->setTo($postingCompany->company_email)
+                        ->setTo($postingBranch->email)
                         ->setSubject($subject)
                         ->send();
             }

@@ -5,25 +5,6 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $user common\models\User */
 ?>
-<!--<div class="login-otp">
-    <br/>
-    <p> Hii</p> 
-    <p> New job appliation received from <?php // echo $job_seeker->getFullName() ?>  for position of <b><?php echo $lead->title ?> </b> (Ref. No. :  <?php echo $lead->reference_no ?>)</p> 
-
-    <p> <a href="<?php // echo $urlToSend ?>" target="_blank"> Click here </a> to view job seeker profile </p> 
-
-    <br/>
-    or copy paste the following url into browser
-    <br/><br/>
-    <?php // echo $urlToSend ?>
-    <br/>
-
-
-    <br/><br/><br/><br/>
-    Regards,
-</div>-->
-
-
 <!DOCTYPE html>
 <html>
 
@@ -67,7 +48,7 @@ use yii\helpers\Html;
 
                                         <tr>
                                             <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                
+
                                                 You received application for Job Reference NO.: <?php echo $lead->reference_no ?>, Job Title: <?php echo $lead->title ?>, Job Location: <?php echo $lead->getLocation() ?> from Job Seeker Profile: <?php echo $job_seeker->getFullName() ?>. Please click to view button to see Job Seekers profile. 
                                             </td>
                                         </tr>
@@ -75,15 +56,29 @@ use yii\helpers\Html;
                                         <tr>
                                             <td align="left" style="padding: 20px 20px;">
                                                 <a href="<?= $urlToSend ?>" style="text-decoration: none;color: #FFF;padding: 16px 20px;background:#2470b3;font-weight: 500;text-align: center;cursor: pointer;display: inline-block;border-radius: 6px;font-family: 'Montserrat', sans-serif;">
-                                                     View Job Seeker
+                                                    View Job Seeker
                                                 </a>
                                             </td>
                                         </tr>
-                                       
+
+                                        <tr>
+                                            <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
+                                                It will be really helpful when action taken as application Received, Under Processing or Selected from selection options. You can always find action take responses in Reports tab. 
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td align="left" style="padding: 10px 20px 20px;display: flex;">
+                                                <span style="color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;font-size: 16px;font-weight: 600;margin-right: 10px;display: flex;align-items: center;">Stay in touch</span>
+                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/facebook.png']) ?>" alt="facebook" style="margin-right: 10px;"/></a>
+                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/instagram.png']) ?>" alt="Instagram" style="margin-right: 10px;"/></a>
+                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/twitter.png']) ?>" alt="Twitter"/></a>
+                                            </td>
+                                        </tr>
 
 
                                         <tr>
-                                            <td align="left" style="padding: 30px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">
+                                            <td align="left" style="padding: 20px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">
                                                 Thank you,  <br/>
                                                 Customer Service Team, <br/>
                                                 RN500.com 
