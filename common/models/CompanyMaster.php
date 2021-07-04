@@ -114,5 +114,17 @@ class CompanyMaster extends \yii\db\ActiveRecord {
     public function getCityRef() {
         return $this->hasOne(Cities::className(), ['id' => 'city']);
     }
+    
+     public function getCompanyLocation() {
+         $cityStateName ='';
+         if($this->cityRef){
+             $cityName = isset($this->cityRef->city) ? $this->cityRef->city : '';
+             if($this->cityRef && $this->cityRef->stateRef){
+                $stateName = isset($this->cityRef->stateRef) ? ', '. $this->cityRef->stateRef->state : '';    
+             }
+             $cityStateName = $cityName . $stateName;
+         }
+        return $cityStateName;
+    }
 
 }

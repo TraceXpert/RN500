@@ -93,7 +93,8 @@ class LeadsReceivedController extends Controller {
             try {
                 $model->load(Yii::$app->request->post());
                 $model->rec_comment = ($model->rec_comment != '') ? $model->rec_comment : NULL;
-                $model->rec_joining_date = ($model->rec_joining_date != '') ? date("Y-m-d", strtotime($model->rec_joining_date)) : '';
+                $model->rec_joining_date = ($model->rec_joining_date != '') ? date("Y-m-d", strtotime($model->rec_joining_date)) : null;
+                $model->rec_end_date = ($model->rec_end_date != '') ? date("Y-m-d", strtotime($model->rec_end_date)) : null;
                 $model->rec_status = ($status == LeadRecruiterJobSeekerMapping::STATUS_APPROVED) ? LeadRecruiterJobSeekerMapping::STATUS_APPROVED : LeadRecruiterJobSeekerMapping::STATUS_REJECTED;
                 $model->updated_by = Yii::$app->user->identity->id;
                 $model->updated_at = CommonFunction::currentTimestamp();

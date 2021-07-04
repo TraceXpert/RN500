@@ -40,7 +40,7 @@ class BrowseJobsController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['recruiter-lead', 'recruiter-view', 'apply', 'apply-job'],
+                'only' => ['recruiter-lead', 'recruiter-view', 'apply', 'apply-job', 'track-my-application', 'set-rating'],
                 'rules' => [
                         [
                         'actions' => ['apply', 'apply-job'],
@@ -56,6 +56,11 @@ class BrowseJobsController extends Controller {
                         'actions' => ['recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isEmployer() ? ['@'] : ['*'] : ['*'],
+                    ],
+                        [
+                        'actions' => ['track-my-application', 'set-rating'],
+                        'allow' => true,
+                        'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isJobSeeker() ? ['@'] : ['*'] : ['*'],
                     ]
                 ],
             ],
@@ -339,14 +344,14 @@ class BrowseJobsController extends Controller {
 //        $model = LeadMaster::findOne(['id' => $id]);
         $model = LeadMaster::find()->where(['OR', ['id' => $id], ['reference_no' => $id]])->one();
         $today = date('Y-m-d');
-        $advertisment = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere(['location' => $model->city])->andWhere("'$today' BETWEEN active_from AND active_to")->asArray()->all();
+        $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->andWhere(['location' => $model->city])->orderBy(['id'=>SORT_DESC])->limit(6)->all();
 
         if ($model != null) {
             $benefit = LeadBenefit::findAll(['lead_id' => $model->id]);
             $specialty = LeadSpeciality::findAll(['lead_id' => $model->id]);
             $discipline = LeadDiscipline::findAll(['lead_id' => $model->id]);
             $emergency = LeadEmergency::findAll(['lead_id' => $model->id]);
-            return $this->render('view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency, 'advertisment' => $advertisment]);
+            return $this->render('view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency, 'advertisments' => $advertisments]);
         } else {
             throw new \yii\web\NotFoundHttpException("In valid lead");
         }
@@ -355,12 +360,12 @@ class BrowseJobsController extends Controller {
     public function actionRecruiterView($id) {
         $model = LeadMaster::find()->where(['OR', ['id' => $id], ['reference_no' => $id]])->one();
         $today = date('Y-m-d');
-        $advertisment = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere(['location' => $model->city])->andWhere("'$today' BETWEEN active_from AND active_to")->asArray()->all();
+        $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->andWhere(['location' => $model->city])->orderBy(['id'=>SORT_DESC])->limit(6)->all();
         $benefit = LeadBenefit::findAll(['lead_id' => $id]);
         $specialty = LeadSpeciality::findAll(['lead_id' => $id]);
         $discipline = LeadDiscipline::findAll(['lead_id' => $id]);
         $emergency = LeadEmergency::findAll(['lead_id' => $id]);
-        return $this->render('recruiter-view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency, 'advertisment' => $advertisment]);
+        return $this->render('recruiter-view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency,  'advertisments' => $advertisments]);
     }
 
     /*     * ******** ADDED BY MOHAN*** */
@@ -382,7 +387,7 @@ class BrowseJobsController extends Controller {
             Yii::$app->session->setFlash("success", "Referral mail sent successfully.");
             echo json_encode(['code' => 200]);
             exit;
-        } 
+        }
 //        else {
 //            Yii::$app->session->setFlash("warning", "Something went wrong while sending the mail.");
 //            echo json_encode(['code' => 201]);
@@ -413,19 +418,25 @@ class BrowseJobsController extends Controller {
             $model->updated_at = CommonFunction::currentTimestamp();
             $model->updated_by = $loggedInUserId;
             if ($model->save()) {
-                $mailSent = $model->sendMailToBranch();
-                if ($mailSent['status'] == '1') {
+                $mailSentJobSeeker = $model->sendMailToJobSeekerAboutAppliedAcknowledgement();
+                $mailSentRecBranch = $model->sendMailToRecruiterBranch();
+                
+                if ($mailSentJobSeeker['status'] == '1' && $mailSentRecBranch['status'] == '1') {
                     Yii::$app->session->setFlash("success", "Job applied successfully.");
+                    echo Json::encode(['code' => '200']);
+                    exit;
                 } else {
                     Yii::$app->session->setFlash("warning", "Job applied successfully, but there was a issue while sending the mail.");
+                    echo Json::encode(['code' => '201']);
+                    exit;
                 }
             }
-            $ref = LeadMaster::findOne($lead_id)->reference_no;
+//            $ref = LeadMaster::findOne($lead_id)->reference_no;
         } else {
             Yii::$app->session->setFlash("warning", "You have already applied to this branch");
         }
-        $ref = LeadMaster::findOne($lead_id)->reference_no;
-        $this->redirect(['apply', 'ref' => $ref]);
+//        $ref = LeadMaster::findOne($lead_id)->reference_no;
+//        return $this->redirect(['apply', 'ref' => $ref]);
     }
 
     public function actionTrackMyApplication() {

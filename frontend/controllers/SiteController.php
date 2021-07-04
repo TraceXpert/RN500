@@ -26,6 +26,7 @@ use common\models\JobPreference;
 use common\models\LeadMaster;
 use yii\base\DynamicModel;
 use yii\web\NotFoundHttpException;
+use common\models\Banner;
 
 /**
  * Site controller
@@ -89,13 +90,14 @@ class SiteController extends Controller {
      */
     public function actionIndex() {
         $today = date('Y-m-d');
-        $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->orderBy(['id'=>SORT_DESC])->limit(6)->all();
+        $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->orderBy(['id' => SORT_DESC])->limit(6)->all();
+        $banner = Banner::find()->where(['status' => '1'])->all();
         $query = LeadMaster::find()->joinWith(['benefits', 'disciplines', 'specialty', 'branch'])->where(['lead_master.status' => LeadMaster::STATUS_APPROVED]);
         $query->groupBy(['lead_master.id']);
         $query->orderBy(['lead_master.created_at' => SORT_DESC]);
         $leadModels = $query->limit(8)->all();
         return $this->render('index', [
-                    'advertisments' => $advertisments, 'leadModels' => $leadModels
+                    'advertisments' => $advertisments, 'leadModels' => $leadModels, 'banner' => $banner
         ]);
     }
 
@@ -321,6 +323,7 @@ class SiteController extends Controller {
     public function actionAboutUs() {
         return $this->render('about-us');
     }
+
     public function actionAdvertise() {
         return $this->render('advertise');
     }

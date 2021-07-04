@@ -24,7 +24,6 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         <!-- Fav Icon -->
 <!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>-->
         <link rel="shortcut icon" href="<?= $assetDir ?>/img/favicon.ico">
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
     <body>
         <?php $this->beginBody() ?>
@@ -144,7 +143,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         setInterval(function () {
             $('#overlay').removeClass("show");
             $('#overlay').addClass("hide");
-        }, 4000);
+        }, 2000);
     });
     $(document).bind("ajaxStart.mine", function () {
         $('#overlay').removeClass("hide");

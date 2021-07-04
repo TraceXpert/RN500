@@ -17,6 +17,7 @@ class ThemeAsset extends AssetBundle {
         'css/custom_ma.css',
         'css/font-awesome.css',
         'css/jquery-ui.min.css',
+        'css/font-awesome.min.css'
     ];
     public $js = [
 //        'js/jquery.min.js',
@@ -24,6 +25,7 @@ class ThemeAsset extends AssetBundle {
         'js/bootstrap.min.js',
         'js/jquery-ui.min.js',
         'js/toastr.min.js',
+        'js/sweetalert.2.1.2.min.js',
         'https://js.stripe.com/v3/',
     ];
     public $depends = [

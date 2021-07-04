@@ -167,7 +167,13 @@ class JobApplyController extends Controller {
                 $query->offset(($paging - 1) * Yii::$app->params['API_PAGINATION_RECORD_LIMIT'])->limit(Yii::$app->params['API_PAGINATION_RECORD_LIMIT']);
                 $lists = $query->all();
                 foreach ($lists as $model) {
-                    $leadList[] = ['lead_id' => (string) $model->lead_id, 'leadTitleWithRef' => (string) $model->leadTitleWithRef, 'cityName' => $model->cityName, 'recruiterComapnyWithBranch' => $model->recruiterComapnyWithBranch, 'statusText' => $model->statusText, 'rating' => $model->rating];
+                    $leadList[] = [
+                        'lead_id' => (string) $model->lead_id,
+                        'leadTitleWithRef' => (string) $model->leadTitleWithRef,
+                        'cityName' => $model->cityName,
+                        'recruiterComapnyWithBranch' => $model->recruiterComapnyWithBranch, 
+                        'statusText' => $model->statusText, 
+                        'rating' => $model->rating];
                 }
             }
             $code = 200;
