@@ -105,14 +105,15 @@ class LeadsReceivedController extends Controller {
                         if (CommonFunction::isLeadAppliedBranchAndPostedBranchSame($model->lead_id, $model->branch_id)) {
                             $model->employer_status = LeadRecruiterJobSeekerMapping::STATUS_APPROVED;
                             $model->save(false);
-                            $jobSeekerMailSent = $model->sendMailToJobSeekerAboutRecruiterApproval();
+                            $jobSeekerMailSent = $model->sendMailToJobSeekerAboutRecruiterApprovalOnly();
                             if ($jobSeekerMailSent['status'] == '1') {
                                 $flashMsg = "Application approved successfully.";
                                 $flashMsgType = "success";
                             }
                         } else {
                             $employerMailSent = $model->sendMailToEmployerAboutRecruiterApproval();
-                            if ($employerMailSent['status'] == '1') {
+                            $recruiterMailSent = $model->sendMailToRecruiterAboutUnderProcessingLeadByEmployer();
+                            if ($employerMailSent['status'] == '1' && $recruiterMailSent['status'] == '1') {
                                 $flashMsg = "Application approved successfully.";
                                 $flashMsgType = "success";
                             }
