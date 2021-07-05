@@ -105,7 +105,7 @@ class LeadsReceivedController extends Controller {
                         if (CommonFunction::isLeadAppliedBranchAndPostedBranchSame($model->lead_id, $model->branch_id)) {
                             $model->employer_status = LeadRecruiterJobSeekerMapping::STATUS_APPROVED;
                             $model->save(false);
-                            $jobSeekerMailSent = $model->sendMailToJobSeekerAboutRecruiterApprovalOnly();
+                            $jobSeekerMailSent = $model->sendMailToJobSeekerOnFinalApprovedApplication();
                             if ($jobSeekerMailSent['status'] == '1') {
                                 $flashMsg = "Application approved successfully.";
                                 $flashMsgType = "success";
@@ -113,7 +113,8 @@ class LeadsReceivedController extends Controller {
                         } else {
                             $employerMailSent = $model->sendMailToEmployerAboutRecruiterApproval();
                             $recruiterMailSent = $model->sendMailToRecruiterAboutUnderProcessingLeadByEmployer();
-                            if ($employerMailSent['status'] == '1' && $recruiterMailSent['status'] == '1') {
+                            $jobseekerUnderProcessingMailSent = $model->sendJobMaiToSeekerAboutUnderProcessing();
+                            if ($employerMailSent['status'] == '1' && $recruiterMailSent['status'] == '1' && $jobseekerUnderProcessingMailSent['status'] == '1') {
                                 $flashMsg = "Application approved successfully.";
                                 $flashMsgType = "success";
                             }
@@ -157,14 +158,16 @@ class LeadsReceivedController extends Controller {
                         $flashMsg = "Application approved successfully, but there is some issue while sending mail.";
                         
                         $recruiterMailSent = $model->sendMailToRecruiterAboutApproveLeadByEmployer();
-                        if ($recruiterMailSent['status'] == '1') {
+                        $jobSeekerMailSent = $model->sendMailToJobSeekerOnFinalApprovedApplication();
+                        if ($recruiterMailSent['status'] == '1' && $jobSeekerMailSent['status'] == '1') {
                             $flashMsg = "Application approved successfully.";
                             $flashMsgType = "success";
                         }
                     } else {
                         $flashMsg = "Application rejected successfully, but there is some issue while sending mail.";
                         $recruiterMailSent = $model->sendMailToRecruiterAboutRejectLeadByEmployer();
-                        if ($recruiterMailSent['status'] == '1') {
+                        $jobSeekerMailSent = $model->sendMailToJobSeekerAboutRecruiterRejection();
+                        if ($recruiterMailSent['status'] == '1' && $jobSeekerMailSent['status'] =='1') {
                             $flashMsg = "Application rejected successfully.";
                             $flashMsgType = "success";
                         }
