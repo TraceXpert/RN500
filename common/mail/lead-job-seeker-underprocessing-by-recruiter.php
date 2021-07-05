@@ -45,7 +45,7 @@ use yii\helpers\Html;
 
                                         <tr>
                                             <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Thank you for applying Job Title: <?php echo $lead->title ?>,   Job Reference No.: <?php echo $lead->reference_no ?>, for location: <?php echo $lead->getLocation() ?>. at this moment company has decided to pursue with other candidate. We will keep your resume and profile for future reference.
+                                                Your job application for Job Title: <?php echo $lead->title ?>,   Job Reference No.: <?php echo $lead->reference_no ?>, for location: <?php echo $lead->getLocation() ?> is under review. We will update you as soon as once decision will be taken. 
                                             </td>
                                         </tr>
 

@@ -45,7 +45,26 @@ use yii\helpers\Html;
 
                                         <tr>
                                             <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Thank you for applying Job Title: <?php echo $lead->title ?>,   Job Reference No.: <?php echo $lead->reference_no ?>, for location: <?php echo $lead->getLocation() ?>. at this moment company has decided to pursue with other candidate. We will keep your resume and profile for future reference.
+                                                Congratulations. Your recruiter has completed job process and decided to hire you. Please contact your recruiter  <?php echo $recruiterBranch->getOwnerName(); ?>, Phone: <?php echo $recruiterCompany->company_mobile?> ,  Email: <?php echo $recruiterBranch->getOwnerEmail() ?> for further information. 
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
+                                                Please give your reviews to RN500.com  and Recruiter (<?php echo $recruiterCompany->company_name ?>). 
+
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
+                                                Received surprise gift card once you follow us on Facebook & Twitter and get referral bonus after hiring of referred person. 
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
+                                                Thank you for giving us opportunity to serve you one of the leading healthcare job portal RN500.com. 
                                             </td>
                                         </tr>
 
@@ -65,7 +84,7 @@ use yii\helpers\Html;
                                             <td align="left" style="padding: 20px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">
                                                 Thank you,  <br/>
                                                 Customer Service Team, <br/><br/>
-                                                <?php echo (isset($recruiterCompany->company_name)) ? $recruiterCompany->company_name : '' ?>
+                                                RN500.com
                                             </td>
                                         </tr>
                                     </table>
