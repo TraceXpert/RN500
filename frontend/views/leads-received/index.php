@@ -83,7 +83,8 @@ use kartik\date\DatePicker;
                                         'filter' => DatePicker::widget([
                                             'attribute' => 'rec_joining_date',
                                             'model' => $searchModelPending,
-                                            'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                                            'type' => DatePicker::TYPE_INPUT,
+                                            'options' => ['readonly' => true],
                                             'pluginOptions' => [
                                                 'autoclose' => true,
                                                 'format' => 'dd-M-yyyy',

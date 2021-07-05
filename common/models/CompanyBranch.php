@@ -36,17 +36,17 @@ class CompanyBranch extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['email','branch_name', 'street_no', 'street_address', 'city', 'updated_at', 'zip_code'], 'required'],
-            [['company_id', 'city', 'is_default', 'created_at', 'updated_at'], 'integer'],
-            [['branch_name'], 'string', 'max' => 200],
-            [['street_no', 'street_address', 'apt'], 'string', 'max' => 255],
+                [['email', 'branch_name', 'street_no', 'street_address', 'city', 'updated_at', 'zip_code'], 'required'],
+                [['company_id', 'city', 'is_default', 'created_at', 'updated_at'], 'integer'],
+                [['branch_name'], 'string', 'max' => 200],
+                [['street_no', 'street_address', 'apt'], 'string', 'max' => 255],
 //            [['zip_code'], 'string', 'max' => 20],
             [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
-            ['company_id', 'required', 'when' => function ($model) {
+                ['company_id', 'required', 'when' => function ($model) {
                     return isset(\Yii::$app->user->identity->id) ? CommonFunction::isMasterAdmin(\Yii::$app->user->identity->id) : false;
                 }],
-            [['email'],'email'],
-            [['email', 'branch_name', 'street_no', 'street_address', 'apt', 'zip_code'], 'safe']
+                [['email'], 'email'],
+                [['email', 'branch_name', 'street_no', 'street_address', 'apt', 'zip_code'], 'safe']
         ];
     }
 
@@ -72,12 +72,11 @@ class CompanyBranch extends \yii\db\ActiveRecord {
     public function getCompany() {
         return $this->hasOne(CompanyMaster::className(), ['id' => 'company_id']);
     }
-    
+
     public function getCompanyName() {
-        $name ='';
-        if($this->company){
-            $name = (isset($this->company->company_name)) ? $this->company->company_name :"";
-            
+        $name = '';
+        if ($this->company) {
+            $name = (isset($this->company->company_name)) ? $this->company->company_name : "";
         }
         return $name;
     }
@@ -96,6 +95,26 @@ class CompanyBranch extends \yii\db\ActiveRecord {
             $location = $this->cityRef->city . "-" . $this->cityRef->state_code;
         }
         return $location;
+    }
+
+    public function getOwner() {
+        return $this->hasOne(User::className(), ['branch_id' => 'id'])->onCondition(['user.is_owner' => 1]);
+    }
+
+    public function getOwnerName() {
+        $name = '';
+        if (!empty($this->owner)) {
+            $name = $this->owner->getFullName();
+        }
+        return $name;
+    }
+
+    public function getOwnerEmail() {
+        $email = '';
+        if (!empty($this->owner)) {
+            $email = isset($this->owner->email) ? $this->owner->email : '';
+        }
+        return $email;
     }
 
 }

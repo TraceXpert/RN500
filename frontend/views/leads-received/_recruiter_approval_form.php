@@ -89,11 +89,21 @@ $(document).ready(function() {
         if (form.find('.has-error').length > 0) { 
             return false;
         } else {
-            var ajaxRequest= $.post(form.attr('action'), form.serialize(), function(data) {
-            }).always(function() {
-                $.pjax.reload({container: '#pjx_pending', timeout:false, async: false});
-                $("#commonModal").modal('hide');
-                $.pjax.reload({container: '#res-messages', timeout:false, async: false});
+//            var ajaxRequest= $.post(form.attr('action'), form.serialize(), function(data) {
+//            }).always(function() {
+//                $.pjax.reload({container: '#pjx_pending', timeout:false, async: false});
+//                $("#commonModal").modal('hide');
+//                $.pjax.reload({container: '#res-messages', timeout:false, async: false});
+//            });
+        
+            $.ajax({
+                method: "POST",
+                url: form.attr('action'),
+                data: form.serialize()
+            }).done(function( res ) {
+                    $.pjax.reload({container: '#pjx_pending', timeout:false, async: false});
+                    $("#commonModal").modal('hide');
+                    $.pjax.reload({container: '#res-messages', timeout:false, async: false});
             });
         }
     })

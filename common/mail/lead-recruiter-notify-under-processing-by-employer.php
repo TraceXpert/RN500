@@ -38,17 +38,26 @@ use yii\helpers\Html;
                                     <table cellpadding="0" cellspacing="0" style="width: 100%;">
 
                                         <tr>
+                                            <td style="padding: 40px 20px 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
+                                                To <br/>
+                                                <?php echo $recruiterCompany->company_name ?><br/>
+                                                <?php echo $recruiterCompany->getCompanyLocation() ?><br/>
+
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
                                             <td style="padding: 10px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Dear <?php echo $jobSeeker->getFullName() ?>, 
+                                                We received application for Job Reference No.: <?php echo $lead->reference_no ?>, Job Title: <?php echo $lead->title ?> for location: <?php echo $lead->getLocation() ?> from you for Job Seeker: <?php echo $jobSeeker->getFullName() ?>. 
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Thank you for applying Job Title: <?php echo $lead->title ?>,   Job Reference No.: <?php echo $lead->reference_no ?>, for location: <?php echo $lead->getLocation() ?>. at this moment company has decided to pursue with other candidate. We will keep your resume and profile for future reference.
+                                            <td style="padding: 10px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
+                                                Application is under review. We will update you once decision will be taken. 
                                             </td>
                                         </tr>
-
 
 
                                         <tr>
@@ -60,12 +69,10 @@ use yii\helpers\Html;
                                             </td>
                                         </tr>
 
-
                                         <tr>
-                                            <td align="left" style="padding: 20px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">
+                                            <td align="left" style="padding: 0px 20px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">
                                                 Thank you,  <br/>
-                                                Customer Service Team, <br/><br/>
-                                                <?php echo (isset($recruiterCompany->company_name)) ? $recruiterCompany->company_name : '' ?>
+                                                HR Team, <br/>
                                             </td>
                                         </tr>
                                     </table>
@@ -81,5 +88,4 @@ use yii\helpers\Html;
         </table>
 
     </body>
-
 </html>

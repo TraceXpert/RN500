@@ -31,6 +31,7 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
     const STATUS_INPROGRESS = 3; // ADD FOR CONCEPTUALIZATION ONLY, WE DIDN'T STORE IN DB
 
     public $rating;
+    public $statusCalculated;
 
     /**
      * {@inheritdoc}
@@ -49,7 +50,7 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
                 [['rec_comment', 'employer_comment'], 'string', 'max' => 500],
                 [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => CompanyBranch::className(), 'targetAttribute' => ['branch_id' => 'id']],
                 [['lead_id'], 'exist', 'skipOnError' => true, 'targetClass' => LeadMaster::className(), 'targetAttribute' => ['lead_id' => 'id']],
-                [['branch_id', 'lead_id', 'job_seeker_id', 'rec_comment', 'rec_status ', 'updated_at', 'updated_by', 'rec_joining_date', 'rec_end_date','employer_comment', 'employer_status'], 'safe'],
+                [['branch_id', 'lead_id', 'job_seeker_id', 'rec_comment', 'rec_status ', 'updated_at', 'updated_by', 'rec_joining_date', 'rec_end_date', 'employer_comment', 'employer_status'], 'safe'],
                 [['rec_comment', 'employer_comment'], 'trim'],
             // SCENARIO BASE VALIDATION
             [['rec_joining_date'], 'required', 'on' => 'rec_approve'],
@@ -85,7 +86,7 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
 
     public function scenarios() {
         $scenarios = parent::scenarios();
-        $scenarios['rec_approve'] = ['rec_joining_date', 'rec_comment','rec_end_date'];
+        $scenarios['rec_approve'] = ['rec_joining_date', 'rec_comment', 'rec_end_date'];
         $scenarios['rec_reject'] = ['rec_comment'];
         $scenarios['employer_approve'] = ['employer_comment'];
         $scenarios['employer_reject'] = ['employer_comment'];
@@ -210,7 +211,7 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
     }
 
     /**
-     *  SENDS MAIL TO RECRUITER BRANCH
+     *  SENDS MAIL TO RECRUITER BRANCH THAT JOB SEEKER HAS APPLIED THE JOB IN YOUR BRANCH
      *  0: Issue in mail server
      *  1: Mail sent successfully
      *  2: Branch has doesn't any email registered / branch doesn't exists
@@ -250,25 +251,48 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
     }
 
     /**
-     *  SENDS MAIL TO JOB-SEEKER  ABOUT TO RECRUITER APPROVED LEAD
+     *  SENDS MAIL TO JOB-SEEKER  ABOUT WHEN FINALLY LEAD WAS APPROVED
      *  0: Issue in mail server
      *  1: Mail sent successfully
      *  3: issue Mail sending
      */
-    public function sendMailToJobSeekerAboutRecruiterApproval() {
+    public function sendMailToJobSeekerOnFinalApprovedApplication() {
+//        $status = '3';
+//        $message = 'Something went wrong.';
+//        try {
+//            $branchName = (isset($this->branch->branch_name) && $this->branch->branch_name != '') ? $this->branch->branch_name : '';
+//            $companyName = (isset($this->branch->company->company_name) && $this->branch->company->company_name != '') ? $this->branch->company->company_name : '';
+//            $lead = $this->lead;
+//            $job_seeker = $this->jobSeeker;
+//            $status = Yii::$app->mailer->compose('lead-job-seeker-approval-by-recruiter', ['lead' => $lead, 'job_seeker' => $job_seeker, 'branchName' => $companyName . ' (' . $branchName . ')'])
+//                    ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
+//                    ->setTo($job_seeker->email)
+//                    ->setSubject('Appliaction approved by ' . $companyName . ' (' . $branchName . ')')
+//                    ->send();
+//            $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
+//        } catch (\Exception $ex) {
+//            $status = '3';
+//            $message = 'Something went wrong.';
+//        } finally {
+//            return ['status' => (string) $status, 'message' => $message];
+//        }
         $status = '3';
         $message = 'Something went wrong.';
         try {
-            $branchName = (isset($this->branch->branch_name) && $this->branch->branch_name != '') ? $this->branch->branch_name : '';
-            $companyName = (isset($this->branch->company->company_name) && $this->branch->company->company_name != '') ? $this->branch->company->company_name : '';
+            $jobSeeker = $this->jobSeeker;
             $lead = $this->lead;
-            $job_seeker = $this->jobSeeker;
-            $status = Yii::$app->mailer->compose('lead-job-seeker-approval-by-recruiter', ['lead' => $lead, 'job_seeker' => $job_seeker, 'branchName' => $companyName . ' (' . $branchName . ')'])
-                    ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
-                    ->setTo($job_seeker->email)
-                    ->setSubject('Appliaction approved by ' . $companyName . ' (' . $branchName . ')')
-                    ->send();
-            $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
+            $employerBranch = (isset($lead->branch)) ? $lead->branch : [];
+            $employerCompany = (isset($employerBranch->company)) ? $employerBranch->company : [];
+            $recruiterBranch = $this->branch;
+            $recruiterCompany = (isset($recruiterBranch->company)) ? $recruiterBranch->company : [];
+            if (!empty($employerBranch) && !empty($employerCompany) && !empty($recruiterBranch) && !empty($recruiterCompany)) {
+                $status = Yii::$app->mailer->compose('job-approved-finally', ['lead' => $lead, 'jobSeeker' => $jobSeeker, 'employerBranch' => $employerBranch, 'employerCompany' => $employerCompany, 'recruiterBranch' => $recruiterBranch, 'recruiterCompany' => $recruiterCompany])
+                        ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
+                        ->setTo($jobSeeker->email)
+                        ->setSubject('Appliaction of '.$lead->title.' ( '.$lead->reference_no.' ) has been approved suucessfully ')
+                        ->send();
+                $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
+            }
         } catch (\Exception $ex) {
             $status = '3';
             $message = 'Something went wrong.';
@@ -278,7 +302,7 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
     }
 
     /**
-     *  SENDS MAIL TO JOB-SEEKER ABOUT TO RECRUITER REJECTED LEAD
+     *  SENDS MAIL TO JOB-SEEKER ABOUT TO RECRUITER REJECTED THE LEAD
      *  0: Issue in mail server
      *  1: Mail sent successfully
      *  3: issue Mail sending
@@ -287,16 +311,54 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
         $status = '3';
         $message = 'Something went wrong.';
         try {
-            $branchName = (isset($this->branch->branch_name) && $this->branch->branch_name != '') ? $this->branch->branch_name : '';
-            $companyName = (isset($this->branch->company->company_name) && $this->branch->company->company_name != '') ? $this->branch->company->company_name : '';
+            $jobSeeker = $this->jobSeeker;
             $lead = $this->lead;
-            $job_seeker = $this->jobSeeker;
-            $status = Yii::$app->mailer->compose('lead-job-seeker-reject-by-recruiter', ['lead' => $lead, 'job_seeker' => $job_seeker, 'branchName' => $companyName . ' (' . $branchName . ')'])
-                    ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
-                    ->setTo($job_seeker->email)
-                    ->setSubject('Appliaction rejected by ' . $companyName . ' (' . $branchName . ')')
-                    ->send();
-            $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
+            $employerBranch = (isset($lead->branch)) ? $lead->branch : [];
+            $employerCompany = (isset($employerBranch->company)) ? $employerBranch->company : [];
+            $recruiterBranch = $this->branch;
+            $recruiterCompany = (isset($recruiterBranch->company)) ? $recruiterBranch->company : [];
+            if (!empty($employerBranch) && !empty($employerCompany) && !empty($recruiterBranch) && !empty($recruiterCompany)) {
+                $recruiterBranchName = (isset($recruiterBranch->branch_name) && $recruiterBranch->branch_name != '') ? $recruiterBranch->branch_name : '';
+                $recruiterCompanyName = (isset($recruiterCompany->company_name) && $recruiterCompany->company_name != '') ? $recruiterCompany->company_name : '';
+                $status = Yii::$app->mailer->compose('lead-job-seeker-reject-by-recruiter', ['lead' => $lead, 'jobSeeker' => $jobSeeker, 'employerBranch' => $employerBranch, 'employerCompany' => $employerCompany, 'recruiterBranch' => $recruiterBranch, 'recruiterCompany' => $recruiterCompany])
+                        ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
+                        ->setTo($jobSeeker->email)
+                        ->setSubject('Appliaction rejected by ' . $recruiterCompanyName . ' (' . $recruiterBranchName . ')')
+                        ->send();
+                $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
+            }
+        } catch (\Exception $ex) {
+            $status = '3';
+            $message = 'Something went wrong.';
+        } finally {
+            return ['status' => (string) $status, 'message' => $message];
+        }
+    }
+    
+    /**
+     *  SENDS MAIL TO JOB-SEEKER ABOUT TO RECRUITER ACCEPTED AND NOW THE LEAD IS UNDER PROCESSING AND NEEDS APPROAVL FROM EMPLOYER
+     *  0: Issue in mail server
+     *  1: Mail sent successfully
+     *  3: issue Mail sending
+     */
+    public function sendJobMaiToSeekerAboutUnderProcessing() {
+        $status = '3';
+        $message = 'Something went wrong.';
+        try {
+            $jobSeeker = $this->jobSeeker;
+            $lead = $this->lead;
+            $employerBranch = (isset($lead->branch)) ? $lead->branch : [];
+            $employerCompany = (isset($employerBranch->company)) ? $employerBranch->company : [];
+            $recruiterBranch = $this->branch;
+            $recruiterCompany = (isset($recruiterBranch->company)) ? $recruiterBranch->company : [];
+            if (!empty($employerBranch) && !empty($employerCompany) && !empty($recruiterBranch) && !empty($recruiterCompany)) {
+                $status = Yii::$app->mailer->compose('lead-job-seeker-underprocessing-by-recruiter', ['lead' => $lead, 'jobSeeker' => $jobSeeker, 'employerBranch' => $employerBranch, 'employerCompany' => $employerCompany, 'recruiterBranch' => $recruiterBranch, 'recruiterCompany' => $recruiterCompany])
+                        ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
+                        ->setTo($jobSeeker->email)
+                        ->setSubject('Appliaction of '.$lead->title.' ('.$lead->reference_no.') is now under the review')
+                        ->send();
+                $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
+            }
         } catch (\Exception $ex) {
             $status = '3';
             $message = 'Something went wrong.';
@@ -325,17 +387,48 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
                 $branchName = (isset($employerBranch->branch_name) && $employerBranch->branch_name != '') ? $employerBranch->branch_name : '';
                 $companyName = (isset($employerCompany->company_name) && $employerCompany->company_name != '') ? $employerCompany->company_name : '';
                 $urlToSend = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/profile/user-summary', 'ref' => $jobSeeker->details->unique_id]);
-                $status = Yii::$app->mailer->compose('lead-employer-by-recruiter-approval', ['lead' => $lead, 'jobSeeker' => $jobSeeker, 'employerBranch' => $employerBranch, 'employerCompany' => $employerCompany, 'recruiterBranch' => $recruiterBranch, 'recruiterCompany' => $recruiterCompany,'urlToSend'=>$urlToSend])
+                $status = Yii::$app->mailer->compose('lead-employer-by-recruiter-approval', ['lead' => $lead, 'jobSeeker' => $jobSeeker, 'employerBranch' => $employerBranch, 'employerCompany' => $employerCompany, 'recruiterBranch' => $recruiterBranch, 'recruiterCompany' => $recruiterCompany, 'urlToSend' => $urlToSend])
                         ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
                         ->setTo($employerBranch->email)
-                        ->setSubject('New appliaction Received for approval in ' . $companyName . ' (' . $branchName . ')')
+                        ->setSubject('New appliaction received for approval in ' . $companyName . ' (' . $branchName . ')')
                         ->send();
                 $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
             }
         } catch (\Exception $ex) {
-            echo "<pre>";
-            print_r($ex);
-            exit;
+            $status = '3';
+            $message = 'Something went wrong.';
+        } finally {
+            return ['status' => (string) $status, 'message' => $message];
+        }
+    }
+
+    /**
+     *  SENDS MAIL TO RECRUITER ABOUT TO EMPLOYER HAS RECEIVED AND IS IN UNDER PROCESSING STAGE
+     *  0: Issue in mail server
+     *  1: Mail sent successfully
+     *  3: issue Mail sending
+     */
+    public function sendMailToRecruiterAboutUnderProcessingLeadByEmployer() {
+        $status = '3';
+        $message = 'Something went wrong.';
+        try {
+            $jobSeeker = $this->jobSeeker;
+            $lead = $this->lead;
+            $employerBranch = (isset($lead->branch)) ? $lead->branch : [];
+            $employerCompany = (isset($employerBranch->company)) ? $employerBranch->company : [];
+            $recruiterBranch = $this->branch;
+            $recruiterCompany = (isset($recruiterBranch->company)) ? $recruiterBranch->company : [];
+            if (!empty($employerBranch) && !empty($employerCompany) && !empty($recruiterBranch) && !empty($recruiterCompany)) {
+                $employerBranchName = (isset($employerBranch->branch_name) && $employerBranch->branch_name != '') ? $employerBranch->branch_name : '';
+                $employerCompanyName = (isset($employerCompany->company_name) && $employerCompany->company_name != '') ? $employerCompany->company_name : '';
+                $status = Yii::$app->mailer->compose('lead-recruiter-notify-under-processing-by-employer', ['lead' => $lead, 'jobSeeker' => $jobSeeker, 'employerBranch' => $employerBranch, 'employerCompany' => $employerCompany, 'recruiterBranch' => $recruiterBranch, 'recruiterCompany' => $recruiterCompany])
+                        ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
+                        ->setTo($recruiterBranch->email)
+                        ->setSubject('Lead received by employer ' . $employerCompanyName . ' (' . $employerBranchName . ') of ' . $lead->title)
+                        ->send();
+                $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
+            }
+        } catch (\Exception $ex) {
             $status = '3';
             $message = 'Something went wrong.';
         } finally {
@@ -350,20 +443,23 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
      *  3: Something went wrong
      */
     public function sendMailToRecruiterAboutApproveLeadByEmployer() {
+
         $status = '3';
         $message = 'Something went wrong.';
         try {
+            $jobSeeker = $this->jobSeeker;
             $lead = $this->lead;
-            $job_seeker = $this->jobSeeker;
-            $branchEMail = (isset($this->branch->email) && $this->branch->email != '') ? $this->branch->email : '';
-            $leadPostedBranch = (isset($lead->branch)) ? $lead->branch : [];
-            if (!empty($leadPostedBranch)) {
-                $leadPostedBranchName = (isset($leadPostedBranch->branch_name) && $leadPostedBranch->branch_name != '') ? $leadPostedBranch->branch_name : '';
-                $leadPostedCompanyName = (isset($leadPostedBranch->company->company_name) && $leadPostedBranch->company->company_name != '') ? $leadPostedBranch->company->company_name : '';
-                $status = Yii::$app->mailer->compose('lead-recruiter-notify-approved-by-employer', ['lead' => $lead, 'job_seeker' => $job_seeker])
-                        ->setFrom([\Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
-                        ->setTo($branchEMail)
-                        ->setSubject('Lead approved by employer ' . $leadPostedCompanyName . ' (' . $leadPostedBranchName . ')')
+            $employerBranch = (isset($lead->branch)) ? $lead->branch : [];
+            $employerCompany = (isset($employerBranch->company)) ? $employerBranch->company : [];
+            $recruiterBranch = $this->branch;
+            $recruiterCompany = (isset($recruiterBranch->company)) ? $recruiterBranch->company : [];
+            if (!empty($employerBranch) && !empty($employerCompany) && !empty($recruiterBranch) && !empty($recruiterCompany)) {
+                $employerBranchName = (isset($employerBranch->branch_name) && $employerBranch->branch_name != '') ? $employerBranch->branch_name : '';
+                $employerCompanyName = (isset($employerCompany->company_name) && $employerCompany->company_name != '') ? $employerCompany->company_name : '';
+                $status = Yii::$app->mailer->compose('lead-recruiter-notify-approved-by-employer', ['lead' => $lead, 'jobSeeker' => $jobSeeker, 'employerBranch' => $employerBranch, 'employerCompany' => $employerCompany, 'recruiterBranch' => $recruiterBranch, 'recruiterCompany' => $recruiterCompany])
+                        ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
+                        ->setTo($recruiterBranch->email)
+                        ->setSubject('Lead approved by employer ' . $employerCompanyName . ' (' . $employerBranchName . ') of ' . $lead->title)
                         ->send();
                 $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
             }
@@ -382,20 +478,23 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
      *  3: Something went wrong
      */
     public function sendMailToRecruiterAboutRejectLeadByEmployer() {
+        
         $status = '3';
         $message = 'Something went wrong.';
         try {
+            $jobSeeker = $this->jobSeeker;
             $lead = $this->lead;
-            $job_seeker = $this->jobSeeker;
-            $branchEMail = (isset($this->branch->email) && $this->branch->email != '') ? $this->branch->email : '';
-            $leadPostedBranch = (isset($lead->branch)) ? $lead->branch : [];
-            if (!empty($leadPostedBranch)) {
-                $leadPostedBranchName = (isset($leadPostedBranch->branch_name) && $leadPostedBranch->branch_name != '') ? $leadPostedBranch->branch_name : '';
-                $leadPostedCompanyName = (isset($leadPostedBranch->company->company_name) && $leadPostedBranch->company->company_name != '') ? $leadPostedBranch->company->company_name : '';
-                $status = Yii::$app->mailer->compose('lead-recruiter-notify-rejected-by-employer', ['lead' => $lead, 'job_seeker' => $job_seeker])
-                        ->setFrom([\Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
-                        ->setTo($branchEMail)
-                        ->setSubject('Lead rejected by employer ' . $leadPostedCompanyName . ' (' . $leadPostedBranchName . ')')
+            $employerBranch = (isset($lead->branch)) ? $lead->branch : [];
+            $employerCompany = (isset($employerBranch->company)) ? $employerBranch->company : [];
+            $recruiterBranch = $this->branch;
+            $recruiterCompany = (isset($recruiterBranch->company)) ? $recruiterBranch->company : [];
+            if (!empty($employerBranch) && !empty($employerCompany) && !empty($recruiterBranch) && !empty($recruiterCompany)) {
+                $employerBranchName = (isset($employerBranch->branch_name) && $employerBranch->branch_name != '') ? $employerBranch->branch_name : '';
+                $employerCompanyName = (isset($employerCompany->company_name) && $employerCompany->company_name != '') ? $employerCompany->company_name : '';
+                $status = Yii::$app->mailer->compose('lead-recruiter-notify-rejected-by-employer', ['lead' => $lead, 'jobSeeker' => $jobSeeker, 'employerBranch' => $employerBranch, 'employerCompany' => $employerCompany, 'recruiterBranch' => $recruiterBranch, 'recruiterCompany' => $recruiterCompany])
+                        ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
+                        ->setTo($recruiterBranch->email)
+                        ->setSubject('Lead rejected by employer ' . $employerCompanyName . ' (' . $employerBranchName . ') of ' . $lead->title)
                         ->send();
                 $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
             }
