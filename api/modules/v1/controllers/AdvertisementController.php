@@ -56,6 +56,8 @@ class AdvertisementController extends Controller {
                         'link_url' => $model->link_url,
                         'image' => ($model->file_type == Advertisement::FILE_TYPE_IMAGE && $model->icon != '' && file_exists(CommonFunction::getAdvertisementBasePath() . "/" . $model->icon) ) ? $model->icon : '',
                         'image_url' => ($model->file_type == Advertisement::FILE_TYPE_IMAGE && $model->icon != '' && file_exists(CommonFunction::getAdvertisementBasePath() . "/" . $model->icon) ) ? Url::to(Yii::$app->urlManagerFrontend->createUrl(["/uploads/advertisement/$model->icon"]), true) : '',
+                        'video_link_embedded' => $model->file_type == Advertisement::FILE_TYPE_YOUTUBE_LINK  ? $model->getYoutubeEmbedUrl() : '',
+                        'video_link' => $model->file_type == Advertisement::FILE_TYPE_YOUTUBE_LINK ? $model->video_link : '',
                     ];
                 }
             }

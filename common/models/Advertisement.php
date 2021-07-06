@@ -23,6 +23,10 @@ class Advertisement extends \yii\db\ActiveRecord {
 
     const FILE_TYPE_IMAGE = 1;
     const FILE_TYPE_YOUTUBE_LINK = 2;
+    
+    const STATUS_ACTIVE_YES = 1;
+    const STATUS_ACTIVE_NO = 0;
+    
 
     public static function tableName() {
         return 'advertisement';

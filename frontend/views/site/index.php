@@ -15,12 +15,7 @@ FontAwesomeAsset::register($this);
 
 $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 ?>
-<style>
-    .max-height-ads-home{
-        max-height: 200px;
-        height: 200px;
-    }
-</style>
+
 <section class="main-banner align-items-end d-flex">
     <div class="container">
         <div class="row text-center">
@@ -536,7 +531,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 </section>
 
 
-<?php if (!empty($advertisments)) { ?>
+
 
     <section class="">
         <div class="container">
@@ -545,7 +540,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                     <h2 class="mb-4">Featured New Advertise </h2>                
                 </div>
                 <div class="col-sm-3 col-12 main-title">
-                    <a href="" class="float-right mb-3">View All </a>
+                    <a href="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['advertisement/all']); ?>" class="float-right mb-3">View All </a>
                 </div>
             </div>
 
@@ -579,81 +574,6 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 
                 <?php } ?>
 
-
-                <!--            <div class="col-md-4">
-                                <div class="featured-img-block position-relative mb-4">
-                                    <img src="<?= $assetDir ?>/img/featured-video-2.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                                    <div class="ads-title">
-                                        <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                                    </div>
-                                </div>
-                            </div>
-                
-                            <div class="col-md-4">
-                                <div class="featured-img-block position-relative mb-4">
-                                    <img src="<?= $assetDir ?>/img/featured-video-1.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                                    <div class="ads-title">
-                                        <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                                    </div>
-                                    <div class="most-popular-jobs-block-hover">
-                                        <img src="<?= $assetDir ?>/img/play-icon.png" alt="play-icon">
-                                    </div>
-                                </div>
-                            </div>-->
-
             </div>
-
-            <!--        <div class="row mb-5 pb-5">
-                        <div class="col-md-4">
-                            <div class="featured-img-block position-relative mb-4">
-                                <img src="<?= $assetDir ?>/img/featured-video-2.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                                <div class="ads-title">
-                                    <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                                </div>
-                            </div>
-                            <div class="featured-img-block position-relative mb-4">
-                                <img src="<?= $assetDir ?>/img/featured-video-2.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                                <div class="ads-title">
-                                    <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                                </div>
-                            </div>
-                        </div>
-            
-                        <div class="col-md-4">
-                            <div class="featured-img-block position-relative mb-4">
-                                <img src="<?= $assetDir ?>/img/featured-video-1.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                                <div class="ads-title">
-                                    <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                                </div>
-                                <div class="most-popular-jobs-block-hover">
-                                    <img src="<?= $assetDir ?>/img/play-icon.png" alt="play-icon">
-                                </div>
-                            </div>
-            
-                            <div class="featured-img-block position-relative mb-4">
-                                <img src="<?= $assetDir ?>/img/featured-video-2.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                                <div class="ads-title">
-                                    <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                                </div>
-                            </div>
-                        </div>
-            
-                        <div class="col-md-4">
-                            <div class="featured-img-block position-relative mb-4">
-                                <img src="<?= $assetDir ?>/img/featured-video-3.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                                <div class="ads-title">
-                                    <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                                </div>
-                            </div>
-            
-                            <div class="featured-img-block position-relative mb-4">
-                                <img src="<?= $assetDir ?>/img/featured-video-4.png" alt="featured-video" class="img-fluid mx-auto d-block">
-                                <div class="ads-title">
-                                    <p class="mb-0">Company Name <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"></p>                             
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
         </div>
     </section>
-<?php } ?>

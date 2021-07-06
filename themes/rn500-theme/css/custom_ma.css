@@ -249,3 +249,7 @@
 .theme-primary-color{
     color: #1656A0;
 }
+.max-height-ads-home{
+    max-height: 200px;
+    height: 200px;
+}
