@@ -9,11 +9,13 @@ use yii\web\JsExpression;
 ?>
 <style>
     .mb-15{margin-bottom: 15px;}
+    .optionlist{margin-left:-40px;}
 </style>
 <div class="user-details-form">
     <?php
     $form = ActiveForm::begin([
-                'id' => 'add-education-new'
+                'id' => 'add-education-new',
+                'options' => ['autocomplete' => 'off']
     ]);
     ?>
     <div class="row">
@@ -29,12 +31,14 @@ use yii\web\JsExpression;
                 $url = Url::to(['browse-jobs/get-cities']);
                 echo Select2::widget([
                     'name' => 'location',
-                    'value' => isset($model->location) && !empty($model->location) ? $model->location : '',
-                    'data' => $selectedLocations,
+                    
+                    'value' => (isset($model->location) && !empty($model->location)) ? array_keys($selectedLocations) : '',
+                    'initValueText' => (isset($model->location) && !empty($model->location)) ? array_values($selectedLocations) : '',
                     'options' => [
-                        'id' => 'select_city',
-                        'placeholder' => 'Select City...',
-                        'multiple' => false,
+                        'id' => 'education_location',
+                        'placeholder' => 'Select Location...',
+                        'multiple' => true,
+                        'class' => 'form-control select2-hidden-accessible'
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -66,7 +70,8 @@ use yii\web\JsExpression;
             echo $form->field($model, 'year_complete')->widget(DatePicker::classname(), [
                 'name' => 'year_complete',
                 'value' => date('d-M-Y'),
-                'options' => ['placeholder' => 'Enter Year..'],
+                'type' => DatePicker::TYPE_INPUT,
+                'options' => ['placeholder' => $model->getAttributeLabel('year_complete'), 'readonly' => true],
                 'pluginOptions' => [
                     'format' => 'mm-yyyy',
                     'todayHighlight' => true,
@@ -90,7 +95,8 @@ use yii\web\JsExpression;
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+        <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -117,10 +123,6 @@ $script = <<< JS
                              $.pjax.reload({container: "#job-seeker", timeout: false, async:false});
                              $.pjax.reload({'container': '#res-messages', timeout: false, async:false});
         
-//                             $.pjax.reload({container: "#job-seeker", timeout: 2000});
-//                             $(document).on("pjax:success", "#job-seeker", function (event) {
-//                                 $.pjax.reload({'container': '#res-messages', timeout: 2000});
-//                             });
                              getProfilePercentage();
                          }
                      }catch(e){
