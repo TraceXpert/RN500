@@ -18,7 +18,7 @@ use common\CommonFunction;
     .field-userdetails-street_address{margin-bottom: 5px;}
     .iti--allow-dropdown{width: 100%;}
     .optionlist{margin-left:-40px;}
-    .select2-container--krajee-bs4 .select2-selection--single{
+/*    .select2-container--krajee-bs4 .select2-selection--single{
         height: 50px;
         padding: .375rem 2rem;
         background: #FFFFFF;
@@ -28,7 +28,7 @@ use common\CommonFunction;
     }
     .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
         padding: .375rem 2rem;
-    }
+    }*/
 </style>
 <div class="user-details-form">
     <?php
@@ -131,7 +131,7 @@ use common\CommonFunction;
                 'options' => ['placeholder' => $model->getAttributeLabel('dob'), 'readonly' => true],
                 'type' => DatePicker::TYPE_INPUT,
                 'pluginOptions' => [
-                    'format' => 'M-d-yyyy',
+                    'format' => 'M-dd-yyyy',
                     'todayHighlight' => true,
                     'autoclose' => true,
                     'endDate' => "-0d"
@@ -144,7 +144,7 @@ use common\CommonFunction;
         <div class="col-sm-6">
             <?=
             $form->field($model, 'profile_pic', [
-                'template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='real-file-profile' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>"])->fileInput()
+                'template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='userdetails-profile_pic' name='UserDetails[profile_pic]' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>"])->fileInput()
             ?>
 
             <?php if (!empty($model->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $model->profile_pic)) { ?>
@@ -189,11 +189,12 @@ $(document).on("beforeSubmit", "#user-details", function () {
         
                         $.pjax.reload({container: "#job-seeker", timeout: false, async:false});
                         $.pjax.reload({'container': '#res-messages', timeout: false, async:false});    
+                        $.pjax.reload({'container': '#profile-picture-pjax', timeout: false, async:false});
 
                         getProfilePercentage();
                     }
                 }catch(e){
-                    $.pjax.reload({'container': '#res-messages', timeout: 2000});
+                    $.pjax.reload({'container': '#res-messages', timeout: false});
                 }
             },
             error  : function () 
@@ -204,7 +205,7 @@ $(document).on("beforeSubmit", "#user-details", function () {
         return false;
 });
     
-var realFileBtn = document.getElementById("real-file-profile");
+var realFileBtn = document.getElementById("userdetails-profile_pic");
             var customBtn = document.getElementById("custom-button");
             var customTxt = document.getElementById("custom-text");
 
