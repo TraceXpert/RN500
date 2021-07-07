@@ -28,27 +28,27 @@ class JobController extends Controller {
     /**
      * {@inheritdoc}
      */
-//    public function behaviors() {
-//        return [
-//            'access' => [
-//                'class' => AccessControl::className(),
-//                'only' => ['post'],
-//                'rules' => [
-//                        [
-//                        'actions' => ['post'],
-//                        'allow' => true,
-//                        'roles' => (CommonFunction::isEmployer() || CommonFunction::isRecruiter()) ? ['@'] : ['*'],
-//                    ],
+    public function behaviors() {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['post'],
+                'rules' => [
+                        [
+                        'actions' => ['post'],
+                        'allow' => true,
+                        'roles' => (CommonFunction::isEmployer() || CommonFunction::isRecruiter()) ? ['@'] : ['*'],
+                    ],
+                ],
+            ],
+//            'verbs' => [
+//                'class' => VerbFilter::className(),
+//                'actions' => [
+//                    'logout' => ['post'],
 //                ],
 //            ],
-////            'verbs' => [
-////                'class' => VerbFilter::className(),
-////                'actions' => [
-////                    'logout' => ['post'],
-////                ],
-////            ],
-//        ];
-//    }
+        ];
+    }
 
     public function actionPost() {
         $model = new LeadMaster();
