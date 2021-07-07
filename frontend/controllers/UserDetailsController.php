@@ -137,7 +137,7 @@ class UserDetailsController extends Controller {
         $temp_document_file = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
         $document_upload_flag = '';
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
+            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'][0] : '';
             $model->dob = date('Y-m-d', strtotime($model->dob));
 
             $document_file = UploadedFile::getInstance($model, 'profile_pic');
@@ -204,6 +204,7 @@ class UserDetailsController extends Controller {
             $city = ArrayHelper::map(Cities::findAll(['state_id' => $model->cityRef->state_id]), 'id', 'city');
         }
         if ($model->load(Yii::$app->request->post())) {
+            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'][0] : '';
             $model->dob = date('Y-m-d', strtotime($model->dob));
 
             $document_file = UploadedFile::getInstance($model, 'profile_pic');
@@ -351,15 +352,15 @@ class UserDetailsController extends Controller {
         $discipline = ArrayHelper::map(Discipline::find()->all(), 'id', 'name');
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-
+            
             $model->user_id = \Yii::$app->user->id;
             $model->start_date = date('Y-m-d', strtotime("01-" . $model->start_date));
-
+            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'][0] : '';
+            $model->currently_working = isset($_POST['currently_working']) && !empty($_POST['currently_working']) ? $_POST['currently_working'] : '';
             if ($model->currently_working != '1') {
                 $model->end_date = date('Y-m-d', strtotime("01-" . $model->end_date));
             }
 
-            $model->city = $postData['city'];
 
             if ($model->validate()) {
                 if ($model->save()) {
@@ -404,7 +405,7 @@ class UserDetailsController extends Controller {
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             $model->user_id = \Yii::$app->user->id;
             $model->year_complete = date('Y-m-d', strtotime("01-" . $model->year_complete));
-            $model->location = $postData['location'];
+            $model->location = isset($_POST['location']) && !empty($_POST['location']) ? $_POST['location'][0] : '';
 
             if ($model->validate()) {
                 if ($model->save()) {
@@ -425,7 +426,7 @@ class UserDetailsController extends Controller {
     public function actionAddLicence() {
         $postData = Yii::$app->request->post();
         $id = \Yii::$app->request->get('id');
-        $deleteFlag = false;
+        $isRecordFlag = false;
         $document_upload_flag = '';
         $message = '';
 
@@ -435,7 +436,7 @@ class UserDetailsController extends Controller {
             $model->updated_at = CommonFunction::currentTimestamp();
             $model->expiry_date = date('m-Y', strtotime($model->expiry_date));
             $temp_document_file = isset($model->document) && !empty($model->document) ? $model->document : NULL;
-            $deleteFlag = true;
+            $isRecordFlag = true;
         } else {
             $model = new Licenses();
             $message = 'Create';
@@ -449,9 +450,11 @@ class UserDetailsController extends Controller {
             $selectedLocations = [];
         }
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            
             $model->user_id = \Yii::$app->user->id;
             $model->expiry_date = date('Y-m-d', strtotime("01-" . $model->expiry_date));
-            $model->issuing_state = $postData['issuing_state'];
+            $model->issuing_state = isset($_POST['issuing_state']) && !empty($_POST['issuing_state']) ? $_POST['issuing_state'][0] : '';
+            $model->compact_states = isset($_POST['Licenses']['compact_states']) && !empty($_POST['Licenses']['compact_states']) ? '1' : '';
             $document_file = UploadedFile::getInstance($model, 'document');
 
             $folder = CommonFunction::getLicensesBasePath();
@@ -492,14 +495,15 @@ class UserDetailsController extends Controller {
 
         return $this->renderAjax('add-licence', [
                     'model' => $model, 'selectedLocations' => $selectedLocations,
-                    'deleteFlag' => $deleteFlag
+                    'isRecordFlag' => $isRecordFlag
         ]);
     }
 
     public function actionAddCertification() {
 
         $id = \Yii::$app->request->get('id');
-        $deleteFlag = false;
+        $postData = Yii::$app->request->post();
+        $isRecordFlag = false;
         $document_upload_flag = '';
         $message = '';
 
@@ -508,8 +512,11 @@ class UserDetailsController extends Controller {
             $message = 'Updated';
             $model->updated_at = CommonFunction::currentTimestamp();
             $model->expiry_date = date('m-Y', strtotime($model->expiry_date));
+            if (isset($model->certification_active) && !empty($model->certification_active)) {
+                $model->certification_active = $model->certification_active;
+            }
             $temp_document_file = isset($model->document) && !empty($model->document) ? $model->document : NULL;
-            $deleteFlag = true;
+            $isRecordFlag = true;
         } else {
             $model = new Certifications();
             $message = 'Create';
@@ -524,9 +531,13 @@ class UserDetailsController extends Controller {
             $selectedLocations = [];
         }
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            $model->issuing_state = isset($_POST['issuing_state']) && !empty($_POST['issuing_state']) ? $_POST['issuing_state'][0] : '';
             $model->user_id = \Yii::$app->user->id;
             $model->expiry_date = date('Y-m-d', strtotime("01-" . $model->expiry_date));
-            $model->issuing_state = $_POST['issuing_state'];
+            
+            if (isset($postData['certification_active']) && !empty($postData['certification_active'])) {
+                $model->certification_active = $postData['certification_active'];
+            }
 
             $document_file = UploadedFile::getInstance($model, 'document');
 
@@ -567,14 +578,14 @@ class UserDetailsController extends Controller {
 
         return $this->renderAjax('add-certification', [
                     'model' => $model,
-                    'deleteFlag' => $deleteFlag, 'selectedLocations' => $selectedLocations
+                    'isRecordFlag' => $isRecordFlag, 'selectedLocations' => $selectedLocations
         ]);
     }
 
     public function actionAddDocument() {
 
         $id = \Yii::$app->request->get('id');
-        $deleteFlag = false;
+        $isRecordFlag = false;
         $document_upload_flag = '';
         $message = '';
 
@@ -583,7 +594,7 @@ class UserDetailsController extends Controller {
             $message = 'Updated';
             $model->updated_at = CommonFunction::currentTimestamp();
             $temp_document_file = isset($model->path) && !empty($model->path) ? $model->path : NULL;
-            $deleteFlag = true;
+            $isRecordFlag = true;
         } else {
             $model = new Documents();
             $message = 'Create';
@@ -593,8 +604,9 @@ class UserDetailsController extends Controller {
         }
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            
+            
             $model->user_id = \Yii::$app->user->id;
-
             $document_file = UploadedFile::getInstance($model, 'path');
 
             $folder = CommonFunction::getDocumentBasePath();
@@ -636,7 +648,7 @@ class UserDetailsController extends Controller {
 
         return $this->renderAjax('add-document', [
                     'model' => $model,
-                    'deleteFlag' => $deleteFlag
+                    'isRecordFlag' => $isRecordFlag
         ]);
     }
 

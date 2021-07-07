@@ -6,16 +6,19 @@ use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use yii\helpers\Url;
 use yii\web\JsExpression;
+use common\CommonFunction;
 
 $frontendDir = yii\helpers\Url::base(true);
 ?>
 <style>
     .mb-15{margin-bottom: 15px;}
+    .optionlist{margin-left:-40px;}
 </style>
 <div class="user-details-form">
     <?php
     $form = ActiveForm::begin([
-                'id' => 'add-licenses'
+                'id' => 'add-licenses',
+                'options' => ['autocomplete' => 'off','enctype' => 'multipart/form-data']
     ]);
     ?>
     <div class="row">
@@ -29,14 +32,16 @@ $frontendDir = yii\helpers\Url::base(true);
             <ul class="optionlist">
                 <?php
                 $url = Url::to(['browse-jobs/get-cities']);
+
                 echo Select2::widget([
                     'name' => 'issuing_state',
-                    'value' => isset($model->location) && !empty($model->location) ? $model->location : '',
-                    'data' => $selectedLocations,
+                    'value' => array_keys($selectedLocations),
+                    'initValueText' => array_values($selectedLocations),
                     'options' => [
-                        'id' => 'select_city',
+                        'id' => 'issuing_state_location',
                         'placeholder' => 'Select City...',
-                        'multiple' => false,
+                        'multiple' => true,
+                        'class' => 'form-control select2-hidden-accessible'
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -68,7 +73,8 @@ $frontendDir = yii\helpers\Url::base(true);
             echo $form->field($model, 'expiry_date')->widget(DatePicker::classname(), [
                 'name' => 'expiry_date',
                 'value' => date('d-M-Y'),
-                'options' => ['placeholder' => 'Enter Year..'],
+                'type' => DatePicker::TYPE_INPUT,
+                'options' => ['placeholder' => $model->getAttributeLabel('expiry_date'), 'readonly' => true],
                 'pluginOptions' => [
                     'format' => 'mm-yyyy',
                     'todayHighlight' => true,
@@ -96,23 +102,32 @@ $frontendDir = yii\helpers\Url::base(true);
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
-            <?= $form->field($model, 'compact_states')->checkbox(); ?>
+        <div class="col-sm-12 filter-accordion mb-15">
+            <?=
+            $form->field($model, 'compact_states', [
+                'template' => '<input type="checkbox" name="Licenses[compact_states]" id="two"><label for="two">Compact States</label>{error}'
+            ])->checkbox();
+            ?>
         </div>
     </div>
     <div class="row mb-15">
         <div class="col-sm-12">
             <?= $form->field($model, 'document')->fileInput() ?>
 
-            <?php if ($deleteFlag) { ?>
-                <a href="<?= $frontendDir . "/uploads/user-details/license/" . $model->document ?>" download><?= $model->document ?></a>
+            <?php if ($isRecordFlag) { ?>
+                <?php if (!empty($model->document) && file_exists(CommonFunction::getLicensesBasePath() . "/" . $model->document)) { ?>
+                    <a href="<?= $frontendDir . "/uploads/user-details/license/" . $model->document ?>" download><?= $model->document ?></a>
+                    <span id="custom-text"></span>
+                <?php } ?>
+            <?php } else { ?>
+<!--                <span id="custom-text">No file selected.</span>-->
             <?php } ?>
-
         </div>
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+        <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -121,12 +136,18 @@ $frontendDir = yii\helpers\Url::base(true);
 
 <?php
 $DeleteUrl = '';
-
-if ($deleteFlag) {
+$compact_states = isset($model->compact_states) ? $model->compact_states : '';
+if ($isRecordFlag) {
     $DeleteUrl = Yii::$app->urlManagerFrontend->createUrl(['user-details/delete-document?id=' . $model->id]);
 }
 
 $script = <<< JS
+        
+  var compact_states = '$compact_states';
+   
+  if(compact_states == '1'){
+       $('#two').attr('checked',true);
+  }      
   
   var click = 0;
   $(document).on("beforeSubmit", "#add-licenses", function () {
@@ -166,7 +187,26 @@ $script = <<< JS
          return false;
       }
  });    
-          
+  
+//var realFileBtn = document.getElementById("real-file-document");
+//            var customBtn = document.getElementById("custom-button");
+//            var customTxt = document.getElementById("custom-text");
+//
+//            customBtn.addEventListener("click", function () {
+//                realFileBtn.click();
+//            });
+//
+//            realFileBtn.addEventListener("change", function () {
+//                if (realFileBtn.value) {
+//                var filename = realFileBtn.value;
+//                if (filename.substring(3,11) == 'fakepath') {
+//                   filename = filename.substring(12);
+//               } // Remove c:\fake at beginning from localhost chrome
+//                    customTxt.innerHTML = filename;
+//                } else {
+//                    customTxt.innerHTML = "No file chosen, yet.";
+//                }
+//            });   
         
 JS;
 $this->registerJs($script, yii\web\View::POS_END);
