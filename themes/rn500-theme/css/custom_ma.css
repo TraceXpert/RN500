@@ -8,10 +8,10 @@
     background-color: #1656A0 !important;
 }
 .pop-up-close-button{
-    border-radius: 50px;
-    font-size: 14px;
-    padding: 12px 30px;
-    font-weight: 600;
+    border-radius: 50px !important;
+    font-size: 14px !important;
+    padding: 12px 30px !important;
+    font-weight: 600 !important;
 }
 .table-design .already-applied{
     background-color: #6c757d;
@@ -248,4 +248,8 @@
 /* error message css end*/
 .theme-primary-color{
     color: #1656A0;
+}
+.max-height-ads-home{
+    max-height: 200px;
+    height: 200px;
 }

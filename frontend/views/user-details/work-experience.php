@@ -13,11 +13,24 @@ use yii\web\JsExpression;
 ?>
 <style>
     .mb-15{margin-bottom: 15px;}
+    .optionlist{margin-left:-40px;}
+    .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+        padding: .375rem 2rem;
+    }
 </style>
 <div class="user-details-form">
     <?php
     $form = ActiveForm::begin([
                 "id" => "work-experience-new",
+                'options' => ['autocomplete' => 'off']
     ]);
     ?>
     <div class="row">
@@ -41,8 +54,8 @@ use yii\web\JsExpression;
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
-            <?= $form->field($model, 'currently_working')->checkbox(['id' => 'currently_working']); ?>
+        <div class="col-sm-12 filter-accordion mb-15">
+            <?= $form->field($model, 'currently_working', ['template' => '<input type="checkbox" name="currently_working" id="one" class="is_active" value="1" ><label for="one">Currently Working</label>'])->checkbox(['id' => 'currently_working']); ?>
         </div>
     </div>
     <div class="row">
@@ -51,7 +64,8 @@ use yii\web\JsExpression;
             echo $form->field($model, 'start_date')->widget(DatePicker::classname(), [
                 'name' => 'start_date',
                 'value' => date('d-M-Y'),
-                'options' => ['placeholder' => 'Enter Start Date'],
+                'type' => DatePicker::TYPE_INPUT,
+                'options' => ['placeholder' => $model->getAttributeLabel('start_date'), 'readonly' => true],
                 'pluginOptions' => [
                     'format' => 'mm-yyyy',
                     'todayHighlight' => true,
@@ -80,7 +94,8 @@ use yii\web\JsExpression;
             echo $form->field($model, 'end_date')->widget(DatePicker::classname(), [
                 'name' => 'end_date',
                 'value' => date('d-M-Y'),
-                'options' => ['placeholder' => 'Enter End Date'],
+                'type' => DatePicker::TYPE_INPUT,
+                'options' => ['placeholder' => $model->getAttributeLabel('end_date'), 'readonly' => true],
                 'pluginOptions' => [
                     'format' => 'mm-yyyy',
                     'todayHighlight' => true,
@@ -121,8 +136,9 @@ use yii\web\JsExpression;
                     'data' => $selectedLocations,
                     'options' => [
                         'id' => 'select_city',
-                        'placeholder' => 'Select City...',
+                        'placeholder' => 'Select City',
                         'multiple' => false,
+                        'class' => 'form-control select2-hidden-accessible'
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -136,7 +152,6 @@ use yii\web\JsExpression;
                         'escapeMarkup' => new JsExpression('function (markup) {return markup; }'),
                         'templateResult' => new JsExpression('function(location) {return "<b>"+location.name+"</b>"; }'),
                         'templateSelection' => new JsExpression('function (location) {
-                                console.log(location);
                                 if(location.selected==true){
                                     return location.text; 
                                 }else{
@@ -152,7 +167,8 @@ use yii\web\JsExpression;
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+        <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -167,14 +183,18 @@ $script = <<< JS
    
   if(currently_working == '1'){
       $('#workexperience-end_date').attr('disabled',true);
+       $('.is_active').attr('checked',true);
+        $('#workexperience-end_date').css('cursor','not-allowed');
   }      
         
   $('.field-currently_working input').change(function() {
         if($(this).is(":checked")) {
             $('#workexperience-end_date').val('');
             $('#workexperience-end_date').attr('disabled',true);
+            $('#workexperience-end_date').css('cursor','not-allowed');
         } else {
             $('#workexperience-end_date').attr('disabled',false);
+            $('#workexperience-end_date').removeAttr('style');
         }        
     });
         

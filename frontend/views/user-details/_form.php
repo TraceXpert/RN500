@@ -8,6 +8,7 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 use borales\extensions\phoneInput\PhoneInput;
 use common\models\User;
+use common\CommonFunction;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\UserDetails */
@@ -16,11 +17,24 @@ use common\models\User;
 <style>
     .field-userdetails-street_address{margin-bottom: 5px;}
     .iti--allow-dropdown{width: 100%;}
+    .optionlist{margin-left:-40px;}
+    .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+        padding: .375rem 2rem;
+    }
 </style>
 <div class="user-details-form">
     <?php
     $form = ActiveForm::begin([
                 "id" => "user-details",
+                'options' => ['autocomplete' => 'off']
     ]);
     ?>
     <div class="row">
@@ -75,7 +89,7 @@ use common\models\User;
                         'id' => 'city',
                         'placeholder' => 'Select Location...',
                         'multiple' => false,
-                        'class' => '',
+                        'class' => 'form-control select2-hidden-accessible'
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -86,8 +100,8 @@ use common\models\User;
                             'data' => new JsExpression('function(params) {return {q:params.term, page:params.page || 1}; }'),
                             'cache' => true,
                         ],
-                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                        'templateResult' => new JsExpression('function(location) { console.log(location);return location.name; }'),
+                        'escapeMarkup' => new JsExpression('function (markup) {return markup; }'),
+                        'templateResult' => new JsExpression('function(location) {return "<b>"+location.name+"</b>"; }'),
                         'templateSelection' => new JsExpression('function (location) {
                                 if(location.selected==true){
                                     return location.text; 
@@ -114,14 +128,13 @@ use common\models\User;
             <?php
             echo $form->field($model, 'dob')->widget(DatePicker::classname(), [
                 'name' => 'dob',
-//                'value' => date('d-m-Y'),
-//                'options' => ['placeholder' => 'Enter DOB..'],
+                'options' => ['placeholder' => $model->getAttributeLabel('dob'), 'readonly' => true],
+                'type' => DatePicker::TYPE_INPUT,
                 'pluginOptions' => [
                     'format' => 'M-d-yyyy',
                     'todayHighlight' => true,
                     'autoclose' => true,
                     'endDate' => "-0d"
-//                    'startDate' => date('d-m-Y'),
                 ]
             ]);
             ?>
@@ -129,11 +142,16 @@ use common\models\User;
     </div>
     <div class="row">
         <div class="col-sm-6">
-            <?= $form->field($model, 'profile_pic')->fileInput() ?>
+            <?=
+            $form->field($model, 'profile_pic', [
+                'template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='real-file-profile' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>"])->fileInput()
+            ?>
 
-            <?php if (isset($model->profile_pic)) { ?>
-                <p><?= $model->profile_pic ?></p>
-            <?php } ?>
+            <?php if (!empty($model->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $model->profile_pic)) { ?>
+                <span id="custom-text"><?= $model->profile_pic ?></span>
+            <?php } else { ?>
+                <span id="custom-text">No file selected.</span>
+            <?php } ?>   
         </div>
 
         <?php if (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
@@ -144,7 +162,8 @@ use common\models\User;
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+        <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -170,10 +189,7 @@ $(document).on("beforeSubmit", "#user-details", function () {
         
                         $.pjax.reload({container: "#job-seeker", timeout: false, async:false});
                         $.pjax.reload({'container': '#res-messages', timeout: false, async:false});    
-//                        $.pjax.reload({container: "#job-seeker", timeout: 2000});
-//                        $(document).on("pjax:success", "#job-seeker", function (event) {
-//                            $.pjax.reload({'container': '#res-messages', timeout: false});
-//                        });
+
                         getProfilePercentage();
                     }
                 }catch(e){
@@ -186,7 +202,27 @@ $(document).on("beforeSubmit", "#user-details", function () {
             }
         });
         return false;
-});        
+});
+    
+var realFileBtn = document.getElementById("real-file-profile");
+            var customBtn = document.getElementById("custom-button");
+            var customTxt = document.getElementById("custom-text");
+
+            customBtn.addEventListener("click", function () {
+                realFileBtn.click();
+            });
+
+            realFileBtn.addEventListener("change", function () {
+                if (realFileBtn.value) {
+                var filename = realFileBtn.value;
+                if (filename.substring(3,11) == 'fakepath') {
+                   filename = filename.substring(12);
+               } // Remove c:\fake at beginning from localhost chrome
+                    customTxt.innerHTML = filename;
+                } else {
+                    customTxt.innerHTML = "No file chosen, yet.";
+                }
+            });          
         
 JS;
 $this->registerJs($script, yii\web\View::POS_END);

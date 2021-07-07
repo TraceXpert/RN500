@@ -318,7 +318,9 @@ class BrowseJobsController extends Controller {
                     'employment_status' => Yii::$app->params['job.type'][$model->job_type],
                     'shift' => $model->shift == 1 ? "Morning,Evening,Night,Flexible" : Yii::$app->params['job.shift'][$model->shift],
                     'rating' => $model->getAvgRating(),
-                    'sharing_url' => $model->getSharableUrl()
+                    'sharing_url' => $model->getSharableUrl(),
+                    'city_id' => $model->city,
+                    'city_name' => $model->getCitiesName()
                 ];
             } else {
                 $code = 202;

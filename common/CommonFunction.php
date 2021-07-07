@@ -12,6 +12,13 @@ use yii\helpers\Html;
 use common\models\LeadMaster;
 use common\models\LeadRecruiterJobSeekerMapping;
 use common\models\ApiLog;
+use common\models\UserDetails;
+use common\models\WorkExperience;
+use common\models\Education;
+use common\models\Licenses;
+use common\models\Certifications;
+use common\models\Documents;
+use common\models\References;
 
 class CommonFunction {
 
@@ -245,7 +252,7 @@ class CommonFunction {
     public static function getAdvertisementBasePath() {
         return Yii::getAlias('@frontend') . "/web/uploads/advertisement";
     }
-    
+
     public static function getAdvertisementBaseUrl() {
 //        return Yii::getAlias('@frontend') . "/web/uploads/advertisement";
         return \yii\helpers\Url::to(Yii::$app->urlManagerFrontend->createUrl(["/uploads/advertisement"]), true);
@@ -275,6 +282,87 @@ class CommonFunction {
             return date($format, strtotime($date));
         }
         return '';
+    }
+
+    public static function getProfilePercentage() {
+
+        $totalPercentage = 100;
+
+        $totalPer = 0;
+//        $hasCompletedUserDetails = 0;
+//        $hasCompletedWE = 0;
+//        $hasCompletedEducation = 0;
+//        $hasCompletedLicense = 0;
+//        $hasCompletedCertification = 0;
+//        $hasCompletedDocuments = 0;
+//        $hasCompletedReference = 0;
+
+        $userDetails = UserDetails::findOne(['user_id' => \Yii::$app->user->id]);
+        $workExperience = WorkExperience::findOne(['user_id' => \Yii::$app->user->id]);
+        $education = Education::findOne(['user_id' => \Yii::$app->user->id]);
+        $license = Licenses::findOne(['user_id' => \Yii::$app->user->id]);
+        $certification = Certifications::findOne(['user_id' => \Yii::$app->user->id]);
+        $documents = Documents::findOne(['user_id' => \Yii::$app->user->id]);
+        $reference = References::findOne(['user_id' => \Yii::$app->user->id]);
+        if (CommonFunction::isJobSeeker()) {
+            if (isset($userDetails) && !empty($userDetails) && !empty($userDetails->ssn)) {
+                $totalPer += 16;
+            }
+
+            if (isset($workExperience) && !empty($workExperience)) {
+                $totalPer += 14;
+            }
+            if (isset($education) && !empty($education)) {
+                $totalPer += 14;
+            }
+            if (isset($license) && !empty($license)) {
+                $totalPer += 14;
+            }
+            if (isset($certification) && !empty($certification)) {
+                $totalPer += 14;
+            }
+            if (isset($documents) && !empty($documents)) {
+                $totalPer += 14;
+            }
+            if (isset($reference) && !empty($reference)) {
+                $totalPer += 14;
+            }
+        } else {
+            if (isset($userDetails) && !empty($userDetails->first_name)) {
+                $totalPer = 15;
+            }
+            if (isset($userDetails) && !empty($userDetails->last_name)) {
+                $totalPer = 15;
+            }
+            if (isset($userDetails) && !empty($userDetails->mobile_no)) {
+                $totalPer = 10;
+            }
+            if (isset($userDetails) && !empty($userDetails->email)) {
+                $totalPer = 10;
+            }
+            if (isset($userDetails) && !empty($userDetails->apt)) {
+                $totalPer = 10;
+            }
+            if (isset($userDetails) && !empty($userDetails->street_no)) {
+                $totalPer = 10;
+            }
+            if (isset($userDetails) && !empty($userDetails->street_address)) {
+                $totalPer = 10;
+            }
+            if (isset($userDetails) && !empty($userDetails->city)) {
+                $totalPer = 10;
+            }
+            if (isset($userDetails) && !empty($userDetails->dob)) {
+                $totalPer = 10;
+            }
+        }
+//        if (isset($workExperience) && !empty($workExperience) && isset($userDetails) && !empty($userDetails) && isset($education) && !empty($education) && isset($license) && !empty($license) && isset($certification) && !empty($certification) && isset($documents) && !empty($documents) && isset($reference) && !empty($reference)) {
+//            $percentage = 100;
+//        } else {
+//        echo $totalPercentage;exit;
+        $percentage = $totalPer * $totalPercentage / 100;
+//        }
+        return round($percentage, 0);
     }
 
 }

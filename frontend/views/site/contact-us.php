@@ -2,8 +2,12 @@
 
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
+
 $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 ?>
+<style>
+    .contact-form-block .read-more:focus{outline: none;}
+</style>
 <section class="inner-banner browse-banner">
     <div class="container">
         <div class="row">
@@ -13,8 +17,6 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         </div>
     </div>
 </section>
-
-
 
 <section class="about-us about-inner-block contact-form">
     <div class="container">
@@ -49,8 +51,8 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                         <path d="M14.4114 23.1704H6.87574C6.31232 23.1704 5.81934 23.6634 5.81934 24.2268C5.81934 24.7902 6.31232 25.2832 6.87574 25.2832H14.4114C14.9748 25.2832 15.4678 24.7902 15.4678 24.2268C15.4678 23.6634 14.9748 23.1704 14.4114 23.1704Z" fill="#46AEE0"/>
                                     </svg>                                            
                                     <div class="media-body">
-                                        <a href="tel:+1 123 – 456 – 7890">
-                                            +1 123 – 456 – 7890
+                                        <a href="tel:+1123–456–7890">
+                                            +1123–456–7890
                                         </a>
                                     </div>
                                 </div>
@@ -71,29 +73,30 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 
                         <div class="col-lg-4">
                             <div class="contact-form-block">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name">
-                                    </div>
+                                <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" id="email">
-                                    </div>
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <?php echo $form->field($model, 'name')->textInput(['maxlength' => true])->label(false) ?>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label for="subject">Subject</label>
-                                        <input type="text" class="form-control" id="subject">
-                                    </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <?php echo $form->field($model, 'email')->textInput(['maxlength' => true])->label(false) ?>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label for="message">Message</label>
-                                        <textarea class="form-control" rows="2" id="message"></textarea>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="subject">Subject</label>
+                                    <?php echo $form->field($model, 'subject')->textInput(['maxlength' => true])->label(false) ?>
+                                </div>
 
-                                    <a href="" class="read-more contact-us">Send Message</a>
-                                </form>
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <?php echo $form->field($model, 'message')->textInput(['maxlength' => true])->label(false) ?>
+                                </div>
+                                <?php echo Html::submitButton('Send Message', ['class' => 'read-more contact-us']) ?>  
+                                <!--<a href="" class="read-more contact-us">Send Message</a>-->
+                                <?php ActiveForm::end(); ?>
                             </div>
                         </div>
 

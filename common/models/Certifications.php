@@ -40,7 +40,7 @@ class Certifications extends \yii\db\ActiveRecord
         return [
             [['certificate_name', 'user_id','issue_by'], 'required'],
             ['document','required','on' => 'create'],
-            [['issuing_state', 'certification_active', 'verified', 'user_id','created_at','updated_at'], 'integer'],
+            [[ 'certification_active', 'verified', 'user_id','created_at','updated_at'], 'integer'],
             [['certificate_name', 'expiry_date'], 'string', 'max' => 250],
             [['document'], 'string', 'max' => 255],
             [['issue_by'], 'string', 'max' => 500],

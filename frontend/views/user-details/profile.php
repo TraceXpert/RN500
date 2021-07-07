@@ -40,7 +40,7 @@ use common\CommonFunction;
             <?php
             $form = ActiveForm::begin([
                         "id" => "user-details",
-                        'options' => ['enctype' => 'multipart/form-data']
+                        'options' => ['enctype' => 'multipart/form-data','autocomplete' => 'off']
             ]);
             ?>
             <div class="row">
@@ -117,7 +117,7 @@ use common\CommonFunction;
                         <?php
                         echo $form->field($model, 'dob')->widget(DatePicker::classname(), [
                             'name' => 'dob',
-                            'options' => ['placeholder' => 'Enter Date of Birth..'],
+                            'options' => ['placeholder' => $model->getAttributeLabel('dob'), 'readonly' => true],
                             'type' => DatePicker::TYPE_INPUT,
                             'pluginOptions' => [
                                 'format' => 'dd-mm-yyyy',

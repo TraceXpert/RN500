@@ -98,10 +98,10 @@ class AuthController extends Controller {
             return $this->goHome();
         }
         $model = new LoginForm();
-        if (Yii::$app->request->isPost && isset($_POST['LoginForm']['otp_digits']) && !empty($_POST['LoginForm']['otp_digits'])) {
-            $model->load(Yii::$app->request->post());
+//        if (Yii::$app->request->isPost && isset($_POST['LoginForm']['otp_digits']) && !empty($_POST['LoginForm']['otp_digits'])) {
+//            $model->load(Yii::$app->request->post());
 //            $model->otp = implode("", $_POST['LoginForm']['otp_digits']);
-        }
+//        }
         if (
                 $model->load(Yii::$app->request->post()) &&
                 $model->validate(['username', 'password']) &&

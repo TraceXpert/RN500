@@ -351,3 +351,14 @@ footer hr{border-top: 1px solid #8C97AC;}
 @media (max-width: 350px){
     .the-rn-app img{margin-bottom: 16px;}
 }
+.signin-form {
+    max-width: 510px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    padding: 120px 30px 20px;
+    overflow: auto;
+}
