@@ -176,6 +176,7 @@ class ReportController extends Controller {
                         "CONCAT(lead.title, ' ', lead.reference_no) as lead_title",
                         "recruiter_company.company_name as recruiter",
                         "lrj.rec_joining_date as joining_date",
+                        "lrj.rec_end_date as end_date",
                         "lead.reference_no as lead_reference_no"
                     ])
                     ->from("lead_recruiter_job_seeker_mapping  as lrj")

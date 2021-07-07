@@ -18,6 +18,17 @@ use common\CommonFunction;
     .field-userdetails-street_address{margin-bottom: 5px;}
     .iti--allow-dropdown{width: 100%;}
     .optionlist{margin-left:-40px;}
+    .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+        padding: .375rem 2rem;
+    }
 </style>
 <div class="user-details-form">
     <?php
@@ -69,16 +80,15 @@ use common\CommonFunction;
             <label class="control-label" for="city">City</label>
             <ul class="optionlist">
                 <?php
-                
                 $url = Url::to(['browse-jobs/get-cities']);
                 echo Select2::widget([
                     'name' => 'city',
-                    'value' => array_keys($selectedLocations),
-                    'initValueText' => array_values($selectedLocations),
+                    'value' => isset($model->city) && !empty($model->city) ? $model->city : '',
+                    'data' => $selectedLocations,
                     'options' => [
                         'id' => 'city',
                         'placeholder' => 'Select Location...',
-                        'multiple' => true,
+                        'multiple' => false,
                         'class' => 'form-control select2-hidden-accessible'
                     ],
                     'pluginOptions' => [
@@ -93,7 +103,6 @@ use common\CommonFunction;
                         'escapeMarkup' => new JsExpression('function (markup) {return markup; }'),
                         'templateResult' => new JsExpression('function(location) {return "<b>"+location.name+"</b>"; }'),
                         'templateSelection' => new JsExpression('function (location) {
-                                        console.log(location);
                                 if(location.selected==true){
                                     return location.text; 
                                 }else{

@@ -13,23 +13,34 @@ $frontendDir = yii\helpers\Url::base(true);
 <style>
     .mb-15{margin-bottom: 15px;}
     .optionlist{margin-left:-40px;}
+    .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+        padding: .375rem 2rem;
+    }
 </style>
 <div class="user-details-form">
     <?php
     $form = ActiveForm::begin([
                 'id' => 'add-certification-new',
-                'options' => ['autocomplete' => 'off','enctype' => 'multipart/form-data'],
+                'options' => ['autocomplete' => 'off', 'enctype' => 'multipart/form-data'],
     ]);
     ?>
     <div class="row">
         <div class="col-sm-12">
-             <?= $form->field($model, 'certificate_name')->dropDownList(Yii::$app->params['CERTIFICATION_TYPE']); ?>
+            <?= $form->field($model, 'certificate_name')->dropDownList(Yii::$app->params['CERTIFICATION_TYPE']); ?>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12 radio-btn">
             <label>Certification Active</label>
-            <?= $form->field($model, 'certification_active' ,['template' => '<div class="form-group"><input type="radio" id="yes" name="Certifications[certification_active]" value="1"><label for="yes">Yes</label></div><div class="form-group"><input type="radio" id="no" name="Certifications[certification_active]" class="is_not_active" value="0"><label for="no">No</label></div>'])->radioList([]) ?>
+            <?= $form->field($model, 'certification_active', ['template' => '<div class="form-group"><input type="radio" id="yes" name="Certifications[certification_active]" value="1"><label for="yes">Yes</label></div><div class="form-group"><input type="radio" id="no" name="Certifications[certification_active]" class="is_not_active" value="0"><label for="no">No</label></div>'])->radioList([]) ?>
         </div>
     </div>
     <div class="row">
@@ -67,15 +78,15 @@ $frontendDir = yii\helpers\Url::base(true);
             <ul class="optionlist">
                 <?php
                 $url = Url::to(['browse-jobs/get-cities']);
-                
+
                 echo Select2::widget([
                     'name' => 'issuing_state',
-                    'value' => array_keys($selectedLocations),
-                    'initValueText' => array_values($selectedLocations),
+                    'value' => isset($model->issuing_state) && !empty($model->issuing_state) ? $model->issuing_state : '',
+                    'data' => $selectedLocations,
                     'options' => [
                         'id' => 'issuing_state_location',
                         'placeholder' => 'Select City...',
-                        'multiple' => true,
+                        'multiple' => false,
                         'class' => 'form-control select2-hidden-accessible'
                     ],
                     'pluginOptions' => [
@@ -98,22 +109,20 @@ $frontendDir = yii\helpers\Url::base(true);
                             }'),
                     ],
                 ]);
-                
-                
                 ?>
             </ul>
         </div>
     </div>
     <div class="row mb-15">
         <div class="col-sm-12">
-            <?php echo $form->field($model, 'document')->fileInput() ?>
-            <?php //$form->field($model, 'document', ['template' => "<label for='real-file'>Upload Your Document</label><br/><input type='file' id='real-file-certification' hidden='hidden'><button type='button' id='custom-certification'>Choose File</button>"])->fileInput()?>
-            
+<?php echo $form->field($model, 'document')->fileInput() ?>
+            <?php //$form->field($model, 'document', ['template' => "<label for='real-file'>Upload Your Document</label><br/><input type='file' id='real-file-certification' hidden='hidden'><button type='button' id='custom-certification'>Choose File</button>"])->fileInput() ?>
+
             <?php if ($isRecordFlag) { ?>
                 <?php if (!empty($model->document) && file_exists(CommonFunction::getCertificateBasePath() . "/" . $model->document)) { ?>
                     <a href="<?= $frontendDir . "/uploads/user-details/certification/" . $model->document ?>" download><?= $model->document ?></a>
                     <span id="custom-text-certification"></span>
-                <?php } else { ?>
+    <?php } else { ?>
                     <span id="custom-text-certification">No file selected.</span>
                 <?php } ?>
             <?php } ?>
@@ -122,11 +131,11 @@ $frontendDir = yii\helpers\Url::base(true);
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+<?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
         <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
     </div>
 
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 
 </div>
 

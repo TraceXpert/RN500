@@ -33,14 +33,15 @@ class Education extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-                [['user_id', 'degree_name', 'year_complete', 'institution'], 'required'],
-                [['user_id','created_at','updated_at','location'], 'integer'],
-                [['degree_name'], 'string', 'max' => 250],
-                [['year_complete'], 'string', 'max' => 50],
-                [['institution'], 'string', 'max' => 500],
-                [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-                [['institution'], 'match', 'pattern' => '/^[a-zA-Z0-9. ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
-                [['user_id', 'degree_name', 'year_complete', 'institution', 'location'], 'safe']
+            [['user_id', 'degree_name', 'year_complete', 'institution'], 'required'],
+            [['user_id', 'created_at', 'updated_at', 'location'], 'integer'],
+            [['degree_name'], 'string', 'max' => 250],
+            [['year_complete'], 'string', 'max' => 50],
+            [['institution'], 'string', 'max' => 500],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['institution'], 'match', 'pattern' => '/^[a-zA-Z0-9. ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
+            [['user_id', 'degree_name', 'year_complete', 'institution', 'location'], 'safe'],
+            [['degree_name', 'year_complete', 'institution', 'location'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 
@@ -75,7 +76,6 @@ class Education extends \yii\db\ActiveRecord {
         return isset($this->locationRel->stateRef->state) ? $this->locationRel->stateRef->state : "";
     }
 
-    
     public function getCityStateName() {
         $name = '';
         if ($this->locationRel) {

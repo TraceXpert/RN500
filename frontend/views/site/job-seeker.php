@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 use common\CommonFunction;
 use common\models\UserDetails;
 
-$assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/jobs-portal');
+$assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 $frontendDir = yii\helpers\Url::base(true);
 ?>
 <style>
@@ -250,10 +250,10 @@ $frontendDir = yii\helpers\Url::base(true);
                         <div class="media">
 
 
-                            <?php if (isset($userDetails->profile_pic) && !empty($userDetails->profile_pic)) { ?>
+                            <?php if (isset($userDetails->profile_pic) && !empty($userDetails->profile_pic) && file_exists($frontendDir . "/uploads/user-details/profile/" . $userDetails->profile_pic)) { ?>
                                 <img src="<?= $frontendDir . "/uploads/user-details/profile/" . $userDetails->profile_pic ?>"  class="mr-3 my-profilepic-size rounded-circle" />
                             <?php } else { ?>
-                                <img src="<?= $assetDir ?>/img/profile-pic.png" alt="profile-pic" class="mr-3 my-profilepic-size rounded-circle" />
+                                <img src="<?= $assetDir ?>/img/profile.png" alt="profile-pic" class="mr-3 my-profilepic-size rounded-circle" />
                             <?php } ?>
 
                             <div class="media-body">
@@ -274,7 +274,7 @@ $frontendDir = yii\helpers\Url::base(true);
                             </div>
 
                             <div class="text-right">
-                                <a href="javascript:void(0)" url="<?= Yii::$app->urlManager->createUrl(['user-details/update', 'id' => Yii::$app->user->id]) ?>" class="read-more contact-us mb-0 editProfile" data-toggle="modal">Edit</a>
+                                <a href="javascript:void(0)" url="<?= Yii::$app->urlManager->createUrl(['user-details/update', 'id' => base64_encode(Yii::$app->user->id)]) ?>" class="read-more contact-us mb-0 editProfile" data-toggle="modal">Edit</a>
                             </div>
                         </div>
                     </div>
@@ -287,7 +287,7 @@ $frontendDir = yii\helpers\Url::base(true);
                         </div>
                         <div class="col-md-6 col-6">
                             <div class="text-right">
-                                <a href="javascript:void(0)" url="<?= Yii::$app->urlManager->createUrl(['user-details/update', 'id' => Yii::$app->user->id]) ?>"   class="read-more contact-us mb-0 editProfile">Edit</a>
+                                <a href="javascript:void(0)" url="<?= Yii::$app->urlManager->createUrl(['user-details/update', 'id' => base64_encode(Yii::$app->user->id)]) ?>"   class="read-more contact-us mb-0 editProfile">Edit</a>
                             </div>
                         </div>
                     </div>
@@ -342,7 +342,7 @@ $frontendDir = yii\helpers\Url::base(true);
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="text-right">
-                                        <a href="javascript:void(0)"  url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/work-experience?id=' . $value['id']]) ?>"   class="read-more contact-us mb-0 work-experience">Edit</a>
+                                        <a href="javascript:void(0)"  url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/work-experience?id=' . base64_encode($value['id'])]) ?>"   class="read-more contact-us mb-0 work-experience">Edit</a>
                                     </div>
                                 </div>
                             </div>
@@ -382,7 +382,7 @@ $frontendDir = yii\helpers\Url::base(true);
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="text-right">
-                                        <a href="javascript:void(0);" url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/add-education?id=' . $value['id']]) ?>"  class="read-more contact-us mb-0 AddEducation">Edit</a>
+                                        <a href="javascript:void(0);" url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/add-education?id=' . base64_encode($value['id'])]) ?>"  class="read-more contact-us mb-0 AddEducation">Edit</a>
                                     </div>
                                 </div>
                             </div>
@@ -421,7 +421,7 @@ $frontendDir = yii\helpers\Url::base(true);
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="text-right">
-                                        <a href="javascript:void(0);" url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/add-licence?id=' . $value['id']]) ?>" class="read-more contact-us mb-0 AddLicence">Edit</a>
+                                        <a href="javascript:void(0);" url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/add-licence?id=' . base64_encode($value['id'])]) ?>" class="read-more contact-us mb-0 AddLicence">Edit</a>
                                     </div>
                                 </div>
                             </div>
@@ -460,7 +460,7 @@ $frontendDir = yii\helpers\Url::base(true);
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="text-right">
-                                        <a  href="javascript:void(0);" url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/add-certification?id=' . $value['id']]) ?>"  class="read-more contact-us mb-0 AddCertification">Edit</a>
+                                        <a  href="javascript:void(0);" url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/add-certification?id=' . base64_encode($value['id'])]) ?>"  class="read-more contact-us mb-0 AddCertification">Edit</a>
                                     </div>
                                 </div>
                             </div>
@@ -540,7 +540,7 @@ $frontendDir = yii\helpers\Url::base(true);
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="text-right">
-                                        <a href="javascript:void(0);" url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/add-reference?id=' . $value['id']]) ?>"  class="read-more contact-us mb-0 AddReference">Edit</a>
+                                        <a href="javascript:void(0);" url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/add-reference?id=' . base64_encode($value['id'])]) ?>"  class="read-more contact-us mb-0 AddReference">Edit</a>
                                     </div>
                                 </div>
                             </div>

@@ -11,6 +11,17 @@ use borales\extensions\phoneInput\PhoneInput;
 ?>
 <style>
     .iti--allow-dropdown{width: 100%;}
+    .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+        padding: .375rem 2rem;
+    }
 </style>
 <div class="user-details-form">
     <?php

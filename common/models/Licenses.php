@@ -47,7 +47,7 @@ class Licenses extends \yii\db\ActiveRecord {
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['license_number'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
             ['document', 'file', 'extensions' => ['png', 'jpg','jpeg','docx','pdf'], 'maxSize' => 1024 * 1024 * 2],
-
+            [['license_name','issue_by'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
     

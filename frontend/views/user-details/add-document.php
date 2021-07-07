@@ -10,12 +10,24 @@ use common\CommonFunction;
 /* @var $form yii\widgets\ActiveForm */
 $frontendDir = yii\helpers\Url::base(true);
 ?>
-
+<style>
+    .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+        padding: .375rem 2rem;
+    }
+</style>
 <div class="user-details-form">
     <?php
     $form = ActiveForm::begin([
                 'id' => 'add-document-new',
-                'options' => ['autocomplete' => 'off','enctype' => 'multipart/form-data']
+                'options' => ['autocomplete' => 'off', 'enctype' => 'multipart/form-data']
     ]);
     ?>
     <div class="row">
@@ -33,7 +45,7 @@ $frontendDir = yii\helpers\Url::base(true);
                     <span id="custom-text"></span>
                 <?php } ?>
             <?php } else { ?>
-                <!--<span id="custom-text">No file selected.</span>-->
+            <!--<span id="custom-text">No file selected.</span>-->
             <?php } ?>
         </div>
     </div>

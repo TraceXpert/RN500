@@ -36,17 +36,18 @@ class CompanyBranch extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-                [['email', 'branch_name', 'street_no', 'street_address', 'city', 'updated_at', 'zip_code'], 'required'],
-                [['company_id', 'city', 'is_default', 'created_at', 'updated_at'], 'integer'],
-                [['branch_name'], 'string', 'max' => 200],
-                [['street_no', 'street_address', 'apt'], 'string', 'max' => 255],
+            [['email', 'branch_name', 'street_no', 'street_address', 'city', 'updated_at', 'zip_code'], 'required'],
+            [['company_id', 'city', 'is_default', 'created_at', 'updated_at'], 'integer'],
+            [['branch_name'], 'string', 'max' => 200],
+            [['street_no', 'street_address', 'apt'], 'string', 'max' => 255],
 //            [['zip_code'], 'string', 'max' => 20],
             [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
-                ['company_id', 'required', 'when' => function ($model) {
+            ['company_id', 'required', 'when' => function ($model) {
                     return isset(\Yii::$app->user->identity->id) ? CommonFunction::isMasterAdmin(\Yii::$app->user->identity->id) : false;
                 }],
-                [['email'], 'email'],
-                [['email', 'branch_name', 'street_no', 'street_address', 'apt', 'zip_code'], 'safe']
+            [['email'], 'email'],
+            [['email', 'branch_name', 'street_no', 'street_address', 'apt', 'zip_code'], 'safe'],
+            [['email', 'branch_name', 'street_no', 'street_address', 'apt', 'zip_code'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 

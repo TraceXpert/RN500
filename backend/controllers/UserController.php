@@ -247,15 +247,15 @@ class UserController extends Controller {
         $model = User::findOne(['id' => $id]);
         $company = CompanyMaster::findOne(['id' => $model->branch->company_id]);
         $model->scenario = $status == User::STATUS_APPROVED ? 'approve' : 'reject';
+        $model->status = $status;
         if ($model->load(Yii::$app->request->post())) {
             $company->status = $status;
-            $model->status = $status;
             $company->updated_at = CommonFunction::currentTimestamp();
             if ($model->save(false) && $company->save(false)) {
                 if ($model->status == User::STATUS_APPROVED) {
                     CommonFunction::sendWelcomeMail($model);
                     Yii::$app->session->setFlash("success", "User Request Approved successfully.");
-                }else{
+                } else {
                     Yii::$app->session->setFlash("success", "User  Request Rejected successfully.");
                 }
             } else {

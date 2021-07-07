@@ -73,8 +73,9 @@ class UserDetailsController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
+        $uid = base64_decode($id);
         return $this->render('view', [
-                    'model' => $this->findModel($id),
+                    'model' => $this->findModel($uid),
         ]);
     }
 
@@ -119,9 +120,9 @@ class UserDetailsController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id) {
-
+        $uid = base64_decode($id);
         $postData = Yii::$app->request->post();
-        $model = UserDetails::findOne(['user_id' => $id]);
+        $model = UserDetails::findOne(['user_id' => $uid]);
         $model->scenario = 'profile';
         $model->updated_at = CommonFunction::currentTimestamp();
         if (isset($model->dob) && !empty($model->dob)) {
@@ -130,16 +131,20 @@ class UserDetailsController extends Controller {
             $model->dob = date('d-m-Y');
         }
         if (isset($model->city) && !empty($model->city)) {
-            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->city])->all(), 'id', 'city');
+            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->city])->all(), 'id', function ($data) {
+                        return $data->city . "-" . $data->state_code;
+                    });
         } else {
             $selectedLocations = [];
         }
         $temp_document_file = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
         $document_upload_flag = '';
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'][0] : '';
+            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
             $model->dob = date('Y-m-d', strtotime($model->dob));
-
+            echo "<pre/>";
+            print_r($_FILES);
+            exit;
             $document_file = UploadedFile::getInstance($model, 'profile_pic');
 
             $folder = \Yii::$app->basePath . "/web/uploads/user-details/profile/";
@@ -182,66 +187,67 @@ class UserDetailsController extends Controller {
     }
 
     public function actionProfile($id) {
-        $postData = Yii::$app->request->post();
-        $model = UserDetails::findOne(['user_id' => $id]);
+        if ($id == \Yii::$app->user->identity->id) {
+            $postData = Yii::$app->request->post();
+            $model = UserDetails::findOne(['user_id' => $id]);
 
-        $model->scenario = 'profile';
-        $model->updated_at = CommonFunction::currentTimestamp();
-        $temp_document_file = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
-        $document_upload_flag = '';
-        $branch = CompanyBranch::findOne(['id' => CommonFunction::getLoggedInUserBranchId()]);
-        $companyDetail = CompanyMaster::findOne(['id' => CommonFunction::getLoggedInUserCompanyId()]);
+            $model->scenario = 'profile';
+            $model->updated_at = CommonFunction::currentTimestamp();
+            $temp_document_file = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
+            $document_upload_flag = '';
+            $branch = CompanyBranch::findOne(['id' => CommonFunction::getLoggedInUserBranchId()]);
+            $companyDetail = CompanyMaster::findOne(['id' => CommonFunction::getLoggedInUserCompanyId()]);
 
-        if (isset($model->dob) && !empty($model->dob)) {
-            $model->dob = date('M-d-Y', strtotime($model->dob));
-        }
-
-        $states = ArrayHelper::map(\common\models\States::find()->where(['country_id' => 226])->all(), 'id', 'state');
-        $city = ArrayHelper::map(Cities::findAll(['state_id' => $model->state]), 'id', 'city');
-        if (isset($model->city) && !empty($model->city)) {
-            $model->state = $model->cityRef->state_id;
-            $states = ArrayHelper::map(\common\models\States::find()->where(['id' => $model->cityRef->state_id])->all(), 'id', 'state');
-            $city = ArrayHelper::map(Cities::findAll(['state_id' => $model->cityRef->state_id]), 'id', 'city');
-        }
-        if ($model->load(Yii::$app->request->post())) {
-            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'][0] : '';
-            $model->dob = date('Y-m-d', strtotime($model->dob));
-
-            $document_file = UploadedFile::getInstance($model, 'profile_pic');
-
-            $folder = \Yii::$app->basePath . "/web/uploads/user-details/profile/";
-            if (!file_exists($folder)) {
-                FileHelper::createDirectory($folder, 0777);
+            if (isset($model->dob) && !empty($model->dob)) {
+                $model->dob = date('M-d-Y', strtotime($model->dob));
             }
 
-            $uploadPath = './uploads/user-details/profile/';
-
-            if ($document_file) {
-                $model->profile_pic = time() . "_" . Yii::$app->security->generateRandomString(10) . "." . $document_file->getExtension();
-                $document_upload_flag = $document_file->saveAs($uploadPath . '/' . $model->profile_pic);
+            $states = ArrayHelper::map(\common\models\States::find()->where(['country_id' => 226])->all(), 'id', 'state');
+            $city = ArrayHelper::map(Cities::findAll(['state_id' => $model->state]), 'id', 'city');
+            if (isset($model->city) && !empty($model->city)) {
+                $model->state = $model->cityRef->state_id;
+                $states = ArrayHelper::map(\common\models\States::find()->where(['id' => $model->cityRef->state_id])->all(), 'id', 'state');
+                $city = ArrayHelper::map(Cities::findAll(['state_id' => $model->cityRef->state_id]), 'id', 'city');
             }
+            if ($model->load(Yii::$app->request->post())) {
+//                $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
+                $model->dob = date('Y-m-d', strtotime($model->dob));
 
-            if (isset($temp_document_file) && !empty($temp_document_file) && file_exists($folder . $temp_document_file)) {
-                if ($document_upload_flag) {
-                    unlink($uploadPath . $temp_document_file);
-                } else {
-                    $model->profile_pic = $temp_document_file;
+                $document_file = UploadedFile::getInstance($model, 'profile_pic');
+
+                $folder = \Yii::$app->basePath . "/web/uploads/user-details/profile/";
+                if (!file_exists($folder)) {
+                    FileHelper::createDirectory($folder, 0777);
                 }
-            }
 
-            if ($model->validate()) {
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', "User Details Updated Successfully.");
+                $uploadPath = './uploads/user-details/profile/';
+
+                if ($document_file) {
+                    $model->profile_pic = time() . "_" . Yii::$app->security->generateRandomString(10) . "." . $document_file->getExtension();
+                    $document_upload_flag = $document_file->saveAs($uploadPath . '/' . $model->profile_pic);
+                }
+
+                if (isset($temp_document_file) && !empty($temp_document_file) && file_exists($folder . $temp_document_file)) {
+                    if ($document_upload_flag) {
+                        unlink($uploadPath . $temp_document_file);
+                    } else {
+                        $model->profile_pic = $temp_document_file;
+                    }
+                }
+
+                if ($model->validate()) {
+                    if ($model->save()) {
+                        Yii::$app->session->setFlash('success', "User Details Updated Successfully.");
+                        return $this->redirect(['profile', 'id' => $id]);
+                    }
+                } else {
+                    Yii::$app->session->setFlash('error', "User Details Updated failed.");
                     return $this->redirect(['profile', 'id' => $id]);
                 }
-            } else {
-
-                echo "<pre>";
-                print_r($model->getErrors());
-                exit;
-                Yii::$app->session->setFlash('error', "User Details Updated failed.");
-                return $this->redirect(['profile', 'id' => $id]);
             }
+        } else {
+            Yii::$app->session->setFlash('error', "You are not valid user.");
+            return $this->redirect(['site/index']);
         }
 
         return $this->render('profile', [
@@ -271,7 +277,8 @@ class UserDetailsController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+        $uid = base64_decode($id);
+        $this->findModel($uid)->delete();
 
         return $this->redirect(['index']);
     }
@@ -284,7 +291,8 @@ class UserDetailsController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = UserDetails::findOne($id)) !== null) {
+        $uid = base64_decode($id);
+        if (($model = UserDetails::findOne($uid)) !== null) {
             return $model;
         }
 
@@ -324,7 +332,7 @@ class UserDetailsController extends Controller {
 
     public function actionWorkExperience() {
         $postData = Yii::$app->request->post();
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $message = '';
         if ($id !== null) {
             $model = WorkExperience::findOne($id);
@@ -344,7 +352,9 @@ class UserDetailsController extends Controller {
             $model->updated_at = CommonFunction::currentTimestamp();
         }
         if (isset($model->city) && !empty($model->city)) {
-            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->city])->all(), 'id', 'city');
+            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->city])->all(), 'id', function ($data) {
+                        return $data->city . "-" . $data->state_code;
+                    });
         } else {
             $selectedLocations = [];
         }
@@ -352,10 +362,9 @@ class UserDetailsController extends Controller {
         $discipline = ArrayHelper::map(Discipline::find()->all(), 'id', 'name');
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            
             $model->user_id = \Yii::$app->user->id;
             $model->start_date = date('Y-m-d', strtotime("01-" . $model->start_date));
-            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'][0] : '';
+            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
             $model->currently_working = isset($_POST['currently_working']) && !empty($_POST['currently_working']) ? $_POST['currently_working'] : '';
             if ($model->currently_working != '1') {
                 $model->end_date = date('Y-m-d', strtotime("01-" . $model->end_date));
@@ -382,7 +391,7 @@ class UserDetailsController extends Controller {
 
     public function actionAddEducation() {
         $postData = Yii::$app->request->post();
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $message = '';
 
         if ($id !== null) {
@@ -398,14 +407,16 @@ class UserDetailsController extends Controller {
         }
 
         if (isset($model->location) && !empty($model->location)) {
-            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->location])->all(), 'id', 'city');
+            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->location])->all(), 'id', function ($data) {
+                        return $data->city . "-" . $data->state_code;
+                    });
         } else {
             $selectedLocations = [];
         }
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             $model->user_id = \Yii::$app->user->id;
             $model->year_complete = date('Y-m-d', strtotime("01-" . $model->year_complete));
-            $model->location = isset($_POST['location']) && !empty($_POST['location']) ? $_POST['location'][0] : '';
+            $model->location = isset($_POST['location']) && !empty($_POST['location']) ? $_POST['location'] : '';
 
             if ($model->validate()) {
                 if ($model->save()) {
@@ -425,7 +436,7 @@ class UserDetailsController extends Controller {
 
     public function actionAddLicence() {
         $postData = Yii::$app->request->post();
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $isRecordFlag = false;
         $document_upload_flag = '';
         $message = '';
@@ -445,15 +456,17 @@ class UserDetailsController extends Controller {
             $model->updated_at = CommonFunction::currentTimestamp();
         }
         if (isset($model->issuing_state) && !empty($model->issuing_state)) {
-            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->issuing_state])->all(), 'id', 'city');
+            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->issuing_state])->all(), 'id', function ($data) {
+                        return $data->city . "-" . $data->state_code;
+                    });
         } else {
             $selectedLocations = [];
         }
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            
+
             $model->user_id = \Yii::$app->user->id;
             $model->expiry_date = date('Y-m-d', strtotime("01-" . $model->expiry_date));
-            $model->issuing_state = isset($_POST['issuing_state']) && !empty($_POST['issuing_state']) ? $_POST['issuing_state'][0] : '';
+            $model->issuing_state = isset($_POST['issuing_state']) && !empty($_POST['issuing_state']) ? $_POST['issuing_state'] : '';
             $model->compact_states = isset($_POST['Licenses']['compact_states']) && !empty($_POST['Licenses']['compact_states']) ? '1' : '';
             $document_file = UploadedFile::getInstance($model, 'document');
 
@@ -500,8 +513,7 @@ class UserDetailsController extends Controller {
     }
 
     public function actionAddCertification() {
-
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $postData = Yii::$app->request->post();
         $isRecordFlag = false;
         $document_upload_flag = '';
@@ -526,15 +538,17 @@ class UserDetailsController extends Controller {
         }
 
         if (isset($model->issuing_state) && !empty($model->issuing_state)) {
-            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->issuing_state])->all(), 'id', 'city');
+            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->issuing_state])->all(), 'id', function ($data) {
+                        return $data->city . "-" . $data->state_code;
+                    });
         } else {
             $selectedLocations = [];
         }
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            $model->issuing_state = isset($_POST['issuing_state']) && !empty($_POST['issuing_state']) ? $_POST['issuing_state'][0] : '';
+            $model->issuing_state = isset($_POST['issuing_state']) && !empty($_POST['issuing_state']) ? $_POST['issuing_state'] : '';
             $model->user_id = \Yii::$app->user->id;
             $model->expiry_date = date('Y-m-d', strtotime("01-" . $model->expiry_date));
-            
+
             if (isset($postData['certification_active']) && !empty($postData['certification_active'])) {
                 $model->certification_active = $postData['certification_active'];
             }
@@ -584,7 +598,7 @@ class UserDetailsController extends Controller {
 
     public function actionAddDocument() {
 
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $isRecordFlag = false;
         $document_upload_flag = '';
         $message = '';
@@ -604,8 +618,8 @@ class UserDetailsController extends Controller {
         }
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            
-            
+
+
             $model->user_id = \Yii::$app->user->id;
             $document_file = UploadedFile::getInstance($model, 'path');
 
@@ -654,7 +668,7 @@ class UserDetailsController extends Controller {
 
     public function actionAddReference() {
 
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $message = '';
         if ($id !== null) {
             $model = References::findOne($id);
@@ -725,54 +739,7 @@ class UserDetailsController extends Controller {
     }
 
     public function actionGetProfilePercentage() {
-
-        $totalPercentage = 100;
-
-        $hasCompletedUserDetails = 0;
-        $hasCompletedWE = 0;
-        $hasCompletedEducation = 0;
-        $hasCompletedLicense = 0;
-        $hasCompletedCertification = 0;
-        $hasCompletedDocuments = 0;
-        $hasCompletedReference = 0;
-
-        $userDetails = UserDetails::findOne(['user_id' => \Yii::$app->user->id]);
-        $workExperience = WorkExperience::findOne(['user_id' => \Yii::$app->user->id]);
-        $education = Education::findOne(['user_id' => \Yii::$app->user->id]);
-        $license = Licenses::findOne(['user_id' => \Yii::$app->user->id]);
-        $certification = Certifications::findOne(['user_id' => \Yii::$app->user->id]);
-        $documents = Documents::findOne(['user_id' => \Yii::$app->user->id]);
-        $reference = References::findOne(['user_id' => \Yii::$app->user->id]);
-
-        if (isset($userDetails) && !empty($userDetails)) {
-            $hasCompletedUserDetails = 14;
-        }
-
-        if (isset($workExperience) && !empty($workExperience)) {
-            $hasCompletedWE = 14;
-        }
-        if (isset($education) && !empty($education)) {
-            $hasCompletedEducation = 14;
-        }
-        if (isset($license) && !empty($license)) {
-            $hasCompletedLicense = 14;
-        }
-        if (isset($certification) && !empty($certification)) {
-            $hasCompletedCertification = 14;
-        }
-        if (isset($documents) && !empty($documents)) {
-            $hasCompletedDocuments = 14;
-        }
-        if (isset($reference) && !empty($reference)) {
-            $hasCompletedReference = 14;
-        }
-
-        if (isset($workExperience) && !empty($workExperience) && isset($userDetails) && !empty($userDetails) && isset($education) && !empty($education) && isset($license) && !empty($license) && isset($certification) && !empty($certification) && isset($documents) && !empty($documents) && isset($reference) && !empty($reference)) {
-            $percentage = 100;
-        } else {
-            $percentage = ($hasCompletedUserDetails + $hasCompletedWE + $hasCompletedEducation + $hasCompletedLicense + $hasCompletedCertification + $hasCompletedDocuments + $hasCompletedReference) * $totalPercentage / 100;
-        }
-        echo round($percentage, 0);
+        echo CommonFunction::getProfilePercentage();
     }
 
 }

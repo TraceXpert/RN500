@@ -10,6 +10,17 @@ use yii\web\JsExpression;
 <style>
     .mb-15{margin-bottom: 15px;}
     .optionlist{margin-left:-40px;}
+    .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+        padding: .375rem 2rem;
+    }
 </style>
 <div class="user-details-form">
     <?php
@@ -31,13 +42,12 @@ use yii\web\JsExpression;
                 $url = Url::to(['browse-jobs/get-cities']);
                 echo Select2::widget([
                     'name' => 'location',
-                    
-                    'value' => (isset($model->location) && !empty($model->location)) ? array_keys($selectedLocations) : '',
-                    'initValueText' => (isset($model->location) && !empty($model->location)) ? array_values($selectedLocations) : '',
+                    'value' => isset($model->location) && !empty($model->location) ? $model->location : '',
+                    'data' => $selectedLocations,
                     'options' => [
                         'id' => 'education_location',
                         'placeholder' => 'Select Location...',
-                        'multiple' => true,
+                        'multiple' => false,
                         'class' => 'form-control select2-hidden-accessible'
                     ],
                     'pluginOptions' => [

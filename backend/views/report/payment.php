@@ -56,7 +56,7 @@ use yii\helpers\Url;
                     <?php echo Html::submitButton('Search', ['class' => 'btn btn-primary mt-4']) ?>
                 </div>
                 <div class="col-6 col-sm-4">
-                    <button class="btn btn-secondary mb-2 float-right  mt-4" id="btn-export"> Export </button>
+                    <!--<button class="btn btn-secondary mb-2 float-right  mt-4" id="btn-export"> Export </button>-->
                 </div>
             </div>
 

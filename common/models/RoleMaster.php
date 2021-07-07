@@ -37,6 +37,7 @@ class RoleMaster extends \yii\db\ActiveRecord {
             ['company_id', 'required', 'when' => function ($model) {
                     return CommonFunction::isMasterAdmin(\Yii::$app->user->identity->id);
                 }],
+            [['role_name'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 

@@ -13,12 +13,23 @@ $frontendDir = yii\helpers\Url::base(true);
 <style>
     .mb-15{margin-bottom: 15px;}
     .optionlist{margin-left:-40px;}
+    .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+        padding: .375rem 2rem;
+    }
 </style>
 <div class="user-details-form">
     <?php
     $form = ActiveForm::begin([
                 'id' => 'add-licenses',
-                'options' => ['autocomplete' => 'off','enctype' => 'multipart/form-data']
+                'options' => ['autocomplete' => 'off', 'enctype' => 'multipart/form-data']
     ]);
     ?>
     <div class="row">
@@ -35,12 +46,12 @@ $frontendDir = yii\helpers\Url::base(true);
 
                 echo Select2::widget([
                     'name' => 'issuing_state',
-                    'value' => array_keys($selectedLocations),
-                    'initValueText' => array_values($selectedLocations),
+                    'value' => isset($model->issuing_state) && !empty($model->issuing_state) ? $model->issuing_state : '',
+                    'data' => $selectedLocations,
                     'options' => [
                         'id' => 'issuing_state_location',
                         'placeholder' => 'Select City...',
-                        'multiple' => true,
+                        'multiple' => false,
                         'class' => 'form-control select2-hidden-accessible'
                     ],
                     'pluginOptions' => [
@@ -120,7 +131,7 @@ $frontendDir = yii\helpers\Url::base(true);
                     <span id="custom-text"></span>
                 <?php } ?>
             <?php } else { ?>
-<!--                <span id="custom-text">No file selected.</span>-->
+    <!--                <span id="custom-text">No file selected.</span>-->
             <?php } ?>
         </div>
     </div>

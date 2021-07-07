@@ -32,6 +32,7 @@ class Cities extends \yii\db\ActiveRecord
             [['state_id'], 'integer'],
             [['city'], 'string', 'max' => 50],
             [['state_code'], 'string', 'max' => 2],
+            [['city'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 

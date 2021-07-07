@@ -14,6 +14,17 @@ use yii\web\JsExpression;
 <style>
     .mb-15{margin-bottom: 15px;}
     .optionlist{margin-left:-40px;}
+    .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+        padding: .375rem 2rem;
+    }
 </style>
 <div class="user-details-form">
     <?php
@@ -44,7 +55,7 @@ use yii\web\JsExpression;
     </div>
     <div class="row">
         <div class="col-sm-12 filter-accordion mb-15">
-            <?= $form->field($model, 'currently_working',['template' => '<input type="checkbox" name="currently_working" id="one" class="is_active" value="1" ><label for="one">Currently Working</label>'])->checkbox(['id' => 'currently_working']); ?>
+            <?= $form->field($model, 'currently_working', ['template' => '<input type="checkbox" name="currently_working" id="one" class="is_active" value="1" ><label for="one">Currently Working</label>'])->checkbox(['id' => 'currently_working']); ?>
         </div>
     </div>
     <div class="row">
@@ -121,12 +132,12 @@ use yii\web\JsExpression;
                 $url = Url::to(['browse-jobs/get-cities']);
                 echo Select2::widget([
                     'name' => 'city',
-                    'value' => array_keys($selectedLocations),
-                    'initValueText' => array_values($selectedLocations),
+                    'value' => isset($model->city) && !empty($model->city) ? $model->city : '',
+                    'data' => $selectedLocations,
                     'options' => [
                         'id' => 'select_city',
                         'placeholder' => 'Select City',
-                        'multiple' => true,
+                        'multiple' => false,
                         'class' => 'form-control select2-hidden-accessible'
                     ],
                     'pluginOptions' => [
