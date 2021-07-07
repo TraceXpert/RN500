@@ -42,22 +42,22 @@ class BrowseJobsController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['recruiter-lead', 'recruiter-view', 'apply', 'apply-job', 'track-my-application', 'set-rating'],
                 'rules' => [
-                        [
+                    [
                         'actions' => ['apply', 'apply-job'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*']
                     ],
-                        [
+                    [
                         'actions' => ['recruiter-lead', 'recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isRecruiter() ? ['@'] : ['*'] : ['*'],
                     ],
-                        [
+                    [
                         'actions' => ['recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isEmployer() ? ['@'] : ['*'] : ['*'],
                     ],
-                        [
+                    [
                         'actions' => ['track-my-application', 'set-rating'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isJobSeeker() ? ['@'] : ['*'] : ['*'],
@@ -344,7 +344,7 @@ class BrowseJobsController extends Controller {
 //        $model = LeadMaster::findOne(['id' => $id]);
         $model = LeadMaster::find()->where(['OR', ['id' => $id], ['reference_no' => $id]])->one();
         $today = date('Y-m-d');
-        $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->andWhere(['location' => $model->city])->orderBy(['id'=>SORT_DESC])->limit(6)->all();
+        $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->andWhere(['location' => $model->city])->orderBy(['id' => SORT_DESC])->limit(6)->all();
 
         if ($model != null) {
             $benefit = LeadBenefit::findAll(['lead_id' => $model->id]);
@@ -360,12 +360,12 @@ class BrowseJobsController extends Controller {
     public function actionRecruiterView($id) {
         $model = LeadMaster::find()->where(['OR', ['id' => $id], ['reference_no' => $id]])->one();
         $today = date('Y-m-d');
-        $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->andWhere(['location' => $model->city])->orderBy(['id'=>SORT_DESC])->limit(6)->all();
+        $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->andWhere(['location' => $model->city])->orderBy(['id' => SORT_DESC])->limit(6)->all();
         $benefit = LeadBenefit::findAll(['lead_id' => $id]);
         $specialty = LeadSpeciality::findAll(['lead_id' => $id]);
         $discipline = LeadDiscipline::findAll(['lead_id' => $id]);
         $emergency = LeadEmergency::findAll(['lead_id' => $id]);
-        return $this->render('recruiter-view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency,  'advertisments' => $advertisments]);
+        return $this->render('recruiter-view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency, 'advertisments' => $advertisments]);
     }
 
     /*     * ******** ADDED BY MOHAN*** */
@@ -396,14 +396,19 @@ class BrowseJobsController extends Controller {
     }
 
     public function actionApply($ref) {
-        $model = LeadMaster::findOne(['reference_no' => $ref]);
-        if ($model != null) {
-            $searchModel = new LeadMasterSearch();
-            $searchModel->loggedInUserId = Yii::$app->user->identity->id;
-            $dataProvider = $searchModel->searchJobApplicableBranchList(Yii::$app->request->queryParams);
-            return $this->render('apply', ['model' => $model, 'dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
+        if (CommonFunction::isJobSeeker()) {
+            $model = LeadMaster::findOne(['reference_no' => $ref]);
+            if ($model != null) {
+                $searchModel = new LeadMasterSearch();
+                $searchModel->loggedInUserId = Yii::$app->user->identity->id;
+                $dataProvider = $searchModel->searchJobApplicableBranchList(Yii::$app->request->queryParams);
+                return $this->render('apply', ['model' => $model, 'dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
+            } else {
+                throw new NotFoundHttpException("In valid lead");
+            }
         } else {
-            throw new NotFoundHttpException("In valid lead");
+            Yii::$app->session->setFlash("warning", "You are not authorize person to apply job. For more details please contact info@rn500.com");
+            return $this->redirect(['view', 'id' => $ref]);
         }
     }
 
@@ -420,7 +425,7 @@ class BrowseJobsController extends Controller {
             if ($model->save()) {
                 $mailSentJobSeeker = $model->sendMailToJobSeekerAboutAppliedAcknowledgement();
                 $mailSentRecBranch = $model->sendMailToRecruiterBranch();
-                
+
                 if ($mailSentJobSeeker['status'] == '1' && $mailSentRecBranch['status'] == '1') {
                     Yii::$app->session->setFlash("success", "Job applied successfully.");
                     echo Json::encode(['code' => '200']);

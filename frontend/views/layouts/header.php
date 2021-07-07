@@ -44,7 +44,7 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                 <li class="nav-item position-relative  <?php echo $controller == 'site' && $action == 'contact-us' ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact </a>
                 </li>
-                <?php if (CommonFunction::isRecruiter()) { ?>
+                <?php if ($isRecruiter) { ?>
                     <li class="nav-item position-relative  <?php echo $controller == 'browse-jobs' && ($action == 'recruiter-lead' || $action == 'recruiter-view') ? 'active' : '' ?>">
                         <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/recruiter-lead"); ?>">For Recruiter</a>
                     </li>
@@ -68,8 +68,8 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                                 <?php if (!empty($userIdentity->details->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $userIdentity->details->profile_pic)) { ?>
                                     <img src="<?= $baseUrl . "/uploads/user-details/profile/" . Yii::$app->user->identity->details->profile_pic ?>" alt="" class="mr-3 rounded-circle header-profile-img-size" />
                                 <?php } else { ?>
-                                    <img src="<?= $assetDir ?>/img/profile-img.png" alt="profile-img" class="mr-3 rounded-circle header-profile-img-size">
-                                <?php } ?>  
+                                    <img src="<?= $assetDir ?>/img/profile.png" alt="profile-img" class="mr-3 rounded-circle header-profile-img-size">
+                                <?php } ?>
 
                                 <div class="media-body">
                                     <p class="mb-0"><?= $userIdentity->fullName ?> </p>
@@ -77,7 +77,7 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                             </div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdown07">
-                            <?php if (CommonFunction::isJobSeeker()) { ?>
+                            <?php if ($isJobSeeker) { ?>
                                 <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl(["site/job-seeker"]); ?>">
                                     <div class="media">
                                         <img src="<?= $assetDir ?>/img/drop-profile.png" alt="profile-img" class="mr-2 rounded-circle">
@@ -87,7 +87,7 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                                     </div>
                                 </a>
                             <?php } else { ?>
-                                <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl(["user-details/profile", 'id' => Yii::$app->user->identity->id]); ?>">
+                                <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl(["user-details/profile", 'id' => base64_encode(Yii::$app->user->identity->id)]); ?>">
                                     <div class="media">
                                         <img src="<?= $assetDir ?>/img/drop-profile.png" alt="profile-img" class="mr-2 rounded-circle">
                                         <div class="media-body">

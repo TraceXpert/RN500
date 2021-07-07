@@ -7,7 +7,7 @@ return [
         "key" => "8439ae35149b1a49454ea703f148330aae0ad457c98608a535b33b4bbf53abe6"
     ],
     'disableAuth' => [
-        'login', 'registration', 'forgotpassword', 'get-user-ip', 'register', 'get-count', 'checkemail', 'resend-otp', 'leads', 'view', 'refer-to-friend'
+        'auth/login', 'auth/registration', 'auth/forgotpassword', 'auth/get-user-ip', 'auth/register', 'auth/checkemail', 'auth/resend-otp', 'browse-jobs/leads', 'browse-jobs/views', 'browse-jobs/refer-to-friend','advertisement/get-list'
     ],
     'maintenance_mode' => 'OFF',
     'session_expire' => '+48 hours',

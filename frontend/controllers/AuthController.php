@@ -42,17 +42,22 @@ class AuthController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'index', 'get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
+                'only' => ['logout','change-password', 'index', 'get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                 'rules' => [
                     [
                         'actions' => ['get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['change-password','logout'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*'],
                     ],
+//                    [
+//                        'actions' => ['logout', 'index'],
+//                        'allow' => true,
+//                        'roles' => ['@'],
+//                    ],
                 ],
             ],
             'verbs' => [

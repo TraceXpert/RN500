@@ -73,8 +73,9 @@ class UserDetailsController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
+        $uid = base64_decode($id);
         return $this->render('view', [
-                    'model' => $this->findModel($id),
+                    'model' => $this->findModel($uid),
         ]);
     }
 
@@ -119,9 +120,9 @@ class UserDetailsController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id) {
-
+        $uid= base64_decode($id);
         $postData = Yii::$app->request->post();
-        $model = UserDetails::findOne(['user_id' => $id]);
+        $model = UserDetails::findOne(['user_id' => $uid]);
         $model->scenario = 'profile';
         $model->updated_at = CommonFunction::currentTimestamp();
         if (isset($model->dob) && !empty($model->dob)) {
@@ -182,8 +183,9 @@ class UserDetailsController extends Controller {
     }
 
     public function actionProfile($id) {
+        $uid= base64_decode($id);
         $postData = Yii::$app->request->post();
-        $model = UserDetails::findOne(['user_id' => $id]);
+        $model = UserDetails::findOne(['user_id' => $uid]);
 
         $model->scenario = 'profile';
         $model->updated_at = CommonFunction::currentTimestamp();
@@ -231,15 +233,11 @@ class UserDetailsController extends Controller {
             if ($model->validate()) {
                 if ($model->save()) {
                     Yii::$app->session->setFlash('success', "User Details Updated Successfully.");
-                    return $this->redirect(['profile', 'id' => $id]);
+                    return $this->redirect(['profile', 'id' => base64_encode($id)]);
                 }
             } else {
-
-                echo "<pre>";
-                print_r($model->getErrors());
-                exit;
                 Yii::$app->session->setFlash('error', "User Details Updated failed.");
-                return $this->redirect(['profile', 'id' => $id]);
+                return $this->redirect(['profile', 'id' => base64_encode($id)]);
             }
         }
 
@@ -270,7 +268,8 @@ class UserDetailsController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+        $uid= base64_decode($id);
+        $this->findModel($uid)->delete();
 
         return $this->redirect(['index']);
     }
@@ -283,7 +282,8 @@ class UserDetailsController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = UserDetails::findOne($id)) !== null) {
+        $uid= base64_decode($id);
+        if (($model = UserDetails::findOne($uid)) !== null) {
             return $model;
         }
 
@@ -323,7 +323,7 @@ class UserDetailsController extends Controller {
 
     public function actionWorkExperience() {
         $postData = Yii::$app->request->post();
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $message = '';
         if ($id !== null) {
             $model = WorkExperience::findOne($id);
@@ -351,7 +351,6 @@ class UserDetailsController extends Controller {
         $discipline = ArrayHelper::map(Discipline::find()->all(), 'id', 'name');
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-
             $model->user_id = \Yii::$app->user->id;
             $model->start_date = date('Y-m-d', strtotime("01-" . $model->start_date));
 
@@ -381,7 +380,7 @@ class UserDetailsController extends Controller {
 
     public function actionAddEducation() {
         $postData = Yii::$app->request->post();
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $message = '';
 
         if ($id !== null) {
@@ -424,7 +423,7 @@ class UserDetailsController extends Controller {
 
     public function actionAddLicence() {
         $postData = Yii::$app->request->post();
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $deleteFlag = false;
         $document_upload_flag = '';
         $message = '';
@@ -498,7 +497,7 @@ class UserDetailsController extends Controller {
 
     public function actionAddCertification() {
 
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $deleteFlag = false;
         $document_upload_flag = '';
         $message = '';
@@ -573,7 +572,7 @@ class UserDetailsController extends Controller {
 
     public function actionAddDocument() {
 
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $deleteFlag = false;
         $document_upload_flag = '';
         $message = '';
@@ -642,7 +641,7 @@ class UserDetailsController extends Controller {
 
     public function actionAddReference() {
 
-        $id = \Yii::$app->request->get('id');
+        $id = !empty(\Yii::$app->request->get('id')) ? base64_decode(\Yii::$app->request->get('id')) : null;
         $message = '';
         if ($id !== null) {
             $model = References::findOne($id);

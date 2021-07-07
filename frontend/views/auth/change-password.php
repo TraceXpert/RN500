@@ -12,30 +12,14 @@ $is_otp_sent = $model->is_otp_sent;
             <div class="col-lg-12 col-md-12">
                 <div class="signin-form text-center h-auto mt-0">
                     <h1 class="mb-4 pb-2">Change Password</h1>                        
-                    <?php $form = ActiveForm::begin(['class' => 'w-100']); ?>
-                    <div class="form-group">
-                        <?=
-                                $form->field($model, 'password')
-                                ->label(false)
-                                ->passwordInput(['placeholder' => $model->getAttributeLabel('password')])
-                        ?>
-                    </div>
-
-                    <div class="form-group">
-                        <?=
-                                $form->field($model, 'new_password')
-                                ->label(false)
-                                ->passwordInput(['placeholder' => $model->getAttributeLabel('new_password')])
-                        ?>
-                    </div>
-
-                    <div class="form-group mb-4">
-                        <?=
-                                $form->field($model, 'confirm_password')
-                                ->label(false)
-                                ->passwordInput(['placeholder' => $model->getAttributeLabel('confirm_password')])
-                        ?>
-                    </div>
+                    <?php
+                    $form = ActiveForm::begin(['options' => [
+                                    'class' => 'w-100'
+                    ]]);
+                    ?>
+                    <?= $form->field($model, 'password')->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+                    <?= $form->field($model, 'new_password')->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('new_password')]) ?>
+                    <?= $form->field($model, 'confirm_password')->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('confirm_password')]) ?>
                     <?php if ($is_otp_sent) { ?>
                         <div class="text-left">
                             <div class="row">

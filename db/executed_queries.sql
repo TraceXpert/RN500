@@ -118,3 +118,9 @@ VALUES ('banner', 'banner-view');
 ALTER TABLE `lead_recruiter_job_seeker_mapping`
 ADD `rec_end_date` date NULL AFTER `rec_joining_date`;
 -- ********************04-July-21 BY MOHAN END
+
+ALTER TABLE `documents`
+CHANGE `id` `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+
+ALTER TABLE `references`
+CHANGE `mobile_no` `mobile_no` varchar(20) COLLATE 'latin1_swedish_ci' NOT NULL AFTER `last_name`;

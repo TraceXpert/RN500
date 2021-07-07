@@ -93,8 +93,6 @@
             <div class="modal-body">
                 <div id="modalContent"> </div>
             </div>
-
-
         </div>
     </div>
 </div>

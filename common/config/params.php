@@ -31,5 +31,7 @@ return [
     'ADVERTISMENT_IS_ACTIVE_STATUS' => [1 => 'Yes', 2 => 'No'],
     'EMERGENCY_IS_ACTIVE_STATUS' => [0 => 'Inactive', 1 => 'Active'],
     'JOB_SEEKER_DOCUMENT_TYPE' => [0 => 'Resume', 1 => 'Other'],
-    'RECRUITER_COMMISSION_TYPE'=> [1 => 'Percentage (%)', 0 => 'Amount ($)']
+    'RECRUITER_COMMISSION_TYPE'=> [1 => 'Percentage (%)', 0 => 'Amount ($)'],
+    "HTMLTAG_ERR_MSG" => "Please enter valid data.",
+    "NO_HTMLTAG_PATTERN" => '/<(.|\n)*?>/',
 ];

@@ -62,7 +62,8 @@ class CompanyMaster extends \yii\db\ActiveRecord {
             [['website_link'], 'url'],
             [['company_name'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
             [['street_no'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field'],
-            [['is_suspend'], 'safe']
+            [['is_suspend'], 'safe'],
+            [['company_name', 'employer_identification_number', 'street_no', 'street_address', 'apt', 'zip_code'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 

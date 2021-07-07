@@ -33,15 +33,16 @@ class ReferralMaster extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-                [['lead_id', 'from_name', 'from_email', 'to_name', 'to_email'], 'required'],
-                [['lead_id'], 'integer'],
-                [['created_at'], 'safe'],
-                [['from_name', 'from_email', 'to_name', 'to_email'], 'string', 'max' => 255],
-                [['description'], 'string', 'max' => 1000],
-                [['lead_id'], 'exist', 'skipOnError' => true, 'targetClass' => LeadMaster::className(), 'targetAttribute' => ['lead_id' => 'id']],
-                [['from_name', 'from_email', 'description', 'to_name', 'to_email', 'created_at',], 'trim'],
-                [['from_name', 'from_email', 'description', 'to_name', 'to_email', 'created_at',], 'safe'],
-                [['from_email', 'to_email'], 'email'],
+            [['lead_id', 'from_name', 'from_email', 'to_name', 'to_email'], 'required'],
+            [['lead_id'], 'integer'],
+            [['created_at'], 'safe'],
+            [['from_name', 'from_email', 'to_name', 'to_email'], 'string', 'max' => 255],
+            [['description'], 'string', 'max' => 1000],
+            [['lead_id'], 'exist', 'skipOnError' => true, 'targetClass' => LeadMaster::className(), 'targetAttribute' => ['lead_id' => 'id']],
+            [['from_name', 'from_email', 'description', 'to_name', 'to_email', 'created_at',], 'trim'],
+            [['from_name', 'from_email', 'description', 'to_name', 'to_email', 'created_at',], 'safe'],
+            [['from_email', 'to_email'], 'email'],
+            [['from_name', 'to_name', 'description'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 

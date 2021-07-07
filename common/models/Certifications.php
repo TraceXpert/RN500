@@ -47,6 +47,7 @@ class Certifications extends \yii\db\ActiveRecord
             [['issue_by'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             ['document', 'file', 'extensions' => ['png', 'jpg','jpeg','docx','pdf'], 'maxSize' => 1024 * 1024 * 2],
+            [['certificate_name','issue_by',], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
     
