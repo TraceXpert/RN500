@@ -26,9 +26,6 @@ class ReportController extends Controller {
     public $title = "Report";
     public $activeBreadcrumb, $breadcrumb;
 
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors() {
         return [
             'access' => [
@@ -102,6 +99,7 @@ class ReportController extends Controller {
             $from_date = isset($postData['from_date']) ? strtotime($postData['from_date'] . ' 00:00:01') : '';
             $to_date = isset($postData['to_date']) ? strtotime($postData['to_date'] . ' 23:59:59') : '';
             $loggedInUserCompanyId = CommonFunction::getLoggedInUserCompanyId();
+            $loggedInUserBranchId = CommonFunction::getLoggedInUserBranchId();
 
             $query = new Query();
             $query->select([
@@ -118,13 +116,18 @@ class ReportController extends Controller {
                     ->from("company_subscription_payment as csp")
                     ->leftJoin("company_subscription as cs", "cs.id = csp.subscription_id")
                     ->leftJoin("package_master as package", "package.id = cs.package_id")
-                    ->leftJoin("lead_master as lead", "lead.id = csp.lead_id")
-                    ->where(["cs.company_id" => $loggedInUserCompanyId])
-                    ->andWhere(["csp.is_free" => CompanySubscriptionPayment::IS_FREE_NO]);
+                    ->leftJoin("lead_master as lead", "lead.id = csp.lead_id");
+            if (!CommonFunction::isMasterAdmin(Yii::$app->user->id) && CommonFunction::isHoAdmin(Yii::$app->user->id)) {
+                $query->andWhere(["cs.company_id" => $loggedInUserCompanyId]);
+            } else if (!CommonFunction::isMasterAdmin(Yii::$app->user->id) && !CommonFunction::isHoAdmin(Yii::$app->user->id)) {
+                $query->andWhere(["lead.branch_id" => $loggedInUserBranchId]);
+            }
+            $query->andWhere(["csp.is_free" => CompanySubscriptionPayment::IS_FREE_NO]);
 
             if ($from_date != '' && $to_date != '') {
                 $query->andWhere("csp.created_at BETWEEN '$from_date' AND '$to_date'");
             }
+
             $data = $query->createCommand()->queryAll();
         } catch (\Exception $ex) {
             $data = [];
@@ -151,9 +154,10 @@ class ReportController extends Controller {
         $data = [];
         try {
             $postData = Yii::$app->request->post('DynamicModel');
-            $from_date = isset($postData['from_date']) ? strtotime($postData['from_date'] . ' 00:00:01') : '';
-            $to_date = isset($postData['to_date']) ? strtotime($postData['to_date'] . ' 23:59:59') : '';
+            $from_date = isset($postData['from_date']) ? CommonFunction::getAPIDateDisplayFormat($postData['from_date'], 'Y-m-d') : '';
+            $to_date = isset($postData['to_date']) ? CommonFunction::getAPIDateDisplayFormat($postData['to_date'], 'Y-m-d') : '';
             $loggedInUserCompanyId = CommonFunction::getLoggedInUserCompanyId();
+            $loggedInUserBranchId = CommonFunction::getLoggedInUserBranchId();
 
             $query = new Query();
             $query->select([
@@ -166,14 +170,13 @@ class ReportController extends Controller {
 //                        "csp.amount",
 //                        "csp.customer_transaction_id as transaction_id",
 //                        "transaction_date" => new Expression("DATE_FORMAT(FROM_UNIXTIME(csp.created_at), '%d %M %Y')"),
-                
+
                         "CONCAT(job_seeker_detail.first_name, ' ', job_seeker_detail.last_name) as job_seeker_name",
                         "job_seeker.email as job_seeker_email",
                         "CONCAT(lead.title, ' ', lead.reference_no) as lead_title",
                         "recruiter_company.company_name as recruiter",
                         "lrj.rec_joining_date as joining_date",
                         "lead.reference_no as lead_reference_no"
-                        
                     ])
                     ->from("lead_recruiter_job_seeker_mapping  as lrj")
                     ->leftJoin("user  as job_seeker", "job_seeker.id = lrj.job_seeker_id")
@@ -181,16 +184,18 @@ class ReportController extends Controller {
                     ->leftJoin("lead_master as lead", "lead.id = lrj.lead_id")
                     ->leftJoin("company_branch as recruiter_branch", "recruiter_branch.id = lrj.branch_id")
                     ->leftJoin("company_master as recruiter_company", "recruiter_company.id = recruiter_branch.id")
-//                    ->where(["cs.company_id" => $loggedInUserCompanyId])
                     ->andWhere(["lrj.employer_status" => LeadRecruiterJobSeekerMapping::STATUS_APPROVED]);
 
+            if (!CommonFunction::isMasterAdmin(Yii::$app->user->id) && CommonFunction::isHoAdmin(Yii::$app->user->id)) {
+                $query->andWhere(["lrj.recruiter_company.id" => $loggedInUserCompanyId]);
+            } else if (!CommonFunction::isMasterAdmin(Yii::$app->user->id) && !CommonFunction::isHoAdmin(Yii::$app->user->id)) {
+                $query->andWhere(["lrj.branch_id" => $loggedInUserBranchId]);
+            }
+
             if ($from_date != '' && $to_date != '') {
-//                $query->andWhere("csp.created_at BETWEEN '$from_date' AND '$to_date'");
+                $query->andWhere("lrj.rec_joining_date BETWEEN '$from_date' AND '$to_date'");
             }
             $data = $query->createCommand()->queryAll();
-//            echo "<pre/>";
-//            print_r($data);
-//            exit;
         } catch (\Exception $ex) {
             $data = [];
         }
