@@ -30,7 +30,7 @@ class Documents extends \yii\db\ActiveRecord {
     public function rules() {
         return [
                 [['document_type', 'user_id'], 'required'],
-                ['path', 'required', 'on' => 'create'],
+                ['path', 'required','message' => 'document cannot be blank.', 'on' => 'create'],
 //            ['path','required','message' => 'please select document!','on' => 'create'],
             [['document_type', 'user_id', 'created_at', 'updated_at'], 'integer'],
                 [['path'], 'string', 'max' => 255],

@@ -13,17 +13,11 @@ $frontendDir = yii\helpers\Url::base(true);
 <style>
     .mb-15{margin-bottom: 15px;}
     .optionlist{margin-left:-40px;}
-    .select2-container--krajee-bs4 .select2-selection--single{
-        height: 50px;
-        padding: .375rem 2rem;
-        background: #FFFFFF;
-        border-radius: 6px;
-        box-shadow: none;
-        color: #495057;
-    }
-    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
-        padding: .375rem 2rem;
-    }
+    .select2-container--krajee-bs4 .select2-selection--single{height: 50px;padding: .375rem 2rem;background: #FFFFFF;border-radius: 6px;box-shadow: none;color: #495057;}
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{padding: .375rem 2rem;}
+    .button-wrapper {position: relative;}
+    .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 10px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
+    #licenses-document {display: inline-block;position: absolute;z-index: 1;width: 100%;height: 50px;top: 0;left: 0;opacity: 0;cursor: pointer;}
 </style>
 <div class="user-details-form">
     <?php
@@ -123,7 +117,8 @@ $frontendDir = yii\helpers\Url::base(true);
     </div>
     <div class="row mb-15">
         <div class="col-sm-12">
-            <?= $form->field($model, 'document')->fileInput() ?>
+            <label>Upload Document</label>
+            <?= $form->field($model, 'document', ['template' => '<div class="button-wrapper"><span class="label">Upload File</span>{input}</button>{error}'])->fileInput() ?>
 
             <?php if ($isRecordFlag) { ?>
                 <?php if (!empty($model->document) && file_exists(CommonFunction::getLicensesBasePath() . "/" . $model->document)) { ?>
@@ -131,7 +126,7 @@ $frontendDir = yii\helpers\Url::base(true);
                     <span id="custom-text"></span>
                 <?php } ?>
             <?php } else { ?>
-    <!--                <span id="custom-text">No file selected.</span>-->
+                    <span id="custom-text">No file selected.</span>
             <?php } ?>
         </div>
     </div>
@@ -158,7 +153,14 @@ $script = <<< JS
    
   if(compact_states == '1'){
        $('#two').attr('checked',true);
-  }      
+  }
+
+   
+        $('#licenses-document').change(function() {
+            var filename = $(this).val();
+            var fullname = filename.slice(12,filename.length)
+            $('#custom-text').html(fullname);
+        });
   
   var click = 0;
   $(document).on("beforeSubmit", "#add-licenses", function () {
