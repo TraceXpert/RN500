@@ -124,3 +124,16 @@ CHANGE `id` `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
 
 ALTER TABLE `references`
 CHANGE `mobile_no` `mobile_no` varchar(20) COLLATE 'latin1_swedish_ci' NOT NULL AFTER `last_name`;
+
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('payment',	2,	'Payment',	NULL,	NULL,	NULL,	NULL),
+('recruited-jobseeker',	2,	'Recruited Jobseeker',	NULL,	NULL,	NULL,	NULL),
+('refferal-reports',	2,	'Lead Referral',	NULL,	NULL,	NULL,	NULL),
+('reports',	1,	'Reports',	NULL,	NULL,	NULL,	NULL);
+
+UPDATE `auth_item` SET `name` = 'banner' WHERE `name` = 'Banner' AND `name` = 'Banner' COLLATE utf8mb4_bin;
+
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('reports',	'payment'),
+('reports',	'recruited-jobseeker'),
+('reports',	'refferal-reports');

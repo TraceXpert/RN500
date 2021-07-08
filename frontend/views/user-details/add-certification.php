@@ -24,6 +24,9 @@ $frontendDir = yii\helpers\Url::base(true);
     .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
         padding: .375rem 2rem;
     }
+    .button-wrapper {position: relative;}
+    .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 10px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
+    #certifications-document {display: inline-block;position: absolute;z-index: 1;width: 100%;height: 50px;top: 0;left: 0;opacity: 0;cursor: pointer;}
 </style>
 <div class="user-details-form">
     <?php
@@ -115,27 +118,28 @@ $frontendDir = yii\helpers\Url::base(true);
     </div>
     <div class="row mb-15">
         <div class="col-sm-12">
-<?php echo $form->field($model, 'document')->fileInput() ?>
+            <label>Upload Document</label>
+            <?php echo $form->field($model, 'document', ['template' => '<div class="button-wrapper"><span class="label">Upload File</span>{input}</button>{error}'])->fileInput() ?>
             <?php //$form->field($model, 'document', ['template' => "<label for='real-file'>Upload Your Document</label><br/><input type='file' id='real-file-certification' hidden='hidden'><button type='button' id='custom-certification'>Choose File</button>"])->fileInput() ?>
 
             <?php if ($isRecordFlag) { ?>
                 <?php if (!empty($model->document) && file_exists(CommonFunction::getCertificateBasePath() . "/" . $model->document)) { ?>
                     <a href="<?= $frontendDir . "/uploads/user-details/certification/" . $model->document ?>" download><?= $model->document ?></a>
-                    <span id="custom-text-certification"></span>
-    <?php } else { ?>
-                    <span id="custom-text-certification">No file selected.</span>
+                    <span id="custom-text"></span>
                 <?php } ?>
+            <?php } else { ?>
+                <span id="custom-text">No file selected.</span>
             <?php } ?>
 
         </div>
     </div>
 
     <div class="form-group">
-<?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
         <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
     </div>
 
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 
 </div>
 
@@ -158,8 +162,13 @@ $script = <<< JS
   if(is_active == '0'){
       $('.is_not_active').attr('checked',true);  
   } 
-        
-        
+  
+   
+        $('#certifications-document').change(function() {
+            var filename = $(this).val();
+            var fullname = filename.slice(12,filename.length)
+            $('#custom-text').html(fullname);
+        });
   var click = 0;
   $(document).on("beforeSubmit", "#add-certification-new", function () {
     if(click == 0){  

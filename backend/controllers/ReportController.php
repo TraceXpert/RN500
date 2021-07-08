@@ -32,10 +32,20 @@ class ReportController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['lead-referral', 'lead-referral-load', 'payment', 'payment-load', 'recruited-jobseeker', 'recruited-jobseeker-load'],
                 'rules' => [
-                        [
-                        'actions' => ['lead-referral', 'lead-referral-load', 'payment', 'payment-load', 'recruited-jobseeker', 'recruited-jobseeker-load'],
+                    [
+                        'actions' => ['lead-referral', 'lead-referral-load'],
                         'allow' => true,
-                        'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*'],
+                        'roles' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('refferal-reports', Yii::$app->user->identity->id) ? ['@'] : ['*'] : ['*'],
+                    ],
+                    [
+                        'actions' => ['recruited-jobseeker', 'recruited-jobseeker-load'],
+                        'allow' => true,
+                        'roles' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('recruited-jobseeker', Yii::$app->user->identity->id) ? ['@'] : ['*'] : ['*'],
+                    ],
+                    [
+                        'actions' => ['payment', 'payment-load'],
+                        'allow' => true,
+                        'roles' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('payment', Yii::$app->user->identity->id) ? ['@'] : ['*'] : ['*'],
                     ],
                 ]
             ],

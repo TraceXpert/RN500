@@ -142,26 +142,24 @@ class UserDetailsController extends Controller {
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
             $model->dob = date('Y-m-d', strtotime($model->dob));
-            echo "<pre/>";
-            print_r($_FILES);
-            exit;
+           
             $document_file = UploadedFile::getInstance($model, 'profile_pic');
 
-            $folder = \Yii::$app->basePath . "/web/uploads/user-details/profile/";
+            $folder = CommonFunction::getProfilePictureBasePath();
             if (!file_exists($folder)) {
                 FileHelper::createDirectory($folder, 0777);
             }
 
-            $uploadPath = './uploads/user-details/profile/';
+            $uploadPath = CommonFunction::getProfilePictureBasePath();
 
             if ($document_file) {
                 $model->profile_pic = time() . "_" . Yii::$app->security->generateRandomString(10) . "." . $document_file->getExtension();
-                $document_upload_flag = $document_file->saveAs($uploadPath . '/' . $model->profile_pic);
+                $document_upload_flag = $document_file->saveAs($folder . '/' . $model->profile_pic);
             }
 
             if (isset($temp_document_file) && !empty($temp_document_file) && file_exists($folder . $temp_document_file)) {
                 if ($document_upload_flag) {
-                    unlink($uploadPath . $temp_document_file);
+                    unlink($folder . $temp_document_file);
                 } else {
                     $model->profile_pic = $temp_document_file;
                 }
