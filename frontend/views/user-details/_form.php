@@ -18,17 +18,22 @@ use common\CommonFunction;
     .field-userdetails-street_address{margin-bottom: 5px;}
     .iti--allow-dropdown{width: 100%;}
     .optionlist{margin-left:-40px;}
-/*    .select2-container--krajee-bs4 .select2-selection--single{
-        height: 50px;
-        padding: .375rem 2rem;
-        background: #FFFFFF;
-        border-radius: 6px;
-        box-shadow: none;
-        color: #495057;
-    }
-    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
-        padding: .375rem 2rem;
-    }*/
+    /*    .select2-container--krajee-bs4 .select2-selection--single{
+            height: 50px;
+            padding: .375rem 2rem;
+            background: #FFFFFF;
+            border-radius: 6px;
+            box-shadow: none;
+            color: #495057;
+        }
+        .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+            padding: .375rem 2rem;
+    
+        }*/
+    .field-userdetails-interest_level{width:200px;}
+    .button-wrapper {position: relative;}
+    .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 10px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
+    #userdetails-profile_pic {display: inline-block;position: absolute;z-index: 1;width: 100%;height: 50px;top: 0;left: 0;opacity: 0;cursor: pointer;}
 </style>
 <div class="user-details-form">
     <?php
@@ -143,8 +148,7 @@ use common\CommonFunction;
     <div class="row">
         <div class="col-sm-6">
             <?=
-            $form->field($model, 'profile_pic', [
-                'template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='userdetails-profile_pic' name='UserDetails[profile_pic]' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>"])->fileInput()
+            $form->field($model, 'profile_pic', ['template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='userdetails-profile_pic' name='UserDetails[profile_pic]' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>"])->fileInput()
             ?>
 
             <?php if (!empty($model->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $model->profile_pic)) { ?>
@@ -153,17 +157,18 @@ use common\CommonFunction;
                 <span id="custom-text">No file selected.</span>
             <?php } ?>   
         </div>
+        <div class="col-sm-6">
 
-        <?php if (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
-            <div class="col-sm-6">
+            <?php if (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
                 <?= $form->field($model, 'interest_level')->dropDownList(Yii::$app->params['INTERESTS_LEVEL']) ?>
-            </div>
-        <?php } ?>
+            <?php } ?>
+        </div>
     </div>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
-        <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+            <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -204,15 +209,20 @@ $(document).on("beforeSubmit", "#user-details", function () {
         });
         return false;
 });
+        
+$('#userdetails-profile_pic').change(function() {
+            var filename = $(this).val();
+            var fullname = filename.slice(12,filename.length);
+            console.log(fullname);
+            $('#custom-text').html(fullname);
+        });        
     
-var realFileBtn = document.getElementById("userdetails-profile_pic");
+    var realFileBtn = document.getElementById("userdetails-profile_pic");
             var customBtn = document.getElementById("custom-button");
             var customTxt = document.getElementById("custom-text");
-
             customBtn.addEventListener("click", function () {
                 realFileBtn.click();
             });
-
             realFileBtn.addEventListener("change", function () {
                 if (realFileBtn.value) {
                 var filename = realFileBtn.value;
@@ -223,7 +233,7 @@ var realFileBtn = document.getElementById("userdetails-profile_pic");
                 } else {
                     customTxt.innerHTML = "No file chosen, yet.";
                 }
-            });          
+            });                
         
 JS;
 $this->registerJs($script, yii\web\View::POS_END);
