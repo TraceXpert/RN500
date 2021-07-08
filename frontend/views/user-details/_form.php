@@ -18,7 +18,7 @@ use common\CommonFunction;
     .field-userdetails-street_address{margin-bottom: 5px;}
     .iti--allow-dropdown{width: 100%;}
     .optionlist{margin-left:-40px;}
-    .select2-container--krajee-bs4 .select2-selection--single{
+/*    .select2-container--krajee-bs4 .select2-selection--single{
         height: 50px;
         padding: .375rem 2rem;
         background: #FFFFFF;
@@ -28,11 +28,13 @@ use common\CommonFunction;
     }
     .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
         padding: .375rem 2rem;
+
     }
     .field-userdetails-interest_level{width:200px;}
     .button-wrapper {position: relative;}
     .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 10px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
     #userdetails-profile_pic {display: inline-block;position: absolute;z-index: 1;width: 100%;height: 50px;top: 0;left: 0;opacity: 0;cursor: pointer;}
+    }*/
 </style>
 <div class="user-details-form">
     <?php
@@ -135,7 +137,7 @@ use common\CommonFunction;
                 'options' => ['placeholder' => $model->getAttributeLabel('dob'), 'readonly' => true],
                 'type' => DatePicker::TYPE_INPUT,
                 'pluginOptions' => [
-                    'format' => 'M-d-yyyy',
+                    'format' => 'M-dd-yyyy',
                     'todayHighlight' => true,
                     'autoclose' => true,
                     'endDate' => "-0d"
@@ -194,11 +196,12 @@ $(document).on("beforeSubmit", "#user-details", function () {
         
                         $.pjax.reload({container: "#job-seeker", timeout: false, async:false});
                         $.pjax.reload({'container': '#res-messages', timeout: false, async:false});    
+                        $.pjax.reload({'container': '#profile-picture-pjax', timeout: false, async:false});
 
                         getProfilePercentage();
                     }
                 }catch(e){
-                    $.pjax.reload({'container': '#res-messages', timeout: 2000});
+                    $.pjax.reload({'container': '#res-messages', timeout: false});
                 }
             },
             error  : function () 

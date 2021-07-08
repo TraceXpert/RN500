@@ -13,18 +13,6 @@ use yii\helpers\Html;
  * and open the template in the editor.
  */
 ?>
-<style>
-    .select2-container--krajee-bs4 .select2-selection--multiple .select2-search--inline .select2-search__field,
-    .input-lg.select2-container--krajee-bs4 .select2-selection--single, .input-group-lg .select2-container--krajee-bs4 .select2-selection--single{
-        height: 50px;
-        padding: .375rem 2rem;
-        background: #FFFFFF;
-        border-radius: 6px;
-        box-shadow: none;
-        color: #495057;
-    }
-
-</style>
 
 <!-- Page Title start -->
 <!--<div class="pageTitle">
