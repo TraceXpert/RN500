@@ -139,19 +139,26 @@ class UserDetailsController extends Controller {
 
             $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
             $model->dob = date('Y-m-d', strtotime($model->dob));
-
+           
             $document_file = UploadedFile::getInstance($model, 'profile_pic');
 
-            $profilePath = CommonFunction::getProfilePictureBasePath();
-            if (!file_exists($profilePath)) {
-                FileHelper::createDirectory($profilePath, 0777);
+            $folder = CommonFunction::getProfilePictureBasePath();
+            if (!file_exists($folder)) {
+                FileHelper::createDirectory($folder, 0777);
             }
+
+            $uploadPath = CommonFunction::getProfilePictureBasePath();
 
             if ($document_file) {
                 $model->profile_pic = time() . "_" . Yii::$app->security->generateRandomString(10) . "." . $document_file->getExtension();
-                $document_upload_flag = $document_file->saveAs($profilePath . '/' . $model->profile_pic);
-                if ($document_upload_flag && $old_profile_image != '' && file_exists($profilePath . '/' . $old_profile_image)) {
-                    unlink($profilePath . '/' . $old_profile_image);
+                $document_upload_flag = $document_file->saveAs($folder . '/' . $model->profile_pic);
+            }
+
+            if (isset($temp_document_file) && !empty($temp_document_file) && file_exists($folder . $temp_document_file)) {
+                if ($document_upload_flag) {
+                    unlink($folder . $temp_document_file);
+                } else {
+                    $model->profile_pic = $temp_document_file;
                 }
             }
 

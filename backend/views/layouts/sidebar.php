@@ -143,27 +143,28 @@ $action = Yii::$app->controller->action->id;
                         'label' => 'Report',
                         'icon' => 'book',
                         'active' => ($controller == "report"),
+                        'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('refferal-reports', Yii::$app->user->identity->id) || CommonFunction::checkAccess('recruited-jobseeker', Yii::$app->user->identity->id) || CommonFunction::checkAccess('payment', Yii::$app->user->identity->id) : false,
                         'items' => [
                             [
                                 'label' => 'Lead Referral',
                                 'url' => ['/report/lead-referral'],
                                 'icon' => 'book',
                                 'active' => ($controller == "report" && $action == "lead-referral"),
-                                'visible' => (isset(Yii::$app->user->id)) ? true : false
+                                'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('refferal-reports', Yii::$app->user->identity->id) : false,
                             ],
                             [
                                 'label' => 'Payment',
                                 'url' => ['/report/payment'],
                                 'icon' => 'book',
                                 'active' => ($controller == "report" && $action == "payment"),
-                                'visible' => (isset(Yii::$app->user->id)) ? true : false
+                                'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('recruited-jobseeker', Yii::$app->user->identity->id) : false,
                             ],
                             [
                                 'label' => 'Recruited Job Seeker',
                                 'url' => ['/report/recruited-jobseeker'],
                                 'icon' => 'book',
                                 'active' => ($controller == "report" && $action == "recruited-jobseeker"),
-                                'visible' => (isset(Yii::$app->user->id)) ? true : false
+                                'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('payment', Yii::$app->user->identity->id) : false,
                             ]
                         ]
                     ],

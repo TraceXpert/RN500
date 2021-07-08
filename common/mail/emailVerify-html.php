@@ -85,7 +85,7 @@ use yii\helpers\Html;
                                         <tr>
                                             <td
                                                 style="padding: 40px 20px;;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                If you have any issues confirming your account we will be happy to help you. You can contact us on 
+                                                If you have any issues to verifying your email, please contact us at:
                                                 <a href="mailto:<?php echo Yii::$app->params['senderEmail'] ?>" style="margin:0;padding: 0 0 20px 0;text-decoration: none;color: #2470b3;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 22px;"> <?php echo Yii::$app->params['senderEmail'] ?> </a>
                                             </td>
                                         </tr>

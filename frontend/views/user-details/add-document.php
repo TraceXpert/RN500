@@ -22,6 +22,9 @@ $frontendDir = yii\helpers\Url::base(true);
     .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
         padding: .375rem 2rem;
     }
+     .button-wrapper {position: relative;}
+    .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 10px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
+    #documents-path {display: inline-block;position: absolute;z-index: 1;width: 100%;height: 50px;top: 0;left: 0;opacity: 0;cursor: pointer;}
 </style>
 <div class="user-details-form">
     <?php
@@ -37,7 +40,8 @@ $frontendDir = yii\helpers\Url::base(true);
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <?php echo $form->field($model, 'path')->fileInput()->label('document') ?>
+            <label>Upload Document</label>
+            <?php echo $form->field($model, 'path',['template' => '<div class="button-wrapper"><span class="label">Upload Document</span>{input}</button>{error}'])->fileInput() ?>
             <?php // echo $form->field($model, 'path', [ 'template' => "<label for='real-file'>Upload Your Document</label><br/><input type='file' id='real-file' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>"])->fileInput() ?>
             <?php if ($isRecordFlag) { ?>
                 <?php if (!empty($model->path) && file_exists(CommonFunction::getDocumentBasePath() . "/" . $model->path)) { ?>
@@ -45,7 +49,7 @@ $frontendDir = yii\helpers\Url::base(true);
                     <span id="custom-text"></span>
                 <?php } ?>
             <?php } else { ?>
-            <!--<span id="custom-text">No file selected.</span>-->
+            <span id="custom-text">No file selected.</span>
             <?php } ?>
         </div>
     </div>
@@ -97,6 +101,12 @@ $script = <<< JS
          return false;  
       }
  });
+        
+$('#documents-path').change(function() {
+            var filename = $(this).val();
+            var fullname = filename.slice(12,filename.length)
+            $('#custom-text').html(fullname);
+        });        
         
 //var realFileBtn = document.getElementById("real-file");
 //            var customBtn = document.getElementById("custom-button");
