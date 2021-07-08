@@ -250,7 +250,7 @@ $frontendDir = yii\helpers\Url::base(true);
                         <div class="media">
 
 
-                            <?php if (isset($userDetails->profile_pic) && !empty($userDetails->profile_pic) && file_exists($frontendDir . "/uploads/user-details/profile/" . $userDetails->profile_pic)) { ?>
+                            <?php if (isset($userDetails->profile_pic) && !empty($userDetails->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $userDetails->profile_pic)) { ?>
                                 <img src="<?= $frontendDir . "/uploads/user-details/profile/" . $userDetails->profile_pic ?>"  class="mr-3 my-profilepic-size rounded-circle" />
                             <?php } else { ?>
                                 <img src="<?= $assetDir ?>/img/profile.png" alt="profile-pic" class="mr-3 my-profilepic-size rounded-circle" />
