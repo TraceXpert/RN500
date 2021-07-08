@@ -124,3 +124,8 @@ CHANGE `id` `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
 
 ALTER TABLE `references`
 CHANGE `mobile_no` `mobile_no` varchar(20) COLLATE 'latin1_swedish_ci' NOT NULL AFTER `last_name`;
+
+-- ****************08-07-21 By Mohan
+ALTER TABLE `lead_master`
+CHANGE `recruiter_commission` `recruiter_commission` float NULL COMMENT 'agancy commision' AFTER `end_date`;
+-- ****************08-07-21 By Mohan End

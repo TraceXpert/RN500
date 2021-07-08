@@ -17,9 +17,9 @@ $is_otp_sent = $model->is_otp_sent;
                                     'class' => 'w-100'
                     ]]);
                     ?>
-                    <?= $form->field($model, 'password')->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
-                    <?= $form->field($model, 'new_password')->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('new_password')]) ?>
-                    <?= $form->field($model, 'confirm_password')->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('confirm_password')]) ?>
+                    <?= $form->field($model, 'password', ['template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye password-toggle-icon toggle-password"></span></div> {error}',])->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+                    <?= $form->field($model, 'new_password', ['template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye password-toggle-icon toggle-password"></span></div> {error}',])->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('new_password')]) ?>
+                    <?= $form->field($model, 'confirm_password', ['template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye password-toggle-icon toggle-password"></span></div> {error}',])->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('confirm_password')]) ?>
                     <?php if ($is_otp_sent) { ?>
                         <div class="text-left">
                             <div class="row">

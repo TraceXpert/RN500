@@ -13,7 +13,7 @@ use borales\extensions\phoneInput\PhoneInput;
 
 <div class="signin-form signup">
     <h1>Sign Up</h1>
-    <p>Sign in on the RN500 platform</p>
+
 
 
     <!-- Nav tabs -->
@@ -22,7 +22,7 @@ use borales\extensions\phoneInput\PhoneInput;
             <a class="nav-link active" data-toggle="tab" href="#jobseeker">Jobseeker</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#employer">Employee</a>
+            <a class="nav-link" data-toggle="tab" href="#employer">Employer </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#recruiter">Recruiter</a>
@@ -76,7 +76,7 @@ use borales\extensions\phoneInput\PhoneInput;
                     <?= $form->field($companyMasterModel, 'company_name')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('company_name')])->label(false); ?>
                 </div>
                 <div class="col-lg-6 pr-3 pr-lg-0">
-                    <?= $form->field($companyMasterModel, 'company_email')->textInput(['maxlength' => true, 'placeholder' => 'Email Id'])->label(false); ?>
+                    <?= $form->field($companyMasterModel, 'company_email')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('company_email')])->label(false); ?>
                 </div>
             </div>
 
@@ -86,7 +86,7 @@ use borales\extensions\phoneInput\PhoneInput;
                     $form->field($companyMasterModel, 'company_mobile')->widget(PhoneInput::className(), [
                         'options' => ['class' => 'form-control w-100'],
                         'jsOptions' => [
-                            'preferredCountries' => ['us', 'in'],
+                            'preferredCountries' => ['us'],
                         ]
                     ])->label(false);
                     ?>

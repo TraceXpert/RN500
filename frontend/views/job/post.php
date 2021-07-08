@@ -86,9 +86,9 @@ use yii\helpers\Html;
 
                 <div class="col-md-6">
                     <?php
-                    echo $form->field($model, 'specialies')->widget(Select2::classname(), [
-                        'data' => $specialiesList,
-                        'options' => ['placeholder' => $model->getAttributeLabel('specialies'), 'multiple' => true],
+                    echo $form->field($model, 'specialities')->widget(Select2::classname(), [
+                        'data' => $specialityList,
+                        'options' => ['placeholder' => $model->getAttributeLabel('specialities'), 'multiple' => true],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
@@ -202,6 +202,9 @@ use yii\helpers\Html;
                     <?php echo $form->field($model, 'city')->dropdownList($cities, ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('city')]); ?>
                 </div>
 
+                <div class="col-md-6">
+                    <?php echo $form->field($model, 'zip_code')->textInput(['placeholder' => $model->getAttributeLabel('zip_code')]); ?>
+                </div>
                 <div class="col-md-6">
                     <?php echo $form->field($model, 'description')->textInput(['placeholder' => $model->getAttributeLabel('description')]); ?>
                 </div>
