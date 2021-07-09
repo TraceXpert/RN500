@@ -16,7 +16,7 @@ $frontendDir = yii\helpers\Url::base(true);
     .select2-container--krajee-bs4 .select2-selection--single{height: 50px;padding: .375rem 2rem;background: #FFFFFF;border-radius: 6px;box-shadow: none;color: #495057;}
     .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{padding: .375rem 2rem;}
     .button-wrapper {position: relative;}
-    .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 10px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
+    .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 15px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
     #licenses-document {display: inline-block;position: absolute;z-index: 1;width: 100%;height: 50px;top: 0;left: 0;opacity: 0;cursor: pointer;}
 </style>
 <div class="user-details-form">
@@ -33,18 +33,18 @@ $frontendDir = yii\helpers\Url::base(true);
     </div>
     <div class="row mb-15">
         <div class="col-sm-12">
-            <label class="control-label" for="issuing_state">Issuing State</label>
+            <!--<label class="control-label" for="issuing_state">Issuing State</label>-->
             <ul class="optionlist">
                 <?php
                 $url = Url::to(['browse-jobs/get-cities']);
-
-                echo Select2::widget([
+                
+                echo $form->field($model, 'issuing_state')->widget(Select2::classname(),[
                     'name' => 'issuing_state',
                     'value' => isset($model->issuing_state) && !empty($model->issuing_state) ? $model->issuing_state : '',
                     'data' => $selectedLocations,
                     'options' => [
                         'id' => 'issuing_state_location',
-                        'placeholder' => 'Select City...',
+                        'placeholder' => 'Select Location...',
                         'multiple' => false,
                         'class' => 'form-control select2-hidden-accessible'
                     ],
@@ -118,7 +118,7 @@ $frontendDir = yii\helpers\Url::base(true);
     <div class="row mb-15">
         <div class="col-sm-12">
             <label>Upload Document</label>
-            <?= $form->field($model, 'document', ['template' => '<div class="button-wrapper"><span class="label">Upload File</span>{input}</button>{error}'])->fileInput() ?>
+            <?= $form->field($model, 'document', ['template' => '<div class="button-wrapper"><span class="label">Upload Document</span>{input}</button>{error}'])->fileInput() ?>
 
             <?php if ($isRecordFlag) { ?>
                 <?php if (!empty($model->document) && file_exists(CommonFunction::getLicensesBasePath() . "/" . $model->document)) { ?>
@@ -132,7 +132,7 @@ $frontendDir = yii\helpers\Url::base(true);
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2 ml-3']) ?>
         <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
     </div>
 

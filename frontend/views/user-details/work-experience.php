@@ -88,7 +88,7 @@ use yii\web\JsExpression;
             ?>
         </div>
     </div>
-    <div class="row">
+    <div class="row end_date">
         <div class="col-sm-12">
             <?php
             echo $form->field($model, 'end_date')->widget(DatePicker::classname(), [

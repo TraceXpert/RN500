@@ -38,7 +38,7 @@ class Licenses extends \yii\db\ActiveRecord {
     public function rules() {
         return [
 
-            [['license_name', 'expiry_date', 'user_id','issue_by'], 'required'],
+            [['license_name', 'expiry_date', 'user_id','issue_by','issuing_state'], 'required'],
             ['document','required','on' => 'create'],
             [['issuing_state', 'compact_states', 'verified', 'user_id','created_at','updated_at','license_name'], 'integer'],
             [['license_number', 'issue_by'], 'string', 'max' => 250],
