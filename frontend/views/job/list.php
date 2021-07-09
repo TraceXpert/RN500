@@ -10,7 +10,7 @@ use kartik\date\DatePicker;
 
 
 ?>
-<section class="inner-banner">
+<!--<section class="inner-banner">
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -19,14 +19,17 @@ use kartik\date\DatePicker;
         </div>
 
     </div>
-</section>
+</section>-->
 <!-- Page Title End -->
 
 <section class="about-us about-inner-block">
     <div class="container">
 
+        
         <div class="row">
             <div class="col-md-12">
+                <a href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['job/post'])?>" class="read-more contact-us mb-3 mt-2 pull-right theme-primary-color theme-primary-border"> Post A New Job</a>
+                
                 <div class="table-design table-responsive">
                     <?php Pjax::begin(['id' => 'pjx_lead_posted', 'timeout' => false, 'enablePushState' => false]); ?>
 
