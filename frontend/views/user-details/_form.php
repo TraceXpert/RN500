@@ -148,7 +148,7 @@ use common\CommonFunction;
     <div class="row">
         <div class="col-sm-6">
             <?=
-            $form->field($model, 'profile_pic', ['template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='userdetails-profile_pic' name='UserDetails[profile_pic]' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>"])->fileInput()
+            $form->field($model, 'profile_pic', ['template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='userdetails-profile_pic' name='UserDetails[profile_pic]' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>{error}"])->fileInput()
             ?>
 
             <?php if (!empty($model->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $model->profile_pic)) { ?>
@@ -164,12 +164,12 @@ use common\CommonFunction;
             <?php } ?>
         </div>
     </div>
-    <div class="col-sm-12">
-        <div class="form-group">
-            <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
-            <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
-        </div>
+
+    <div class="form-group">
+        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+        <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
     </div>
+
 
     <?php ActiveForm::end(); ?>
 

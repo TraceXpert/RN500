@@ -134,12 +134,10 @@ class UserDetailsController extends Controller {
         $old_profile_image = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
         $document_upload_flag = '';
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            
-            
 
             $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
             $model->dob = date('Y-m-d', strtotime($model->dob));
-           
+
             $document_file = UploadedFile::getInstance($model, 'profile_pic');
 
             $folder = CommonFunction::getProfilePictureBasePath();
@@ -147,18 +145,16 @@ class UserDetailsController extends Controller {
                 FileHelper::createDirectory($folder, 0777);
             }
 
-            $uploadPath = CommonFunction::getProfilePictureBasePath();
-
             if ($document_file) {
                 $model->profile_pic = time() . "_" . Yii::$app->security->generateRandomString(10) . "." . $document_file->getExtension();
                 $document_upload_flag = $document_file->saveAs($folder . '/' . $model->profile_pic);
             }
 
-            if (isset($temp_document_file) && !empty($temp_document_file) && file_exists($folder . $temp_document_file)) {
+            if (isset($old_profile_image) && !empty($old_profile_image) && file_exists($folder . '/' . $old_profile_image)) {
                 if ($document_upload_flag) {
-                    unlink($folder . $temp_document_file);
+                    unlink($folder . '/' . $old_profile_image);
                 } else {
-                    $model->profile_pic = $temp_document_file;
+                    $model->profile_pic = $old_profile_image;
                 }
             }
 
@@ -183,7 +179,7 @@ class UserDetailsController extends Controller {
 
             $model->scenario = 'profile';
             $model->updated_at = CommonFunction::currentTimestamp();
-            $temp_document_file = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
+            $old_document_file = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
             $document_upload_flag = '';
             $branch = CompanyBranch::findOne(['id' => CommonFunction::getLoggedInUserBranchId()]);
             $companyDetail = CompanyMaster::findOne(['id' => CommonFunction::getLoggedInUserCompanyId()]);
@@ -210,26 +206,22 @@ class UserDetailsController extends Controller {
                     FileHelper::createDirectory($folder, 0777);
                 }
 
-                $uploadPath = './uploads/user-details/profile/';
-
                 if ($document_file) {
                     $model->profile_pic = time() . "_" . Yii::$app->security->generateRandomString(10) . "." . $document_file->getExtension();
-                    $document_upload_flag = $document_file->saveAs($uploadPath . '/' . $model->profile_pic);
+                    $document_upload_flag = $document_file->saveAs($folder . '/' . $model->profile_pic);
                 }
 
-                if (isset($temp_document_file) && !empty($temp_document_file) && file_exists($folder . $temp_document_file)) {
+                if (isset($old_document_file) && !empty($old_document_file) && file_exists($folder . $old_document_file)) {
                     if ($document_upload_flag) {
-                        unlink($uploadPath . $temp_document_file);
+                        unlink($folder . $old_document_file);
                     } else {
-                        $model->profile_pic = $temp_document_file;
+                        $model->profile_pic = $old_document_file;
                     }
                 }
 
-                if ($model->validate()) {
-                    if ($model->save()) {
-                        Yii::$app->session->setFlash('success', "User details updated successfully.");
-                        return $this->redirect(['profile', 'id' => $id]);
-                    }
+                if ($model->save() && $model->validate()) {
+                    Yii::$app->session->setFlash('success', "User details updated successfully.");
+                    return $this->redirect(['profile', 'id' => $id]);
                 } else {
                     Yii::$app->session->setFlash('error', "User details failed to update.");
                     return $this->redirect(['profile', 'id' => $id]);
@@ -361,11 +353,9 @@ class UserDetailsController extends Controller {
             }
 
 
-            if ($model->validate()) {
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', "Work Experience " . $message . " successfully.");
-                    return json_encode(['error' => 0, 'message' => 'Work Experience ' . $message . ' successfully.']);
-                }
+            if ($model->save() && $model->validate()) {
+                Yii::$app->session->setFlash('success', "Work Experience " . $message . " successfully.");
+                return json_encode(['error' => 0, 'message' => 'Work Experience ' . $message . ' successfully.']);
             } else {
                 Yii::$app->session->setFlash('error', "Work Experience Updated failed.");
                 return json_encode(['error' => 0, 'message' => 'Work Experience Updated failed.', 'data' => $model->getErrors()]);
@@ -408,11 +398,9 @@ class UserDetailsController extends Controller {
             $model->year_complete = date('Y-m-d', strtotime("01-" . $model->year_complete));
             $model->location = isset($_POST['location']) && !empty($_POST['location']) ? $_POST['location'] : '';
 
-            if ($model->validate()) {
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', "Education Details " . $message . " successfully.");
-                    return json_encode(['error' => 0, 'message' => 'Education Details ' . $message . ' successfully.']);
-                }
+            if ($model->save() && $model->validate()) {
+                Yii::$app->session->setFlash('success', "Education Details " . $message . " successfully.");
+                return json_encode(['error' => 0, 'message' => 'Education Details ' . $message . ' successfully.']);
             } else {
                 Yii::$app->session->setFlash('error', "Education Details Updated failed.");
                 return json_encode(['error' => 0, 'message' => 'Education Details Updated failed.', 'data' => $model->getErrors()]);
@@ -436,7 +424,7 @@ class UserDetailsController extends Controller {
             $message = 'Updated';
             $model->updated_at = CommonFunction::currentTimestamp();
             $model->expiry_date = date('m-Y', strtotime($model->expiry_date));
-            $temp_document_file = isset($model->document) && !empty($model->document) ? $model->document : NULL;
+            $old_document_file = isset($model->document) && !empty($model->document) ? $model->document : NULL;
             $isRecordFlag = true;
         } else {
             $model = new Licenses();
@@ -456,7 +444,7 @@ class UserDetailsController extends Controller {
 
             $model->user_id = \Yii::$app->user->id;
             $model->expiry_date = date('Y-m-d', strtotime("01-" . $model->expiry_date));
-            $model->issuing_state = isset($_POST['issuing_state']) && !empty($_POST['issuing_state']) ? $_POST['issuing_state'] : '';
+//            $model->issuing_state = isset($_POST['issuing_state']) && !empty($_POST['issuing_state']) ? $_POST['issuing_state'] : '';
             $model->compact_states = isset($_POST['Licenses']['compact_states']) && !empty($_POST['Licenses']['compact_states']) ? '1' : '';
             $document_file = UploadedFile::getInstance($model, 'document');
 
@@ -465,18 +453,16 @@ class UserDetailsController extends Controller {
                 FileHelper::createDirectory($folder, 0777);
             }
 
-            $uploadPath = CommonFunction::getLicensesBasePath();
-
             if ($document_file) {
                 $model->document = time() . "_" . Yii::$app->security->generateRandomString(10) . "." . $document_file->getExtension();
-                $document_upload_flag = $document_file->saveAs($uploadPath . '/' . $model->document);
+                $document_upload_flag = $document_file->saveAs($folder . '/' . $model->document);
             }
 
-            if (isset($temp_document_file) && !empty($temp_document_file) && file_exists($folder . $temp_document_file)) {
+            if (isset($old_document_file) && !empty($old_document_file) && file_exists($folder . '/' . $old_document_file)) {
                 if ($document_upload_flag) {
-                    unlink($uploadPath . "/" . $temp_document_file);
+                    unlink($folder . "/" . $old_document_file);
                 } else {
-                    $model->document = $temp_document_file;
+                    $model->document = $old_document_file;
                 }
             } else {
                 if (!$document_upload_flag) {
@@ -485,11 +471,9 @@ class UserDetailsController extends Controller {
             }
 
 
-            if ($model->validate()) {
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', "License Details " . $message . " successfully.");
-                    return json_encode(['error' => 0, 'message' => 'License Details ' . $message . ' successfully.']);
-                }
+            if ($model->save() && $model->validate()) {
+                Yii::$app->session->setFlash('success', "License Details " . $message . " successfully.");
+                return json_encode(['error' => 0, 'message' => 'License Details ' . $message . ' successfully.']);
             } else {
                 Yii::$app->session->setFlash('error', "License Details Updated failed.");
                 return json_encode(['error' => 0, 'message' => 'License Details Updated failed.', 'data' => $model->getErrors()]);
@@ -513,11 +497,13 @@ class UserDetailsController extends Controller {
             $model = Certifications::findOne($id);
             $message = 'Updated';
             $model->updated_at = CommonFunction::currentTimestamp();
-            $model->expiry_date = date('m-Y', strtotime($model->expiry_date));
+            if (isset($model->expiry_date) && !empty($model->expiry_date)) {
+                $model->expiry_date = date('m-Y', strtotime($model->expiry_date));
+            }
             if (isset($model->certification_active) && !empty($model->certification_active)) {
                 $model->certification_active = $model->certification_active;
             }
-            $temp_document_file = isset($model->document) && !empty($model->document) ? $model->document : NULL;
+            $old_document_file = isset($model->document) && !empty($model->document) ? $model->document : NULL;
             $isRecordFlag = true;
         } else {
             $model = new Certifications();
@@ -537,7 +523,9 @@ class UserDetailsController extends Controller {
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             $model->issuing_state = isset($_POST['issuing_state']) && !empty($_POST['issuing_state']) ? $_POST['issuing_state'] : '';
             $model->user_id = \Yii::$app->user->id;
-            $model->expiry_date = date('Y-m-d', strtotime("01-" . $model->expiry_date));
+            if (isset($model->expiry_date) && !empty($model->expiry_date)) {
+                $model->expiry_date = date('Y-m-d', strtotime("01-" . $model->expiry_date));
+            }
 
             if (isset($postData['certification_active']) && !empty($postData['certification_active'])) {
                 $model->certification_active = $postData['certification_active'];
@@ -545,23 +533,22 @@ class UserDetailsController extends Controller {
 
             $document_file = UploadedFile::getInstance($model, 'document');
 
-            $folder = \Yii::$app->basePath . "/web/uploads/user-details/certification/";
+            $folder = CommonFunction::getCertificateBasePath();
+
             if (!file_exists($folder)) {
                 FileHelper::createDirectory($folder, 0777);
             }
 
-            $uploadPath = \Yii::$app->basePath . "/web/uploads/user-details/certification/";
-
             if ($document_file) {
                 $model->document = time() . "_" . Yii::$app->security->generateRandomString(10) . "." . $document_file->getExtension();
-                $document_upload_flag = $document_file->saveAs($uploadPath . '/' . $model->document);
+                $document_upload_flag = $document_file->saveAs($folder . '/' . $model->document);
             }
 
-            if (isset($temp_document_file) && !empty($temp_document_file) && file_exists($folder . $temp_document_file)) {
+            if (isset($old_document_file) && !empty($old_document_file) && file_exists($folder . '/' . $old_document_file)) {
                 if ($document_upload_flag) {
-                    unlink($uploadPath . $temp_document_file);
+                    unlink($folder . '/' . $old_document_file);
                 } else {
-                    $model->document = $temp_document_file;
+                    $model->document = $old_document_file;
                 }
             } else {
                 if (!$document_upload_flag) {
@@ -569,11 +556,9 @@ class UserDetailsController extends Controller {
                 }
             }
 
-            if ($model->validate()) {
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', "Certification Details " . $message . " successfully.");
-                    return json_encode(['error' => 0, 'message' => 'Certification Details ' . $message . ' successfully.']);
-                }
+            if ($model->save() && $model->validate()) {
+                Yii::$app->session->setFlash('success', "Certification Details " . $message . " successfully.");
+                return json_encode(['error' => 0, 'message' => 'Certification Details ' . $message . ' successfully.']);
             } else {
                 Yii::$app->session->setFlash('error', "Certification Details Updated failed.");
                 return json_encode(['error' => 0, 'message' => 'Certification Details Updated failed.', 'data' => $model->getErrors()]);
@@ -597,7 +582,7 @@ class UserDetailsController extends Controller {
             $model = Documents::findOne($id);
             $message = 'Updated';
             $model->updated_at = CommonFunction::currentTimestamp();
-            $temp_document_file = isset($model->path) && !empty($model->path) ? $model->path : NULL;
+            $old_document_file = isset($model->path) && !empty($model->path) ? $model->path : NULL;
             $isRecordFlag = true;
         } else {
             $model = new Documents();
@@ -618,18 +603,16 @@ class UserDetailsController extends Controller {
                 FileHelper::createDirectory($folder, 0777);
             }
 
-            $uploadPath = CommonFunction::getDocumentBasePath();
-
             if ($document_file) {
                 $model->path = time() . "_" . Yii::$app->security->generateRandomString(10) . "." . $document_file->getExtension();
-                $document_upload_flag = $document_file->saveAs($uploadPath . '/' . $model->path);
+                $document_upload_flag = $document_file->saveAs($folder . '/' . $model->path);
             }
 
-            if (isset($temp_document_file) && !empty($temp_document_file) && file_exists($folder . "/" . $temp_document_file)) {
+            if (isset($old_document_file) && !empty($old_document_file) && file_exists($folder . "/" . $old_document_file)) {
                 if ($document_upload_flag) {
-                    unlink($uploadPath . "/" . $temp_document_file);
+                    unlink($folder . "/" . $old_document_file);
                 } else {
-                    $model->path = $temp_document_file;
+                    $model->path = $old_document_file;
                 }
             } else {
                 if (!$document_upload_flag) {
@@ -637,13 +620,9 @@ class UserDetailsController extends Controller {
                 }
             }
 
-
-
-            if ($model->validate()) {
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', "Document " . $message . " successfully.");
-                    return json_encode(['error' => 0, 'message' => 'Document ' . $message . ' successfully.']);
-                }
+            if ($model->save() && $model->validate()) {
+                Yii::$app->session->setFlash('success', "Document " . $message . " successfully.");
+                return json_encode(['error' => 0, 'message' => 'Document ' . $message . ' successfully.']);
             } else {
                 Yii::$app->session->setFlash('error', "Document Updated failed.");
                 return json_encode(['error' => 0, 'message' => 'Document Updated failed.', 'data' => $model->getErrors()]);
@@ -675,11 +654,9 @@ class UserDetailsController extends Controller {
 
             $model->user_id = \Yii::$app->user->id;
 
-            if ($model->validate()) {
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', "Reference Details " . $message . " successfully.");
-                    return json_encode(['error' => 0, 'message' => 'Reference Details ' . $message . ' successfully.']);
-                }
+            if ($model->save() && $model->validate()) {
+                Yii::$app->session->setFlash('success', "Reference Details " . $message . " successfully.");
+                return json_encode(['error' => 0, 'message' => 'Reference Details ' . $message . ' successfully.']);
             } else {
                 Yii::$app->session->setFlash('error', "Reference Details Updated failed.");
                 return json_encode(['error' => 0, 'message' => 'Reference Details Updated failed.', 'data' => $model->getErrors()]);
@@ -699,20 +676,10 @@ class UserDetailsController extends Controller {
         $uploadPath = '';
         $file = '';
 
-        if ($postData['document'] == 'licenses') {
-            $model = Licenses::findOne($id);
-            $message = 'License';
-            $uploadPath = './uploads/user-details/license/';
-            $file = $model->document;
-        } else if ($postData['document'] == 'certification') {
-            $model = Certifications::findOne($id);
-            $message = 'Certification';
-            $uploadPath = './uploads/user-details/certification/';
-            $file = $model->document;
-        } else if ($postData['document'] == 'document') {
+        if ($postData['document'] == 'document') {
             $model = Documents::findOne($id);
             $message = 'Document';
-            $uploadPath = './uploads/user-details/document/';
+            $uploadPath = CommonFunction::getDocumentBasePath().'/';
             $file = $model->path;
         }
 

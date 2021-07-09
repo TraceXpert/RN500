@@ -73,6 +73,7 @@ class UserDetails extends \yii\db\ActiveRecord {
             [['mobile_no'], PhoneInputValidator::className()],
             ['mobile_no' , 'required', 'message' => 'Mobile No. cannot be blank.'],
             [['profile_pic', 'current_position', 'speciality', 'work experience'], 'string', 'max' => 250],
+            ['profile_pic', 'file', 'extensions' => ['png', 'jpg','jpeg'], 'maxSize' => 1024 * 1024 * 2],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['street_no', 'street_address', 'apt'], 'string', 'max' => 255],
             [['street_no'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field'],
