@@ -18,18 +18,19 @@ use common\CommonFunction;
     .field-userdetails-street_address{margin-bottom: 5px;}
     .iti--allow-dropdown{width: 100%;}
     .optionlist{margin-left:-40px;}
-    /*    .select2-container--krajee-bs4 .select2-selection--single{
-            height: 50px;
-            padding: .375rem 2rem;
-            background: #FFFFFF;
-            border-radius: 6px;
-            box-shadow: none;
-            color: #495057;
-        }
-        .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
-            padding: .375rem 2rem;
-    
-        }*/
+
+    .select2-container--krajee-bs4 .select2-selection--single{
+        height: 50px;
+        padding: .375rem 2rem;
+        background: #FFFFFF;
+        border-radius: 6px;
+        box-shadow: none;
+        color: #495057;
+    }
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
+        padding: .375rem 2rem;
+    }
+
     .field-userdetails-interest_level{width:200px;}
     .button-wrapper {position: relative;}
     .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 10px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
@@ -147,9 +148,9 @@ use common\CommonFunction;
     </div>
     <div class="row">
         <div class="col-sm-6">
-            <?=
-            $form->field($model, 'profile_pic', ['template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='userdetails-profile_pic' name='UserDetails[profile_pic]' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>{error}"])->fileInput()
-            ?>
+
+            <!--<label>Upload File</label>-->
+            <?= $form->field($model, 'profile_pic', ['template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='userdetails-profile_pic' name='UserDetails[profile_pic]' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>{error}"])->fileInput() ?>
 
             <?php if (!empty($model->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $model->profile_pic)) { ?>
                 <span id="custom-text"><?= $model->profile_pic ?></span>
@@ -216,7 +217,7 @@ $('#userdetails-profile_pic').change(function() {
             console.log(fullname);
             $('#custom-text').html(fullname);
         });        
-    
+   
     var realFileBtn = document.getElementById("userdetails-profile_pic");
             var customBtn = document.getElementById("custom-button");
             var customTxt = document.getElementById("custom-text");
@@ -234,6 +235,7 @@ $('#userdetails-profile_pic').change(function() {
                     customTxt.innerHTML = "No file chosen, yet.";
                 }
             });                
+
         
 JS;
 $this->registerJs($script, yii\web\View::POS_END);
