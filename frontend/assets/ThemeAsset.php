@@ -26,12 +26,13 @@ class ThemeAsset extends AssetBundle {
         'js/jquery-ui.min.js',
         'js/toastr.min.js',
         'js/sweetalert.2.1.2.min.js',
+        'js/custom.js',
         'https://js.stripe.com/v3/',
     ];
     public $depends = [
         'yii\web\YiiAsset',
-//        'yii\bootstrap4\BootstrapAsset',
-//        'yii\bootstrap4\BootstrapPluginAsset',
+        'yii\bootstrap4\BootstrapAsset',
+        'yii\bootstrap4\BootstrapPluginAsset',
     ];
 
 }

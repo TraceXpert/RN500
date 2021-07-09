@@ -8,11 +8,11 @@ return [
     'user.passwordResetTokenExpire' => 86400, // Valid upto next 2 days
     'user.passwordMinLength' => 8,
     'user.types' => ['1' => 'Recruiter', '2' => 'Employeer', '3' => 'Jobseeker', '4' => 'Staff'],
-    'job.payment_type' => ['1' => 'Hourly', '2' => 'Weekly', '3' => 'Monthly'],
-    'job.type' => [1 => 'Part Time', 2 => 'Permanent', 3 => 'Travel', 4 => 'On Call'],
+    'job.payment_type' => ['1' => 'Hourly', '2' => 'Weekly', '3' => 'Monthly', '4' => 'Yearly'],
+    'job.type' => [1 => 'Part Time', 2 => 'Permanent', 3 => 'Travel', 4 => 'On Call', 5 => 'Contract Position'],
     'job.shift' => ['1' => 'All', '2' => 'Morning', '3' => 'Evening', '4' => 'Night', '5' => 'Flexible'],
     'company.priority' => [1 => 'High', 2 => 'Modrate', 3 => 'Semi Modrate', 4 => 'Low'],
-    'COMMISSION_MODE' => [0 => 'One Time', 1 => 'Monthly', 2 => 'Yearly'],
+    'COMMISSION_MODE' => [0 => 'One Time', 1=>'Weekly', 2 => 'Monthly', 3 => 'Yearly'],
     'job.visible' => [0 => 'Both', 1 => 'Other Recruiter', 2 => 'RN500'],
     'date.format.display.php' => "d-M-Y", // 16-Apr-2021
     'date.format.datepicker.js' => "d-M-yyyy", // 16-Apr-2021

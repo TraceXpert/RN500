@@ -92,19 +92,13 @@ class UserDetailsController extends Controller {
             $model->user_id = \Yii::$app->user->id;
             $model->created_at = time();
             $model->updated_at = time();
-
-            if ($model->validate()) {
-
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', "User Details Updated successfully.");
-                    return json_encode(['error' => 0, 'message' => 'User Details Updated successfully.']);
-                }
+            if ($model->validate() && $model->save()) {
+                Yii::$app->session->setFlash('success', "User details updated successfully.");
+                return json_encode(['error' => 0, 'message' => 'User details updated successfully.']);
             } else {
-                Yii::$app->session->setFlash('error', "User Details Updated failed.");
+                Yii::$app->session->setFlash('error', "User details failed to update.");
                 return json_encode(['error' => 1, 'message' => 'something went wrong.', 'date' => $model->getErrors()]);
             }
-        } else {
-            
         }
 
         return $this->renderAjax('create', [
@@ -137,9 +131,12 @@ class UserDetailsController extends Controller {
         } else {
             $selectedLocations = [];
         }
-        $temp_document_file = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
+        $old_profile_image = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
         $document_upload_flag = '';
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            
+            
+
             $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
             $model->dob = date('Y-m-d', strtotime($model->dob));
            
@@ -165,18 +162,13 @@ class UserDetailsController extends Controller {
                 }
             }
 
-            if ($model->validate()) {
-
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', "User Details Updated successfully.");
-                    return json_encode(['error' => 0, 'message' => 'User Details Updated successfully.']);
-                }
+            if ($model->validate() && $model->save()) {
+                Yii::$app->session->setFlash('success', "User details updated successfully.");
+                return json_encode(['error' => 0, 'message' => 'User details updated successfully.']);
             } else {
-                Yii::$app->session->setFlash('error', "User Details Updated failed.");
-                return json_encode(['error' => 1, 'message' => 'something went wrong.', 'date' => $model->getErrors()]);
+                Yii::$app->session->setFlash('error', "User details failed to update.");
+                return json_encode(['error' => 1, 'message' => 'something went wrong.', 'errors' => $model->getErrors()]);
             }
-        } else {
-            
         }
 
         return $this->renderAjax('update', [
@@ -235,11 +227,11 @@ class UserDetailsController extends Controller {
 
                 if ($model->validate()) {
                     if ($model->save()) {
-                        Yii::$app->session->setFlash('success', "User Details Updated Successfully.");
+                        Yii::$app->session->setFlash('success', "User details updated successfully.");
                         return $this->redirect(['profile', 'id' => $id]);
                     }
                 } else {
-                    Yii::$app->session->setFlash('error', "User Details Updated failed.");
+                    Yii::$app->session->setFlash('error', "User details failed to update.");
                     return $this->redirect(['profile', 'id' => $id]);
                 }
             }

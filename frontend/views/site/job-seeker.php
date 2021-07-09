@@ -73,6 +73,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                                                 Update Account
                                             </p>
                                         </div>
+
                                     </div>
                                 </a>
                             </li>
@@ -90,6 +91,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                                                 Job Search
                                             </p>
                                         </div>
+
                                     </div>
                                 </a>
                             </li>
@@ -276,12 +278,13 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                                         <?= Yii::$app->user->identity->email ?>
                                     </a>
                                 </p>
-
-                                <p class="mb-0 name actively-looking">
-                                    <a href="javascript:void(0)" class="mb-0 salary-block">
-                                        <?php echo (isset(Yii::$app->params['INTERESTS_LEVEL'][$userDetails->interest_level])) ? Yii::$app->params['INTERESTS_LEVEL'][$userDetails->interest_level] : '' ?>
-                                    </a>
-                                </p>
+                                <?php if (isset(Yii::$app->params['INTERESTS_LEVEL'][$userDetails->interest_level])) { ?>
+                                    <p class="mb-0 name actively-looking">
+                                        <a href="javascript:void(0)" class="mb-0 salary-block">
+                                            <?php echo Yii::$app->params['INTERESTS_LEVEL'][$userDetails->interest_level] ?>
+                                        </a>
+                                    </p>
+                                <?php } ?>
                             </div>
 
                             <div class="text-right">
