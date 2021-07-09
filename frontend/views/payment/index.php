@@ -33,7 +33,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
 
         <div class="row view-details mb-4 m-0">
             <div class="col-md-4">
-                <p class="mb-0">Date Posted: <?= date('m-d-Y', $model->created_at) ?></p>
+                <p class="mb-0">Date Posted: <?= CommonFunction::getAPIDateDisplayFormat($model->created_at) ?></p>
                 <p><?= $model->citiesName ?></p>
             </div>
 
@@ -114,7 +114,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                                 <li><?= $model->reference_no ?></li>
                                 <li><?= isset($model->citiesName) ? $model->citiesName : "-" ?></li>
                                 <li><?= isset(Yii::$app->params['job.type'][$model->job_type]) ? Yii::$app->params['job.type'][$model->job_type] : "-" ?></li>
-                                <li><?= $model->shift == 1 ? "Morning, Evening, Night, Flaxible" : Yii::$app->params['job.shift'][$model->shift] ?></li>
+                                <li><?= $model->shift == 1 ? CommonFunction::getAllShiftsCommaSeprated() : Yii::$app->params['job.shift'][$model->shift] ?></li>
                                 <li><?= isset($model->start_date) && !empty($model->start_date) ? $model->start_date : "-" ?></li>
                                 <li><?= $model->recruiter_commission_type == 1 ? $model->recruiter_commission . "%" : '$' . $model->recruiter_commission ?></li>
                                 <li><?= isset(Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode]) ? Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode] : "-" ?></li>

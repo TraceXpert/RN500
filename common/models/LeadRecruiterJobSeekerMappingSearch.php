@@ -113,7 +113,8 @@ class LeadRecruiterJobSeekerMappingSearch extends LeadRecruiterJobSeekerMapping 
         }
 
         if ($this->rec_joining_date) {
-            $query->andWhere(['like', 'lrjm.rec_joining_date', date('Y-m-d', strtotime($this->rec_joining_date))]);
+            $MMDDYYYY = explode('-', $this->rec_joining_date);
+            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
         }
 
         if ($this->jobSeekerName) {
@@ -166,7 +167,8 @@ class LeadRecruiterJobSeekerMappingSearch extends LeadRecruiterJobSeekerMapping 
         }
 
         if ($this->rec_joining_date) {
-            $query->andWhere(['like', 'lrjm.rec_joining_date', date('Y-m-d', strtotime($this->rec_joining_date))]);
+            $MMDDYYYY = explode('-', $this->rec_joining_date);
+            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
         }
 
         if ($this->jobSeekerName) {
@@ -221,7 +223,9 @@ class LeadRecruiterJobSeekerMappingSearch extends LeadRecruiterJobSeekerMapping 
 
         if ($this->rec_joining_date || $this->rec_joining_date_selected) {
             $joiningDate = ($this->rec_joining_date) ? $this->rec_joining_date : $this->rec_joining_date_selected;
-            $query->andWhere(['like', 'lrjm.rec_joining_date', date('Y-m-d', strtotime($joiningDate))]);
+            $MMDDYYYY = explode('-', $joiningDate);
+            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
+            
         }
 
         if ($this->jobSeekerName) {
@@ -275,7 +279,9 @@ class LeadRecruiterJobSeekerMappingSearch extends LeadRecruiterJobSeekerMapping 
         }
 
         if ($this->rec_joining_date) {
-            $query->andWhere(['like', 'lrjm.rec_joining_date', date('Y-m-d', strtotime($this->rec_joining_date))]);
+            
+            $MMDDYYYY = explode('-', $this->rec_joining_date);
+            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
         }
 
         if ($this->jobSeekerName) {

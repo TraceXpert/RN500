@@ -283,7 +283,8 @@ class CommonFunction {
         }
         return '';
     }
-
+    
+   
     public static function getProfilePercentage() {
 
         $totalPercentage = 100;
@@ -363,6 +364,13 @@ class CommonFunction {
         $percentage = $totalPer * $totalPercentage / 100;
 //        }
         return round($percentage, 0);
+    }
+    
+    
+    public static function getAllShiftsCommaSeprated(){
+        $shifts = Yii::$app->params['job.shift'];
+        array_shift($shifts);
+        return implode(", ", $shifts) ;
     }
 
 }

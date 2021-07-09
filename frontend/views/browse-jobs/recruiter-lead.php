@@ -273,7 +273,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                             <div class="col-md-4 mt-3">
                                 <div>
                                     <p class="mb-0 small-text">Shift :</p>
-                                    <p><?= $model->shift == 1 ? "Morning, Evening, Night, Flexible" : Yii::$app->params['job.shift'][$model->shift] ?></p>
+                                    <p><?= $model->shift == 1 ? CommonFunction::getAllShiftsCommaSeprated() : Yii::$app->params['job.shift'][$model->shift] ?></p>
                                 </div>
                                 <div>
                                     <p class="mb-0 small-text">Estimated Pay</p>
@@ -295,7 +295,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                             <div class="col-md-4 mt-3">
                                 <div>
                                     <p class="mb-0 small-text">Starting Date :</p>
-                                    <p><?= date('m-d-Y', strtotime($model->start_date)); ?></p>
+                                    <p><?= CommonFunction::getAPIDateDisplayFormat($model->start_date); ?></p>
                                 </div>
                                 <div>
                                     <p class="mb-0 small-text">Benefits starts from</p>

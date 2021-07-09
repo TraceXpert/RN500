@@ -145,3 +145,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ALTER TABLE `lead_master`
 CHANGE `recruiter_commission` `recruiter_commission` float NULL COMMENT 'agancy commision' AFTER `end_date`;
 -- ****************08-07-21 By Mohan End
+
+ALTER TABLE `lead_master`
+CHANGE `price` `price` float NULL COMMENT 'admin or master admin decide lead price' AFTER `visible_to`;
