@@ -19,6 +19,7 @@ use common\models\LeadSpeciality;
 use common\models\Cities;
 use common\models\Emergency;
 use common\models\LeadEmergency;
+use common\models\LeadMasterSearch;
 
 /**
  * Site controller
@@ -32,10 +33,10 @@ class JobController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['post'],
+                'only' => ['post','list'],
                 'rules' => [
                         [
-                        'actions' => ['post'],
+                        'actions' => ['post','list'],
                         'allow' => true,
                         'roles' => (CommonFunction::isEmployer() || CommonFunction::isRecruiter()) ? ['@'] : ['*'],
                     ],
@@ -50,8 +51,15 @@ class JobController extends Controller {
         ];
     }
 
+    public function actionList() {
+        $searchModel = new LeadMasterSearch();
+        $searchModel->loggedInUserId = Yii::$app->user->identity->id;
+        $dataProvider = $searchModel->searchMyPostedJob(Yii::$app->request->queryParams);
+        return $this->render('list', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
+    }
     public function actionPost() {
         $model = new LeadMaster();
+        $model->scenario = 'post-job';
         $model->reference_no = $model->getUniqueReferenceNumber();
         $disciplineList = ArrayHelper::map(Discipline::getAllDiscipline(), 'id', 'name');
         $benefitList = ArrayHelper::map(Benefits::getAllBenefits(), 'id', 'name');

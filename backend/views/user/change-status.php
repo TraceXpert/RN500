@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\User;
 
 $form = ActiveForm::begin(['id' => 'approval-form']);
 ?>

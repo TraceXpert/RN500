@@ -113,8 +113,8 @@ class UserController extends Controller {
             $id = $model->id;
             $actionDiv = '<a href="' . Url::to([Yii::$app->controller->id . '/view/', 'id' => $model->user_id]) . '" title="View"><span class="fa fa-eye"></span></a> &nbsp;';
             if (isset(Yii::$app->user->identity) && CommonFunction::checkAccess('user-approve', Yii::$app->user->identity->id)) {
-                $actionDiv .= '<a class="change-status"  modal-title="Approve User" href="javascript:void(0)" title="Approve" url="' . Url::to([Yii::$app->controller->id . '/change-status/', 'id' => $model->user_id, 'status' => User::STATUS_APPROVED]) . '" data-pjax="0"><span class="fa fa-check-circle"></span></a> &nbsp;';
-                $actionDiv .= '<a class="change-status" modal-title="Reject User" href="javascript:void(0)" title="Reject" url="' . Url::to([Yii::$app->controller->id . '/change-status/', 'id' => $model->user_id, 'status' => User::STATUS_REJECTED]) . '" data-pjax="0"><span class="fa fa-times-circle"></span></a>';
+                $actionDiv .= '<a class="change-status"  modal-title="Approve Form" href="javascript:void(0)" title="Approve" url="' . Url::to([Yii::$app->controller->id . '/change-status/', 'id' => $model->user_id, 'status' => User::STATUS_APPROVED]) . '" data-pjax="0"><span class="fa fa-check-circle"></span></a> &nbsp;';
+                $actionDiv .= '<a class="change-status" modal-title="Reject Form" href="javascript:void(0)" title="Reject" url="' . Url::to([Yii::$app->controller->id . '/change-status/', 'id' => $model->user_id, 'status' => User::STATUS_REJECTED]) . '" data-pjax="0"><span class="fa fa-times-circle"></span></a>';
             }
             $response['data'][] = [
                 $i,

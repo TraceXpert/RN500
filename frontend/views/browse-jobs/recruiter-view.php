@@ -32,7 +32,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
 
         <div class="row view-details mb-4 m-0">
             <div class="col-md-4">
-                <p class="mb-0">Date Posted: <?= date('m-d-Y', $model->created_at) ?></p>
+                <p class="mb-0">Date Posted: <?= CommonFunction::getAPIDateDisplayFormat($model->created_at) ?></p>
                 <p><?= $model->citiesName ?></p>
 
 
@@ -187,10 +187,10 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                         </div>
 
                         <div class="col-lg-6">
-                            <p class="font-weight-400">Shift</p>                             
+                            <p class="font-weight-400">Shift </p>                             
                         </div>
                         <div class="col-lg-6">                            
-                            <p><?= $model->shift == 1 ? "Morning, Evening, Night, Flaxible" : Yii::$app->params['job.shift'][$model->shift] ?></p>
+                            <p><?= $model->shift == 1 ? CommonFunction::getAllShiftsCommaSeprated() : Yii::$app->params['job.shift'][$model->shift] ?></p>
                         </div>                
 
                     </div>

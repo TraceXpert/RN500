@@ -5,6 +5,7 @@ namespace common\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\LeadMaster;
+use yii\db\Expression;
 
 /**
  * LeadMasterSearch represents the model behind the search form of `common\models\LeadMaster`.
@@ -14,6 +15,7 @@ class LeadMasterSearch extends LeadMaster {
     public $company_name;
     public $branch_name;
     public $loggedInUserId;
+    public $leadTitleWithRef;
 
     /**
      * {@inheritdoc}
@@ -23,7 +25,7 @@ class LeadMasterSearch extends LeadMaster {
                 [['id', 'branch_id', 'payment_type', 'job_type', 'shift', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'price', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
                 [['title', 'reference_no', 'description', 'start_date', 'end_date', 'comment'], 'safe'],
                 [['jobseeker_payment'], 'number'],
-                [['company_name', 'branch_name'], 'safe'],
+                [['company_name', 'branch_name','leadTitleWithRef'], 'safe'],
         ];
     }
 
@@ -170,6 +172,41 @@ class LeadMasterSearch extends LeadMaster {
         if ($this->company_name) {
             $query->andWhere(['LIKE', "IF(subscribed_companies.company_name IS NOT NULL ,subscribed_companies.company_name,`company`.`company_name`)", $this->company_name]);
         }
+
+        return $dataProvider;
+    }
+    
+    
+    public function searchMyPostedJob($params) {
+        $query = LeadMaster::find()->alias('lead');
+
+        // add conditions that should always apply here
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort'=> ['defaultOrder' => ['updated_at' => SORT_DESC]],
+        ]);
+
+        
+        $this->load($params);
+
+        if (!$this->validate()) {
+            return $dataProvider;
+        }
+        
+         if ($this->leadTitleWithRef) {
+            $query->andWhere(['OR',
+                    ['like', 'lead.title', $this->leadTitleWithRef],
+                    ['like', 'lead.reference_no', $this->leadTitleWithRef],
+                    ['like', new Expression('CONCAT(lead.title, " (", lead.reference_no, ")")'), $this->leadTitleWithRef]
+            ]);
+        }
+        
+        if ($this->start_date) {
+            $MMDDYYYY = explode('-', $this->start_date);
+            $query->andWhere(['like', 'lead.start_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
+        }
+
+        
 
         return $dataProvider;
     }
