@@ -16,8 +16,7 @@ $is_otp_sent = $model->is_otp_sent;
 <div class="signin-form text-center"> 
     <h1>Sign in</h1>
     <p>Sign in on the RN500 platform</p>
-    <div class="alert alert-success message" role="alert" style="display:none">
-    </div>
+
     <?php
     $form = ActiveForm::begin([
                 'id' => 'login-form',
@@ -36,9 +35,13 @@ $is_otp_sent = $model->is_otp_sent;
     ?>
 
     <?php
-    echo $form->field($model, 'password', ['options' => ['class' => 'form-group has-feedback']])->label(false)
+    echo $form->field($model, 'password', [
+                'template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye password-toggle-icon toggle-password"></span></div> {error}',
+                'options' => ['class' => 'form-group has-feedback']
+            ])->label(false)
             ->passwordInput(['placeholder' => $model->getAttributeLabel('password'), 'readOnly' => $is_otp_sent])
     ?>
+
     <?php if ($is_otp_sent) { ?>
         <div class="text-left">
             <div class="row">
@@ -69,21 +72,8 @@ $is_otp_sent = $model->is_otp_sent;
 </div>
 <?php
 $script = <<< JS
-        $(document).on('click', '.toggle-password', function() {
 
-    $(this).toggleClass("fa-eye fa-eye-slash");
-    
-    var input = $("#loginform-password");
-    input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
-});
-    function showPassword() {
-        var x = document.getElementById("loginform-password");
-        if (x.type === "password") {
-          x.type = "text";
-        } else {
-          x.type = "password";
-        }
-    }
+        
   $(document).on('click', '#resend_otp', function() {
         var action=$(this).attr('url');
         $.ajax({

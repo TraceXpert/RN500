@@ -55,7 +55,7 @@ class JobController extends Controller {
         $model->reference_no = $model->getUniqueReferenceNumber();
         $disciplineList = ArrayHelper::map(Discipline::getAllDiscipline(), 'id', 'name');
         $benefitList = ArrayHelper::map(Benefits::getAllBenefits(), 'id', 'name');
-        $specialiesList = ArrayHelper::map(Speciality::getAllSpecialities(), 'id', 'name');
+        $specialityList = ArrayHelper::map(Speciality::getAllSpecialities(), 'id', 'name');
         $emergencyList = ArrayHelper::map(Emergency::getAllEmergency(), 'id', 'name');
         $branchList = ArrayHelper::map(CompanyBranch::getAllBranchesOfLoggedInUser(), 'id', 'branch_name');
         $states = ArrayHelper::map(\common\models\States::find()->where(['country_id' => 226])->all(), 'id', 'state');
@@ -107,8 +107,8 @@ class JobController extends Controller {
                         }
                     }
 
-                    if (isset($model->specialies) && !empty($model->specialies)) {
-                        foreach ($model->specialies as $key => $specialt_id) {
+                    if (isset($model->specialities) && !empty($model->specialities)) {
+                        foreach ($model->specialities as $key => $specialt_id) {
                             $leadSpeciality = new LeadSpeciality();
                             $leadSpeciality->lead_id = $lead_id;
                             $leadSpeciality->speciality_id = $specialt_id;
@@ -144,7 +144,7 @@ class JobController extends Controller {
                     'model' => $model,
                     'disciplinesList' => $disciplineList,
                     'benefitList' => $benefitList, 'emergencyList' => $emergencyList,
-                    'specialiesList' => $specialiesList, 'cities' => $cities,
+                    'specialityList' => $specialityList, 'cities' => $cities,
                     'branchList' => $branchList, 'states' => $states,
         ]);
     }

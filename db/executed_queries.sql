@@ -125,6 +125,8 @@ CHANGE `id` `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
 ALTER TABLE `references`
 CHANGE `mobile_no` `mobile_no` varchar(20) COLLATE 'latin1_swedish_ci' NOT NULL AFTER `last_name`;
 
+
+
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('payment',	2,	'Payment',	NULL,	NULL,	NULL,	NULL),
 ('recruited-jobseeker',	2,	'Recruited Jobseeker',	NULL,	NULL,	NULL,	NULL),
@@ -137,3 +139,9 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('reports',	'payment'),
 ('reports',	'recruited-jobseeker'),
 ('reports',	'refferal-reports');
+
+
+-- ****************08-07-21 By Mohan
+ALTER TABLE `lead_master`
+CHANGE `recruiter_commission` `recruiter_commission` float NULL COMMENT 'agancy commision' AFTER `end_date`;
+-- ****************08-07-21 By Mohan End
