@@ -25,7 +25,7 @@ $frontendDir = yii\helpers\Url::base(true);
         padding: .375rem 2rem;
     }
     .button-wrapper {position: relative;}
-    .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 10px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
+    .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 15px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
     #certifications-document {display: inline-block;position: absolute;z-index: 1;width: 100%;height: 50px;top: 0;left: 0;opacity: 0;cursor: pointer;}
 </style>
 <div class="user-details-form">
@@ -43,7 +43,7 @@ $frontendDir = yii\helpers\Url::base(true);
     <div class="row">
         <div class="col-sm-12 radio-btn">
             <label>Certification Active</label>
-            <?= $form->field($model, 'certification_active', ['template' => '<div class="form-group"><input type="radio" id="yes" name="Certifications[certification_active]" value="1"><label for="yes">Yes</label></div><div class="form-group"><input type="radio" id="no" name="Certifications[certification_active]" class="is_not_active" value="0"><label for="no">No</label></div>'])->radioList([]) ?>
+            <?= $form->field($model, 'certification_active', ['template' => '<div class="form-group"><input type="radio" id="yes" class="is_active" name="Certifications[certification_active]" value="1"><label for="yes">Yes</label></div><div class="form-group"><input type="radio" id="no" name="Certifications[certification_active]" class="is_not_active" value="0"><label for="no">No</label></div>'])->radioList([]) ?>
         </div>
     </div>
     <div class="row">
@@ -51,7 +51,7 @@ $frontendDir = yii\helpers\Url::base(true);
             <?php
             echo $form->field($model, 'expiry_date')->widget(DatePicker::classname(), [
                 'name' => 'expiry_date',
-                'value' => date('d-M-Y'),
+//                'value' => date('d-M-Y'),
                 'type' => DatePicker::TYPE_INPUT,
                 'options' => ['placeholder' => $model->getAttributeLabel('expiry_date'), 'readonly' => true],
                 'pluginOptions' => [
@@ -119,7 +119,7 @@ $frontendDir = yii\helpers\Url::base(true);
     <div class="row mb-15">
         <div class="col-sm-12">
             <label>Upload Document</label>
-            <?php echo $form->field($model, 'document', ['template' => '<div class="button-wrapper"><span class="label">Upload File</span>{input}</button>{error}'])->fileInput() ?>
+            <?php echo $form->field($model, 'document', ['template' => '<div class="button-wrapper"><span class="label">Upload Document</span>{input}</button>{error}'])->fileInput() ?>
             <?php //$form->field($model, 'document', ['template' => "<label for='real-file'>Upload Your Document</label><br/><input type='file' id='real-file-certification' hidden='hidden'><button type='button' id='custom-certification'>Choose File</button>"])->fileInput() ?>
 
             <?php if ($isRecordFlag) { ?>
@@ -135,7 +135,7 @@ $frontendDir = yii\helpers\Url::base(true);
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2 ml-3']) ?>
         <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
     </div>
 
