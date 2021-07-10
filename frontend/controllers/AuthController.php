@@ -130,6 +130,7 @@ class AuthController extends Controller {
         $recruiter = new \frontend\models\RecruiterForm();
         $recruiterCompany = new \frontend\models\RecruiterCompanyForm();
         $companyMasterModel = new CompanyMaster;
+        $companyMasterModel->priority = CompanyMaster::PRIORITY_HIGH;
         $states = ArrayHelper::map(\common\models\States::find()->where(['country_id' => 226])->all(), 'id', 'state');
         $cities = [];
         if (\Yii::$app->request->isPost) {

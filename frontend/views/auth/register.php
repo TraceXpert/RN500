@@ -81,7 +81,7 @@ use borales\extensions\phoneInput\PhoneInput;
             </div>
 
             <div class="row">
-                <div class="col-lg-6 pl-3 pl-lg-0">
+                <div class="col-lg-6 p-0">
                     <?=
                     $form->field($companyMasterModel, 'company_mobile')->widget(PhoneInput::className(), [
                         'options' => ['class' => 'form-control w-100'],
@@ -91,32 +91,39 @@ use borales\extensions\phoneInput\PhoneInput;
                     ])->label(false);
                     ?>
                 </div>
-
+                
                 <div class="col-lg-6 pr-3 pr-lg-0">
+                    <?= $form->field($companyMasterModel, 'extension')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('extension')])->label(false); ?>
+                </div>
+
+               
+            </div>
+
+            <div class="row">
+                 <div class="col-lg-6 p-0">
                     <?= $form->field($companyMasterModel, 'employer_identification_number')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('employer_identification_number')])->label(false); ?>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6 pl-3 pl-lg-0">
+                <div class="col-lg-6 pr-3 pr-lg-0">
                     <?= $form->field($companyMasterModel, 'website_link')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('website_link')])->label(false); ?>
                 </div>
-                <div class="col-lg-6 pr-3 pr-lg-0">
+                
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 p-0">
                     <?= $form->field($companyMasterModel, 'street_no')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('street_no')])->label(false); ?>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6 pl-3 pl-lg-0">
+                <div class="col-lg-6 pr-3 pr-lg-0">
                     <?= $form->field($companyMasterModel, 'street_address')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('street_address')])->label(false); ?>
                 </div>
-                <div class="col-lg-6 pr-3 pr-lg-0">
-                    <?= $form->field($companyMasterModel, 'apt')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('apt')])->label(false); ?>
-                </div>
+                
             </div>
 
             <div class="row">
-                <div class="col-lg-6 pl-3 pl-lg-0">
+                <div class="col-lg-6 p-0">
+                    <?= $form->field($companyMasterModel, 'apt')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('apt')])->label(false); ?>
+                </div>
+                <div class="col-lg-6 pr-3 pr-lg-0">
                     <?=
                     $form->field($companyMasterModel, 'state')->widget(Select2::classname(), [
                         'data' => $states,
@@ -127,7 +134,11 @@ use borales\extensions\phoneInput\PhoneInput;
                     ])->label(false);
                     ?>
                 </div>
-                <div class="col-lg-6 pr-3 pr-lg-0">
+                
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 p-0">
                     <?=
                     $form->field($companyMasterModel, 'city')->widget(Select2::classname(), [
                         'data' => $cities,
@@ -138,10 +149,7 @@ use borales\extensions\phoneInput\PhoneInput;
                     ])->label(false);
                     ?>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6 pl-3 pl-lg-0">
+                <div class="col-lg-6 pr-3 pr-lg-0">
                     <?= $form->field($companyMasterModel, 'zip_code')->textInput(['maxlength' => 5, 'placeholder' => $companyMasterModel->getAttributeLabel('zip_code')])->label(false); ?>
                 </div>
             </div>
@@ -234,30 +242,36 @@ use borales\extensions\phoneInput\PhoneInput;
                     ?>
                 </div>
                 <div class="col-lg-6 pr-3 pr-lg-0">
+                    <?= $form->field($recruiterCompany, 'extension')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('extension')])->label(false); ?>
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 pl-3 pl-lg-0">
                     <?= $form->field($recruiterCompany, 'employer_identification_number')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('employer_identification_number')])->label(false); ?>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6 pl-3 pl-lg-0">
+                <div class="col-lg-6 pr-3 pr-lg-0">
                     <?= $form->field($recruiterCompany, 'website_link')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('website_link')])->label(false); ?>
                 </div>
-                <div class="col-lg-6 pr-3 pr-lg-0">
+                
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 pl-3 pl-lg-0">
                     <?= $form->field($recruiterCompany, 'street_no')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('street_no')])->label(false); ?>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6 pl-3 pl-lg-0">
+                <div class="col-lg-6  pr-3 pr-lg-0">
                     <?= $form->field($recruiterCompany, 'street_address')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('street_address')])->label(false); ?>
                 </div>
-                <div class="col-lg-6 pr-3 pr-lg-0">
-                    <?= $form->field($recruiterCompany, 'apt')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('apt')])->label(false); ?>
-                </div>
+                
             </div>
 
             <div class="row">
-                <div class="col-lg-6 pl-3 pl-lg-0">
+                <div class="col-lg-6  pl-3 pl-lg-0">
+                    <?= $form->field($recruiterCompany, 'apt')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('apt')])->label(false); ?>
+                </div>
+                <div class="col-lg-6 pr-3 pr-lg-0">
                     <?=
                     $form->field($recruiterCompany, 'state')->widget(Select2::classname(), [
                         'data' => $states,
@@ -268,7 +282,11 @@ use borales\extensions\phoneInput\PhoneInput;
                     ])->label(false);
                     ?>
                 </div>
-                <div class="col-lg-6 pr-3 pr-lg-0">
+                
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 pl-3 pl-lg-0">
                     <?=
                     $form->field($recruiterCompany, 'city')->widget(Select2::classname(), [
                         'data' => $cities,
@@ -279,10 +297,7 @@ use borales\extensions\phoneInput\PhoneInput;
                     ])->label(false);
                     ?>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6 pl-3 pl-lg-0">
+                <div class="col-lg-6  pr-3 pr-lg-0">
                     <?= $form->field($recruiterCompany, 'zip_code')->textInput(['maxlength' => 5, 'placeholder' => $recruiterCompany->getAttributeLabel('zip_code')])->label(false); ?>
                 </div>
             </div>

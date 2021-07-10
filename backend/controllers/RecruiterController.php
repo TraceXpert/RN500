@@ -122,6 +122,7 @@ class RecruiterController extends Controller {
         $userDetailModel = new UserDetails();
         $userDetailModel->scenario = 'recruiter';
         $companyMasterModel = new CompanyMaster();
+        $companyMasterModel->priority = CompanyMaster::PRIORITY_HIGH;
 
         $states = ArrayHelper::map(\common\models\States::find()->where(['country_id' => 226])->all(), 'id', 'state');
 
@@ -214,19 +215,20 @@ class RecruiterController extends Controller {
         $model = $this->findModel($id);
         $model->scenario = "create";
         
-        $userDetailModel = isset($model->details) ? $model->details : [];
-        $userDetailModel->scenario = 'recruiter';
-        $userDetailModel->email = $model->email;
+//        $userDetailModel = isset($model->details) ? $model->details : [];
+//        $userDetailModel->scenario = 'recruiter';
+//        $userDetailModel->email = $model->email;
         $companyMasterModel = isset($model->branch->company) ? $model->branch->company : [];
         $states = ArrayHelper::map(States::find()->where(['country_id' => 226])->all(), 'id', 'state');
-        $city = !empty($userDetailModel->cityRef->state_id) ? ArrayHelper::map(Cities::findAll(['state_id' => $userDetailModel->cityRef->state_id]), 'id', 'city') : [];
+//        $city = !empty($userDetailModel->cityRef->state_id) ? ArrayHelper::map(Cities::findAll(['state_id' => $userDetailModel->cityRef->state_id]), 'id', 'city') : [];
         $CompanyCity = !empty($companyMasterModel->cityRef->state_id) ? ArrayHelper::map(Cities::findAll(['state_id' => $companyMasterModel->cityRef->state_id]), 'id', 'city') : [];
-        $userDetailModel->state = !empty($userDetailModel->cityRef->state_id) ? $userDetailModel->cityRef->state_id : '';
+//        $userDetailModel->state = !empty($userDetailModel->cityRef->state_id) ? $userDetailModel->cityRef->state_id : '';
         $companyMasterModel->state = !empty($model->branch->company->cityRef->state_id) ? $model->branch->company->cityRef->state_id : '';
-        if ($userDetailModel->load(Yii::$app->request->post()) && $companyMasterModel->load(Yii::$app->request->post())) {
-            $userDetailModel->role_id = RoleMaster::RECRUITER_OWNER;
-            $userDetailModel->updated_at = $companyMasterModel->updated_at = CommonFunction::currentTimestamp();
-            if ($userDetailModel->validate(['first_name', 'last_name', 'mobile_no', 'profile_pic', 'current_position', 'speciality', 'job_title', 'job_looking_from', 'travel_preference', 'ssn', 'work_authorization', 'work_authorization_comment', 'license_suspended', 'professional_liability']) && $companyMasterModel->validate()) {
+        if ($companyMasterModel->load(Yii::$app->request->post())) {
+//            $userDetailModel->role_id = RoleMaster::RECRUITER_OWNER;
+//            $userDetailModel->updated_at = $companyMasterModel->updated_at = CommonFunction::currentTimestamp();
+            $companyMasterModel->updated_at = CommonFunction::currentTimestamp();
+            if ($companyMasterModel->validate()) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
                     if ($companyMasterModel->save()) {
@@ -234,19 +236,21 @@ class RecruiterController extends Controller {
                         $company_branch->email = $companyMasterModel->company_email;
                         $company_branch->setAttributes($companyMasterModel->getAttributes());
                         if ($company_branch->save()) {
-                            $model->type = User::TYPE_RECRUITER;
-                            $model->branch_id = $company_branch->id;
-                            $model->role_id = RoleMaster::RECRUITER_OWNER;
-                            if ($model->save()) {
-                                $userDetailModel->user_id = $model->id;
-                                if ($userDetailModel->save()) {
+//                            $model->type = User::TYPE_RECRUITER;
+//                            $model->branch_id = $company_branch->id;
+//                            $model->role_id = RoleMaster::RECRUITER_OWNER;
+//                            if ($model->save()) {
+//                                $userDetailModel->user_id = $model->id;
+//                                if ($userDetailModel->save()) {
                                     $transaction->commit();
                                     Yii::$app->session->setFlash("success", "Recruiter was updated successfully.");
                                     return $this->redirect(['view', 'id' => $id]);
-                                } else {
-                                    Yii::$app->session->setFlash("warning", "Something went wrong.");
-                                }
-                            }
+//                                } else {
+//                                    Yii::$app->session->setFlash("warning", "Something went wrong.");
+//                                }
+//                            }
+                        } else {
+                            Yii::$app->session->setFlash("warning", "Something went wrong.");
                         }
                     }
                 } catch (\Exception $ex) {
@@ -258,9 +262,10 @@ class RecruiterController extends Controller {
 
         return $this->render('_form', [
                     'model' => $model, 'CompanyCity' => $CompanyCity,
-                    'userDetailModel' => $userDetailModel,
+//                    'userDetailModel' => $userDetailModel,
                     'companyMasterModel' => $companyMasterModel,
-                    'states' => $states, 'city' => $city
+                    'states' => $states,
+//                    'city' => $city
         ]);
     }
 
