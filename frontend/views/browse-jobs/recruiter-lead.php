@@ -273,7 +273,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                             <div class="col-md-4 mt-3">
                                 <div>
                                     <p class="mb-0 small-text">Shift :</p>
-                                    <p><?= $model->shift == 1 ? "Morning, Evening, Night, Flexible" : Yii::$app->params['job.shift'][$model->shift] ?></p>
+                                    <p><?= $model->shift == 1 ? implode(',', array_values(Yii::$app->params['job.shift'])) : Yii::$app->params['job.shift'][$model->shift] ?></p>
                                 </div>
                                 <div>
                                     <p class="mb-0 small-text">Estimated Pay</p>

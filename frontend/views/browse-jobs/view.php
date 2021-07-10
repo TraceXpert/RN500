@@ -180,7 +180,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                                 <li><?= $model->reference_no ?></li>
                                 <li><?= $model->citiesName ?></li>
                                 <li><?= Yii::$app->params['job.type'][$model->job_type] ?></li>
-                                <li><?= $model->shift == 1 ? "Morning, Evening, Night, Flaxible" : Yii::$app->params['job.shift'][$model->shift] ?></li>
+                                <li><?= $model->shift == 1 ? implode(',', array_values(Yii::$app->params['job.shift'])) : Yii::$app->params['job.shift'][$model->shift] ?></li>
                             </ul>
                         </div>
                     </div>
