@@ -141,7 +141,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                         <div class="jobs-details">
                             <p><img src="<?= $assetDir ?>/img/location.png" alt="location" class="mr-2"> <?= $model->citiesName ?></p>
                             <h3 class="mb-3"><?= $model->title ?></h3>
-                            <small>Shift : <?= $model->shift == 1 ? "Morning, Evening, Night, Flexible" : Yii::$app->params['job.shift'][$model->shift] ?></small>
+                            <small>Shift : <?= $model->shift == 1 ? implode(',', array_values(Yii::$app->params['job.shift'])) : Yii::$app->params['job.shift'][$model->shift] ?></small>
                             <small>Response Time: within a day</small>
                             <small>Estimated Pay: $<?= $model->jobseeker_payment ?>/<?= Yii::$app->params['job.payment_type'][$model->payment_type] ?></small>
                             <?php if (isset($model->emergency) && !empty($model->emergency)) { ?>
@@ -158,7 +158,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                     StarRating::widget([
                                         'name' => 'rating_35',
                                         'value' => $model->avgRating,
-                                        'pluginOptions' => ['displayOnly' => true]
+                                        'pluginOptions' => ['displayOnly' => true,   'showCaption' => false,]
                                     ]);
                                     ?>
                                 </div>

@@ -14,6 +14,7 @@ use common\models\User;
 class PasswordResetRequestForm extends Model {
 
     public $email;
+    public $unique_id;
 
     /**
 
@@ -30,6 +31,7 @@ class PasswordResetRequestForm extends Model {
                 'targetClass' => '\common\models\User',
                 'message' => 'There is no user with this email address.'
             ],
+            ['unique_id', 'safe'],
         ];
     }
 
@@ -52,16 +54,20 @@ class PasswordResetRequestForm extends Model {
      */
     public function sendEmail($is_welcome_mail = 0) {
         /* @var $user User */
-        $user = User::findOne([
-                    'email' => $this->email,
-        ]);
+        $user = User::find()->innerJoin('user_details', 'user_details.user_id=user.id')->where(['email' => $this->email, 'user_details.unique_id' => $this->unique_id])->one();
         if (!$user) {
 
             return false;
         }
+//        
+//        echo '<pre>';
+//        print_r($user);
+//        exit;
+        
         if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
 
             $user->generatePasswordResetToken();
+            
 
             if (!$user->save()) {
                 return false;
@@ -75,17 +81,15 @@ class PasswordResetRequestForm extends Model {
 
         Yii::$app->mailer->textLayout = '@common/mail/layouts/text';
         $htmlLayout = '@common/mail/passwordResetToken-html';
-        $textLayout = '@common/mail/passwordResetToken-text';
         $subject = 'Password reset for ' . \Yii::$app->params['senderName'];
         if ($is_welcome_mail) {
             $htmlLayout = '@common/mail/emailVerify-html';
-            $textLayout = '@common/mail/emailVerify-text';
             $subject = 'Verify your Email ID';
         }
-        return Yii::$app->mailer->compose(['html' => $htmlLayout, 'text' => $textLayout], ['user' => $user, 'resetLink' => $resetLink, 'name' => $name])
+        return Yii::$app->mailer->compose(['html' => $htmlLayout], ['user' => $user, 'resetLink' => $resetLink, 'name' => $name])
                         ->setFrom([Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
                         ->setTo($this->email)
-                         ->setSubject($subject)
+                        ->setSubject($subject)
                         ->send();
     }
 

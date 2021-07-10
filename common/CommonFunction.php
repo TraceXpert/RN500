@@ -10,7 +10,7 @@ use common\models\CompanySubscription;
 use common\models\CompanySubscriptionPayment;
 use yii\helpers\Html;
 use common\models\LeadMaster;
-use common\models\LeadRecruiterJobSeekerMapping;
+use yii\helpers\ArrayHelper;
 use common\models\ApiLog;
 use common\models\UserDetails;
 use common\models\WorkExperience;
@@ -93,7 +93,7 @@ class CommonFunction {
     }
 
     // RETURN TRUE IF LOGGED-IN USER BELONGS TO DEFAULT BRANCH, GENERALLY "HO"
-    public static function isLoggedInUserDefaultBranch() {
+    public static function isLoggedInUserDefaultBranch() { 
         $isDefaultBranchUser = false;
         if (isset(Yii::$app->user->identity->branch) && Yii::$app->user->identity->branch->is_default == CompanyBranch::IS_DEFAULT_YES) {
             $isDefaultBranchUser = true;
@@ -142,7 +142,7 @@ class CommonFunction {
     }
 
     // RETURN TRUE IF LOGGED_IN USER IS HO Admin ELSE FALSE
-    public static function isHoAdmin($user_id) {
+    public static function isHoAdmin($user_id) { // HO OWNER
         $user = User::findOne(['id' => $user_id]);
         $isHoAdmin = $user->branch->is_default == 1 && $user->is_owner == 1 ? true : false;
         return $isHoAdmin;
@@ -151,10 +151,9 @@ class CommonFunction {
     // send Welcome mail
     public static function sendWelcomeMail($user) {
         $htmlLayout = '@common/mail/welcomeMail-html';
-        $textLayout = '@common/mail/welcomeMail-text';
         $subject = 'Welcome To RN500';
         $name = isset($user->fullName) ? $user->fullName : "";
-        return \Yii::$app->mailer->compose(['html' => $htmlLayout, 'text' => $textLayout], ['user' => $user, 'name' => $name])
+        return \Yii::$app->mailer->compose(['html' => $htmlLayout], ['user' => $user, 'name' => $name])
                         ->setFrom([Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
                         ->setTo($user->email)
                         ->setSubject($subject)
@@ -284,6 +283,29 @@ class CommonFunction {
         return '';
     }
 
+//    $actualDate = explode('-', $postDateMMDDYY);
+//            $convertedDate = "$actualDate[2]-$actualDate[0]-$actualDate[1]";
+//
+//            if ($postDateMMDDYY != '' && $postDateMMDDYY != '0000-00-00' && date('Y-m-d', strtotime($date)) != '1970-01-01') {
+//                return date($format, strtotime($date));
+//            }
+    public static function getStorableDate($postDateMMDDYY) {
+        $storable_date = null;
+        try {
+
+            $actualDate = explode('-', $postDateMMDDYY);
+            $convertedDate = "$actualDate[2]-$actualDate[0]-$actualDate[1]";
+
+            if ($postDateMMDDYY != '' && $postDateMMDDYY != '0000-00-00' && date('Y-m-d', strtotime($convertedDate)) != '1970-01-01') {
+                $storable_date =$convertedDate;
+            }
+        } catch (\Exception $e) {
+            $storable_date = null;
+        } finally {
+            return $storable_date;
+        }
+    }
+
     public static function getProfilePercentage() {
 
         $totalPercentage = 100;
@@ -363,6 +385,16 @@ class CommonFunction {
         $percentage = $totalPer * $totalPercentage / 100;
 //        }
         return round($percentage, 0);
+    }
+
+    public static function getAllShiftsCommaSeprated() {
+        $shifts = Yii::$app->params['job.shift'];
+        array_shift($shifts);
+        return implode(", ", $shifts);
+    }
+    
+    public static function getAllBranchIdsOfComapny($companyId) {
+        return $branchIds = ArrayHelper::getColumn(CompanyBranch::find()->select("id")->where(['company_id'=>$companyId])->all(),'id');
     }
 
 }

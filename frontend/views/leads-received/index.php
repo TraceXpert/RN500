@@ -7,6 +7,7 @@ use yii\widgets\Pjax;
 use yii\grid\GridView;
 use common\models\LeadRecruiterJobSeekerMapping;
 use kartik\date\DatePicker;
+
 ?>
 <section class="inner-banner">
     <div class="container">
@@ -78,7 +79,8 @@ use kartik\date\DatePicker;
                                         'enableSorting' => false,
                                         'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                                         'value' => function($model) {
-                                            return ($model->rec_joining_date != '') ? date("d-M-Y", strtotime($model->rec_joining_date)) : '';
+//                                            return ($model->rec_joining_date != '') ? date("d-M-Y", strtotime($model->rec_joining_date)) : '';
+                                            return CommonFunction::getAPIDateDisplayFormat($model->rec_joining_date);
                                         },
                                         'filter' => DatePicker::widget([
                                             'attribute' => 'rec_joining_date',
@@ -86,8 +88,9 @@ use kartik\date\DatePicker;
                                             'type' => DatePicker::TYPE_INPUT,
                                             'options' => ['readonly' => true],
                                             'pluginOptions' => [
+                                                'clearBtn' => true,
                                                 'autoclose' => true,
-                                                'format' => 'dd-M-yyyy',
+                                                'format' => Yii::$app->params['date.format.datepicker.js'],
                                             ]
                                         ])
                                     ],
@@ -174,7 +177,7 @@ use kartik\date\DatePicker;
                                         'enableSorting' => false,
                                         'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                                         'value' => function($model) {
-                                            return ($model->rec_joining_date != '') ? date("d-M-Y", strtotime($model->rec_joining_date)) : '';
+                                            return CommonFunction::getAPIDateDisplayFormat($model->rec_joining_date);
                                         },
                                         'filter' => DatePicker::widget([
                                             'attribute' => 'rec_joining_date',
@@ -182,10 +185,11 @@ use kartik\date\DatePicker;
                                             'type' => DatePicker::TYPE_INPUT,
                                             'options' => ['readonly' => true],
                                             'pluginOptions' => [
+                                                'clearBtn' => true,
                                                 'id' => 'rec_joining_inprogress',
                                                 'name' => 'rec_joining_inprogress',
                                                 'autoclose' => true,
-                                                'format' => 'dd-M-yyyy',
+                                                'format' => Yii::$app->params['date.format.datepicker.js'],
                                             ]
                                         ])
                                     ],
@@ -256,7 +260,7 @@ use kartik\date\DatePicker;
                                         'enableSorting' => false,
                                         'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                                         'value' => function($model) {
-                                            return ($model->rec_joining_date != '') ? date("d-M-Y", strtotime($model->rec_joining_date)) : '';
+                                            return CommonFunction::getAPIDateDisplayFormat($model->rec_joining_date);
                                         },
                                         'filter' => DatePicker::widget([
                                             'attribute' => 'rec_joining_date_selected',
@@ -264,8 +268,9 @@ use kartik\date\DatePicker;
                                             'type' => DatePicker::TYPE_INPUT,
                                             'options' => ['readonly' => true],
                                             'pluginOptions' => [
+                                                'clearBtn' => true,
+                                                'format' => Yii::$app->params['date.format.datepicker.js'],
                                                 'autoclose' => true,
-                                                'format' => 'dd-M-yyyy',
                                             ]
                                         ])
                                     ],

@@ -100,13 +100,14 @@ use borales\extensions\phoneInput\PhoneInput;
             </div>
 
             <div class="row">
+
                  <div class="col-lg-6 p-0">
                     <?= $form->field($companyMasterModel, 'employer_identification_number')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('employer_identification_number')])->label(false); ?>
-                </div>
+                 </div>
                 <div class="col-lg-6 pr-3 pr-lg-0">
-                    <?= $form->field($companyMasterModel, 'website_link')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('website_link')])->label(false); ?>
-                </div>
-                
+                    <?= $form->field($companyMasterModel, 'website_link')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('website_link')])->label(false)->hint("Website link should be like  https://rn500.com"); ?>
+
+                </div>                
             </div>
 
             <div class="row">

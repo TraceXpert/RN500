@@ -42,14 +42,14 @@ class AuthController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout','change-password', 'index', 'get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
+                'only' => ['logout', 'change-password', 'index', 'get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                 'rules' => [
                     [
                         'actions' => ['get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['change-password','logout'],
+                        'actions' => ['change-password', 'logout'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*'],
                     ],
@@ -173,6 +173,7 @@ class AuthController extends Controller {
                                         $is_error = 1;
                                         $resetPasswordModel = new PasswordResetRequestForm();
                                         $resetPasswordModel->email = $user->email;
+                                        $resetPasswordModel->unique_id = $userDetails->unique_id;
                                         $is_welcome_mail = 1;
                                         if ($resetPasswordModel->sendEmail($is_welcome_mail)) {
                                             $is_error = 1;
@@ -235,6 +236,7 @@ class AuthController extends Controller {
                                     if ($userDetails->save(false)) {
                                         $is_error = 1;
                                         $resetPasswordModel = new PasswordResetRequestForm();
+                                        $resetPasswordModel->unique_id = $userDetails->unique_id;
                                         $resetPasswordModel->email = $user->email;
                                         $is_welcome_mail = 1;
                                         if ($resetPasswordModel->sendEmail($is_welcome_mail)) {
@@ -279,6 +281,7 @@ class AuthController extends Controller {
                             if ($userDetails->save(false)) {
                                 $transaction->commit();
                                 $resetPasswordModel = new PasswordResetRequestForm();
+                                $resetPasswordModel->unique_id = $userDetails->unique_id;
                                 $resetPasswordModel->email = $user->email;
                                 $is_welcome_mail = 1;
                                 $resetPasswordModel->sendEmail($is_welcome_mail);
@@ -349,11 +352,17 @@ class AuthController extends Controller {
         $this->layout = 'main-login';
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', "Password reset link sent Successfully. Please check your inbox.");
-                return $this->redirect(['login']);
+            $user = User::find()->where(['email' => $model->email, 'is_suspend' => 0])->andWhere(['!=', 'status', User::STATUS_REJECTED])->one();
+            if (!empty($user)) {
+                $model->unique_id = $user->details->unique_id;
+                if ($model->sendEmail()) {
+                    Yii::$app->session->setFlash('success', "Password reset link sent Successfully. Please check your inbox.");
+                    return $this->redirect(['login']);
+                } else {
+                    Yii::$app->session->setFlash('error', "something went wrong");
+                }
             } else {
-                Yii::$app->session->setFlash('error', "something went wrong");
+                Yii::$app->session->setFlash('error', "Account not found");
             }
         }
 
@@ -379,7 +388,6 @@ class AuthController extends Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash('success', 'Password reset sucessfully. Please login to continue.');
-
             return $this->redirect(['login']);
         }
 

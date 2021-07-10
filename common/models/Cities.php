@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "cities".
@@ -51,5 +52,9 @@ class Cities extends \yii\db\ActiveRecord
     
     public function getStateRef() {
         return $this->hasOne(States::className(), ['id' => 'state_id']);
+    }
+    
+    public static function getAllCities($state_id ){
+        return ArrayHelper::map(self::find()->where(['state_id'=>$state_id])->all(), 'id', 'city');
     }
 }

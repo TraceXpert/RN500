@@ -38,7 +38,7 @@ return [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'mail.rn500.com',
                 'username' => 'info@rn500.com',
-                'password' => 'welcome@12345',
+                'password' => 'ZingaZinga2020',
                 'port' => '26',
                 'encryption' => 'tls',
             ],

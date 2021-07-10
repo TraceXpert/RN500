@@ -28,9 +28,9 @@ $actionUrl = (CommonFunction::isRecruiter()) ? Yii::$app->urlManagerFrontend->cr
                         'type' => DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
                             'autoclose' => true,
-                            'format' => 'dd-M-yyyy',
+                            'format' => Yii::$app->params['date.format.datepicker.js'],
                             'startDate' => date('d-m-Y'),
-                           
+                            'clearBtn' => true,
                         ],
                          'pluginEvents' => [
                             "changeDate" => "function(e) {
@@ -48,7 +48,8 @@ $actionUrl = (CommonFunction::isRecruiter()) ? Yii::$app->urlManagerFrontend->cr
                         'type' => DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
                             'autoclose' => true,
-                            'format' => 'dd-M-yyyy'
+                            'format' => Yii::$app->params['date.format.datepicker.js'],
+                            'clearBtn' => true,
                         ]
                     ]);
                     ?>

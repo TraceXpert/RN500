@@ -43,7 +43,7 @@ FontAwesomeAsset::register($this);
                                 'format' => 'raw',
                                 'enableSorting' => false,
                                 'value' => function($model) {
-                                    return Html::a($model->leadTitleWithRef, Yii::$app->urlManager->createAbsoluteUrl(['/browse-jobs/view', 'id' => $model->lead->reference_no]), ['target' => '_blank', 'data-pjax' => 0, 'class' => 'theme-primary-color']);
+                                    return Html::a($model->leadTitleWithRef, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/browse-jobs/view', 'id' => $model->lead->reference_no]), ['target' => '_blank', 'data-pjax' => 0, 'class' => 'theme-primary-color']);
                                 },
                                 'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                             ],
@@ -65,6 +65,7 @@ FontAwesomeAsset::register($this);
                             ],
                                 [
                                 'attribute' => 'rating',
+                                    'filter'=>false,
                                 'format' => 'raw',
                                 'enableSorting' => false,
                                 'value' => function($model) {
