@@ -67,9 +67,19 @@ class LeadMaster extends \yii\db\ActiveRecord {
 //            [['street_no'], 'match', 'pattern' => '/^([0-9])?$/', 'message' => 'Please enter a digit numeric for {attribute}.'],
             [['comment', 'visible_to'], 'safe', 'on' => 'approve'],
                 [['price'], 'required', 'on' => 'approve'],
+                [['end_date', 'start_date'], 'checkEndDate','on'=>'post-job'],
                 [['approved_at', 'branch_id', 'state', 'comment', 'disciplines', 'benefits', 'specialities', 'end_date', 'start_date', 'emergency'], 'safe'],
                 [['title', 'description', 'apt', 'zip_code', 'comment'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
+    }
+    
+    public function checkEndDate($attr){
+        $startDate = CommonFunction::getAPIDateDisplayFormat($this->start_date, 'Y-m-d');
+        $end_date = CommonFunction::getAPIDateDisplayFormat($this->end_date, 'Y-m-d');
+        
+        if($startDate != '' && $end_date != '' && strtotime($startDate) > strtotime($end_date)){
+            return $this->addError('end_date', $this->getAttributeLabel('end_date') .' can not be bigger than '.$this->getAttributeLabel('start_date'));
+        }
     }
 
     public function scenarios() {
@@ -108,7 +118,8 @@ class LeadMaster extends \yii\db\ActiveRecord {
             'street_no' => 'Street No.',
             'apt' => 'Suit/Apt.',
             'specialities' => 'Speciality',
-            'zip_code' => 'Zipcode'
+            'zip_code' => 'Zipcode',
+            'emergency' => 'Urgent'
         ];
     }
 

@@ -1,11 +1,12 @@
 <?php
 
 namespace common\models;
-
+use yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\LeadMaster;
 use yii\db\Expression;
+use common\CommonFunction;
 
 /**
  * LeadMasterSearch represents the model behind the search form of `common\models\LeadMaster`.
@@ -178,7 +179,15 @@ class LeadMasterSearch extends LeadMaster {
     
     
     public function searchMyPostedJob($params) {
-        $query = LeadMaster::find()->alias('lead');
+        $query = LeadMaster::find()->alias('lead')->joinWith(['branch branch']);
+        if(CommonFunction::isHoAdmin(Yii::$app->user->id)){
+            
+        $query->andWhere(['IN','branch_id', CommonFunction::getAllBranchIdsOfComapny(CommonFunction::getLoggedInUserCompanyId())]);
+            
+        }else {
+        $query->andWhere(['lead.branch_id'=> CommonFunction::getLoggedInUserBranchId()]);
+            
+        }
 
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
@@ -202,8 +211,17 @@ class LeadMasterSearch extends LeadMaster {
         }
         
         if ($this->start_date) {
-            $MMDDYYYY = explode('-', $this->start_date);
-            $query->andWhere(['like', 'lead.start_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
+            $query->andWhere(['like', 'lead.start_date', CommonFunction::getStorableDate($this->start_date)]);
+        }
+        
+        if ($this->end_date) {
+            
+            $query->andWhere(['like', 'lead.end_date', CommonFunction::getStorableDate($this->end_date)]);
+        }
+        
+        if ($this->branch_name) {
+            
+            $query->andWhere(['like', 'branch.branch_name', $this->branch_name]);
         }
 
         

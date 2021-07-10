@@ -75,14 +75,12 @@ class PasswordResetRequestForm extends Model {
 
         Yii::$app->mailer->textLayout = '@common/mail/layouts/text';
         $htmlLayout = '@common/mail/passwordResetToken-html';
-        $textLayout = '@common/mail/passwordResetToken-text';
         $subject = 'Password reset for ' . \Yii::$app->params['senderName'];
         if ($is_welcome_mail) {
             $htmlLayout = '@common/mail/emailVerify-html';
-            $textLayout = '@common/mail/emailVerify-text';
             $subject = 'Verify your Email ID';
         }
-        return Yii::$app->mailer->compose(['html' => $htmlLayout, 'text' => $textLayout], ['user' => $user, 'resetLink' => $resetLink, 'name' => $name])
+        return Yii::$app->mailer->compose(['html' => $htmlLayout], ['user' => $user, 'resetLink' => $resetLink, 'name' => $name])
                         ->setFrom([Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
                         ->setTo($this->email)
                         ->setSubject($subject)
