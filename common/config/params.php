@@ -9,7 +9,7 @@ return [
     'user.passwordMinLength' => 8,
     'user.types' => ['1' => 'Recruiter', '2' => 'Employeer', '3' => 'Jobseeker', '4' => 'Staff'],
     'job.payment_type' => ['1' => 'Hourly', '2' => 'Weekly', '3' => 'Monthly', '4' => 'Yearly'],
-    'job.type' => [1 => 'Part Time', 2 => 'Permanent', 3 => 'Travel', 4 => 'On Call', 5 => 'Contract Position'],
+    'job.type' => [1 => 'Part Time', 2 => 'Permanent', 3 => 'Travel', 4 => 'On Call', 5 => 'Contract'],
     'job.shift' => ['1' => 'All', '2' => 'Morning', '3' => 'Evening', '4' => 'Night', '5' => 'Flexible'],
     'company.priority' => [1 => 'High', 2 => 'Modrate', 3 => 'Semi Modrate', 4 => 'Low'],
     'COMMISSION_MODE' => [0 => 'One Time', 1=>'Weekly', 2 => 'Monthly', 3 => 'Yearly'],

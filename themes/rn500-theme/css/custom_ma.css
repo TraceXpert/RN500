@@ -275,16 +275,21 @@
 
 
 .password-toggle-icon {
-    float: right;
-    margin-left: -25px;
-    margin-top: -35px;
-    position: relative;
-    z-index: 2;
+    float: right !important;
+    margin-left: -25px !important;
+    margin-top: -35px !important;
+    position: relative !important;
+    z-index: 2 !important;
     font-size:20px !important;
-    padding-right: 37px;
+    padding-right: 37px !important;
 }
 
 .pop-menu-icon{
     color: #1656A0 ;
     font-size: 15px;
+}
+
+.signin-form.overflow-form{
+    padding: 120px 30px 20px;
+    overflow: auto;
 }
