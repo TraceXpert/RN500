@@ -134,7 +134,7 @@ use common\CommonFunction;
                     <div class="form-group">
                         <?=
                         $form->field($model, 'profile_pic', [
-                            'template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='userdetails-profile_pic' name='UserDetails[profile_pic]' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>"])->fileInput()
+                            'template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='userdetails-profile_pic' name='UserDetails[profile_pic]' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>{error}"])->fileInput()
                         ?>
                         <?php if (!empty($model->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $model->profile_pic)) { ?>
                             <span id="custom-text"><?= $model->profile_pic ?></span>

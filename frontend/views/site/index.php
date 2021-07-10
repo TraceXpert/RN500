@@ -158,7 +158,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                     StarRating::widget([
                                         'name' => 'rating_35',
                                         'value' => $model->avgRating,
-                                        'pluginOptions' => ['displayOnly' => true]
+                                        'pluginOptions' => ['displayOnly' => true,   'showCaption' => false,]
                                     ]);
                                     ?>
                                 </div>

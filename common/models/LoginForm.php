@@ -35,6 +35,7 @@ class LoginForm extends Model {
             ['password', 'validatePassword'],
             // otp validation
             ['is_otp_sent', 'boolean'],
+            ['otp','number'],
 //                ['otp_digits', 'safe'],
 //                ['otp_digits', 'each', 'rule' => ['integer']],
 //            ['otp_digits', 'each', 'rule' => ['in',   'message' =>'Invalid', 'strict'=>true, 'allowArray' => true, 'range' => [0,1,2,3,4,5,6,7,8,9]], ],

@@ -14,6 +14,7 @@ use common\models\User;
 class PasswordResetRequestForm extends Model {
 
     public $email;
+    public $unique_id;
 
     /**
 
@@ -30,6 +31,7 @@ class PasswordResetRequestForm extends Model {
                 'targetClass' => '\common\models\User',
                 'message' => 'There is no user with this email address.'
             ],
+            ['unique_id', 'safe'],
         ];
     }
 
@@ -52,9 +54,7 @@ class PasswordResetRequestForm extends Model {
      */
     public function sendEmail($is_welcome_mail = 0) {
         /* @var $user User */
-        $user = User::findOne([
-                    'email' => $this->email,
-        ]);
+        $user = User::find()->innerJoin('user_details', 'user_details.user_id=user.id')->where(['email' => $this->email, 'user_details.unique_id' => $this->unique_id]);
         if (!$user) {
 
             return false;
@@ -85,7 +85,7 @@ class PasswordResetRequestForm extends Model {
         return Yii::$app->mailer->compose(['html' => $htmlLayout, 'text' => $textLayout], ['user' => $user, 'resetLink' => $resetLink, 'name' => $name])
                         ->setFrom([Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
                         ->setTo($this->email)
-                         ->setSubject($subject)
+                        ->setSubject($subject)
                         ->send();
     }
 

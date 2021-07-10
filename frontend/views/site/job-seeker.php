@@ -16,13 +16,12 @@ $baseUrl = Url::base(true);
 $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '';
 ?>
 <style>
-    .my-profilepic-size{
-        width: 100px;
-        height: 100px;
-    }
-
+    .my-profilepic-size{width: 100px;height: 100px;}
     .fixed-sidebar{position: fixed;width: 360px;top: 105px;}
-
+    .delete-btn{background: red !important;}
+    .delete-btn:hover{color:#fff !important;}
+    .swal2-confirm {background-color: red !important;}
+    
     @media (max-width:1200px){
         .fixed-sidebar{position: relative;width: auto;}
     }
@@ -51,7 +50,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                     <div class="view-details p-0 profile-menu">
                         <ul class="list-unstyled">
                             <li>
-                                <a href="#account" class="get-current-section">
+                                <a href="javascript:void(0)" data-type="account" class="get-current-section">
                                     <div class="media">
                                         <svg class="mr-3" width="38" height="38" viewBox="0 0 38 38" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
@@ -73,12 +72,31 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                                                 Update Account
                                             </p>
                                         </div>
+
                                     </div>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="#about" class="get-current-section">
+                                <a href="#job_search" class="get-current-section">
+                                    <div class="media">
+                                        <svg class="mr-3" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="19" cy="19" r="19" fill="#DFF3FC"/>
+                                            <path d="M29 19.2041V19.167C29 18.3505 28.921 17.534 28.7629 16.7546C28.4863 15.1959 27.775 14.1196 26.6291 13.5258C25.3251 12.8577 23.8631 12.6722 22.48 12.5608C22.401 11.1134 21.1365 10 19.5955 10H16.9875C15.4464 10 14.1819 11.1505 14.1029 12.5979C13.7867 12.6351 13.4311 12.6722 13.0755 12.7464C12.5223 12.8206 11.7715 12.9691 11.0602 13.1917C10.2304 13.4887 9.59818 13.8598 9.124 14.3794C8.37322 15.233 8.21516 16.3464 8.13613 17.3113C8.09661 17.9051 8.01756 18.5361 8.01756 19.2041C8.01756 19.2041 8.01756 19.2041 8.01756 19.2412C8.01756 19.7237 7.97805 20.2062 8.01756 20.6886C8.01756 21.2453 8.05708 21.7278 8.0966 22.2103C8.17563 23.2495 8.41272 24.5855 9.1635 25.6618C10.1909 27.1464 11.89 27.4804 13.0755 27.6289C14.8141 27.8144 16.5528 28 18.2914 28C18.331 28 18.3705 28 18.41 28C19.9511 28 21.6502 27.8887 23.626 27.5918C24.9695 27.4062 26.392 27.1093 27.3404 26.2928C28.4468 25.365 28.6444 24.0288 28.7629 22.7299C28.8419 21.6536 28.9605 20.466 28.921 19.2412C29 19.2412 29 19.2412 29 19.2041ZM17.027 11.1134H19.635C20.4648 11.1134 21.176 11.7072 21.2946 12.4495C19.3188 12.301 17.3431 12.301 15.3674 12.4866C15.4859 11.7072 16.1972 11.1134 17.027 11.1134ZM10.1119 15.0845C10.428 14.7134 10.9022 14.4536 11.5344 14.2309C12.1271 14.0083 12.7989 13.8969 13.3126 13.8227C16.1972 13.4144 19.0027 13.3402 21.8478 13.6L22.1639 13.6371C23.5074 13.7484 24.93 13.8969 26.0759 14.4907C26.8662 14.899 27.3799 15.7155 27.617 16.9031C27.7355 17.4598 27.775 18.0536 27.8146 18.6474H22.4405V18.1278C22.4405 17.8309 22.1639 17.5711 21.8478 17.5711C21.5317 17.5711 21.2551 17.8309 21.2551 18.1278V18.6474H15.3278V18.1278C15.3278 17.8309 15.0512 17.5711 14.7351 17.5711C14.419 17.5711 14.1424 17.8309 14.1424 18.1278V18.6474H9.28204C9.32156 18.202 9.36107 17.7567 9.40058 17.3856C9.47961 16.5691 9.59818 15.6783 10.1119 15.0845ZM27.6565 22.6928C27.5379 23.8062 27.4194 24.8453 26.6291 25.5134C25.8388 26.1814 24.6138 26.367 23.5074 26.5155C21.4922 26.7753 19.8721 26.9237 18.331 26.9237C16.6318 26.9237 14.9722 26.7381 13.2335 26.5526C11.6925 26.367 10.7441 25.9216 10.1514 25.1051C9.51914 24.2144 9.36107 23.0639 9.28204 22.1732C9.24253 21.7278 9.20301 21.2454 9.20301 20.7258C9.20301 20.4289 9.20301 20.132 9.20301 19.8351H14.1029V20.7258C14.1029 21.0227 14.3795 21.2825 14.6956 21.2825C15.0117 21.2825 15.2883 21.0227 15.2883 20.7258V19.8351H21.2156V20.7258C21.2156 21.0227 21.4922 21.2825 21.8083 21.2825C22.1244 21.2825 22.401 21.0227 22.401 20.7258V19.8351H27.775C27.8145 20.8 27.7355 21.7649 27.6565 22.6928Z" fill="#1656A0"/>
+                                        </svg>
+
+                                        <div class="media-body">
+                                            <p class="mb-0">
+                                                Job Search
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="javascript:void(0)" data-type="about" class="get-current-section">
                                     <div class="media">
                                         <svg class="mr-3" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="19" cy="19" r="19" fill="#DFF3FC"/>
@@ -96,7 +114,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                             </li>
 
                             <li>
-                                <a href="#experience" class="get-current-section">
+                                <a href="javascript:void(0)" data-type="experience" class="get-current-section">
                                     <div class="media">
                                         <svg class="mr-3" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="19" cy="19" r="19" fill="#DFF3FC"/>
@@ -115,7 +133,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                             </li>
 
                             <li>
-                                <a href="#education" class="get-current-section">
+                                <a href="javascript:void(0)" data-type="education" class="get-current-section">
                                     <div class="media">
                                         <svg class="mr-3" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="19" cy="19" r="19" fill="#DFF3FC"/>
@@ -139,7 +157,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                             </li>
 
                             <li>
-                                <a href="#licence" class="get-current-section">
+                                <a href="javascript:void(0)" data-type="licence" class="get-current-section">
                                     <div class="media">
                                         <svg class="mr-3" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="19" cy="19" r="19" fill="#DFF3FC"/>
@@ -159,7 +177,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                             </li>
 
                             <li>
-                                <a href="#certifications" class="get-current-section">
+                                <a href="javascript:void(0)" data-type="certifications" class="get-current-section">
                                     <div class="media">
                                         <svg class="mr-3" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="19" cy="19" r="19" fill="#DFF3FC"/>
@@ -186,7 +204,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                             </li>
 
                             <li>
-                                <a href="#documents" class="get-current-section">
+                                <a href="javascript:void(0)" data-type="documents" class="get-current-section">
                                     <div class="media">
                                         <svg class="mr-3" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="19" cy="19" r="19" fill="#DFF3FC"/>
@@ -208,7 +226,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                             </li>
 
                             <li>
-                                <a href="#reference" class="get-current-section">
+                                <a href="javascript:void(0)" data-type="reference" class="get-current-section">
                                     <div class="media">
                                         <svg class="mr-3" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="19" cy="19" r="19" fill="#DFF3FC"/>
@@ -497,7 +515,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="text-right">
-                                        <a href="javascript:void(0);" data-url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/delete-document?id=' . $value['id']]) ?>" class="read-more contact-us mb-0 delete-documents"  data-document="document">Delete</a>
+                                        <a href="javascript:void(0);" data-url="<?= Yii::$app->urlManagerFrontend->createUrl(['user-details/delete-document?id=' . $value['id']]) ?>" class="read-more contact-us mb-0 delete-btn delete-documents"  data-document="document">Delete</a>
                                     </div>
                                 </div>
                             </div>
@@ -676,45 +694,41 @@ $(window).scroll(function(){
 });
     
 $(document).on('click','.get-current-section',function(){
-    var href = $(this).attr('href');
-            if (href == "#account") {
+    var href = $(this).data('type');
+            if (href == "account") {
                 $('html, body').animate({
                     scrollTop: $("#account").offset().top - 100
                 }, 900);
-            } else if (href == "#job_search") {
+            } else if (href == "job_search") {
                 $('html, body').animate({
                     scrollTop: $("#job_search").offset().top - 100
                 }, 500);
-            } else if (href == "#about") {
+            } else if (href == "about") {
                 $('html, body').animate({
                     scrollTop: $("#about").offset().top - 100
                 }, 500);
-            } else if (href == "testimonials") {
-                $('html, body').animate({
-                    scrollTop: $("#testimonials").offset().top - 100
-                }, 500);
-            } else if (href == "#experience") {
+            } else if (href == "experience") {
                 $('html, body').animate({
                     scrollTop: $("#experience").offset().top - 100
                 }, 500);
-            } else if (href == "#education") {
+            } else if (href == "education") {
                 $('html, body').animate({
                     scrollTop: $("#education").offset().top - 100
                 }, 500);
-            } else if (href == "#licence") {
+            } else if (href == "licence") {
                 console.log('dfsdfdsf');
                 $('html, body').animate({
                     scrollTop: $("#licenses-new").offset().top - 100
                 }, 500);
-            } else if (href == "#certifications") {
+            } else if (href == "certifications") {
                 $('html, body').animate({
                     scrollTop: $("#certifications").offset().top - 100
                 }, 500);
-            } else if (href == "#documents") {
+            } else if (href == "documents") {
                 $('html, body').animate({
                     scrollTop: $("#documents").offset().top - 100
                 }, 500);
-            } else if (href == "#reference") {
+            } else if (href == "reference") {
                 $('html, body').animate({
                     scrollTop: $("#reference").offset().top - 100
                 }, 500);
@@ -727,9 +741,9 @@ $(document).on('click','.delete-documents',function(){
 
         Swal.fire({
             title: 'Are you sure, you want to delete this document?',
-            icon: 'info',
+            icon: 'error',
             showCancelButton: true,
-            confirmButtonText: `Save`,
+            confirmButtonText: `Ok`,
           }).then((result) => {
             if (result.isConfirmed) {
               $.post(url, {document: document}, function(result){

@@ -249,6 +249,9 @@
 .theme-primary-color{
     color: #1656A0;
 }
+.theme-primary-border{
+    border: 1px solid #1656A0;
+}
 .max-height-ads-home{
     max-height: 200px;
     height: 200px;
@@ -284,4 +287,9 @@
 .pop-menu-icon{
     color: #1656A0 ;
     font-size: 15px;
+}
+
+.signin-form.overflow-form{
+    padding: 120px 30px 20px;
+    overflow: auto;
 }

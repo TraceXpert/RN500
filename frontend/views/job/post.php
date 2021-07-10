@@ -6,6 +6,7 @@ use kartik\select2\Select2;
 use kartik\date\DatePicker;
 use common\CommonFunction;
 use yii\helpers\Html;
+$jsFormat = Yii::$app->params['date.format.datepicker.js'];
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -52,7 +53,7 @@ use yii\helpers\Html;
 //                            ],
 //                        ]);
                         ?>
-                        <?php echo $form->field($model, 'branch_id')->dropdownList($branchList, ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('branch_id')]); ?>
+                        <?php echo $form->field($model, 'branch_id')->dropdownList($branchList, ['class' => 'form-control', 'prompt' => 'Select Location'])->label('Location'); ?>
                     </div>
                 <?php } ?>
 
@@ -100,11 +101,11 @@ use yii\helpers\Html;
                     <?php
                     echo $form->field($model, 'emergency')->widget(Select2::classname(), [
                         'data' => $emergencyList,
-                        'options' => ['placeholder' => $model->getAttributeLabel('emergency'), 'multiple' => true],
+                        'options' => ['placeholder' => $model->getAttributeLabel('Optional'), 'multiple' => true],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
-                    ]);
+                    ])->label('Urgent');
                     ?>
                 </div>
 
@@ -131,15 +132,16 @@ use yii\helpers\Html;
                         'options' => ['placeholder' => $model->getAttributeLabel('start_date'), 'readonly' => true],
                         'type' => DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
+                            'clearBtn' => true,
+                            'format' => $jsFormat,
                             'autoclose' => true,
-                            'format' => Yii::$app->params['date.format.datepicker.js'],
                             'startDate' => date('d-m-Y'),
                         ],
                         'pluginEvents' => [
                             "changeDate" => "function(e) {
                                                 $('#leadmaster-end_date').kvDatepicker({
                                                     autoclose : true,
-                                                    format : 'd-M-yyyy'
+                                                    format : '$jsFormat'
                                                 });
                                                 $('#leadmaster-end_date').kvDatepicker('setStartDate', e.date);
                                             }"
@@ -154,6 +156,7 @@ use yii\helpers\Html;
                         'options' => ['placeholder' => $model->getAttributeLabel('end_date'), 'readonly' => true],
                         'type' => DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
+                            'clearBtn' => true,
                             'autoclose' => true,
                             'format' => Yii::$app->params['date.format.datepicker.js'],
                         ],
@@ -161,7 +164,7 @@ use yii\helpers\Html;
                             "changeDate" => "function(e) {
                                                 $('#leadmaster-start_date').kvDatepicker({
                                                     autoclose : true,
-                                                    format : 'd-M-yyyy'
+                                                    format : '$jsFormat'
                                                 });
                                                 $('#leadmaster-start_date').kvDatepicker('setEndDate', e.date);
                                             }"

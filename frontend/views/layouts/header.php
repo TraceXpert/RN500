@@ -47,8 +47,8 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                 <?php } ?>
 
                 <?php if ($isEmployer || $isRecruiter) { ?>
-                    <li class="nav-item position-relative  <?php echo $controller == 'job' && $action == 'post' ? 'active' : '' ?>">
-                        <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("job/post"); ?>">Post A Job</a>
+                    <li class="nav-item position-relative  <?php echo $controller == 'job' && ($action == 'post' || $action == 'list' )? 'active' : '' ?>">
+                        <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("job/list"); ?>">Post A Job</a>
                     </li>
                 <?php } ?>
                 <?php if (Yii::$app->user->isGuest) { ?>

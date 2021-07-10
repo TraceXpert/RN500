@@ -23,7 +23,7 @@ $frontendDir = yii\helpers\Url::base(true);
         padding: .375rem 2rem;
     }
      .button-wrapper {position: relative;}
-    .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 10px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
+    .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 15px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
     #documents-path {display: inline-block;position: absolute;z-index: 1;width: 100%;height: 50px;top: 0;left: 0;opacity: 0;cursor: pointer;}
 </style>
 <div class="user-details-form">
@@ -56,7 +56,7 @@ $frontendDir = yii\helpers\Url::base(true);
 
     <div class="form-group">
 
-        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
+        <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2 ml-2']) ?>
         <button type="button" class="btn btn-secondary pop-up-close-button" data-dismiss="modal">Close</button>
     </div>
 
