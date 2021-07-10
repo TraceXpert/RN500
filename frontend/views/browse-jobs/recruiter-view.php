@@ -150,7 +150,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                         </ul>
                     <?php } ?>
                     <?php if (isset($emergency) && !empty($emergency)) { ?>
-                        <p class="ul-t">Emergency</p>
+                        <p class="ul-t">Urgent</p>
 
                         <ul class="list-unstyled mb-4">
                             <?php foreach ($emergency as $value) { ?>

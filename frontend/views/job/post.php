@@ -29,6 +29,16 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
   </div>
 </div>-->
 <!-- Page Title End -->
+<style>
+    ul.select2-selection__rendered{
+	max-height: 50px !important;
+    overflow: auto !important;
+}
+.select2-container--krajee-bs4 .select2-selection--multiple .select2-selection__clear{
+	    right: 1.5rem;
+}
+
+</style>
 
 <section class="about-us about-inner-block">
     <div class="container">
@@ -53,7 +63,7 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
 //                            ],
 //                        ]);
                         ?>
-                        <?php echo $form->field($model, 'branch_id')->dropdownList($branchList, ['class' => 'form-control', 'prompt' => 'Select Location'])->label('Location'); ?>
+                        <?php echo $form->field($model, 'branch_id')->dropdownList($branchList, ['class' => 'form-control', 'prompt' => 'Select Location' ,'disabled'=> (Yii::$app->request->get('ref') != null) ? true : false])->label('Location'); ?>
                     </div>
                 <?php } ?>
 
@@ -101,11 +111,11 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                     <?php
                     echo $form->field($model, 'emergency')->widget(Select2::classname(), [
                         'data' => $emergencyList,
-                        'options' => ['placeholder' => $model->getAttributeLabel('Optional'), 'multiple' => true],
+                        'options' => ['placeholder' => $model->getAttributeLabel('emergency'), 'multiple' => true],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
-                    ])->label('Urgent');
+                    ]);
                     ?>
                 </div>
 
@@ -135,7 +145,7 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                             'clearBtn' => true,
                             'format' => $jsFormat,
                             'autoclose' => true,
-                            'startDate' => date('d-m-Y'),
+                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d')),
                         ],
                         'pluginEvents' => [
                             "changeDate" => "function(e) {
@@ -159,6 +169,7 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                             'clearBtn' => true,
                             'autoclose' => true,
                             'format' => Yii::$app->params['date.format.datepicker.js'],
+                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d')),
                         ],
                         'pluginEvents' => [
                             "changeDate" => "function(e) {
