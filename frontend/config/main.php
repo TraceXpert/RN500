@@ -1,10 +1,9 @@
 <?php
-
-if ($_SERVER['SERVER_NAME'] == 'rn500.com') {
+if ($_SERVER['SERVER_NAME'] == 'rn500.com' || $_SERVER['SERVER_NAME'] == 'www.rn500.com') {
     $params = array_merge(
             require __DIR__ . '/../../common/config/params.php', require __DIR__ . '/params.php'
     );
-} elseif ($_SERVER['SERVER_NAME'] == 'dev.rn500.com') {
+} elseif ($_SERVER['SERVER_NAME'] == 'dev.rn500.com' || $_SERVER['SERVER_NAME'] == 'qa.rn500.com') {
     $params = array_merge(
             require __DIR__ . '/../../common/config/params-stage.php', require __DIR__ . '/params-stage.php'
     );
@@ -19,7 +18,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
-    'homeUrl' => 'http://dev.rn500.com',
+    'homeUrl' => 'https://rn500.com',
     'components' => [
         'formatter' => [
             'class' => 'yii\i18n\Formatter',
@@ -60,7 +59,7 @@ $config = [
             'class' => 'yii\web\urlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-	    'baseUrl' => 'http://dev.rn500.com',
+	    'baseUrl' => 'https://rn500.com',
             'rules' => [
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
