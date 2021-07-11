@@ -72,13 +72,12 @@ use common\CommonFunction;
                 <h3 class="mb-4 mt-4">Quick Links</h3>
 
                 <ul class="list-unstyled">                       
-                    <li><a href="">Search Your Job</a></li>
-                    <li><a href="">Job Posting</a></li>
-                    <li><a href="">Post a Job</a></li>
-                    <li><a href="">Jobs by Speciality</a></li>
-                    <li><a href="">Jons by Disciptline</a></li>
-                    <li><a href="">Jobs by Benefits</a></li>
-                    <li><a href="">Jobs by Locations</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Search Your Job</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("job/post"); ?>">Post a Job</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Jobs by Speciality</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Jons by Disciptline</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Jobs by Benefits</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Jobs by Locations</a></li>
                 </ul>
             </div>
 
@@ -86,10 +85,9 @@ use common\CommonFunction;
                 <h3 class="mb-4 mt-4">Company</h3>
 
                 <ul class="list-unstyled">                       
-                    <li><a href="">About Us</a></li>
-                    <li><a href="">Contact Us</a></li>
-                    <li><a href="">Browse Jobs</a></li>
-                    <li><a href="">Advertices</a></li>                        
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact Us</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Browse Jobs</a></li>
                 </ul>
             </div>
             <div class="col-lg-4 col-md-12">
@@ -99,8 +97,8 @@ use common\CommonFunction;
                     <img src="<?= $assetDir ?>/img/location-icon.png" alt="location-icon" class="mr-3">
                     <div class="media-body">                         
                         <p class="mb-0">
-                            3100, North Ocean Dr, 
-                            Fort Lauderdale, FL 33308. USA
+                            2929 NE 49th St, 
+                            Fort Lauderdale, FL 33308 USA.
                         </p>
                     </div>
                 </div>

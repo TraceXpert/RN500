@@ -83,16 +83,17 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
     </div>    
 </section>
 
-
-<section class="marquee-text p-0 d-flex align-items-center">
-    <marquee width="100%" direction="left">
-        <ul style="display: flex;flex-direction: row;justify-content:space-around;">
-            <?php foreach ($banner as $value) { ?>
-                <li style='margin-left: 4%;'><?= $value->headline ?></li>
-            <?php } ?>
-        </ul>  
-    </marquee>
-</section>
+<?php if (!empty($banner)) { ?>
+    <section class="marquee-text p-0 d-flex align-items-center">
+        <marquee width="100%" direction="left">
+            <ul style="display: flex;flex-direction: row;justify-content:space-around;">
+                <?php foreach ($banner as $value) { ?>
+                    <li style='margin-left: 4%;'><?= $value->headline ?></li>
+                <?php } ?>
+            </ul>  
+        </marquee>
+    </section>
+<?php } ?>
 
 
 
@@ -112,7 +113,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                     providing the best possible experience every time.
                 </p>
 
-                <a href="" class="read-more">Read More</a>
+                <a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>" class="read-more">Read More</a>
             </div>
 
             <div class="col-lg-6">
@@ -123,65 +124,65 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 </section>
 
 
+<?php if (!empty($leadModels)) { ?>
+    <section class="most-popular-jobs">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 main-title about-us text-center">
+                    <h2 class="mb-4">Most Popular Jobs</h2>
 
-<section class="most-popular-jobs">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 main-title about-us text-center">
-                <h2 class="mb-4">Most Popular Jobs</h2>
-
-                <p class="mb-5">RN500 is founded by the people who believed they could change the travel nursing industry</p>
+                    <p class="mb-5">RN500 is founded by the people who believed they could change the travel nursing industry</p>
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <?php foreach ($leadModels as $model) { ?>
-                <div class="col-lg-3 col-md-6">
-                    <div class="most-popular-jobs-block">
-                        <div class="jobs-details">
-                            <p><img src="<?= $assetDir ?>/img/location.png" alt="location" class="mr-2"> <?= $model->citiesName ?></p>
-                            <h3 class="mb-3"><?= $model->title ?></h3>
-                            <small>Shift : <?= $model->shift == 1 ? implode(',', array_values(Yii::$app->params['job.shift'])) : Yii::$app->params['job.shift'][$model->shift] ?></small>
-                            <small>Response Time: within a day</small>
-                            <small>Estimated Pay: $<?= $model->jobseeker_payment ?>/<?= Yii::$app->params['job.payment_type'][$model->payment_type] ?></small>
-                            <?php if (isset($model->emergency) && !empty($model->emergency)) { ?>
-                                <span class="badge badge-warning">Urgent</span>
-                            <?php } ?>
-                            <span class="badge badge-success"><?= Yii::$app->params['job.type'][$model->job_type] ?></span>
-                        </div>
-                        <div class="rating">
-                            <div class="media">
-                                <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
-                                <div class="media-body">
-                                    <p class="mb-0">Rating</p>
-                                    <?=
-                                    StarRating::widget([
-                                        'name' => 'rating_35',
-                                        'value' => $model->avgRating,
-                                        'pluginOptions' => ['displayOnly' => true,   'showCaption' => false,]
-                                    ]);
-                                    ?>
+            <div class="row">
+                <?php foreach ($leadModels as $model) { ?>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="most-popular-jobs-block">
+                            <div class="jobs-details">
+                                <p><img src="<?= $assetDir ?>/img/location.png" alt="location" class="mr-2"> <?= $model->citiesName ?></p>
+                                <h3 class="mb-3"><?= $model->title ?></h3>
+                                <small>Shift : <?= $model->shift == 1 ? implode(',', array_values(Yii::$app->params['job.shift'])) : Yii::$app->params['job.shift'][$model->shift] ?></small>
+                                <small>Response Time: within a day</small>
+                                <small>Estimated Pay: $<?= $model->jobseeker_payment ?>/<?= Yii::$app->params['job.payment_type'][$model->payment_type] ?></small>
+                                <?php if (isset($model->emergency) && !empty($model->emergency)) { ?>
+                                    <span class="badge badge-warning">Urgent</span>
+                                <?php } ?>
+                                <span class="badge badge-success"><?= Yii::$app->params['job.type'][$model->job_type] ?></span>
+                            </div>
+                            <div class="rating">
+                                <div class="media">
+                                    <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
+                                    <div class="media-body">
+                                        <p class="mb-0">Rating</p>
+                                        <?=
+                                        StarRating::widget([
+                                            'name' => 'rating_35',
+                                            'value' => $model->avgRating,
+                                            'pluginOptions' => ['displayOnly' => true, 'showCaption' => false,]
+                                        ]);
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="most-popular-jobs-block-hover">
-                            <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->reference_no]) ?>" class="text">View Profile</a>
+                            <div class="most-popular-jobs-block-hover">
+                                <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->reference_no]) ?>" class="text">View Profile</a>
+                            </div>
                         </div>
                     </div>
+
+                <?php } ?>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/index']) ?>" class="read-more mt-4">View More</a>
                 </div>
-
-            <?php } ?>
-
-        </div>
-
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/index']) ?>" class="read-more mt-4">View More</a>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
+<?php } ?>
 
 
 <section class="industry-logo">
@@ -322,7 +323,6 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                 </ul>                    
             </div>
 
-
             <div class="col-lg-3 offset-lg-1 col-md-4 col-6">
                 <ul class="list-unstyled">
                     <li>
@@ -443,65 +443,6 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                 </ul>
             </div>
 
-            <!--            <div class="col-lg-3 offset-lg-1 col-md-4 col-6">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="15" cy="15" r="15" fill="#DADADA"/>
-                                    <path d="M13.9375 9.09375C13.625 9.40625 13.6562 9.875 13.9375 10.1875L17.7188 13.75H8.75C8.3125 13.75 8 14.0938 8 14.5V15.5C8 15.9375 8.3125 16.25 8.75 16.25H17.7188L13.9375 19.8438C13.6562 20.1562 13.6562 20.625 13.9375 20.9375L14.625 21.625C14.9375 21.9062 15.4062 21.9062 15.6875 21.625L21.7812 15.5312C22.0625 15.25 22.0625 14.7812 21.7812 14.4688L15.6875 8.40625C15.4062 8.125 14.9375 8.125 14.625 8.40625L13.9375 9.09375Z" fill="white"/>
-                                    </svg>Missouri
-                                </li>
-            
-                                <li>
-                                    <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="15" cy="15" r="15" fill="#DADADA"/>
-                                    <path d="M13.9375 9.09375C13.625 9.40625 13.6562 9.875 13.9375 10.1875L17.7188 13.75H8.75C8.3125 13.75 8 14.0938 8 14.5V15.5C8 15.9375 8.3125 16.25 8.75 16.25H17.7188L13.9375 19.8438C13.6562 20.1562 13.6562 20.625 13.9375 20.9375L14.625 21.625C14.9375 21.9062 15.4062 21.9062 15.6875 21.625L21.7812 15.5312C22.0625 15.25 22.0625 14.7812 21.7812 14.4688L15.6875 8.40625C15.4062 8.125 14.9375 8.125 14.625 8.40625L13.9375 9.09375Z" fill="white"/>
-                                    </svg>Montana
-                                </li>
-            
-                                <li>
-                                    <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="15" cy="15" r="15" fill="#DADADA"/>
-                                    <path d="M13.9375 9.09375C13.625 9.40625 13.6562 9.875 13.9375 10.1875L17.7188 13.75H8.75C8.3125 13.75 8 14.0938 8 14.5V15.5C8 15.9375 8.3125 16.25 8.75 16.25H17.7188L13.9375 19.8438C13.6562 20.1562 13.6562 20.625 13.9375 20.9375L14.625 21.625C14.9375 21.9062 15.4062 21.9062 15.6875 21.625L21.7812 15.5312C22.0625 15.25 22.0625 14.7812 21.7812 14.4688L15.6875 8.40625C15.4062 8.125 14.9375 8.125 14.625 8.40625L13.9375 9.09375Z" fill="white"/>
-                                    </svg>Nebraska
-                                </li>
-            
-                                <li>
-                                    <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="15" cy="15" r="15" fill="#DADADA"/>
-                                    <path d="M13.9375 9.09375C13.625 9.40625 13.6562 9.875 13.9375 10.1875L17.7188 13.75H8.75C8.3125 13.75 8 14.0938 8 14.5V15.5C8 15.9375 8.3125 16.25 8.75 16.25H17.7188L13.9375 19.8438C13.6562 20.1562 13.6562 20.625 13.9375 20.9375L14.625 21.625C14.9375 21.9062 15.4062 21.9062 15.6875 21.625L21.7812 15.5312C22.0625 15.25 22.0625 14.7812 21.7812 14.4688L15.6875 8.40625C15.4062 8.125 14.9375 8.125 14.625 8.40625L13.9375 9.09375Z" fill="white"/>
-                                    </svg>Nevada
-                                </li>
-            
-                                <li>
-                                    <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="15" cy="15" r="15" fill="#DADADA"/>
-                                    <path d="M13.9375 9.09375C13.625 9.40625 13.6562 9.875 13.9375 10.1875L17.7188 13.75H8.75C8.3125 13.75 8 14.0938 8 14.5V15.5C8 15.9375 8.3125 16.25 8.75 16.25H17.7188L13.9375 19.8438C13.6562 20.1562 13.6562 20.625 13.9375 20.9375L14.625 21.625C14.9375 21.9062 15.4062 21.9062 15.6875 21.625L21.7812 15.5312C22.0625 15.25 22.0625 14.7812 21.7812 14.4688L15.6875 8.40625C15.4062 8.125 14.9375 8.125 14.625 8.40625L13.9375 9.09375Z" fill="white"/>
-                                    </svg>New Hampshire
-                                </li>
-            
-                                <li>
-                                    <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="15" cy="15" r="15" fill="#DADADA"/>
-                                    <path d="M13.9375 9.09375C13.625 9.40625 13.6562 9.875 13.9375 10.1875L17.7188 13.75H8.75C8.3125 13.75 8 14.0938 8 14.5V15.5C8 15.9375 8.3125 16.25 8.75 16.25H17.7188L13.9375 19.8438C13.6562 20.1562 13.6562 20.625 13.9375 20.9375L14.625 21.625C14.9375 21.9062 15.4062 21.9062 15.6875 21.625L21.7812 15.5312C22.0625 15.25 22.0625 14.7812 21.7812 14.4688L15.6875 8.40625C15.4062 8.125 14.9375 8.125 14.625 8.40625L13.9375 9.09375Z" fill="white"/>
-                                    </svg>New Jersey
-                                </li>
-            
-                                <li>
-                                    <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="15" cy="15" r="15" fill="#DADADA"/>
-                                    <path d="M13.9375 9.09375C13.625 9.40625 13.6562 9.875 13.9375 10.1875L17.7188 13.75H8.75C8.3125 13.75 8 14.0938 8 14.5V15.5C8 15.9375 8.3125 16.25 8.75 16.25H17.7188L13.9375 19.8438C13.6562 20.1562 13.6562 20.625 13.9375 20.9375L14.625 21.625C14.9375 21.9062 15.4062 21.9062 15.6875 21.625L21.7812 15.5312C22.0625 15.25 22.0625 14.7812 21.7812 14.4688L15.6875 8.40625C15.4062 8.125 14.9375 8.125 14.625 8.40625L13.9375 9.09375Z" fill="white"/>
-                                    </svg>New Mexico
-                                </li>
-            
-                                <li>
-                                    <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="15" cy="15" r="15" fill="#DADADA"/>
-                                    <path d="M13.9375 9.09375C13.625 9.40625 13.6562 9.875 13.9375 10.1875L17.7188 13.75H8.75C8.3125 13.75 8 14.0938 8 14.5V15.5C8 15.9375 8.3125 16.25 8.75 16.25H17.7188L13.9375 19.8438C13.6562 20.1562 13.6562 20.625 13.9375 20.9375L14.625 21.625C14.9375 21.9062 15.4062 21.9062 15.6875 21.625L21.7812 15.5312C22.0625 15.25 22.0625 14.7812 21.7812 14.4688L15.6875 8.40625C15.4062 8.125 14.9375 8.125 14.625 8.40625L13.9375 9.09375Z" fill="white"/>
-                                    </svg>New York
-                                </li>
-                            </ul>
-                        </div>-->
         </div>
     </div>
 </section>
@@ -533,47 +474,47 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 
 
 
-    <section class="">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-9 col-12 main-title">
-                    <h2 class="mb-4">Featured New Advertise </h2>                
-                </div>
-                <div class="col-sm-3 col-12 main-title">
-                    <a href="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['advertisement/all']); ?>" class="float-right mb-3">View All </a>
-                </div>
+<section class="">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-12 main-title">
+                <h2 class="mb-4">Featured New Advertise </h2>                
             </div>
-
-
-            <div class="row mb-5 pb-5">
-                <?php foreach ($advertisments as $key => $ads) { ?> 
-                    <?php $adsName = (strlen($ads->name) > 30) ? substr($ads->name, 0, 30) . ' ...' : $ads->name ?> 
-                    <div class="col-md-4">
-                        <div class="featured-img-block position-relative mb-4">
-                            <?php if ($ads->file_type == Advertisement::FILE_TYPE_YOUTUBE_LINK) { ?>
-                                <iframe width="100%"  height="195" src="<?php echo $ads->getYoutubeEmbedUrl() ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="max-height-ads-home"></iframe>
-                                <div class="ads-title">
-                                    <p class="mb-0"><?php echo $adsName ?> <a href="<?php echo $ads->link_url ?>" target="_blank"> <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"> </a></p>                             
-                                </div>
-
-                            <?php } else { ?>
-
-                                <?php if ($ads != '' && file_exists(CommonFunction::getAdvertisementBasePath() . DIRECTORY_SEPARATOR . $ads->icon)) { ?>
-                                    <img src="<?= CommonFunction::getAdvertisementBaseUrl() . DIRECTORY_SEPARATOR . $ads->icon ?>" alt="<?php echo $ads->icon ?>" class="img-fluid mx-auto d-block max-height-ads-home w-100">
-                                <?php } else { ?>
-                                    <img src="<?= $assetDir ?>/img/featured-video-2.png" alt="featured-video" class="img-fluid mx-auto d-block max-height-ads-home">
-                                <?php } ?>
-                                <div class="ads-title">
-                                    <p class="mb-0"> <?php echo $adsName ?> <a href="<?php echo $ads->link_url ?>" target="_blank"> <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"> </a></p>                             
-                                </div>
-
-                            <?php } ?>
-                        </div>
-                    </div>
-
-
-                <?php } ?>
-
+            <div class="col-sm-3 col-12 main-title">
+                <a href="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['advertisement/all']); ?>" class="float-right mb-3">View All </a>
             </div>
         </div>
-    </section>
+
+
+        <div class="row mb-5 pb-5">
+            <?php foreach ($advertisments as $key => $ads) { ?> 
+                <?php $adsName = (strlen($ads->name) > 30) ? substr($ads->name, 0, 30) . ' ...' : $ads->name ?> 
+                <div class="col-md-4">
+                    <div class="featured-img-block position-relative mb-4">
+                        <?php if ($ads->file_type == Advertisement::FILE_TYPE_YOUTUBE_LINK) { ?>
+                            <iframe width="100%"  height="195" src="<?php echo $ads->getYoutubeEmbedUrl() ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="max-height-ads-home"></iframe>
+                            <div class="ads-title">
+                                <p class="mb-0"><?php echo $adsName ?> <a href="<?php echo $ads->link_url ?>" target="_blank"> <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"> </a></p>                             
+                            </div>
+
+                        <?php } else { ?>
+
+                            <?php if ($ads != '' && file_exists(CommonFunction::getAdvertisementBasePath() . DIRECTORY_SEPARATOR . $ads->icon)) { ?>
+                                <img src="<?= CommonFunction::getAdvertisementBaseUrl() . DIRECTORY_SEPARATOR . $ads->icon ?>" alt="<?php echo $ads->icon ?>" class="img-fluid mx-auto d-block max-height-ads-home w-100">
+                            <?php } else { ?>
+                                <img src="<?= $assetDir ?>/img/featured-video-2.png" alt="featured-video" class="img-fluid mx-auto d-block max-height-ads-home">
+                            <?php } ?>
+                            <div class="ads-title">
+                                <p class="mb-0"> <?php echo $adsName ?> <a href="<?php echo $ads->link_url ?>" target="_blank"> <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"> </a></p>                             
+                            </div>
+
+                        <?php } ?>
+                    </div>
+                </div>
+
+
+            <?php } ?>
+
+        </div>
+    </div>
+</section>
