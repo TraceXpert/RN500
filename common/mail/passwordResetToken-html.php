@@ -38,8 +38,8 @@ use yii\helpers\Html;
                             <tr>
                                 <td style="padding: 20px">
                                     <table cellpadding="0" cellspacing="0" style="width: 100%;">
-                                        <tr
-                                            style="background: #2470b3;border-radius: 6px;padding: 20px;display: grid;">
+
+                                        <tr style="background: #2470b3;border-radius: 6px;padding: 20px;display: grid;">
                                             <td align="left">                            
                                                 <div
                                                     style="display:inline-block; max-width:600px; border-radius: 6px;vertical-align:top; width:100%;margin: 10px 20px;">
@@ -61,46 +61,21 @@ use yii\helpers\Html;
 
 
                                         <tr>
-                                            <td
-                                                style="padding: 40px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Follow the link below to reset your password:
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td align="left" style="padding: 0px 20px;">
-                                                <a href="<?= $resetLink ?>" style="text-decoration: none;color: #FFF;padding: 16px 20px;background:#2470b3;font-weight: 500;text-align: center;cursor: pointer;display: inline-block;border-radius: 6px;font-family: 'Montserrat', sans-serif;">
-                                                    Set Password
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td
-                                                style="padding: 40px 20px;;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                If you have any issues, please contact customer service team of RN500 at:
+                                            <td style="padding: 40px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;"> 
+                                                You requested to reset password for RN500.com. Please  <a href="<?php echo $resetLink ?>" target="_blank">Click Here</a> to reset password. If you did not requested to reset password on RN500.com than please contact immediately to customer service team at: 
                                                 <a href="mailto:<?php echo Yii::$app->params['senderEmail'] ?>" style="margin:0;padding: 0 0 20px 0;text-decoration: none;color: #2470b3;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 22px;"> <?php echo Yii::$app->params['senderEmail'] ?> </a>
                                             </td>
                                         </tr>
 
-                                       <tr>
-                                            <td align="left" style="padding: 20px 20px 20px;display: flex;">
-                                                <span style="color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;font-size: 16px;font-weight: 600;margin-right: 10px;display: flex;align-items: center;">Stay in touch</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="left" style="padding: 20px 20px 20px;display: flex;">
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/facebook.png']) ?>" alt="facebook" style="margin-right: 10px;"/></a>
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/instagram.png']) ?>" alt="Instagram" style="margin-right: 10px;"/></a>
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/twitter.png']) ?>" alt="Twitter"/></a>
-                                            </td>
-                                        </tr>
+
+
+                                        <?php echo $this->render('_social_links') ?>
 
 
                                         <tr>
                                             <td align="left" style="padding: 0px 20px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">
                                                 Regards,<br/> 
-                                                RN500, LLC.<br/>
+                                                Customer Service Team, <br/>
                                                 www.RN500.com <br/>
                                             </td>
 

@@ -38,17 +38,14 @@ use yii\helpers\Html;
                             <tr>
                                 <td style="padding: 20px">
                                     <table cellpadding="0" cellspacing="0" style="width: 100%;">
-                                        <tr
-                                            style="background: #2470b3;border-radius: 6px;padding: 20px;display: grid;">
+
+                                        <tr style="background: #2470b3;border-radius: 6px;padding: 20px;display: grid;">
                                             <td align="left">                            
-                                                <div
-                                                    style="display:inline-block; max-width:600px; border-radius: 6px;vertical-align:top; width:100%;margin: 10px 20px;">
-                                                    <table class="container" align="center" cellspacing="0" cellpadding="0"
-                                                           style="width: 100%;">
+                                                <div style="display:inline-block; max-width:600px; border-radius: 6px;vertical-align:top; width:100%;margin: 10px 20px;">
+                                                    <table class="container" align="center" cellspacing="0" cellpadding="0" style="width: 100%;">
                                                         <tr>
                                                             <td align="left">
-                                                                <p
-                                                                    style="color: #fff;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 20px;line-height: 26px;">
+                                                                <p style="color: #fff;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 20px;line-height: 26px;">
                                                                     Hello <?php echo $name ?>,<br />
                                                                 </p>
                                                             </td>
@@ -63,16 +60,9 @@ use yii\helpers\Html;
                                         <tr>
                                             <td
                                                 style="padding: 40px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Welcome to RN500.com. We create the opportunity for everyone to earn money with us. Please go through step by step tip-points to complete your profile and find new opportunities.
+                                                Welcome to RN500.com. We have created opportunities for everyone to earn money with us. Please go through step by step process to complete your profile. 
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td
-                                                style="padding: 0px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Once again, thank you for joining RN500.com. 
-                                            </td>
-                                        </tr>
-
 
 
                                         <tr>
@@ -83,24 +73,14 @@ use yii\helpers\Html;
                                             </td>
                                         </tr>
 
-                                        <tr>
-                                            <td align="left" style="padding: 20px 20px 20px;display: flex;">
-                                                <span style="color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;font-size: 16px;font-weight: 600;margin-right: 10px;display: flex;align-items: center;">Stay in touch</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="left" style="padding: 20px 20px 20px;display: flex;">
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/facebook.png']) ?>" alt="facebook" style="margin-right: 10px;"/></a>
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/instagram.png']) ?>" alt="Instagram" style="margin-right: 10px;"/></a>
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/twitter.png']) ?>" alt="Twitter"/></a>
-                                            </td>
-                                        </tr>
+                                        <?php echo $this->render('_social_links') ?>
 
 
                                         <tr>
                                             <td align="left" style="padding: 0px 20px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">
-                                                Regards,<br/> 
-                                                RN500, LLC.<br/>
+                                                Thank you, <br/> 
+                                                Customer Service Team,  <br/> 
+                                                RN500 LLC.<br/>
                                                 www.RN500.com <br/>
                                             </td>
 

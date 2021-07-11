@@ -7,40 +7,6 @@ use kartik\icons\FontAwesomeAsset;
 use common\CommonFunction;
 use kartik\date\DatePicker;
 ?>
-<!--<section class="inner-banner">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <h1>Track My Application</h1>
-            </div>
-        </div>
-
-    </div>
-</section>-->
-<!-- Page Title End -->
-<style>
-
-    .pagination{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 20px;
-    }
-    
-     .pagination li  a,.pagination li  span{
-        padding: 0rem 0.9rem;
-        border :1px solid #1656A0;
-        color:#1656A0 !important;
-    }
-    
-    .pagination li.active  a{
-        color:white !important;
-    }
-    .pagination li.active {
-        color:white !important;
-        background-color:#1656A0;
-    }
-</style>
 
 <section class="about-us about-inner-block">
     <div class="container">
@@ -128,6 +94,17 @@ use kartik\date\DatePicker;
                                         'format' => Yii::$app->params['date.format.datepicker.js'],
                                     ]
                                 ])
+                            ],
+                                [
+                                'attribute' => 'is_suspended',
+//                                'visible' => CommonFunction::isEmployer(),
+                                'headerOptions' => ['style' => 'width:2%'],
+                                'enableSorting' => false,
+                                'filterInputOptions' => ['autocomplete' => 'off',],
+                                'value' => function($model) {
+                                    return isset(Yii::$app->params['LEAD_SUSPENDED'][$model->is_suspended]) ? Yii::$app->params['LEAD_SUSPENDED'][$model->is_suspended] :"";
+                                },
+                                'filter' => Html::activeDropDownList($searchModel, 'is_suspended', Yii::$app->params['LEAD_SUSPENDED'], ['prompt'=>'All', 'class' => 'form-control'])
                             ],
                                 [
                                 'class' => 'yii\grid\ActionColumn',

@@ -19,18 +19,18 @@ class ChangePasswordForm extends Model {
     public $confirm_password;
     public $otp;
     public $is_otp_sent;
-    public $user_id ='';
+    public $user_id = '';
 
     /**
      * @var \common\models\User
      */
     private $_user;
 
-    public function __construct($config = [],$userId ='') {
-        if($userId ==''){
-           $this->user_id = Yii::$app->user->identity->id;
+    public function __construct($config = [], $userId = '') {
+        if ($userId == '') {
+            $this->user_id = Yii::$app->user->identity->id;
         } else {
-           $this->user_id = $userId;
+            $this->user_id = $userId;
         }
         $this->_user = User::findIdentity($this->user_id);
         parent::__construct($config);
@@ -41,16 +41,16 @@ class ChangePasswordForm extends Model {
      */
     public function rules() {
         return [
-            [['password', 'new_password', 'confirm_password'], 'required'],
-            ['confirm_password', 'compare', 'compareAttribute' => 'new_password'],
-            ['password', 'validatePassword'],
+                [['password', 'new_password', 'confirm_password'], 'required'],
+                ['confirm_password', 'compare', 'compareAttribute' => 'new_password'],
+                ['password', 'validatePassword'],
             // otp validation
             ['is_otp_sent', 'boolean'],
-            ['otp', 'number', 'message' => 'Please eneter numeric values only.'],
-            ['otp', 'required', 'when' => function ($model) {
+                ['otp', 'number', 'message' => 'Please eneter numeric values only.'],
+                ['otp', 'required', 'when' => function ($model) {
                     return $model->is_otp_sent;
                 }],
-            [['new_password'], 'match', 'pattern' => "/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/", 'message' => Yii::t('app', 'Password required atlest 1 alphabet, 1 numeric and 1 special character.')],
+                [['new_password'], 'match', 'pattern' => "/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/", 'message' => Yii::t('app', 'Password required atlest 1 alphabet, 1 numeric and 1 special character.')],
 //            [['new_password'], 'match', 'pattern' => "/^^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", 'message' => Yii::t('app', 'Minimum 8 Characters with at least 1 Capital, 1 Number and 1 special Characters.')],
         ];
     }
@@ -100,7 +100,7 @@ class ChangePasswordForm extends Model {
         if (!empty($user)) {
             $to_email = $user->email;
             try {
-                return $sent = \Yii::$app->mailer->compose('login-otp', ['otp' => $otp])
+                return $sent = \Yii::$app->mailer->compose('login-otp', ['otp' => $otp, 'user' => $user])
                         ->setFrom([\Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
                         ->setTo($to_email)
                         ->setSubject('RN500 Verification Code')

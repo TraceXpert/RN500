@@ -15,31 +15,6 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
  */
 ?>
 
-<!-- Page Title start -->
-<!--<div class="pageTitle">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 col-sm-6">
-        <h1 class="page-heading">Post Job</h1>
-      </div>
-      <div class="col-md-6 col-sm-6">
-        <div class="breadCrumb"><a href="#.">Home</a> / <span>Post Job</span></div>
-      </div>
-    </div>
-  </div>
-</div>-->
-<!-- Page Title End -->
-<style>
-    ul.select2-selection__rendered{
-	max-height: 50px !important;
-    overflow: auto !important;
-}
-.select2-container--krajee-bs4 .select2-selection--multiple .select2-selection__clear{
-	    right: 1.5rem;
-}
-
-</style>
-
 <section class="about-us about-inner-block">
     <div class="container">
         <div class="row align-items-center">
@@ -222,8 +197,13 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                 <div class="col-md-6">
                     <?php echo $form->field($model, 'description')->textInput(['placeholder' => $model->getAttributeLabel('description')]); ?>
                 </div>
+                
+                
+                <div class="col-md-6 margin-top-20">
+                    <?php echo $form->field($model, 'is_suspended')->checkbox(); ?>
+                </div>
             </div>
-            <div class="row">
+            <div class="row margin-top-20">
                 <div class="col-md-6">
                     <?php echo Html::submitButton('Submit', ['class' => 'read-more contact-us mb-3 mt-2  w-100']) ?>
                     <!--                    <div class="form-group text-center">
