@@ -155,4 +155,3 @@ CHANGE `expiry_date` `expiry_date` date NULL AFTER `document`;
 
 ALTER TABLE `company_master`
 ADD `extension` int(11) NULL AFTER `company_mobile`;
-

@@ -14,19 +14,19 @@ return [
             'socialNetworks' => [
                 'Twitter' => [
                     'class' => \ymaker\social\share\drivers\Twitter::class,
-                    'label' => \yii\helpers\Html::tag('i', '', ['class' => 'fa fa-twitter-square','style'=>"font-size: 27px;"]),
+                    'label' => \yii\helpers\Html::tag('i', '', ['class' => 'fa fa-twitter-square', 'style' => "font-size: 27px;"]),
                 ],
                 'Gmail' => [
                     'class' => \ymaker\social\share\drivers\Gmail::class,
-                    'label' => \yii\helpers\Html::tag('i', '', ['class' => 'fa fa-envelope','style'=>"font-size: 27px;"]),
+                    'label' => \yii\helpers\Html::tag('i', '', ['class' => 'fa fa-envelope', 'style' => "font-size: 27px;"]),
                 ],
                 'LinkedIn' => [
                     'class' => \ymaker\social\share\drivers\LinkedIn::class,
-                    'label' => \yii\helpers\Html::tag('i', '', ['class' => 'fa fa-linkedin-square','style'=>"font-size: 27px;"]),
+                    'label' => \yii\helpers\Html::tag('i', '', ['class' => 'fa fa-linkedin-square', 'style' => "font-size: 27px;"]),
                 ],
                 'Facebook' => [
                     'class' => \ymaker\social\share\drivers\Facebook::class,
-                    'label' => \yii\helpers\Html::tag('i', '', ['class' => 'fa fa-facebook-square','style'=>"font-size: 27px;"]),
+                    'label' => \yii\helpers\Html::tag('i', '', ['class' => 'fa fa-facebook-square', 'style' => "font-size: 27px;"]),
                 ],
             ],
         ],
@@ -41,6 +41,13 @@ return [
                 'password' => 'ZingaZinga2020',
                 'port' => '26',
                 'encryption' => 'tls',
+                'streamOptions' => [
+                    'ssl' => [
+                        'allow_self_signed' => true,
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                    ],
+                ],
             ],
         ],
         'user' => [
