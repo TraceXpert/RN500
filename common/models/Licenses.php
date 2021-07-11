@@ -38,7 +38,7 @@ class Licenses extends \yii\db\ActiveRecord {
     public function rules() {
         return [
 
-            [['license_name', 'expiry_date', 'user_id','issue_by'], 'required'],
+            [['license_name', 'expiry_date', 'user_id','issue_by','issuing_state'], 'required'],
             ['document','required','on' => 'create'],
             [['issuing_state', 'compact_states', 'verified', 'user_id','created_at','updated_at','license_name'], 'integer'],
             [['license_number', 'issue_by'], 'string', 'max' => 250],
@@ -47,7 +47,7 @@ class Licenses extends \yii\db\ActiveRecord {
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['license_number'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
             ['document', 'file', 'extensions' => ['png', 'jpg','jpeg','docx','pdf'], 'maxSize' => 1024 * 1024 * 2],
-
+            [['license_name','issue_by'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
     

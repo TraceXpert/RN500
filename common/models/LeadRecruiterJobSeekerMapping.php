@@ -45,17 +45,18 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-                [['branch_id', 'lead_id', 'job_seeker_id', 'updated_at', 'updated_by'], 'required'],
-                [['branch_id', 'lead_id', 'job_seeker_id', 'rec_status', 'updated_at', 'updated_by'], 'integer'],
-                [['rec_comment', 'employer_comment'], 'string', 'max' => 500],
-                [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => CompanyBranch::className(), 'targetAttribute' => ['branch_id' => 'id']],
-                [['lead_id'], 'exist', 'skipOnError' => true, 'targetClass' => LeadMaster::className(), 'targetAttribute' => ['lead_id' => 'id']],
-                [['branch_id', 'lead_id', 'job_seeker_id', 'rec_comment', 'rec_status ', 'updated_at', 'updated_by', 'rec_joining_date', 'rec_end_date', 'employer_comment', 'employer_status'], 'safe'],
-                [['rec_comment', 'employer_comment'], 'trim'],
+            [['branch_id', 'lead_id', 'job_seeker_id', 'updated_at', 'updated_by'], 'required'],
+            [['branch_id', 'lead_id', 'job_seeker_id', 'rec_status', 'updated_at', 'updated_by'], 'integer'],
+            [['rec_comment', 'employer_comment'], 'string', 'max' => 500],
+            [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => CompanyBranch::className(), 'targetAttribute' => ['branch_id' => 'id']],
+            [['lead_id'], 'exist', 'skipOnError' => true, 'targetClass' => LeadMaster::className(), 'targetAttribute' => ['lead_id' => 'id']],
+            [['branch_id', 'lead_id', 'job_seeker_id', 'rec_comment', 'rec_status ', 'updated_at', 'updated_by', 'rec_joining_date', 'rec_end_date', 'employer_comment', 'employer_status'], 'safe'],
+            [['rec_comment', 'employer_comment'], 'trim'],
             // SCENARIO BASE VALIDATION
             [['rec_joining_date'], 'required', 'on' => 'rec_approve'],
-                [['rec_comment'], 'required', 'on' => 'rec_reject'],
-                [['employer_comment'], 'required', 'on' => 'employer_reject'],
+            [['rec_comment'], 'required', 'on' => 'rec_reject'],
+            [['employer_comment'], 'required', 'on' => 'employer_reject'],
+            [['rec_comment','employer_comment'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 
@@ -289,7 +290,7 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
                 $status = Yii::$app->mailer->compose('job-approved-finally', ['lead' => $lead, 'jobSeeker' => $jobSeeker, 'employerBranch' => $employerBranch, 'employerCompany' => $employerCompany, 'recruiterBranch' => $recruiterBranch, 'recruiterCompany' => $recruiterCompany])
                         ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
                         ->setTo($jobSeeker->email)
-                        ->setSubject('Appliaction of '.$lead->title.' ( '.$lead->reference_no.' ) has been approved suucessfully ')
+                        ->setSubject('Appliaction of ' . $lead->title . ' ( ' . $lead->reference_no . ' ) has been approved suucessfully ')
                         ->send();
                 $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
             }
@@ -334,7 +335,7 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
             return ['status' => (string) $status, 'message' => $message];
         }
     }
-    
+
     /**
      *  SENDS MAIL TO JOB-SEEKER ABOUT TO RECRUITER ACCEPTED AND NOW THE LEAD IS UNDER PROCESSING AND NEEDS APPROAVL FROM EMPLOYER
      *  0: Issue in mail server
@@ -355,7 +356,7 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
                 $status = Yii::$app->mailer->compose('lead-job-seeker-underprocessing-by-recruiter', ['lead' => $lead, 'jobSeeker' => $jobSeeker, 'employerBranch' => $employerBranch, 'employerCompany' => $employerCompany, 'recruiterBranch' => $recruiterBranch, 'recruiterCompany' => $recruiterCompany])
                         ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
                         ->setTo($jobSeeker->email)
-                        ->setSubject('Appliaction of '.$lead->title.' ('.$lead->reference_no.') is now under the review')
+                        ->setSubject('Appliaction of ' . $lead->title . ' (' . $lead->reference_no . ') is now under the review')
                         ->send();
                 $message = ($status) ? 'Mail sent successfully.' : 'Issue in mail server.';
             }
@@ -478,7 +479,7 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
      *  3: Something went wrong
      */
     public function sendMailToRecruiterAboutRejectLeadByEmployer() {
-        
+
         $status = '3';
         $message = 'Something went wrong.';
         try {

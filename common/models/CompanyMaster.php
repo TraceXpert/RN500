@@ -43,26 +43,27 @@ class CompanyMaster extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-
-            [['company_name','website_link', 'company_email', 'street_address', 'city', 'updated_at','zip_code'], 'required'],
-            ['company_mobile', 'required', 'message' => 'Mobile No. cannot be blank.'],
-            ['street_no', 'required', 'message' => 'Street No. cannot be blank.'],
-            [['priority', 'city', 'is_master', 'created_at', 'updated_at'], 'integer'],
-            [['company_name'], 'string', 'max' => 250],
-            [['company_email'], 'email'],
-            [['company_email'], 'string', 'max' => 100],
-            [['employer_identification_number'], 'string', 'max' => 200],
-            [['employer_identification_number'], 'checkUniqueEIN'],
-            [['employer_identification_number'], 'required'],
-            [['company_mobile'], 'string'],
-            [['company_mobile'], PhoneInputValidator::className()],
-            [['street_no', 'street_address', 'apt'], 'string', 'max' => 255],
-            [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
-            [['company_name','company_email','state', 'type', 'status','company_mobile' ,'reference_no', 'employer_identification_number','mobile','street_no','street_address','apt','zip_code'], 'safe'],
-            [['website_link'], 'url'],
-            [['company_name'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
-            [['street_no'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field'],
-            [['is_suspend'], 'safe']
+                [['company_name', 'website_link', 'company_email', 'street_address', 'city', 'updated_at', 'zip_code','priority'], 'required'],
+                ['company_mobile', 'required', 'message' => 'Mobile No. cannot be blank.'],
+                ['street_no', 'required', 'message' => 'Street No. cannot be blank.'],
+                [['priority', 'city', 'is_master', 'created_at', 'updated_at'], 'integer'],
+                [['company_name'], 'string', 'max' => 250],
+                [['company_email'], 'email'],
+                [['company_email'], 'string', 'max' => 100],
+                [['employer_identification_number'], 'string', 'max' => 200],
+                [['employer_identification_number'], 'checkUniqueEIN'],
+                [['employer_identification_number'], 'required'],
+                [['company_mobile','extension'], 'string'],
+                [['company_mobile'], PhoneInputValidator::className()],
+                [['street_no', 'street_address', 'apt'], 'string', 'max' => 255],
+                [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
+                [['extension'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field'],
+                [['company_name', 'company_email', 'state', 'type', 'status', 'company_mobile', 'reference_no', 'employer_identification_number', 'mobile', 'street_no', 'street_address', 'apt', 'zip_code'], 'safe'],
+                [['website_link'], 'url'],
+                [['company_name'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
+                [['street_no'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field'],
+                [['is_suspend','extension'], 'safe'],
+                [['company_name', 'employer_identification_number', 'street_no', 'street_address', 'apt', 'zip_code'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 
@@ -72,9 +73,10 @@ class CompanyMaster extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'company_name' => 'Name',
-            'company_email' => 'Email',
-            'company_mobile' => 'Mobile No.',
+            'company_name' => 'Company Name',
+            'company_email' => 'Company Email ID',
+            'company_mobile' => 'Desk Phone / Mobile No.',
+            'extension' => 'Extension',
             'employer_identification_number' => 'Employer Indetification Number',
             'website_link' => 'Website Link',
             'mobile' => 'Mobile',
@@ -114,16 +116,16 @@ class CompanyMaster extends \yii\db\ActiveRecord {
     public function getCityRef() {
         return $this->hasOne(Cities::className(), ['id' => 'city']);
     }
-    
-     public function getCompanyLocation() {
-         $cityStateName ='';
-         if($this->cityRef){
-             $cityName = isset($this->cityRef->city) ? $this->cityRef->city : '';
-             if($this->cityRef && $this->cityRef->stateRef){
-                $stateName = isset($this->cityRef->stateRef) ? ', '. $this->cityRef->stateRef->state : '';    
-             }
-             $cityStateName = $cityName . $stateName;
-         }
+
+    public function getCompanyLocation() {
+        $cityStateName = '';
+        if ($this->cityRef) {
+            $cityName = isset($this->cityRef->city) ? $this->cityRef->city : '';
+            if ($this->cityRef && $this->cityRef->stateRef) {
+                $stateName = isset($this->cityRef->stateRef) ? ', ' . $this->cityRef->stateRef->state : '';
+            }
+            $cityStateName = $cityName . $stateName;
+        }
         return $cityStateName;
     }
 

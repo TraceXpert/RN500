@@ -259,7 +259,7 @@ class BrowseJobsController extends Controller {
                         'posted_at' => CommonFunction::dateDiffInDays($value->created_at),
                         'estimated_pay' => "$" . $value->jobseeker_payment . "/" . Yii::$app->params['job.payment_type'][$value->payment_type],
                         'start_date' => $value->start_date,
-                        'shift' => $value->shift == 1 ? "Morning,Evening,Night,Flexible" : Yii::$app->params['job.shift'][$value->shift],
+                        'shift' => $value->shift == 1 ? CommonFunction::getAllShiftsCommaSeprated() : Yii::$app->params['job.shift'][$value->shift],
                         'job_type' => Yii::$app->params['job.type'][$value->job_type],
                         'description' => $value->description,
                         'rating' => $value->getAvgRating(),
@@ -316,9 +316,11 @@ class BrowseJobsController extends Controller {
                     'discipline' => $dlist,
                     'reference_no' => $model->reference_no,
                     'employment_status' => Yii::$app->params['job.type'][$model->job_type],
-                    'shift' => $model->shift == 1 ? "Morning,Evening,Night,Flexible" : Yii::$app->params['job.shift'][$model->shift],
+                    'shift' => $model->shift == 1 ? CommonFunction::getAllShiftsCommaSeprated() : Yii::$app->params['job.shift'][$model->shift],
                     'rating' => $model->getAvgRating(),
-                    'sharing_url' => $model->getSharableUrl()
+                    'sharing_url' => $model->getSharableUrl(),
+                    'city_id' => $model->city,
+                    'city_name' => $model->getCitiesName()
                 ];
             } else {
                 $code = 202;

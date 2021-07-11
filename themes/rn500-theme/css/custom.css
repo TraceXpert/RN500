@@ -81,7 +81,7 @@ nav .readmore{padding: 10px 26px !important}
 .tab-content{overflow: auto;}
 .form-title{font-weight: 600;color: #253858 !important;}
 
-.filter-block img {position: absolute;top: 22px;left: 19px;z-index: 9;}
+.filter-block img {position: absolute;top: 20px;left: 19px;z-index: 9;}
 .filter-block .form-control{border-radius: 0;height: calc(3em + .75rem + 2px);padding: 10px 30px 10px 50px; box-shadow: none;border: 0;border-right: 2px dashed #E2E4E8;background-clip: border-box;font-size: 16px;}
 .filter-block .full-width,.filter-block .full-width:active{
     /* background: #46AEE0;border-color: #46AEE0;border-radius: 0;height: calc(3em + .75rem + 2px);width: 100%; */
@@ -331,7 +331,7 @@ footer hr{border-top: 1px solid #8C97AC;}
     .signin-form{margin-top: 80px;align-items: unset;justify-content: unset;}    
 
     .filter-block .d-flex{display: block !important;}
-    .browse-search .filter-block .form-control,.browse-search .filter-block .form-control{border: 2px dashed #E2E4E8;border-right:2px dashed #E2E4E8 !important;}
+    .browse-search .filter-block .form-control,.browse-search .filter-block .form-control,.filter-block .select2-selection--multiple{border: 2px dashed #E2E4E8;border-right:2px dashed #E2E4E8 !important;box-shadow: none !important;}
     .filter-block .form-control,.filter-block .full-width{width: 100%;margin-right: 0;border: 0;}
     section {padding: 50px 0;}
     .main-title h2 {font-size: 26px;}
@@ -351,3 +351,14 @@ footer hr{border-top: 1px solid #8C97AC;}
 @media (max-width: 350px){
     .the-rn-app img{margin-bottom: 16px;}
 }
+/*.signin-form {
+    max-width: 510px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    padding: 120px 30px 20px;
+    overflow: auto;
+}*/

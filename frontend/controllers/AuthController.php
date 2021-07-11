@@ -42,17 +42,22 @@ class AuthController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'index', 'get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
+                'only' => ['logout', 'change-password', 'index', 'get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                 'rules' => [
                     [
                         'actions' => ['get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['change-password', 'logout'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*'],
                     ],
+//                    [
+//                        'actions' => ['logout', 'index'],
+//                        'allow' => true,
+//                        'roles' => ['@'],
+//                    ],
                 ],
             ],
             'verbs' => [
@@ -93,10 +98,10 @@ class AuthController extends Controller {
             return $this->goHome();
         }
         $model = new LoginForm();
-        if (Yii::$app->request->isPost && isset($_POST['LoginForm']['otp_digits']) && !empty($_POST['LoginForm']['otp_digits'])) {
-            $model->load(Yii::$app->request->post());
+//        if (Yii::$app->request->isPost && isset($_POST['LoginForm']['otp_digits']) && !empty($_POST['LoginForm']['otp_digits'])) {
+//            $model->load(Yii::$app->request->post());
 //            $model->otp = implode("", $_POST['LoginForm']['otp_digits']);
-        }
+//        }
         if (
                 $model->load(Yii::$app->request->post()) &&
                 $model->validate(['username', 'password']) &&
@@ -125,6 +130,7 @@ class AuthController extends Controller {
         $recruiter = new \frontend\models\RecruiterForm();
         $recruiterCompany = new \frontend\models\RecruiterCompanyForm();
         $companyMasterModel = new CompanyMaster;
+        $companyMasterModel->priority = CompanyMaster::PRIORITY_HIGH;
         $states = ArrayHelper::map(\common\models\States::find()->where(['country_id' => 226])->all(), 'id', 'state');
         $cities = [];
         if (\Yii::$app->request->isPost) {
@@ -167,6 +173,7 @@ class AuthController extends Controller {
                                         $is_error = 1;
                                         $resetPasswordModel = new PasswordResetRequestForm();
                                         $resetPasswordModel->email = $user->email;
+                                        $resetPasswordModel->unique_id = $userDetails->unique_id;
                                         $is_welcome_mail = 1;
                                         if ($resetPasswordModel->sendEmail($is_welcome_mail)) {
                                             $is_error = 1;
@@ -229,6 +236,7 @@ class AuthController extends Controller {
                                     if ($userDetails->save(false)) {
                                         $is_error = 1;
                                         $resetPasswordModel = new PasswordResetRequestForm();
+                                        $resetPasswordModel->unique_id = $userDetails->unique_id;
                                         $resetPasswordModel->email = $user->email;
                                         $is_welcome_mail = 1;
                                         if ($resetPasswordModel->sendEmail($is_welcome_mail)) {
@@ -273,6 +281,7 @@ class AuthController extends Controller {
                             if ($userDetails->save(false)) {
                                 $transaction->commit();
                                 $resetPasswordModel = new PasswordResetRequestForm();
+                                $resetPasswordModel->unique_id = $userDetails->unique_id;
                                 $resetPasswordModel->email = $user->email;
                                 $is_welcome_mail = 1;
                                 $resetPasswordModel->sendEmail($is_welcome_mail);
@@ -343,11 +352,17 @@ class AuthController extends Controller {
         $this->layout = 'main-login';
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', "Password reset link sent Successfully. Please check your inbox.");
-                return $this->redirect(['login']);
+            $user = User::find()->where(['email' => $model->email, 'is_suspend' => 0])->andWhere(['!=', 'status', User::STATUS_REJECTED])->one();
+            if (!empty($user)) {
+                $model->unique_id = $user->details->unique_id;
+                if ($model->sendEmail()) {
+                    Yii::$app->session->setFlash('success', "Password reset link sent Successfully. Please check your inbox.");
+                    return $this->redirect(['login']);
+                } else {
+                    Yii::$app->session->setFlash('error', "something went wrong");
+                }
             } else {
-                Yii::$app->session->setFlash('error', "something went wrong");
+                Yii::$app->session->setFlash('error', "Account not found");
             }
         }
 
@@ -373,7 +388,6 @@ class AuthController extends Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash('success', 'Password reset sucessfully. Please login to continue.');
-
             return $this->redirect(['login']);
         }
 

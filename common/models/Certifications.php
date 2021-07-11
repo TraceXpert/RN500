@@ -40,13 +40,14 @@ class Certifications extends \yii\db\ActiveRecord
         return [
             [['certificate_name', 'user_id','issue_by'], 'required'],
             ['document','required','on' => 'create'],
-            [['issuing_state', 'certification_active', 'verified', 'user_id','created_at','updated_at'], 'integer'],
+            [[ 'certification_active', 'verified', 'user_id','created_at','updated_at'], 'integer'],
             [['certificate_name', 'expiry_date'], 'string', 'max' => 250],
             [['document'], 'string', 'max' => 255],
             [['issue_by'], 'string', 'max' => 500],
             [['issue_by'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             ['document', 'file', 'extensions' => ['png', 'jpg','jpeg','docx','pdf'], 'maxSize' => 1024 * 1024 * 2],
+            [['certificate_name','issue_by',], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
     

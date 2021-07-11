@@ -15,19 +15,7 @@ use common\CommonFunction;
 /* @var $model frontend\models\UserDetails */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<style>
-    .select2-container--krajee-bs4 .select2-selection--single{
-        height: 50px;
-        padding: .375rem 2rem;
-        background: #FFFFFF;
-        border-radius: 6px;
-        box-shadow: none;
-        color: #495057;
-    }
-    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
-        padding: .375rem 2rem;
-    }
-</style>
+
 <section class="about-us about-inner-block">
     <div class="container">
         <div class="row align-items-center">
@@ -40,7 +28,7 @@ use common\CommonFunction;
             <?php
             $form = ActiveForm::begin([
                         "id" => "user-details",
-                        'options' => ['enctype' => 'multipart/form-data']
+                        'options' => ['enctype' => 'multipart/form-data','autocomplete' => 'off']
             ]);
             ?>
             <div class="row">
@@ -59,7 +47,7 @@ use common\CommonFunction;
                         <?=
                         $form->field($model, 'mobile_no')->widget(PhoneInput::className(), [
                             'jsOptions' => [
-                                'preferredCountries' => ['us', 'in'],
+                                'preferredCountries' => ['us'],
                             ]
                         ]);
                         ?>
@@ -117,7 +105,7 @@ use common\CommonFunction;
                         <?php
                         echo $form->field($model, 'dob')->widget(DatePicker::classname(), [
                             'name' => 'dob',
-                            'options' => ['placeholder' => 'Enter Date of Birth..'],
+                            'options' => ['placeholder' => $model->getAttributeLabel('dob'), 'readonly' => true],
                             'type' => DatePicker::TYPE_INPUT,
                             'pluginOptions' => [
                                 'format' => 'dd-mm-yyyy',
@@ -146,7 +134,7 @@ use common\CommonFunction;
                     <div class="form-group">
                         <?=
                         $form->field($model, 'profile_pic', [
-                            'template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='real-file' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>"])->fileInput()
+                            'template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='userdetails-profile_pic' name='UserDetails[profile_pic]' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>{error}"])->fileInput()
                         ?>
                         <?php if (!empty($model->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $model->profile_pic)) { ?>
                             <span id="custom-text"><?= $model->profile_pic ?></span>
@@ -216,7 +204,7 @@ use common\CommonFunction;
                                 'branch_name',
                                 [
                                     'label' => 'Company Name',
-                                    'value' => (isset($branch->company_id) && !empty($branch->company_id)) ? $branch->company->company_name : '',
+                                    'value' => (isset($branch->company) && !empty($branch->company_id)) ? $branch->company->company_name : '',
                                 ],
                                 'street_no',
                                 'street_address',
@@ -238,7 +226,7 @@ use common\CommonFunction;
 <?php
 $getCitiesUrl = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['user-details/get-cities']);
 $script = <<< JS
-   const realFileBtn = document.getElementById("real-file");
+   const realFileBtn = document.getElementById("userdetails-profile_pic");
             const customBtn = document.getElementById("custom-button");
             const customTxt = document.getElementById("custom-text");
 

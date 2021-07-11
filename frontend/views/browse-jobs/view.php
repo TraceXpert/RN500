@@ -34,7 +34,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
 
         <div class="row view-details mb-4 m-0">
             <div class="col-md-4">
-                <p class="mb-0">Date Posted: <?= date('m-d-Y', $model->created_at) ?></p>
+                <p class="mb-0">Date Posted: <?= CommonFunction::getAPIDateDisplayFormat($model->created_at) ?></p>
                 <p><?= $model->citiesName ?></p>
 
                 <!-- Twitter icon-->
@@ -112,10 +112,8 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                 </div>
             </div>
 
-            <div class="col-md-4 text-right">
-                <?php if (CommonFunction::isJobSeeker()) { ?>
-                    <a href="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/apply', 'ref' => $model->reference_no]) ?>" class="read-more contact-us mb-0">Apply Now</a>
-                <?php } ?>
+            <div class="col-md-4 text-right">              
+                <a href="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/apply', 'ref' => $model->reference_no]) ?>" class="read-more contact-us mb-0">Apply Now</a>
             </div>
         </div>
 
@@ -154,7 +152,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                         </ul>
                     <?php } ?>
                     <?php if (isset($emergency) && !empty($emergency)) { ?>
-                        <p class="ul-t">Emergency</p>
+                        <p class="ul-t">Urgent</p>
 
                         <ul class="list-unstyled mb-4">
                             <?php foreach ($emergency as $value) { ?>
@@ -182,7 +180,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                                 <li><?= $model->reference_no ?></li>
                                 <li><?= $model->citiesName ?></li>
                                 <li><?= Yii::$app->params['job.type'][$model->job_type] ?></li>
-                                <li><?= $model->shift == 1 ? "Morning, Evening, Night, Flaxible" : Yii::$app->params['job.shift'][$model->shift] ?></li>
+                                <li><?= $model->shift == 1 ? CommonFunction::getAllShiftsCommaSeprated() : Yii::$app->params['job.shift'][$model->shift] ?></li>
                             </ul>
                         </div>
                     </div>
@@ -219,26 +217,26 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
 
                                 <?php if ($ads != '' && file_exists(CommonFunction::getAdvertisementBasePath() . DIRECTORY_SEPARATOR . $ads->icon)) { ?>
                                     <img src="<?= CommonFunction::getAdvertisementBaseUrl() . DIRECTORY_SEPARATOR . $ads->icon ?>" alt="<?php echo $ads->icon ?>" class="img-fluid mx-auto d-block max-height-ads-home w-100">
-                                <?php } else { ?>
-                                    <img src="<?= $assetDir ?>/img/featured-video-2.png" alt="featured-video" class="img-fluid mx-auto d-block max-height-ads-home">
+                                    <?php } else { ?>
+                                        <img src="<?= $assetDir ?>/img/featured-video-2.png" alt="featured-video" class="img-fluid mx-auto d-block max-height-ads-home">
+                                        <?php } ?>
+                                        <div class="ads-title">
+                                            <p class="mb-0"> <?php echo $adsName ?> <a href="<?php echo $ads->link_url ?>" target="_blank"> <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"> </a></p>                             
+                                        </div>
+
+                                    <?php } ?>
+                                    </div>
+                                    </div>
+
+
                                 <?php } ?>
-                                <div class="ads-title">
-                                    <p class="mb-0"> <?php echo $adsName ?> <a href="<?php echo $ads->link_url ?>" target="_blank"> <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"> </a></p>                             
                                 </div>
-
+                                </div>
+                                </section>
                             <?php } ?>
-                        </div>
-                    </div>
 
-
-                <?php } ?>
-            </div>
-        </div>
-    </section>
-<?php } ?>
-
-<?php
-$script_new = <<<JS
+                            <?php
+                            $script_new = <<<JS
     $(document).on("click", ".refer-to-friend", function() {
         $("#commonModal").find(".modal-title").text($(this).attr('modal-title'));
         $("#commonModal").modal('show').find("#modalContent").load($(this).attr('data-url'));
@@ -249,5 +247,5 @@ $script_new = <<<JS
         $.pjax.reload({container:'#'+id, timeout:false, async:false});
     }
 JS;
-$this->registerJS($script_new, 3);
-?>
+                            $this->registerJS($script_new, 3);
+                            ?>

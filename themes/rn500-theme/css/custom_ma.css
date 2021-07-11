@@ -8,10 +8,10 @@
     background-color: #1656A0 !important;
 }
 .pop-up-close-button{
-    border-radius: 50px;
-    font-size: 14px;
-    padding: 12px 30px;
-    font-weight: 600;
+    border-radius: 50px !important;
+    font-size: 14px !important;
+    padding: 12px 30px !important;
+    font-weight: 600 !important;
 }
 .table-design .already-applied{
     background-color: #6c757d;
@@ -248,4 +248,48 @@
 /* error message css end*/
 .theme-primary-color{
     color: #1656A0;
+}
+.theme-primary-border{
+    border: 1px solid #1656A0;
+}
+.max-height-ads-home{
+    max-height: 200px;
+    height: 200px;
+}
+
+.select2-container--krajee-bs4 .select2-selection--multiple .select2-search--inline .select2-search__field,
+.input-lg.select2-container--krajee-bs4 .select2-selection--single, .input-group-lg .select2-container--krajee-bs4 .select2-selection--single{
+    height: 50px;
+    padding: .375rem 2rem;
+    background: #FFFFFF;
+    border-radius: 6px;
+    box-shadow: none;
+    color: #495057;
+}
+
+.select2-selection.select2-selection--single{
+    height: 50px !important;
+    padding-top: 14px !important; 
+    padding-left: 18px !important;
+}
+
+
+.password-toggle-icon {
+    float: right !important;
+    margin-left: -25px !important;
+    margin-top: -35px !important;
+    position: relative !important;
+    z-index: 2 !important;
+    font-size:20px !important;
+    padding-right: 37px !important;
+}
+
+.pop-menu-icon{
+    color: #1656A0 ;
+    font-size: 15px;
+}
+
+.signin-form.overflow-form{
+    padding: 120px 30px 20px;
+    overflow: auto;
 }

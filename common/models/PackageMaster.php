@@ -35,6 +35,7 @@ class PackageMaster extends \yii\db\ActiveRecord {
             [['title','price','created_at','updated_at', 'created_by', 'updated_by'], 'safe'],
             [['is_default', 'status'], 'integer'],
             [['title'], 'string', 'max' => 250],
+            [['title'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 

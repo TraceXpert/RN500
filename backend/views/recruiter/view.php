@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = "View";
                         'company_name',
                         'company_email',
                         'company_mobile',
+                        'extension',
                         'employer_identification_number',
                         'street_no',
                         'street_address',

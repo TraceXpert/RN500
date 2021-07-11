@@ -34,7 +34,7 @@ class LeadMaster extends \yii\db\ActiveRecord {
 
     public $disciplines;
     public $benefits;
-    public $specialies;
+    public $specialities;
     public $emergency;
     public $state;
 
@@ -53,9 +53,11 @@ class LeadMaster extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
+                [['branch_id'], 'required', 'message' => 'Location cannot be blank.', 'on' => 'post-job'],
                 [['street_no', 'state', 'street_address', 'city', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'title', 'reference_no', 'jobseeker_payment', 'payment_type', 'job_type', 'shift', 'start_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'description', 'branch_id'], 'required'],
                 [['description', 'apt', 'zip_code'], 'string'],
-                [['payment_type', 'job_type', 'shift', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'price', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+                [['payment_type', 'job_type', 'shift', 'recruiter_commission_type', 'recruiter_commission_mode', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer', 'message' => '{attribute} must be a numeric only'],
+                [['recruiter_commission', 'price'], 'number', 'message'=>'Please enter valid {attribute}.'],
                 [['jobseeker_payment',], 'number'],
                 [['title'], 'string', 'max' => 250],
                 [['reference_no'], 'string', 'max' => 50],
@@ -65,8 +67,19 @@ class LeadMaster extends \yii\db\ActiveRecord {
 //            [['street_no'], 'match', 'pattern' => '/^([0-9])?$/', 'message' => 'Please enter a digit numeric for {attribute}.'],
             [['comment', 'visible_to'], 'safe', 'on' => 'approve'],
                 [['price'], 'required', 'on' => 'approve'],
-                [['approved_at', 'branch_id', 'state', 'comment', 'disciplines', 'benefits', 'specialies', 'end_date', 'start_date', 'emergency'], 'safe'],
+                [['end_date', 'start_date'], 'checkEndDate','on'=>'post-job'],
+                [['approved_at', 'branch_id', 'state', 'comment', 'disciplines', 'benefits', 'specialities', 'end_date', 'start_date', 'emergency'], 'safe'],
+                [['title', 'description', 'apt', 'zip_code', 'comment'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
+    }
+    
+    public function checkEndDate($attr){
+        $startDate = CommonFunction::getAPIDateDisplayFormat($this->start_date, 'Y-m-d');
+        $end_date = CommonFunction::getAPIDateDisplayFormat($this->end_date, 'Y-m-d');
+        
+        if($startDate != '' && $end_date != '' && strtotime($startDate) > strtotime($end_date)){
+            return $this->addError('end_date', $this->getAttributeLabel('end_date') .' can not be bigger than '.$this->getAttributeLabel('start_date'));
+        }
     }
 
     public function scenarios() {
@@ -103,7 +116,10 @@ class LeadMaster extends \yii\db\ActiveRecord {
             'branch_id' => 'Branch',
             'comment' => 'Comment',
             'street_no' => 'Street No.',
-            'apt' => 'Suit/Apt.'
+            'apt' => 'Suit/Apt.',
+            'specialities' => 'Speciality',
+            'zip_code' => 'Zipcode',
+            'emergency' => 'Urgent'
         ];
     }
 
@@ -208,6 +224,11 @@ class LeadMaster extends \yii\db\ActiveRecord {
             $cityStateName = $cityName . $stateName;
         }
         return $cityStateName;
+    }
+    
+     public function getLeadTitleWithRef() {
+        $title = $this->title . " (" . $this->reference_no . ") ";
+        return $title;
     }
 
     /* SENDS MAIL TO JOB POSTING BRANCH ABOUT ACKNOWLEDGEMENT OF JOB */

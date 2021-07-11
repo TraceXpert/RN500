@@ -28,7 +28,8 @@ class Emergency extends \yii\db\ActiveRecord {
             [['name'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
             [['name'], 'string', 'max' => 255],
             [['status'], 'integer'],
-            [['name', 'status'], 'safe']
+            [['name', 'status'], 'safe'],
+            [['name'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 

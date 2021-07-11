@@ -33,26 +33,22 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                 <li class="nav-item position-relative  <?php echo $controller == 'site' && $action == 'about-us' ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a>
                 </li>
-                <?php if ($isEmployer || $isRecruiter) { ?>
-                    <li class="nav-item position-relative">
-                        <a class="nav-link" href="<?= Yii::$app->urlManagerAdmin->createUrl("site/index"); ?>">Dashboard</a>
-                    </li>
-                <?php } ?>
+                
                 <li class="nav-item position-relative <?php echo $controller == 'browse-jobs' && ($action == 'index' || $action == 'view') ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Browse Job</a>
                 </li>
                 <li class="nav-item position-relative  <?php echo $controller == 'site' && $action == 'contact-us' ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact </a>
                 </li>
-                <?php if (CommonFunction::isRecruiter()) { ?>
+                <?php if ($isRecruiter) { ?>
                     <li class="nav-item position-relative  <?php echo $controller == 'browse-jobs' && ($action == 'recruiter-lead' || $action == 'recruiter-view') ? 'active' : '' ?>">
                         <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/recruiter-lead"); ?>">For Recruiter</a>
                     </li>
                 <?php } ?>
 
                 <?php if ($isEmployer || $isRecruiter) { ?>
-                    <li class="nav-item position-relative  <?php echo $controller == 'job' && $action == 'post' ? 'active' : '' ?>">
-                        <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("job/post"); ?>">Post A Job</a>
+                    <li class="nav-item position-relative  <?php echo $controller == 'job' && ($action == 'post' || $action == 'list' )? 'active' : '' ?>">
+                        <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("job/list"); ?>">Post A Job</a>
                     </li>
                 <?php } ?>
                 <?php if (Yii::$app->user->isGuest) { ?>
@@ -65,19 +61,20 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                         <a class="nav-link p-0 m-0 mr-3 dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
                             <div class="media">
+                                <?php Pjax::begin(['id' => 'profile-picture-pjax', 'enablePushState' => false]); ?>
                                 <?php if (!empty($userIdentity->details->profile_pic) && file_exists(CommonFunction::getProfilePictureBasePath() . "/" . $userIdentity->details->profile_pic)) { ?>
                                     <img src="<?= $baseUrl . "/uploads/user-details/profile/" . Yii::$app->user->identity->details->profile_pic ?>" alt="" class="mr-3 rounded-circle header-profile-img-size" />
                                 <?php } else { ?>
-                                    <img src="<?= $assetDir ?>/img/profile-img.png" alt="profile-img" class="mr-3 rounded-circle header-profile-img-size">
-                                <?php } ?>  
-
+                                    <img src="<?= $assetDir ?>/img/profile.png" alt="profile-img" class="mr-3 rounded-circle header-profile-img-size">
+                                <?php } ?>
+                                    <?php Pjax::end(); ?>
                                 <div class="media-body">
                                     <p class="mb-0"><?= $userIdentity->fullName ?> </p>
                                 </div>
                             </div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdown07">
-                            <?php if (CommonFunction::isJobSeeker()) { ?>
+                            <?php if ($isJobSeeker) { ?>
                                 <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl(["site/job-seeker"]); ?>">
                                     <div class="media">
                                         <img src="<?= $assetDir ?>/img/drop-profile.png" alt="profile-img" class="mr-2 rounded-circle">
@@ -110,6 +107,18 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                                         <img src="<?= $assetDir ?>/img/drop-track-app.png" alt="profile-img" class="mr-2 rounded-circle">
                                         <div class="media-body">
                                             <p class="mb-0">Track My Application</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            <?php } ?>
+                            
+                            <?php if ($isEmployer || $isRecruiter) { ?>
+                                <a class="dropdown-item" href="<?= Yii::$app->urlManagerAdmin->createUrl("site/index"); ?>">
+                                    <div class="media">
+<!--                                        <img src="<?= $assetDir ?>/img/drop-track-app.png" alt="profile-img" class="mr-2 rounded-circle">-->
+                                        <span class="fa fa-cogs mr-2 rounded-circle pop-menu-icon"></span>
+                                        <div class="media-body">
+                                            <p class="mb-0">Admin Settings</p>
                                         </div>
                                     </div>
                                 </a>

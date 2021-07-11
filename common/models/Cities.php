@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "cities".
@@ -32,6 +33,7 @@ class Cities extends \yii\db\ActiveRecord
             [['state_id'], 'integer'],
             [['city'], 'string', 'max' => 50],
             [['state_code'], 'string', 'max' => 2],
+            [['city'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 
@@ -50,5 +52,9 @@ class Cities extends \yii\db\ActiveRecord
     
     public function getStateRef() {
         return $this->hasOne(States::className(), ['id' => 'state_id']);
+    }
+    
+    public static function getAllCities($state_id ){
+        return ArrayHelper::map(self::find()->where(['state_id'=>$state_id])->all(), 'id', 'city');
     }
 }
