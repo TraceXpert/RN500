@@ -54,14 +54,20 @@ class PasswordResetRequestForm extends Model {
      */
     public function sendEmail($is_welcome_mail = 0) {
         /* @var $user User */
-        $user = User::find()->innerJoin('user_details', 'user_details.user_id=user.id')->where(['email' => $this->email, 'user_details.unique_id' => $this->unique_id]);
+        $user = User::find()->innerJoin('user_details', 'user_details.user_id=user.id')->where(['email' => $this->email, 'user_details.unique_id' => $this->unique_id])->one();
         if (!$user) {
 
             return false;
         }
+//        
+//        echo '<pre>';
+//        print_r($user);
+//        exit;
+        
         if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
 
             $user->generatePasswordResetToken();
+            
 
             if (!$user->save()) {
                 return false;

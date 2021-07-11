@@ -190,11 +190,9 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                             <p class="font-weight-400">Shift </p>                             
                         </div>
                         <div class="col-lg-6">                            
-<<<<<<< HEAD
-                            <p><?= $model->shift == 1 ? implode(',', array_values(Yii::$app->params['job.shift'])) : Yii::$app->params['job.shift'][$model->shift] ?></p>
-=======
+
                             <p><?= $model->shift == 1 ? CommonFunction::getAllShiftsCommaSeprated() : Yii::$app->params['job.shift'][$model->shift] ?></p>
->>>>>>> 4a82fcf73baa3e27d6c848074abf1c94ee1b63ee
+
                         </div>                
 
                     </div>

@@ -310,7 +310,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                     <div class="media">
                                         <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
                                         <div class="media-body">
-                                            <p class="mb-0">Rattings</p>
+                                            <p class="mb-0">Rating</p>
                                             <?=
                                             StarRating::widget([
                                                 'name' => 'rating_35',

@@ -148,3 +148,11 @@ CHANGE `recruiter_commission` `recruiter_commission` float NULL COMMENT 'agancy 
 
 ALTER TABLE `lead_master`
 CHANGE `price` `price` float NULL COMMENT 'admin or master admin decide lead price' AFTER `visible_to`;
+
+--***************11-07-2021 By Nirav
+ALTER TABLE `certifications`
+CHANGE `expiry_date` `expiry_date` date NULL AFTER `document`;
+
+ALTER TABLE `company_master`
+ADD `extension` int(11) NULL AFTER `company_mobile`;
+

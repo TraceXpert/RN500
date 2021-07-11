@@ -153,7 +153,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                             <div class="media">
                                 <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
                                 <div class="media-body">
-                                    <p class="mb-0">Rattings</p>
+                                    <p class="mb-0">Rating</p>
                                     <?=
                                     StarRating::widget([
                                         'name' => 'rating_35',

@@ -310,7 +310,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                     <div class="media">
                                         <img src="<?= $assetDir ?>/img/job-icon.png" alt="job-icon" class="mr-2">
                                         <div class="media-body">
-                                            <p class="mb-0">Rattings</p>
+                                            <p class="mb-0">Rating</p>
                                             <?=
                                             StarRating::widget([
                                                 'name' => 'rating_35',
@@ -329,7 +329,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                             <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['payment/index', 'id' => $model->id]) ?>" class="read-more contact-us mb-0">Buy Now <?= "$" . $model->price ?></a>
                                         <?php } else {
                                             ?>
-                                            <a href="javascript:void(0)" class="read-more contact-us mb-0">Comming Soon</a>
+                                            <a href="javascript:void(0)" class="read-more contact-us mb-0">Coming Soon</a>
                                             <?php
                                         }
                                     }

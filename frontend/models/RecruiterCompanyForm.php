@@ -29,7 +29,7 @@ class RecruiterCompanyForm extends CompanyMaster {
             [['company_email'], 'string', 'max' => 100],
             [['employer_identification_number'], 'string', 'max' => 200],
             [['employer_identification_number'], 'checkUniqueEIN'],
-            [['company_mobile'], 'string'],
+            [['company_mobile','extension'], 'string'],
             [['employer_identification_number'], 'required'],
             ['mobile' , 'required', 'message' => 'Mobile No. cannot be blank.'],
             [['mobile'], PhoneInputValidator::className()],
@@ -37,9 +37,10 @@ class RecruiterCompanyForm extends CompanyMaster {
 //            [['zip_code'], 'string', 'max' => 20],
             [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
             [['website_link'], 'url'],
-            [['state', 'type', 'status', 'reference_no', 'employer_identification_number','website_link'], 'safe'],
+            [['state', 'type', 'status', 'reference_no', 'employer_identification_number','website_link','extension'], 'safe'],
             [['company_name'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
-            [['street_no'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field']
+            [['street_no'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field'],
+            [['extension'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field']
         ];
     }
 
@@ -55,6 +56,7 @@ class RecruiterCompanyForm extends CompanyMaster {
             'employer_identification_number' => 'Employer Indetification Number',
             'website_link' => 'Website Link',
             'mobile' => 'Mobile No.',
+            'extension' => 'Extension',
             'priority' => 'Priority',
             'street_no' => 'Street No.',
             'street_address' => 'Street Address',
