@@ -61,7 +61,7 @@ use yii\helpers\Html;
                                         <tr>
                                             <td
                                                 style="padding: 40px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                You recently signed up at RN500.com. Please click to VERIFY EMAIL to activate your Account.
+                                                You recently signed up at RN500.com. Please click to Verify email to activate your Account.
                                             </td>
                                         </tr>
 
@@ -69,7 +69,7 @@ use yii\helpers\Html;
                                         <tr>
                                             <td align="left" style="padding: 0px 20px;">
                                                 <a href="<?= $resetLink ?>" style="text-decoration: none;color: #FFF;padding: 16px 20px;background:#2470b3;font-weight: 500;text-align: center;cursor: pointer;display: inline-block;border-radius: 6px;font-family: 'Montserrat', sans-serif;">
-                                                    VERIFY EMAIL
+                                                    Verify Email
                                                 </a>
                                             </td>
                                         </tr>

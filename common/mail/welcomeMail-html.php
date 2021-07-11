@@ -60,15 +60,10 @@ use yii\helpers\Html;
                                         <tr>
                                             <td
                                                 style="padding: 40px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Welcome to RN500.com. We create the opportunity for everyone to earn money with us. Please go through step by step tip-points to complete your profile and find new opportunities.
+                                                Welcome to RN500.com. We have created opportunities for everyone to earn money with us. Please go through step by step process to complete your profile. 
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td
-                                                style="padding: 0px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Once again, thank you for joining RN500.com. 
-                                            </td>
-                                        </tr>
+
 
                                         <tr>
                                             <td
@@ -83,8 +78,9 @@ use yii\helpers\Html;
 
                                         <tr>
                                             <td align="left" style="padding: 0px 20px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">
-                                                Regards,<br/> 
-                                                RN500, LLC.<br/>
+                                                Thank you, <br/> 
+                                                Customer Service Team,  <br/> 
+                                                RN500 LLC.<br/>
                                                 www.RN500.com <br/>
                                             </td>
 

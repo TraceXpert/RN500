@@ -59,7 +59,7 @@ use yii\helpers\Html;
 
                                         <tr>
                                             <td
-                                                style="padding: 40px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
+                                                style="padding: 40px 20px 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
                                                 <p> Your RN500 Verification Code is:  <?php echo $otp ?></p> 
                                             </td>
                                         </tr>
@@ -76,9 +76,9 @@ use yii\helpers\Html;
 
                                         <tr>
                                             <td align="left" style="padding: 0px 20px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">
-                                                Regards,<br/> 
-                                                RN500, LLC.<br/>
-                                                www.RN500.com <br/>
+                                                Thank you, <br/> 
+                                                Customer Service Team.<br/>
+                                                RN500.com <br/>
                                             </td>
 
                                         </tr>
