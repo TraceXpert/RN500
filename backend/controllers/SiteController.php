@@ -61,7 +61,7 @@ class SiteController extends Controller {
      */
     public function actionIndex() {
         $counts = [];
-        $counts['recruiter'] = \common\models\User::find()->where(['type' => \common\models\User::TYPE_RECRUITER, 'is_suspend' => 0, 'status' => \common\models\User::STATUS_APPROVED])->count();
+        $counts['recruiter'] = \common\models\CompanyMaster::find()->where(['type' => 1, 'status' => 1, 'is_suspend' => 0])->count();
         $counts['employer'] = \common\models\User::find()->where(['type' => \common\models\User::TYPE_EMPLOYER, 'is_suspend' => 0, 'status' => \common\models\User::STATUS_APPROVED])->count();
         $counts['jobseeker'] = \common\models\User::find()->where(['type' => 3, 'is_suspend' => 0, 'status' => \common\models\User::STATUS_APPROVED])->count();
         $counts['lead'] = \common\models\LeadMaster::find()->where(['status' => \common\models\LeadMaster::STATUS_APPROVED])->count();

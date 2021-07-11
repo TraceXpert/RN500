@@ -51,8 +51,8 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                         <path d="M14.4114 23.1704H6.87574C6.31232 23.1704 5.81934 23.6634 5.81934 24.2268C5.81934 24.7902 6.31232 25.2832 6.87574 25.2832H14.4114C14.9748 25.2832 15.4678 24.7902 15.4678 24.2268C15.4678 23.6634 14.9748 23.1704 14.4114 23.1704Z" fill="#46AEE0"/>
                                     </svg>                                            
                                     <div class="media-body">
-                                        <a href="tel:+1123–456–7890">
-                                            +1123–456–7890
+                                        <a href="tel:+19178065507">
+                                            +1 917 806 5507
                                         </a>
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                     </svg>                                            
                                     <div class="media-body">
                                         <p class="mb-0">
-                                            3100, North Ocean Dr, Fort <br />Lauderdale, FL 33308. USA.
+                                            2929 NE 49th St, <br /> Fort Lauderdale, FL 33308 USA.
                                         </p>
                                     </div>
                                 </div>
@@ -107,9 +107,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 
         <div class="row align-items-center">
             <div class="col-lg-12">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.8662982361125!2d-80.10120853501806!3d26.168483483453706!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d901fe31a55947%3A0x86cafcd957a8660e!2s3100%20N%20Ocean%20Blvd%2C%20Fort%20Lauderdale%2C%20FL%2033308%2C%20USA!5e0!3m2!1sen!2sin!4v1623780628609!5m2!1sen!2sin"
-                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.2356762268814!2d-80.10959458497025!3d26.18901068344468!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9020e6f10d04d%3A0x67dc67341132512f!2s2929%20NE%2049th%20St%2C%20Fort%20Lauderdale%2C%20FL%2033308%2C%20USA!5e0!3m2!1sen!2sin!4v1626025706965!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
 

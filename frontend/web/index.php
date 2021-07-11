@@ -8,9 +8,9 @@ require __DIR__ . '/../../common/config/bootstrap.php';
 require __DIR__ . '/../config/bootstrap.php';
 
 $configFile = '';
-if ($_SERVER['SERVER_NAME'] == 'rn500.com') {
+if ($_SERVER['SERVER_NAME'] == 'rn500.com' || $_SERVER['SERVER_NAME'] == 'www.rn500.com') {
     $configFile = 'main.php';
-} elseif ($_SERVER['SERVER_NAME'] == 'dev.rn500.com') {
+} elseif ($_SERVER['SERVER_NAME'] == 'dev.rn500.com' || $_SERVER['SERVER_NAME'] == 'qa.rn500.com') {
     $configFile = 'main-stage.php';
 } else {
     $configFile = 'main-local.php';
