@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $user common\models\User */
 ?>
 
-<p>Hii <?php echo $model->to_name ?>, </p>
+<p>Hello <?php echo $model->to_name ?>, </p>
 <br/>
 
 
