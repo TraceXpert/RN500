@@ -29,11 +29,11 @@ class ResetPasswordForm extends Model {
      */
     public function __construct($token, $config = []) {
         if (empty($token) || !is_string($token)) {
-            throw new InvalidArgumentException('Password reset token cannot be blank.');
+            throw new \yii\web\NotFoundHttpException('Password reset token cannot be blank.');
         }
         $this->_user = User::findByPasswordResetToken($token);
         if (!$this->_user) {
-            throw new InvalidArgumentException('Wrong password reset token.');
+            throw new \yii\web\NotFoundHttpException('Wrong password reset token.');
         }
         parent::__construct($config);
     }
@@ -46,7 +46,7 @@ class ResetPasswordForm extends Model {
                 [['password', 'confirm_password'], 'required'],
                 ['confirm_password', 'compare', 'compareAttribute' => 'password'],
                 ['password', 'string', 'min' => 8],
-            [['password'], 'match', 'pattern' => "/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/", 'message' => Yii::t('app', 'Password required atlest 1 alphabet, 1 numeric and 1 special character.')],
+                [['password'], 'match', 'pattern' => "/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/", 'message' => Yii::t('app', 'Password required atlest 1 alphabet, 1 numeric and 1 special character.')],
         ];
     }
 
@@ -68,8 +68,28 @@ class ResetPasswordForm extends Model {
         $user->original_password = $this->password;
         $user->removePasswordResetToken();
         $user->generateAuthKey();
+        $this->sendPasswordResetAck($user);
 
-        return $user->save(false);
+        if ($user->save(false)) {
+            $this->sendPasswordResetAck($user);
+            return true;
+        };
+    }
+
+    public function sendPasswordResetAck($user) {
+        $mail = false;
+        try {
+            $mail = Yii::$app->mailer
+                    ->compose(['html' => 'password-reset-acknowledge'], ['user' => $user, 'name' => $user->getFullName()])
+                    ->setFrom([\Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
+                    ->setTo(trim($user->email))
+                    ->setSubject('Password reset for acknowledgement')
+                    ->send();
+        } catch (\Exception $e) {
+            $mail = false;
+        } finally {
+            return $mail;
+        }
     }
 
 }

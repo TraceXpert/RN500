@@ -155,3 +155,9 @@ CHANGE `expiry_date` `expiry_date` date NULL AFTER `document`;
 
 ALTER TABLE `company_master`
 ADD `extension` int(11) NULL AFTER `company_mobile`;
+
+-- ************************11-07-21 By Mohan
+ALTER TABLE `lead_master`
+ADD `is_suspended` tinytext COLLATE 'latin1_swedish_ci' NULL DEFAULT '0' COMMENT '0:No , 1 :Yes';
+-- ************************11-07-21 By Mohan End
+

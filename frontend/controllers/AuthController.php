@@ -44,11 +44,11 @@ class AuthController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['logout', 'change-password', 'index', 'get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                 'rules' => [
-                    [
+                        [
                         'actions' => ['get-cities', 'register', 'login', 'error', 'check-mail', 'reset-password'],
                         'allow' => true,
                     ],
-                    [
+                        [
                         'actions' => ['change-password', 'logout'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*'],
@@ -331,7 +331,7 @@ class AuthController extends Controller {
             $user->original_password = trim($model->new_password);
             if ($user->save()) {
                 Yii::$app->user->logout();
-                Yii::$app->session->setFlash('success', "Password Changed Successfully.");
+                Yii::$app->session->setFlash('success', "Password changed successfully.");
                 return $this->goHome();
             } else {
                 Yii::$app->session->setFlash('error', "Something went wrong");
@@ -356,7 +356,7 @@ class AuthController extends Controller {
             if (!empty($user)) {
                 $model->unique_id = $user->details->unique_id;
                 if ($model->sendEmail()) {
-                    Yii::$app->session->setFlash('success', "Password reset link sent Successfully. Please check your inbox.");
+                    Yii::$app->session->setFlash('success', "Password reset link sent successfully. Please check your inbox.");
                     return $this->redirect(['login']);
                 } else {
                     Yii::$app->session->setFlash('error', "something went wrong");
@@ -400,7 +400,7 @@ class AuthController extends Controller {
         $user = User::findOne(['email' => $email, 'status' => User::STATUS_APPROVED, 'is_suspend' => 0]);
         $sent_otp_detail = OtpRequest::find()->where(['user_id' => $user->id, 'is_verified' => OtpRequest::STATUS_NOT_VERIFIED])->orderBy("id desc")->one();
         if (!empty($sent_otp_detail)) {
-            $sent = \Yii::$app->mailer->compose('login-otp', ['otp' => $sent_otp_detail->otp])
+            $sent = \Yii::$app->mailer->compose('login-otp', ['otp' => $sent_otp_detail->otp, 'user' => $user])
                     ->setFrom([\Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
                     ->setTo($user->email)
                     ->setSubject('RN500 Verification Code')

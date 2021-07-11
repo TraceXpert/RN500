@@ -37,9 +37,25 @@ use yii\helpers\Html;
                                 <td style="padding: 20px">
                                     <table cellpadding="0" cellspacing="0" style="width: 100%;">
 
-                                        <tr>
+<!--                                        <tr>
                                             <td style="padding: 10px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Dear <?php echo $jobSeeker->getFullName() ?>, 
+                                                Dear <?php // echo $jobSeeker->getFullName()    ?>, 
+                                            </td>
+                                        </tr>-->
+
+                                        <tr style="background: #2470b3;border-radius: 6px;padding: 20px;display: grid;">
+                                            <td align="left">                            
+                                                <div style="display:inline-block; max-width:600px; border-radius: 6px;vertical-align:top; width:100%;margin: 10px 20px;">
+                                                    <table class="container" align="center" cellspacing="0" cellpadding="0" style="width: 100%;">
+                                                        <tr>
+                                                            <td align="left">
+                                                                <p style="color: #fff;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 20px;line-height: 26px;">
+                                                                    Dear <?php echo $jobSeeker->getFullName() ?>, <br/>
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </td>
                                         </tr>
 
@@ -49,20 +65,14 @@ use yii\helpers\Html;
                                             </td>
                                         </tr>
 
-
-
                                         <tr>
-                                            <td align="left" style="padding: 20px 20px 20px;display: flex;">
-                                                <span style="color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;font-size: 16px;font-weight: 600;margin-right: 10px;display: flex;align-items: center;">Stay in touch</span>
+                                            <td style="padding: 20px 20px;;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
+                                                If you have any issues, please contact customer service team of RN500 at:
+                                                <a href="mailto:<?php echo Yii::$app->params['senderEmail'] ?>" style="margin:0;padding: 0 0 20px 0;text-decoration: none;color: #2470b3;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 22px;"> <?php echo Yii::$app->params['senderEmail'] ?> </a>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td align="left" style="padding: 20px 20px 20px;display: flex;">
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/facebook.png']) ?>" alt="facebook" style="margin-right: 10px;"/></a>
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/instagram.png']) ?>" alt="Instagram" style="margin-right: 10px;"/></a>
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/twitter.png']) ?>" alt="Twitter"/></a>
-                                            </td>
-                                        </tr>
+
+                                        <?php echo $this->render('_social_links') ?>
 
                                         <tr>
                                             <td align="left" style="padding: 20px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">
