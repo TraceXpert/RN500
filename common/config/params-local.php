@@ -12,7 +12,7 @@ return [
     'job.type' => [1 => 'Part Time', 2 => 'Permanent', 3 => 'Travel', 4 => 'On Call', 5 => 'Contract'],
     'job.shift' => ['1' => 'All', '2' => 'Morning', '3' => 'Evening', '4' => 'Night', '5' => 'Flexible'],
     'company.priority' => [1 => 'High', 2 => 'Modrate', 3 => 'Semi Modrate', 4 => 'Low'],
-    'COMMISSION_MODE' => [0 => 'One Time', 1=>'Weekly', 2 => 'Monthly', 3 => 'Yearly'],
+    'COMMISSION_MODE' => [0 => 'One Time', 1 => 'Weekly', 2 => 'Monthly', 3 => 'Yearly'],
     'job.visible' => [0 => 'Both', 1 => 'Other Recruiter', 2 => 'RN500'],
     'date.format.display.php' => "m-d-Y", // 04-15-2021
     'date.format.datepicker.js' => "mm-dd-yyyy", // 04-15-2021
@@ -35,4 +35,5 @@ return [
     'RECRUITER_COMMISSION_TYPE' => [1 => 'Percentage (%)', 0 => 'Amount ($)'],
     "HTMLTAG_ERR_MSG" => "Please enter valid data.",
     "NO_HTMLTAG_PATTERN" => '/<(.|\n)*?>/',
+    "LEAD_SUSPENDED" => ["0" => "No", "1" => "Yes"]
 ];

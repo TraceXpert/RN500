@@ -253,7 +253,7 @@ use borales\extensions\phoneInput\PhoneInput;
                     <?= $form->field($recruiterCompany, 'employer_identification_number')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('employer_identification_number')])->label(false); ?>
                 </div>
                 <div class="col-lg-6 pr-3 pr-lg-0">
-                    <?= $form->field($recruiterCompany, 'website_link')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('website_link')])->label(false); ?>
+                    <?= $form->field($recruiterCompany, 'website_link')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('website_link')])->label(false)->hint("Website link should be like  https://rn500.com"); ?>
                 </div>
                 
             </div>

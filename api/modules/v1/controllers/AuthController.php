@@ -16,9 +16,6 @@ use common\models\PasswordResetRequestForm;
 use common\CommonFunction;
 use yii\helpers\Url;
 
-/**
- * Company Controller API
- */
 class AuthController extends Controller {
 
     public $modelClass = 'common\models\User';
@@ -84,7 +81,7 @@ class AuthController extends Controller {
                 if (!empty($user) && $user->validatePassword($request['password'])) {
                     $sent_otp_detail = OtpRequest::find()->where(['user_id' => $user->id, 'is_verified' => OtpRequest::STATUS_NOT_VERIFIED])->orderBy("id desc")->one();
                     if (!empty($sent_otp_detail)) {
-                        $sent = \Yii::$app->mailer->compose('login-otp', ['otp' => $sent_otp_detail->otp])
+                        $sent = \Yii::$app->mailer->compose('login-otp', ['otp' => $sent_otp_detail->otp, 'user' => $user])
                                 ->setFrom([\Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
                                 ->setTo($user->email)
                                 ->setSubject('RN500 Verification Code')
@@ -273,7 +270,7 @@ class AuthController extends Controller {
             $model->otp = $otp;
 
             if ($model->validate(['password', 'new_password', 'confirm_password', 'otp'])) {
-                
+
                 if ($model->OTPVerified()) {
                     $user = User::findOne($this->user_id);
                     $user->password = Yii::$app->security->generatePasswordHash($model->new_password);
