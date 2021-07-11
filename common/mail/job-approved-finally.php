@@ -37,53 +37,55 @@ use yii\helpers\Html;
                                 <td style="padding: 20px">
                                     <table cellpadding="0" cellspacing="0" style="width: 100%;">
 
-                                        <tr>
-                                            <td style="padding: 10px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Dear <?php echo $jobSeeker->getFullName() ?>, 
+                                        <tr style="background: #2470b3;border-radius: 6px;padding: 20px;display: grid;">
+                                            <td align="left">                            
+                                                <div style="display:inline-block; max-width:600px; border-radius: 6px;vertical-align:top; width:100%;margin: 10px 20px;">
+                                                    <table class="container" align="center" cellspacing="0" cellpadding="0" style="width: 100%;">
+                                                        <tr>
+                                                            <td align="left">
+                                                                <p style="color: #fff;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 20px;line-height: 26px;">
+                                                                    Dear <?php echo $jobSeeker->getFullName() ?>, <br />
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                Congratulations. Your recruiter has completed job process and decided to hire you. Please contact your recruiter  <?php echo $recruiterBranch->getOwnerName(); ?>, Phone: <?php echo $recruiterCompany->company_mobile?> ,  Email: <?php echo $recruiterBranch->getOwnerEmail() ?> for further information. 
+                                                Congratulations. Your recruiter has completed job process and decided to hire you. Please contact your recruiter  <?php echo $recruiterBranch->getOwnerName(); ?>, Phone: <?php echo $recruiterCompany->company_mobile ?> ,  Email: <?php echo $recruiterBranch->getOwnerEmail() ?> for further information. 
                                             </td>
                                         </tr>
-                                        
+
                                         <tr>
                                             <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
                                                 Please give your reviews to RN500.com  and Recruiter (<?php echo $recruiterCompany->company_name ?>). 
 
                                             </td>
                                         </tr>
-                                        
+
                                         <tr>
                                             <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
                                                 Received surprise gift card once you follow us on Facebook & Twitter and get referral bonus after hiring of referred person. 
                                             </td>
                                         </tr>
-                                        
+
                                         <tr>
                                             <td style="padding: 20px 20px;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
                                                 Thank you for giving us opportunity to serve you one of the leading healthcare job portal RN500.com. 
                                             </td>
                                         </tr>
 
-
-
                                         <tr>
-                                            <td align="left" style="padding: 20px 20px 20px;display: flex;">
-                                                <span style="color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;font-size: 16px;font-weight: 600;margin-right: 10px;display: flex;align-items: center;">Stay in touch</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="left" style="padding: 20px 20px 20px;display: flex;">
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/facebook.png']) ?>" alt="facebook" style="margin-right: 10px;"/></a>
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/instagram.png']) ?>" alt="Instagram" style="margin-right: 10px;"/></a>
-                                                <a href=""><img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/twitter.png']) ?>" alt="Twitter"/></a>
+                                            <td style="padding: 20px 20px;;color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
+                                                If you have any issues, please contact customer service team of RN500 at:
+                                                <a href="mailto:<?php echo Yii::$app->params['senderEmail'] ?>" style="margin:0;padding: 0 0 20px 0;text-decoration: none;color: #2470b3;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 22px;"> <?php echo Yii::$app->params['senderEmail'] ?> </a>
                                             </td>
                                         </tr>
 
-
+                                        <?php echo $this->render('_social_links') ?>
 
                                         <tr>
                                             <td align="left" style="padding: 20px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">

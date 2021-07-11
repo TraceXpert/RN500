@@ -24,14 +24,14 @@ class PasswordResetRequestForm extends Model {
     public function rules() {
 
         return [
-            ['email', 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
-            ['email', 'exist',
+                ['email', 'trim'],
+                ['email', 'required'],
+                ['email', 'email'],
+                ['email', 'exist',
                 'targetClass' => '\common\models\User',
                 'message' => 'There is no user with this email address.'
             ],
-            ['unique_id', 'safe'],
+                ['unique_id', 'safe'],
         ];
     }
 
@@ -56,19 +56,11 @@ class PasswordResetRequestForm extends Model {
         /* @var $user User */
         $user = User::find()->innerJoin('user_details', 'user_details.user_id=user.id')->where(['email' => $this->email, 'user_details.unique_id' => $this->unique_id])->one();
         if (!$user) {
-
             return false;
         }
-//        
-//        echo '<pre>';
-//        print_r($user);
-//        exit;
-        
+
         if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
-
             $user->generatePasswordResetToken();
-            
-
             if (!$user->save()) {
                 return false;
             }
