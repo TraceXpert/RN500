@@ -473,7 +473,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 
 
 
-
+<?php if(!empty($advertisments)){ ?>
 <section class="">
     <div class="container">
         <div class="row">
@@ -518,3 +518,4 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         </div>
     </div>
 </section>
+<?php } ?>
