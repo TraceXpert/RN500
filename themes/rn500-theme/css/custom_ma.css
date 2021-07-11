@@ -257,6 +257,7 @@
     height: 200px;
 }
 
+/*SELECT 2 *******START*/
 .select2-container--krajee-bs4 .select2-selection--multiple .select2-search--inline .select2-search__field,
 .input-lg.select2-container--krajee-bs4 .select2-selection--single, .input-group-lg .select2-container--krajee-bs4 .select2-selection--single{
     height: 50px;
@@ -272,6 +273,14 @@
     padding-top: 14px !important; 
     padding-left: 18px !important;
 }
+ul.select2-selection__rendered{
+    max-height: 50px !important;
+    overflow: auto !important;
+}
+.select2-container--krajee-bs4 .select2-selection--multiple .select2-selection__clear{
+    right: 1.5rem;
+}
+/*SELECT 2 *******START*/
 
 
 .password-toggle-icon {
@@ -293,3 +302,25 @@
     padding: 120px 30px 20px;
     overflow: auto;
 }
+/*GRIDVIEW PAGINATION****START*/
+.pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.pagination li  a,.pagination li  span{
+    padding: 0rem 0.9rem;
+    border :1px solid #1656A0;
+    color:#1656A0 !important;
+}
+
+.pagination li.active  a{
+    color:white !important;
+}
+.pagination li.active {
+    color:white !important;
+    background-color:#1656A0;
+}
+/*****GRIDVIEW PAGINATION***END*/

@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models;
+
 use yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -26,7 +27,7 @@ class LeadMasterSearch extends LeadMaster {
                 [['id', 'branch_id', 'payment_type', 'job_type', 'shift', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'price', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
                 [['title', 'reference_no', 'description', 'start_date', 'end_date', 'comment'], 'safe'],
                 [['jobseeker_payment'], 'number'],
-                [['company_name', 'branch_name','leadTitleWithRef'], 'safe'],
+                [['company_name', 'branch_name', 'leadTitleWithRef','is_suspended'], 'safe'],
         ];
     }
 
@@ -176,55 +177,55 @@ class LeadMasterSearch extends LeadMaster {
 
         return $dataProvider;
     }
-    
-    
+
     public function searchMyPostedJob($params) {
         $query = LeadMaster::find()->alias('lead')->joinWith(['branch branch']);
-        if(CommonFunction::isHoAdmin(Yii::$app->user->id)){
-            
-        $query->andWhere(['IN','branch_id', CommonFunction::getAllBranchIdsOfComapny(CommonFunction::getLoggedInUserCompanyId())]);
-            
-        }else {
-        $query->andWhere(['lead.branch_id'=> CommonFunction::getLoggedInUserBranchId()]);
-            
+        if (CommonFunction::isHoAdmin(Yii::$app->user->id)) {
+            $query->andWhere(['IN', 'branch_id', CommonFunction::getAllBranchIdsOfComapny(CommonFunction::getLoggedInUserCompanyId())]);
+        } else {
+            $query->andWhere(['lead.branch_id' => CommonFunction::getLoggedInUserBranchId()]);
         }
 
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['updated_at' => SORT_DESC]],
+            'sort' => ['defaultOrder' => ['updated_at' => SORT_DESC]],
         ]);
 
-        
+
         $this->load($params);
 
         if (!$this->validate()) {
             return $dataProvider;
         }
-        
-         if ($this->leadTitleWithRef) {
+
+        if ($this->leadTitleWithRef) {
             $query->andWhere(['OR',
                     ['like', 'lead.title', $this->leadTitleWithRef],
                     ['like', 'lead.reference_no', $this->leadTitleWithRef],
                     ['like', new Expression('CONCAT(lead.title, " (", lead.reference_no, ")")'), $this->leadTitleWithRef]
             ]);
         }
-        
+
         if ($this->start_date) {
             $query->andWhere(['like', 'lead.start_date', CommonFunction::getStorableDate($this->start_date)]);
         }
-        
+
         if ($this->end_date) {
-            
+
             $query->andWhere(['like', 'lead.end_date', CommonFunction::getStorableDate($this->end_date)]);
         }
-        
+        if ($this->is_suspended !='') {
+
+            $query->andWhere(['lead.is_suspended'=> $this->is_suspended]);
+        }
+
         if ($this->branch_name) {
-            
+
             $query->andWhere(['like', 'branch.branch_name', $this->branch_name]);
         }
 
-        
+
 
         return $dataProvider;
     }

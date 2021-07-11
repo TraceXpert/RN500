@@ -71,9 +71,6 @@ class JobController extends Controller {
             $model->specialities = ArrayHelper::getColumn(LeadSpeciality::findAll(['lead_id' => $model->id]), 'speciality_id');
             $model->disciplines = ArrayHelper::getColumn(LeadDiscipline::findAll(['lead_id' => $model->id]), 'discipline_id');
             $model->emergency = ArrayHelper::getColumn(LeadEmergency::findAll(['lead_id' => $model->id]), 'emergency_id');
-
-
-
             $model->state = (isset($model->cities->state_id)) ? $model->cities->state_id : '';
             if ($model->state != '') {
                 $cities = Cities::getAllCities($model->state);

@@ -42,22 +42,22 @@ class BrowseJobsController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['recruiter-lead', 'recruiter-view', 'apply', 'apply-job', 'track-my-application', 'set-rating'],
                 'rules' => [
-                    [
+                        [
                         'actions' => ['apply', 'apply-job'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*']
                     ],
-                    [
+                        [
                         'actions' => ['recruiter-lead', 'recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isRecruiter() ? ['@'] : ['*'] : ['*'],
                     ],
-                    [
+                        [
                         'actions' => ['recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isEmployer() ? ['@'] : ['*'] : ['*'],
                     ],
-                    [
+                        [
                         'actions' => ['track-my-application', 'set-rating'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isJobSeeker() ? ['@'] : ['*'] : ['*'],
@@ -75,7 +75,7 @@ class BrowseJobsController extends Controller {
 
     public function actionIndex() {
         $request = \Yii::$app->getRequest()->get();
-        $query = LeadMaster::find()->joinWith(['benefits', 'disciplines', 'specialty', 'branch', 'emergency'])->where(['lead_master.status' => LeadMaster::STATUS_APPROVED]);
+        $query = LeadMaster::find()->joinWith(['benefits', 'disciplines', 'specialty', 'branch', 'emergency'])->where(['lead_master.status' => LeadMaster::STATUS_APPROVED, 'lead_master.is_suspended' => LeadMaster::IS_SUSPENDED_NO]);
         if (isset($request['discipline']) && !empty($request['discipline'])) {
             $query->andFilterWhere(['IN', 'lead_discipline.discipline_id', implode(',', $request['discipline'])]);
         }
@@ -141,7 +141,7 @@ class BrowseJobsController extends Controller {
 
     public function actionRecruiterLead() {
         $request = \Yii::$app->getRequest()->get();
-        $query = LeadMaster::find()->joinWith(['benefits', 'disciplines', 'specialty', 'branch', 'emergency'])->where(['lead_master.status' => LeadMaster::STATUS_APPROVED]);
+        $query = LeadMaster::find()->joinWith(['benefits', 'disciplines', 'specialty', 'branch', 'emergency'])->where(['lead_master.status' => LeadMaster::STATUS_APPROVED, 'lead_master.is_suspended' => LeadMaster::IS_SUSPENDED_NO]);
         if (isset($request['discipline']) && !empty($request['discipline'])) {
             $query->andFilterWhere(['IN', 'lead_discipline.discipline_id', implode(',', $request['discipline'])]);
         }
@@ -397,7 +397,7 @@ class BrowseJobsController extends Controller {
 
     public function actionApply($ref) {
         if (CommonFunction::isJobSeeker()) {
-            $model = LeadMaster::findOne(['reference_no' => $ref]);
+            $model = LeadMaster::find()->where(['reference_no' => $ref,'is_suspended' => LeadMaster::IS_SUSPENDED_NO])->one();
             if ($model != null) {
                 $searchModel = new LeadMasterSearch();
                 $searchModel->loggedInUserId = Yii::$app->user->identity->id;
@@ -414,34 +414,38 @@ class BrowseJobsController extends Controller {
 
     public function actionApplyJob($lead_id, $branch_id) {
         $loggedInUserId = Yii::$app->user->identity->id;
-        $model = LeadRecruiterJobSeekerMapping::findOne(['lead_id' => $lead_id, 'branch_id' => $branch_id, 'job_seeker_id' => $loggedInUserId]);
-        if ($model == null) {
-            $model = new LeadRecruiterJobSeekerMapping();
-            $model->lead_id = $lead_id;
-            $model->branch_id = $branch_id;
-            $model->job_seeker_id = $loggedInUserId;
-            $model->updated_at = CommonFunction::currentTimestamp();
-            $model->updated_by = $loggedInUserId;
-            if ($model->save()) {
-                $mailSentJobSeeker = $model->sendMailToJobSeekerAboutAppliedAcknowledgement();
-                $mailSentRecBranch = $model->sendMailToRecruiterBranch();
+        $leadMaster = LeadMaster::find()->where(['id' => $lead_id])->andWhere(['is_suspended' => LeadMaster::IS_SUSPENDED_NO])->one();
+        if ($leadMaster != null) {
+            $model = LeadRecruiterJobSeekerMapping::findOne(['lead_id' => $lead_id, 'branch_id' => $branch_id, 'job_seeker_id' => $loggedInUserId]);
+            if ($model == null) {
+                $model = new LeadRecruiterJobSeekerMapping();
+                $model->lead_id = $lead_id;
+                $model->branch_id = $branch_id;
+                $model->job_seeker_id = $loggedInUserId;
+                $model->updated_at = CommonFunction::currentTimestamp();
+                $model->updated_by = $loggedInUserId;
+                if ($model->save()) {
+                    $mailSentJobSeeker = $model->sendMailToJobSeekerAboutAppliedAcknowledgement();
+                    $mailSentRecBranch = $model->sendMailToRecruiterBranch();
 
-                if ($mailSentJobSeeker['status'] == '1' && $mailSentRecBranch['status'] == '1') {
-                    Yii::$app->session->setFlash("success", "Job applied successfully.");
-                    echo Json::encode(['code' => '200']);
-                    exit;
-                } else {
-                    Yii::$app->session->setFlash("warning", "Job applied successfully, but there was a issue while sending the mail.");
-                    echo Json::encode(['code' => '201']);
-                    exit;
+                    if ($mailSentJobSeeker['status'] == '1' && $mailSentRecBranch['status'] == '1') {
+                        Yii::$app->session->setFlash("success", "Job applied successfully.");
+                        echo Json::encode(['code' => '200']);
+                        exit;
+                    } else {
+                        Yii::$app->session->setFlash("warning", "Job applied successfully, but there was a issue while sending the mail.");
+                        echo Json::encode(['code' => '201']);
+                        exit;
+                    }
                 }
+            } else {
+                Yii::$app->session->setFlash("warning", "You have already applied to this branch.");
+                echo Json::encode(['code' => '201']);
             }
-//            $ref = LeadMaster::findOne($lead_id)->reference_no;
         } else {
-            Yii::$app->session->setFlash("warning", "You have already applied to this branch");
+            Yii::$app->session->setFlash("warning", "Lead does not exists or may be suspended.");
+            echo Json::encode(['code' => '201']);
         }
-//        $ref = LeadMaster::findOne($lead_id)->reference_no;
-//        return $this->redirect(['apply', 'ref' => $ref]);
     }
 
     public function actionTrackMyApplication() {

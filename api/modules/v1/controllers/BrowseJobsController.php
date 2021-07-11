@@ -195,7 +195,7 @@ class BrowseJobsController extends Controller {
             $search = (isset($request['search']) && !empty($request['search'])) ? $request['search'] : "";
             $limitForDashboard = (isset($request['limit_for_dashboard']) && $request['limit_for_dashboard'] != '') ? $request['limit_for_dashboard'] : "";
 
-            $query = LeadMaster::find()->joinWith(['benefits', 'disciplines', 'specialty', 'branch'])->where(['lead_master.status' => LeadMaster::STATUS_APPROVED]);
+            $query = LeadMaster::find()->joinWith(['benefits', 'disciplines', 'specialty', 'branch'])->where(['lead_master.status' => LeadMaster::STATUS_APPROVED, 'lead_master.is_suspended' => LeadMaster::IS_SUSPENDED_NO]);
             if (!empty($search)) {
                 $query->andWhere(['OR', ['like', 'lead_master.title', $search], ['like', 'lead_master.reference_no', $search]]);
             }
