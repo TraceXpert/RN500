@@ -198,51 +198,72 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 
         <div class="row">
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/slack.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/1.jpg" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
 
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/netflix.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/2.png" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
 
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/fitbit.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/3.png" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
 
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/google.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/4.png" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
 
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/airbnb.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/5.png" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
 
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/uber.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/6.png" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
 
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/slack.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/7.png" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
 
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/netflix.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/8.png" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
 
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/fitbit.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/9.png" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
 
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/google.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/10.jpg" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
 
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/airbnb.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/11.jpg" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
 
             <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/uber.png" alt="about-us" class="img-fluid mx-auto d-block">
+                <img src="<?= $assetDir ?>/img/12.png" alt="about-us" class="img-fluid mx-auto d-block">
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <img src="<?= $assetDir ?>/img/13.png" alt="about-us" class="img-fluid mx-auto d-block">
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <img src="<?= $assetDir ?>/img/14.png" alt="about-us" class="img-fluid mx-auto d-block">
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <img src="<?= $assetDir ?>/img/15.png" alt="about-us" class="img-fluid mx-auto d-block">
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <img src="<?= $assetDir ?>/img/16.png" alt="about-us" class="img-fluid mx-auto d-block">
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <img src="<?= $assetDir ?>/img/17.png" alt="about-us" class="img-fluid mx-auto d-block">
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <img src="<?= $assetDir ?>/img/18.png" alt="about-us" class="img-fluid mx-auto d-block">
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <img src="<?= $assetDir ?>/img/19.png" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
         </div>
 
