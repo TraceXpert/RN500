@@ -63,7 +63,7 @@ class JobController extends Controller {
         $isEditForm = ($ref != '') ? true : false;
         $cities = [];
         if ($isEditForm) {
-            $model = LeadMaster::find()->where(['reference_no' => $ref]);
+            $model = LeadMaster::find()->alias('lead')->where(['reference_no' => $ref]);
             if (CommonFunction::isHoAdmin(Yii::$app->user->id)) {
                 $model->andWhere(['IN', 'branch_id', CommonFunction::getAllBranchIdsOfComapny(CommonFunction::getLoggedInUserCompanyId())]);
             } else {
