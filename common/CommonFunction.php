@@ -320,35 +320,35 @@ class CommonFunction {
 //        $hasCompletedReference = 0;
 
         $userDetails = UserDetails::findOne(['user_id' => \Yii::$app->user->id]);
-        $workExperience = WorkExperience::findOne(['user_id' => \Yii::$app->user->id]);
-        $education = Education::findOne(['user_id' => \Yii::$app->user->id]);
         $license = Licenses::findOne(['user_id' => \Yii::$app->user->id]);
         $certification = Certifications::findOne(['user_id' => \Yii::$app->user->id]);
         $documents = Documents::findOne(['user_id' => \Yii::$app->user->id]);
-        $reference = References::findOne(['user_id' => \Yii::$app->user->id]);
+//        $workExperience = WorkExperience::findOne(['user_id' => \Yii::$app->user->id]);
+//        $education = Education::findOne(['user_id' => \Yii::$app->user->id]);
+//        $reference = References::findOne(['user_id' => \Yii::$app->user->id]);
         if (CommonFunction::isJobSeeker()) {
             if (isset($userDetails) && !empty($userDetails) && !empty($userDetails->ssn)) {
-                $totalPer += 16;
+                $totalPer += 25;
             }
 
-            if (isset($workExperience) && !empty($workExperience)) {
-                $totalPer += 14;
-            }
-            if (isset($education) && !empty($education)) {
-                $totalPer += 14;
-            }
             if (isset($license) && !empty($license)) {
-                $totalPer += 14;
+                $totalPer += 25;
             }
             if (isset($certification) && !empty($certification)) {
-                $totalPer += 14;
+                $totalPer += 25;
             }
             if (isset($documents) && !empty($documents)) {
-                $totalPer += 14;
+                $totalPer += 25;
             }
-            if (isset($reference) && !empty($reference)) {
-                $totalPer += 14;
-            }
+//            if (isset($workExperience) && !empty($workExperience)) {
+//                $totalPer += 14;
+//            }
+//            if (isset($reference) && !empty($reference)) {
+//                $totalPer += 14;
+//            }
+//            if (isset($education) && !empty($education)) {
+//                $totalPer += 14;
+//            }
         } else {
             if (isset($userDetails) && !empty($userDetails->first_name)) {
                 $totalPer = 15;

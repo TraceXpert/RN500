@@ -88,7 +88,7 @@ nav .readmore{padding: 10px 26px !important}
     background: #46AEE0 !important;border-color: #46AEE0 !important;border-radius: 0 !important;height: calc(3em + .75rem + 2px);width: 100%;font-size: 16px !important;font-weight: normal !important;
 }
 .form-group select{background: #FFFFFF url(../img/down-arrow.png) no-repeat !important;background-position: right 16px center !important;-webkit-appearance: none;-moz-appearance: none;appearance: none;}
-.filter-block .select2-selection--multiple{font-size: 16px;height: calc(3em + .75rem + 2px);padding: 10px 30px 10px 50px;border: 0;}
+.filter-block .select2-selection--multiple{font-size: 16px;height: calc(3em + .75rem + 2px);padding: 10px 30px 10px 50px;border: 0;border-radius: 0;}
 .filter-block .select2-container--krajee .select2-selection--multiple .select2-search--inline .select2-search__field {height: 38px;}
 .rating .rating-md {font-size: unset;}
 .rating .glyphicon {font-size: 20px;}
@@ -293,6 +293,9 @@ footer .media,.contact-us-shape .media,.title-location .media,.nav-link .media,.
 footer .media a{color: rgb(233 247 254 / 50%)}
 footer hr{border-top: 1px solid #8C97AC;}
 
+@media only screen and (max-width: 1600px) and (min-width: 1200px) {
+    .the-rn-app img{width: 200px;}
+}
 @media (min-width: 1200px) {    
     .container, .container-lg, .container-md, .container-sm, .container-xl {
         max-width: 1170px;
@@ -305,7 +308,7 @@ footer hr{border-top: 1px solid #8C97AC;}
     .the-rn-app p{font-size: 14px;}
     .the-rn-app img{width: 150px;}
     .inner-banner{padding: 150px 0px 80px;}
-    .filter-block .form-control{font-size: 14px;}
+    .filter-block .form-control,.filter-block .select2-selection--multiple{font-size: 14px;}
 }
 @media only screen and (max-width: 1199px) and (min-width: 991px)  {
     .navbar-dark .navbar-nav .nav-link{margin: .5rem 0.6rem;font-size: 13px;}

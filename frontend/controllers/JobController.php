@@ -63,17 +63,25 @@ class JobController extends Controller {
         $isEditForm = ($ref != '') ? true : false;
         $cities = [];
         if ($isEditForm) {
-            $model = LeadMaster::find()->where(['reference_no' => $ref])->one();
-            if ($model === null || !CommonFunction::isHoAdmin(Yii::$app->user->id) || $model->branch_id !== CommonFunction::getLoggedInUserBranchId()) {
-                throw new NotFoundHttpException("Something went wrong");
+            $model = LeadMaster::find()->alias('lead')->where(['reference_no' => $ref]);
+            if (CommonFunction::isHoAdmin(Yii::$app->user->id)) {
+                $model->andWhere(['IN', 'branch_id', CommonFunction::getAllBranchIdsOfComapny(CommonFunction::getLoggedInUserCompanyId())]);
+            } else {
+                $model->andWhere(['lead.branch_id' => CommonFunction::getLoggedInUserBranchId()]);
             }
-            $model->benefits = ArrayHelper::getColumn(LeadBenefit::findAll(['lead_id' => $model->id]), 'benefit_id');
-            $model->specialities = ArrayHelper::getColumn(LeadSpeciality::findAll(['lead_id' => $model->id]), 'speciality_id');
-            $model->disciplines = ArrayHelper::getColumn(LeadDiscipline::findAll(['lead_id' => $model->id]), 'discipline_id');
-            $model->emergency = ArrayHelper::getColumn(LeadEmergency::findAll(['lead_id' => $model->id]), 'emergency_id');
-            $model->state = (isset($model->cities->state_id)) ? $model->cities->state_id : '';
-            if ($model->state != '') {
-                $cities = Cities::getAllCities($model->state);
+            $model = $model->one();
+            if ($model != null) {
+
+                $model->benefits = ArrayHelper::getColumn(LeadBenefit::findAll(['lead_id' => $model->id]), 'benefit_id');
+                $model->specialities = ArrayHelper::getColumn(LeadSpeciality::findAll(['lead_id' => $model->id]), 'speciality_id');
+                $model->disciplines = ArrayHelper::getColumn(LeadDiscipline::findAll(['lead_id' => $model->id]), 'discipline_id');
+                $model->emergency = ArrayHelper::getColumn(LeadEmergency::findAll(['lead_id' => $model->id]), 'emergency_id');
+                $model->state = (isset($model->cities->state_id)) ? $model->cities->state_id : '';
+                if ($model->state != '') {
+                    $cities = Cities::getAllCities($model->state);
+                }
+            } else {
+                throw new NotFoundHttpException("Something went wrong");
             }
         } else {
             $model = new LeadMaster();
