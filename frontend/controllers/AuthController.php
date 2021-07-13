@@ -387,7 +387,7 @@ class AuthController extends Controller {
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'Password reset sucessfully. Please login to continue.');
+            Yii::$app->session->setFlash('success', 'Password reset successfully. Please login to continue.');
             return $this->redirect(['login']);
         }
 

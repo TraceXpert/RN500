@@ -14,6 +14,7 @@ class ResetPasswordForm extends Model {
 
     public $password;
     public $confirm_password;
+    public $first_time = false;
 
     /**
      * @var \common\models\User
@@ -63,15 +64,20 @@ class ResetPasswordForm extends Model {
      * @return bool if password was reset.
      */
     public function resetPassword() {
+        
         $user = $this->_user;
+        if($user->password === null || $user->password ===''){
+            $this->first_time = true;
+        }
         $user->setPassword($this->password);
         $user->original_password = $this->password;
         $user->removePasswordResetToken();
         $user->generateAuthKey();
-        $this->sendPasswordResetAck($user);
-
+        
         if ($user->save(false)) {
-            $this->sendPasswordResetAck($user);
+            if(!$this->first_time){
+                $this->sendPasswordResetAck($user);
+            }            
             return true;
         };
     }
@@ -83,7 +89,7 @@ class ResetPasswordForm extends Model {
                     ->compose(['html' => 'password-reset-acknowledge'], ['user' => $user, 'name' => $user->getFullName()])
                     ->setFrom([\Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
                     ->setTo(trim($user->email))
-                    ->setSubject('Password reset for acknowledgement')
+                    ->setSubject('Password reset acknowledgement')
                     ->send();
         } catch (\Exception $e) {
             $mail = false;
