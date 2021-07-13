@@ -68,7 +68,7 @@ use yii\helpers\Html;
 
                                         <tr>
                                             <td align="left" style="padding: 0px 20px;">
-                                                <a href="<?= $resetLink ?>" style="text-decoration: none;color: #FFF;padding: 16px 20px;background:#2470b3;font-weight: 500;text-align: center;cursor: pointer;display: inline-block;border-radius: 6px;font-family: 'Montserrat', sans-serif;">
+                                                <a target="_blank" href="<?= $resetLink ?>" style="text-decoration: none;color: #FFF;padding: 16px 20px;background:#2470b3;font-weight: 500;text-align: center;cursor: pointer;display: inline-block;border-radius: 6px;font-family: 'Montserrat', sans-serif;" >
                                                     Verify Email
                                                 </a>
                                             </td>

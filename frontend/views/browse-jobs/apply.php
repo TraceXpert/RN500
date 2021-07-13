@@ -107,19 +107,6 @@ $script_new = <<<JS
             });
         }
       })
-
-        
-//        swal("Are you sure, you want to apply this job?",{
-//            buttons: ["Cancel", "Yes!"],
-//        }).then((value) => {
-//            if(value){
-//                $.ajax({
-//                    method: "POST",
-//                    url: url,
-//                }).done(function( res ) {
-//                });
-//            }
-//        });
     }
 JS;
 $this->registerJS($script_new, 3);
