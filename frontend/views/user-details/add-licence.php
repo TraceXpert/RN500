@@ -36,7 +36,7 @@ $frontendDir = yii\helpers\Url::base(true);
             <!--<label class="control-label" for="issuing_state">Issuing State</label>-->
             <ul class="optionlist">
                 <?php
-                $url = Url::to(['browse-jobs/get-cities']);
+                $url = Url::to(['site/get-cities']);
                 
                 echo $form->field($model, 'issuing_state')->widget(Select2::classname(),[
                     'name' => 'issuing_state',
