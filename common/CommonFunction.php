@@ -93,7 +93,7 @@ class CommonFunction {
     }
 
     // RETURN TRUE IF LOGGED-IN USER BELONGS TO DEFAULT BRANCH, GENERALLY "HO"
-    public static function isLoggedInUserDefaultBranch() { 
+    public static function isLoggedInUserDefaultBranch() {
         $isDefaultBranchUser = false;
         if (isset(Yii::$app->user->identity->branch) && Yii::$app->user->identity->branch->is_default == CompanyBranch::IS_DEFAULT_YES) {
             $isDefaultBranchUser = true;
@@ -297,7 +297,7 @@ class CommonFunction {
             $convertedDate = "$actualDate[2]-$actualDate[0]-$actualDate[1]";
 
             if ($postDateMMDDYY != '' && $postDateMMDDYY != '0000-00-00' && date('Y-m-d', strtotime($convertedDate)) != '1970-01-01') {
-                $storable_date =$convertedDate;
+                $storable_date = $convertedDate;
             }
         } catch (\Exception $e) {
             $storable_date = null;
@@ -392,9 +392,16 @@ class CommonFunction {
         array_shift($shifts);
         return implode(", ", $shifts);
     }
-    
+
     public static function getAllBranchIdsOfComapny($companyId) {
-        return $branchIds = ArrayHelper::getColumn(CompanyBranch::find()->select("id")->where(['company_id'=>$companyId])->all(),'id');
+        return $branchIds = ArrayHelper::getColumn(CompanyBranch::find()->select("id")->where(['company_id' => $companyId])->all(), 'id');
+    }
+
+    public static function getFormatedNumber($number) {
+        if (preg_match('/^\+\d(\d{3})(\d{3})(\d{4})$/', $number, $matches)) {
+            $result = $matches[1] . '-' . $matches[2] . '-' . $matches[3];
+            return $result;
+        }
     }
 
 }
