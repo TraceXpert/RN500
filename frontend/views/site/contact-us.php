@@ -64,7 +64,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                     </svg>                                            
                                     <div class="media-body">
                                         <p class="mb-0">
-                                            2929 NE 49th St, <br /> Fort Lauderdale, FL 33308 USA.
+                                            RN500 LLC . 445 Park Avenue, <br />  4th Floor, Manhattan, NY 10022 USA.
                                         </p>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 
         <div class="row align-items-center">
             <div class="col-lg-12">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.2356762268814!2d-80.10959458497025!3d26.18901068344468!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9020e6f10d04d%3A0x67dc67341132512f!2s2929%20NE%2049th%20St%2C%20Fort%20Lauderdale%2C%20FL%2033308%2C%20USA!5e0!3m2!1sen!2sin!4v1626025706965!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.0423902556627!2d-73.97275538481713!3d40.761092379326634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c258e52f3aa7bf%3A0x94cbd816f9c54fd5!2s445%20Park%20Ave%204th%20Floor%2C%20New%20York%2C%20NY%2010022%2C%20USA!5e0!3m2!1sen!2sin!4v1626198190824!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
 
