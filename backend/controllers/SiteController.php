@@ -114,7 +114,7 @@ class SiteController extends Controller {
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', "Reset Password Link sent sucessfully. Ckeck your registered email id");
+                Yii::$app->session->setFlash('success', "Reset Password Link sent successfully. Ckeck your registered email id");
 
                 return $this->goHome();
             } else {
@@ -143,7 +143,7 @@ class SiteController extends Controller {
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'Password reset sucessfully');
+            Yii::$app->session->setFlash('success', 'Password reset successfully.');
 
             return $this->goHome();
         }
