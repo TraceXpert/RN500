@@ -286,7 +286,7 @@ class SiteController extends Controller {
             }
         }
 
-        return $this->render('contact-us', ['model' => $model]);
+        return $this->render('contact-us');
     }
 
     public function actionAboutUs() {

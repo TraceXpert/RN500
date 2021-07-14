@@ -151,6 +151,7 @@ class AuthController extends Controller {
                             $transaction->commit();
                             $resetPasswordModel = new PasswordResetRequestForm();
                             $resetPasswordModel->email = $user->email;
+                            $resetPasswordModel->unique_id = $userDetails->unique_id;
                             $is_welcome_mail = 1;
                             $resetPasswordModel->sendEmail($is_welcome_mail);
                             CommonFunction::sendWelcomeMail($user);
@@ -188,6 +189,8 @@ class AuthController extends Controller {
 
         if (isset($request["email"]) && !empty($request["email"])) {
             $model = new PasswordResetRequestForm();
+            $user = User::find()->where(['email' => $model->email, 'is_suspend' => 0])->andWhere(['!=', 'status', User::STATUS_REJECTED])->one();
+            $model->unique_id = $user->details->unique_id;
             $model->email = trim($request["email"]);
             if ($model->validate()) {
                 if ($model->sendEmail()) {

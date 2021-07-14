@@ -315,7 +315,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                             StarRating::widget([
                                                 'name' => 'rating_35',
                                                 'value' => $model->avgRating,
-                                                'pluginOptions' => ['displayOnly' => true]
+                                                'pluginOptions' => ['displayOnly' => true, 'showCaption' => false]
                                             ]);
                                             ?>
                                         </div>

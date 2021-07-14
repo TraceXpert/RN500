@@ -97,8 +97,7 @@ use common\CommonFunction;
                     <img src="<?= $assetDir ?>/img/location-icon.png" alt="location-icon" class="mr-3">
                     <div class="media-body">                         
                         <p class="mb-0">
-                            2929 NE 49th St, 
-                            Fort Lauderdale, FL 33308 USA.
+                            RN500 LLC. 445 Park Avenue, 4th Floor, Manhattan, NY 10022 USA.
                         </p>
                     </div>
                 </div>
@@ -107,8 +106,8 @@ use common\CommonFunction;
                 <div class="media  mb-3">
                     <img src="<?= $assetDir ?>/img/mobile-icon.png" alt="mobile-icon" class="mr-3">
                     <div class="media-body">                         
-                        <a href="tel:+1 123–456–7890">
-                            +1 123–456–7890
+                        <a href="tel:+1 917-806-5507">
+                            +1 917-806-5507
                         </a>
                     </div>
                 </div>
