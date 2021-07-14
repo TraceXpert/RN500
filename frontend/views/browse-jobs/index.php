@@ -322,7 +322,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                     </div>
                                 </div>
                                 <div class="col-sm-6 p-0 text-right">
-                                    <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->reference_no]) ?>" class="read-more contact-us mb-0">View Profile</a>
+                                    <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->reference_no]) ?>" class="read-more contact-us mb-0">View Job</a>
                                 </div>
 
 
