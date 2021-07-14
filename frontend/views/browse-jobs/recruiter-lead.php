@@ -315,7 +315,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                             StarRating::widget([
                                                 'name' => 'rating_35',
                                                 'value' => $model->avgRating,
-                                                'pluginOptions' => ['displayOnly' => true]
+                                                'pluginOptions' => ['displayOnly' => true, 'showCaption' => false]
                                             ]);
                                             ?>
                                         </div>
@@ -323,7 +323,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                                 </div>
                                 <div class="col-sm-6 p-0 text-right">
                                     <?php if (!CommonFunction::isExpired() || in_array($model->id, CommonFunction::getAllPurchasedLead()) || CommonFunction::getLoggedInUserCompanyId() == 1 || (isset($model->branch->company_id) && $model->branch->company_id == CommonFunction::getLoggedInUserCompanyId())) { ?>
-                                        <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/recruiter-view', 'id' => $model->reference_no]) ?>" class="read-more contact-us mb-0">View Profile</a>
+                                        <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/recruiter-view', 'id' => $model->reference_no]) ?>" class="read-more contact-us mb-0">View Job</a>
                                     <?php } else { ?>
                                         <?php if (CommonFunction::isVisibleLead($model->approved_at)) { ?>
                                             <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['payment/index', 'id' => $model->id]) ?>" class="read-more contact-us mb-0">Buy Now <?= "$" . $model->price ?></a>

@@ -323,7 +323,11 @@ ul.select2-selection__rendered{
     color:white !important;
     background-color:#1656A0;
 }
-/*****GRIDVIEW PAGINATION***END*/
+
+.popular-location{
+    color: inherit;
+}
+
 .border-radius-50{
     border-radius: 50px;
 }
