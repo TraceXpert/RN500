@@ -6,6 +6,8 @@ use kartik\select2\Select2;
 use kartik\date\DatePicker;
 use common\CommonFunction;
 use yii\helpers\Html;
+use dosamigos\ckeditor\CKEditor;
+
 $jsFormat = Yii::$app->params['date.format.datepicker.js'];
 
 /*
@@ -38,7 +40,7 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
 //                            ],
 //                        ]);
                         ?>
-                        <?php echo $form->field($model, 'branch_id')->dropdownList($branchList, ['class' => 'form-control', 'prompt' => 'Select Location' ,'disabled'=> (Yii::$app->request->get('ref') != null) ? true : false])->label('Location'); ?>
+                        <?php echo $form->field($model, 'branch_id')->dropdownList($branchList, ['class' => 'form-control', 'prompt' => 'Select Location', 'disabled' => (Yii::$app->request->get('ref') != null) ? true : false])->label('Location'); ?>
                     </div>
                 <?php } ?>
 
@@ -194,13 +196,30 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                 <div class="col-md-6">
                     <?php echo $form->field($model, 'zip_code')->textInput(['placeholder' => $model->getAttributeLabel('zip_code')]); ?>
                 </div>
-                <div class="col-md-6">
-                    <?php echo $form->field($model, 'description')->textInput(['placeholder' => $model->getAttributeLabel('description')]); ?>
-                </div>
-                
-                
+
+
                 <div class="col-md-6 margin-top-20">
                     <?php echo $form->field($model, 'is_suspended')->checkbox(); ?>
+                </div>
+
+                <div class="col-md-12">
+                    <?php // echo $form->field($model, 'description')->textInput(['placeholder' => $model->getAttributeLabel('description')]); ?>
+                    <?php
+//                    echo $form->field($model, 'description')->widget(Codemirror::class, [
+//                        'useKrajeePresets' => true,
+//                            // other widget settings
+//                    ]);
+                    echo $form->field($model, 'description')->widget(CKEditor::className(), [
+//                           'kcfinder' => true,
+                        'options' => ['rows' => 4],
+                        'clientOptions' => [
+//                    'removeButtons' => 'Subscript,Superscript,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe',
+                            'removeButtons' => 'Maximize,Image,Source,Table,About,Anchor,Link,Path,SpecialChar,PageBreak,HorizontalRule',
+                        ],
+                        'preset' => 'standard'
+                    ])
+                    ?>
+
                 </div>
             </div>
             <div class="row margin-top-20">

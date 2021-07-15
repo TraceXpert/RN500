@@ -73,7 +73,7 @@ class LeadMaster extends \yii\db\ActiveRecord {
                 [['end_date', 'start_date'], 'checkEndDate', 'on' => 'post-job'],
                 [['is_suspended'], 'checkSuspendDependency', 'on' => 'post-job'],
                 [['approved_at', 'branch_id', 'state', 'comment', 'disciplines', 'benefits', 'specialities', 'end_date', 'start_date', 'emergency', 'is_suspended'], 'safe'],
-                [['title', 'description', 'apt', 'zip_code', 'comment'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
+                [['title',  'apt', 'zip_code', 'comment'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 
