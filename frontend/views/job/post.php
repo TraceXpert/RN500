@@ -16,7 +16,6 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
  * and open the template in the editor.
  */
 ?>
-
 <section class="about-us about-inner-block">
     <div class="container">
         <div class="row align-items-center">
@@ -198,8 +197,11 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                 </div>
 
 
-                <div class="col-md-6 margin-top-20">
-                    <?php echo $form->field($model, 'is_suspended')->checkbox(); ?>
+                <div class="col-md-6 ">
+                    <?php
+                    echo $form->field($model, 'is_suspended', [
+                    ])->checkbox(['style' => 'margin-top:24px']);
+                    ?>
                 </div>
 
                 <div class="col-md-12">
