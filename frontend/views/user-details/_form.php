@@ -83,11 +83,12 @@ use common\CommonFunction;
             <?= $form->field($model, 'street_address')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-sm-6">
-            <label class="control-label" for="city">City</label>
+            <!--<label class="control-label" for="city">City</label>-->
             <ul class="optionlist">
                 <?php
                 $url = Url::to(['browse-jobs/get-cities']);
-                echo Select2::widget([
+
+                echo $form->field($model, 'city')->widget(Select2::classname(), [
                     'name' => 'city',
                     'value' => isset($model->city) && !empty($model->city) ? $model->city : '',
                     'data' => $selectedLocations,

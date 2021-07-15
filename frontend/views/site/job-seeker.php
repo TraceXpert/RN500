@@ -320,7 +320,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                             <p class="mb-0">Phone</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="mb-0"><?= (isset($userDetails->mobile_no) && !empty($userDetails->mobile_no)) ? $userDetails->mobile_no : "&nbsp;" ?></p>
+                            <p class="mb-0"><?= (isset($userDetails->mobile_no) && !empty($userDetails->mobile_no)) ? CommonFunction::getFormatedNumber($userDetails->mobile_no) : "&nbsp;" ?></p>
                         </div>
 
                         <div class="col-sm-3">
@@ -330,10 +330,10 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                             <p class="mb-0"><?= (isset(Yii::$app->user->identity->email) && !empty(Yii::$app->user->identity->email)) ? Yii::$app->user->identity->email : "&nbsp;" ?></p>
                         </div>
 
-                        <div class="col-sm-3">
-                            <p class="mb-0">Last 4 of SSN</p>
+                        <div class="col-sm-4">
+                            <p class="mb-0">Last 4 digit of SSN</p>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-8">
                             <p class="mb-0"><?= (isset($userDetails->ssn) && !empty($userDetails->ssn)) ? $userDetails->ssn : "&nbsp;" ?></p>
                         </div>
                     </div>

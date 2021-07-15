@@ -30,7 +30,9 @@
         "ranamehul20/yii2-twakto": "^1.0",
         "yiimaker/yii2-social-share": "^2.3",
         "kartik-v/yii2-widget-rating": "@dev",
-        "kartik-v/yii2-icons": "@dev"
+        "kartik-v/yii2-icons": "@dev",
+        "kartik-v/yii2-editors": "dev-master",
+        "2amigos/yii2-ckeditor-widget": "^2.2"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
