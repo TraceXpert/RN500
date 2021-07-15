@@ -331,3 +331,6 @@ ul.select2-selection__rendered{
 .border-radius-50{
     border-radius: 50px;
 }
+.cke_path{
+    display: none;
+}

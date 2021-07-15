@@ -94,7 +94,7 @@ class ReferralMaster extends \yii\db\ActiveRecord {
         try {
             $referralLink = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => (isset($this->lead->reference_no) && $this->lead->reference_no != '') ? (string) $this->lead->reference_no : '']);
             $successFlag = Yii::$app->mailer->compose('lead-referral', ['model' => $this, 'referralLink' => $referralLink])
-                    ->setFrom([$this->from_email => $this->from_name])
+                    ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
                     ->setTo($this->to_email)
                     ->setSubject('Invited to apply the Job')
                     ->send();
