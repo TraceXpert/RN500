@@ -91,6 +91,7 @@ class BrowseJobsController extends Controller {
         if (isset($request['location']) && !empty($request['location'])) {
             $query->andFilterWhere(['IN', 'lead_master.city', implode(',', $request['location'])]);
         }
+
         if (isset($request['emergency']) && !empty($request['emergency'])) {
             $query->andFilterWhere(['IN', 'lead_emergency.emergency_id', implode(',', $request['emergency'])]);
         }

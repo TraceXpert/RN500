@@ -97,8 +97,8 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
             </div>
 
             <div class="col-md-6 text-right">
-                <a href="" class="read-more contact-us mr-3">Contact Us</a>
-                <a href="" class="read-more find-job">Find Job
+                <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['site/contact-us']) ?>" class="read-more contact-us mr-3">Contact Us</a>
+                <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/index']) ?>" class="read-more find-job">Find Job
                     <svg class="ml-2" width="14" height="14" viewBox="0 0 14 14" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                     <path

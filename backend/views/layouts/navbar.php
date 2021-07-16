@@ -33,7 +33,7 @@ if (isset(Yii::$app->user->identity->details->profile_pic) && !empty(Yii::$app->
                 <!-- Menu Footer-->
                 <li class="user-footer">
                     <a href="<?= Yii::$app->urlManagerAdmin->createUrl('../site/index') ?>" class="btn btn-default btn-flat">Home Page</a>
-                    <?php echo Html::a('Sign out', ['site/logout'], ['data-method' => 'post', 'class' => 'btn btn-default btn-flat float-right']) ?>
+                    <?php echo Html::a('Sign out', ['../auth/logout'], ['data-method' => 'post', 'class' => 'btn btn-default btn-flat float-right','style'=>'height: 37px;']) ?>
                 </li>
             </ul>
         </li>

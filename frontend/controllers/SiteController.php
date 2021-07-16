@@ -27,7 +27,7 @@ use common\models\LeadMaster;
 use yii\base\DynamicModel;
 use yii\web\NotFoundHttpException;
 use common\models\Banner;
-
+use yii\web\Response;
 /**
  * Site controller
  */
@@ -286,7 +286,7 @@ class SiteController extends Controller {
             }
         }
 
-        return $this->render('contact-us', ['model' => $model]);
+        return $this->render('contact-us');
     }
 
     public function actionAboutUs() {
@@ -295,6 +295,37 @@ class SiteController extends Controller {
 
     public function actionAdvertise() {
         return $this->render('advertise');
+    }
+    
+    public function actionGetCities($page, $q = null, $id = null) {
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'name' => '']];
+        if (!is_null($q) && !empty($q)) {
+            $query = new \yii\db\Query;
+            $query->select(['id', 'state as name'])
+                    ->from('states')
+                    ->where(['like', 'state', $q])
+                    ->offset($offset)
+                    ->limit($limit);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+            $out['pagination'] = ['more' => !empty($data) ? true : false];
+        } elseif ($id > 0) {
+            $query = new \yii\db\Query;
+            $query->select(['id', 'state as name'])
+                    ->from('states')
+                    ->where(['in', 'state', $id])
+                    ->offset($offset)
+                    ->limit($limit);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+            $out['pagination'] = ['more' => !empty($data) ? true : false];
+        }
+        return $out;
     }
 
 }

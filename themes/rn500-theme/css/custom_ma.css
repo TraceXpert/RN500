@@ -80,6 +80,9 @@
 .margin-top-20{
     margin-top: 20px;   
 }
+.margin-top-24{
+    margin-top: 20px;   
+}
 .leads-tab .nav-tabs .nav-link.active{
     background: #1656A0 !important;
     color: whitesmoke  !important;
@@ -323,4 +326,18 @@ ul.select2-selection__rendered{
     color:white !important;
     background-color:#1656A0;
 }
-/*****GRIDVIEW PAGINATION***END*/
+
+.popular-location{
+    color: inherit;
+}
+
+.border-radius-50{
+    border-radius: 50px;
+}
+.cke_path{
+    display: none;
+}
+
+.post-job .custom-control.custom-checkbox{
+    margin-top: 42px;
+}
