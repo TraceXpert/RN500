@@ -80,7 +80,7 @@ $frontendDir = yii\helpers\Url::base(true);
             <label class="control-label" for="issuing_state">Issuing State</label>
             <ul class="optionlist">
                 <?php
-                $url = Url::to(['browse-jobs/get-cities']);
+                $url = Url::to(['site/get-cities']);
 
                 echo Select2::widget([
                     'name' => 'issuing_state',

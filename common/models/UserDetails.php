@@ -47,7 +47,7 @@ class UserDetails extends \yii\db\ActiveRecord {
     public $branch_id;
     public $company_id;
     public $profile_pic_url;
-    
+
     const ACTIVELY_LOOKING = 1;
     const OPEN_TO_OFFERS = 2;
     const SEARCH_ON_HOLD = 3;
@@ -62,18 +62,18 @@ class UserDetails extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['email'], 'email'],
-            [['street_no', 'street_address', 'role_id','zip_code'], 'required'],
+            [['street_no', 'street_address', 'role_id', 'zip_code'], 'required'],
             [['role_id', 'branch_id', 'company_id'], 'required', 'on' => 'staff'],
             [['branch_id', 'company_id'], 'required', 'on' => 'employer'],
-            [['user_id', 'first_name', 'last_name', 'updated_at','city'], 'required'],
-            [['user_id', 'job_title', 'travel_preference', 'work_authorization', 'created_at', 'updated_at','interest_level'], 'integer'],
+            [['user_id', 'first_name', 'last_name', 'updated_at', 'city'], 'required'],
+            [['user_id', 'job_title', 'travel_preference', 'work_authorization', 'created_at', 'updated_at', 'interest_level'], 'integer'],
             [['work_authorization_comment', 'looking_for', 'license_suspended', 'professional_liability', 'unique_id'], 'string'],
             [['first_name', 'last_name'], 'string', 'max' => 50],
-            [['mobile_no','extension'], 'string'],
+            [['mobile_no', 'extension'], 'string'],
             [['mobile_no'], PhoneInputValidator::className()],
-            ['mobile_no' , 'required', 'message' => 'Mobile No. cannot be blank.'],
+            ['mobile_no', 'required', 'message' => 'Mobile No. cannot be blank.'],
             [['profile_pic', 'current_position', 'speciality', 'work experience'], 'string', 'max' => 250],
-            ['profile_pic', 'file', 'extensions' => ['png', 'jpg','jpeg'], 'maxSize' => 1024 * 1024 * 2],
+            ['profile_pic', 'file', 'extensions' => ['png', 'jpg', 'jpeg'], 'maxSize' => 1024 * 1024 * 2],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['street_no', 'street_address', 'apt'], 'string', 'max' => 255],
             [['street_no'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field'],
@@ -83,7 +83,7 @@ class UserDetails extends \yii\db\ActiveRecord {
             [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
             [['first_name', 'last_name', 'email'], 'required', 'on' => 'registration'],
             [['created_at', 'updated_at', 'unique_id', 'user_id'], 'safe', 'on' => 'registration'],
-            [['job_looking_from','interest_level','first_name','last_name','email','mobile_no','street_no','street_address','apt','zip_code','extension'], 'safe'],
+            [['job_looking_from', 'interest_level', 'first_name', 'last_name', 'email', 'mobile_no', 'street_no', 'street_address', 'apt', 'zip_code', 'extension'], 'safe'],
             [['company_id'], 'required', 'when' => function ($model) {
                     return CommonFunction::isHoAdmin(\Yii::$app->user->identity->id) || CommonFunction::isMasterAdmin(\Yii::$app->user->identity->id);
                 }, 'on' => 'staff'
@@ -100,7 +100,8 @@ class UserDetails extends \yii\db\ActiveRecord {
                     return CommonFunction::isHoAdmin(\Yii::$app->user->identity->id);
                 }, 'on' => 'employer'
             ],
-            [['first_name', 'last_name', 'looking_for', 'apt', 'street_address', 'ssn'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field', 'on' => 'profile'],
+            [['first_name', 'last_name', 'apt', 'street_address', 'ssn'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field', 'on' => 'profile'],
+            [['looking_for'], 'match', 'pattern' => '/^[a-zA-Z0-9. ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field', 'on' => 'profile'],
         ];
     }
 
@@ -108,9 +109,9 @@ class UserDetails extends \yii\db\ActiveRecord {
         $scenarios = parent::scenarios();
         $scenarios['registration'] = ['created_at', 'updated_at', 'user_id', 'unique_id', 'first_name', 'last_name', 'email'];
         $scenarios['staff'] = ['branch_id', 'company_id', 'type', 'city', 'state', 'created_at', 'updated_at', 'user_id', 'unique_id', 'role_id', 'email', 'first_name', 'last_name', 'mobile_no', 'street_no', 'street_address', 'apt', 'zip_code', 'profile_pic', 'current_position', 'speciality', 'work experience', 'job_looking_from', 'work_authorization_comment', 'license_suspended', 'professional_liability'];
-        $scenarios['employer'] = ['branch_id', 'company_id', 'type', 'city', 'state', 'created_at', 'updated_at', 'user_id', 'unique_id', 'email', 'first_name', 'last_name', 'mobile_no','extension', 'street_no', 'street_address', 'apt', 'zip_code', 'profile_pic', 'current_position', 'speciality', 'work experience', 'job_looking_from', 'work_authorization_comment', 'license_suspended', 'professional_liability'];
+        $scenarios['employer'] = ['branch_id', 'company_id', 'type', 'city', 'state', 'created_at', 'updated_at', 'user_id', 'unique_id', 'email', 'first_name', 'last_name', 'mobile_no', 'extension', 'street_no', 'street_address', 'apt', 'zip_code', 'profile_pic', 'current_position', 'speciality', 'work experience', 'job_looking_from', 'work_authorization_comment', 'license_suspended', 'professional_liability'];
         $scenarios['recruiter'] = ['type', 'city', 'state', 'created_at', 'updated_at', 'user_id', 'unique_id', 'email', 'first_name', 'last_name', 'mobile_no', 'street_no', 'street_address', 'apt', 'zip_code', 'profile_pic', 'current_position', 'speciality', 'work experience', 'job_looking_from', 'work_authorization_comment', 'license_suspended', 'professional_liability'];
-        $scenarios['profile'] = ['first_name', 'last_name', 'email', 'looking_for', 'apt', 'street_no', 'street_address', 'city', 'ssn', 'dob', 'profile_pic','interest_level', 'created_at', 'updated_at','mobile_no'];
+        $scenarios['profile'] = ['first_name', 'last_name', 'email', 'looking_for', 'apt', 'street_no', 'street_address', 'city', 'ssn', 'dob', 'profile_pic', 'interest_level', 'created_at', 'updated_at', 'mobile_no'];
         return $scenarios;
     }
 
@@ -181,7 +182,7 @@ class UserDetails extends \yii\db\ActiveRecord {
     public function getCompanyNames() {
         return isset($this->branch->company->company_name) ? $this->branch->company->company_name : "";
     }
-    
+
     public function getCompany() {
         return $this->hasOne(CompanyMaster::className(), ['id' => "company_id"]);
     }
@@ -193,16 +194,15 @@ class UserDetails extends \yii\db\ActiveRecord {
     public function getCityRef() {
         return $this->hasOne(Cities::className(), ['id' => 'city']);
     }
-    
+
     public function getStateName() {
-        return isset($this->cityRef->stateRef->state) ? $this->cityRef->stateRef->state :"" ;
+        return isset($this->cityRef->stateRef->state) ? $this->cityRef->stateRef->state : "";
     }
-    
-    public function getCityStateName(){
+
+    public function getCityStateName() {
         $name = '';
-        if($this->cityRef){
+        if ($this->cityRef) {
             $name .= $this->cityRef->city . " - " . $this->getStateName();
-            
         }
         return $name;
     }

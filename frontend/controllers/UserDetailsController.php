@@ -24,6 +24,7 @@ use common\models\CompanyBranch;
 use common\models\CompanyMaster;
 use common\CommonFunction;
 use common\models\Cities;
+use common\models\States;
 
 /**
  * UserDetailsController implements the CRUD actions for UserDetails model.
@@ -135,7 +136,7 @@ class UserDetailsController extends Controller {
         $document_upload_flag = '';
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
 
-            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
+//            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
             $model->dob = date('Y-m-d', strtotime($model->dob));
 
             $document_file = UploadedFile::getInstance($model, 'profile_pic');
@@ -434,8 +435,8 @@ class UserDetailsController extends Controller {
             $model->updated_at = CommonFunction::currentTimestamp();
         }
         if (isset($model->issuing_state) && !empty($model->issuing_state)) {
-            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->issuing_state])->all(), 'id', function ($data) {
-                        return $data->city . "-" . $data->state_code;
+            $selectedLocations = ArrayHelper::map(States::find()->where(['id' => $model->issuing_state])->all(), 'id', function ($data) {
+                        return $data->state;
                     });
         } else {
             $selectedLocations = [];
@@ -514,8 +515,8 @@ class UserDetailsController extends Controller {
         }
 
         if (isset($model->issuing_state) && !empty($model->issuing_state)) {
-            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->issuing_state])->all(), 'id', function ($data) {
-                        return $data->city . "-" . $data->state_code;
+            $selectedLocations = ArrayHelper::map(States::find()->where(['id' => $model->issuing_state])->all(), 'id', function ($data) {
+                        return $data->state;
                     });
         } else {
             $selectedLocations = [];
