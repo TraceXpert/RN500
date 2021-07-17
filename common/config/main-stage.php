@@ -39,8 +39,15 @@ return [
                 'host' => 'mail.rn500.com',
                 'username' => 'info@rn500.com',
                 'password' => 'ZingaZinga2020',
-                'port' => '26',
-                'encryption' => 'tls',
+                'port' => '465',
+                'encryption' => 'ssl',
+                'streamOptions' => [
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    ],
+                ],
             ],
         ],
         'user' => [

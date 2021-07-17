@@ -166,7 +166,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                 </div>
                             </div>
                             <div class="most-popular-jobs-block-hover">
-                                <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->reference_no]) ?>" class="text">View Profile</a>
+                                <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->reference_no]) ?>" class="text">View</a>
                             </div>
                         </div>
                     </div>
