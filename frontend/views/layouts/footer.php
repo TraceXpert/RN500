@@ -29,7 +29,7 @@ use common\CommonFunction;
 
                     <h3 class="mb-4">We are available on</h3>
 
-                    <a href="">
+                    <a href="https://play.google.com/store/apps/details?id=com.rm500">
                         <img src="<?= $assetDir ?>/img/google-play.png" alt="google-play" class="img-fluid mr-3">
                     </a>
 
