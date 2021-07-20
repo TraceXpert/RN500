@@ -81,7 +81,7 @@ use borales\extensions\phoneInput\PhoneInput;
             </div>
 
             <div class="row">
-                <div class="col-lg-6 p-0">
+                <div class="col-lg-6 pl-3 pl-lg-0">
                     <?=
                     $form->field($companyMasterModel, 'company_mobile')->widget(PhoneInput::className(), [
                         'options' => ['class' => 'form-control w-100'],
@@ -101,7 +101,7 @@ use borales\extensions\phoneInput\PhoneInput;
 
             <div class="row">
 
-                 <div class="col-lg-6 p-0">
+                 <div class="col-lg-6 pl-3 pl-lg-0">
                     <?= $form->field($companyMasterModel, 'employer_identification_number')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('employer_identification_number')])->label(false); ?>
                  </div>
                 <div class="col-lg-6 pr-3 pr-lg-0">
@@ -111,7 +111,7 @@ use borales\extensions\phoneInput\PhoneInput;
             </div>
 
             <div class="row">
-                <div class="col-lg-6 p-0">
+                <div class="col-lg-6 pl-3 pl-lg-0">
                     <?= $form->field($companyMasterModel, 'street_no')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('street_no')])->label(false); ?>
                 </div>
                 <div class="col-lg-6 pr-3 pr-lg-0">
@@ -121,7 +121,7 @@ use borales\extensions\phoneInput\PhoneInput;
             </div>
 
             <div class="row">
-                <div class="col-lg-6 p-0">
+                <div class="col-lg-6 pl-3 pl-lg-0">
                     <?= $form->field($companyMasterModel, 'apt')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('apt')])->label(false); ?>
                 </div>
                 <div class="col-lg-6 pr-3 pr-lg-0">
@@ -139,7 +139,7 @@ use borales\extensions\phoneInput\PhoneInput;
             </div>
 
             <div class="row">
-                <div class="col-lg-6 p-0">
+                <div class="col-lg-6 pl-3 pl-lg-0">
                     <?=
                     $form->field($companyMasterModel, 'city')->widget(Select2::classname(), [
                         'data' => $cities,
