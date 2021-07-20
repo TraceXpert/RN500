@@ -65,6 +65,7 @@ nav .readmore{padding: 10px 26px !important}
 .select2-selection{padding: 0rem}
 .select2-selection .select2-selection__choice{padding: 0.05rem 0.25rem !important;}
 .select2-selection .select2-selection__choice__remove {line-height: 1.3rem !important}
+.select2-selection.select2-selection--single{padding-top: 0 !important}
 .signin-form a{color: #1656A0;font-weight: 600;font-size: 14px;}
 .create-link p{color: #5D6A83;font-weight: 500;}
 .create-link a{color: #1656A0;font-weight: 600;}
@@ -163,8 +164,12 @@ section{padding: 80px 0;}
 .contact-us-shape{background: url(../img/contact-us-shape.png);background-size: cover;height: 530px;}
 .contact-us-shape .main-title{padding-top: 30px;}
 .contact-us-shape .main-title p,.contact-us-shape .main-title a{color: #182637;font-size: 16px;font-weight: 400;}
-.contact-us-shape .media{padding: 10px}
-.contact-us-shape .media:hover{background:#1656A0;border-radius: 8px;max-width: 400px;transition: all 0.3s ease-in;}
+
+.contact-us-shape .media{padding: 10px;border-radius: 8px;}
+.contact-us-shape .div-hover{display: inline-block;cursor: pointer;}
+.contact-us-shape .div-hover:hover{min-width: 400px;}
+.contact-us-shape .div-hover:hover .media{background:#1656A0;border-radius: 8px;transition: all 0.3s ease-in;}
+
 .contact-us-shape .media:hover a,.contact-us-shape .media:hover p,.contact-us-shape .media:hover path{color: #ffffff !important;fill: #ffffff;}
 .contact-block a{color: #ffffff !important;font-weight: 600;}
 .contact-form-block{background: #FFFFFF;border: 1px solid #B6CEEA;border-radius: 20px;padding: 44px 32px 20px;}
@@ -330,8 +335,9 @@ footer hr{border-top: 1px solid #8C97AC;}
 @media (max-width: 767px){
     body{font-size: 14px;}
     .main-banner {height: auto}
-    .forny-two-pane > div:last-child{background-image: none;flex: none;}        
-    .signin-form{margin-top: 80px;align-items: unset;justify-content: unset;}    
+    .forny-two-pane > div:last-child{background-image: none;flex: none;}
+    .signin-form{margin-top: 80px;align-items: unset;justify-content: unset;}
+    .signin-form .container{padding: 0;}
 
     .filter-block .d-flex{display: block !important;}
     .browse-search .filter-block .form-control,.browse-search .filter-block .form-control,.filter-block .select2-selection--multiple{border: 2px dashed #E2E4E8;border-right:2px dashed #E2E4E8 !important;box-shadow: none !important;}
@@ -350,6 +356,7 @@ footer hr{border-top: 1px solid #8C97AC;}
     .job-d .text-right .read-more{margin-top: 16px;}
     .otp-text a{display: block;}
     .signup .nav-tabs .nav-item{width: 100%;}
+    .contact-us-shape .div-hover:hover {max-width: 400px;}
 }
 @media (max-width: 350px){
     .the-rn-app img{margin-bottom: 16px;}

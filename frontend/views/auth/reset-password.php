@@ -19,7 +19,7 @@ $this->title = 'RN500';
         echo $form->field($model, 'password', [
             'options' => ['class' => 'form-group has-feedback', 'autofocus' => true,],
             'inputTemplate' => '{input}',
-            'template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye password-toggle-icon toggle-password"></span></div> {error}',
+            'template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye-slash password-toggle-icon toggle-password"></span></div> {error}',
         ])->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('password'),])
         ?>
     </div>
@@ -29,7 +29,7 @@ $this->title = 'RN500';
         echo $form->field($model, 'confirm_password', [
             'options' => ['class' => 'form-group has-feedback', 'autofocus' => true,],
             'inputTemplate' => '{input}',
-            'template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye password-toggle-icon toggle-password"></span></div> {error}',
+            'template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye-slash password-toggle-icon toggle-password"></span></div> {error}',
         ])->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('confirm_password'),])
         ?>
     </div>

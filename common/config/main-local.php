@@ -39,22 +39,22 @@ return [
                 'host' => 'mail.rn500.com',
                 'username' => 'info@rn500.com',
                 'password' => 'ZingaZinga2020',
-                'port' => '26',
-                'encryption' => 'tls',
+                'port' => '465',
+                'encryption' => 'ssl',
                 'streamOptions' => [
                     'ssl' => [
-                        'allow_self_signed' => true,
                         'verify_peer' => false,
                         'verify_peer_name' => false,
+                        'allow_self_signed' => true
                     ],
                 ],
             ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
             'identityCookie' => ['name' => '_identity-rn500', 'httpOnly' => true],
-            'authTimeout' => 172800,
+            'authTimeout' => 600,
             'loginUrl' => 'http://localhost/rn500/auth/login'
         ],
         'session' => [

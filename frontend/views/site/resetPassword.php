@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
 
                 <?= $form->field($model, 'password',
-                        ['template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye password-toggle-icon toggle-password"></span></div> {error}',]
+                        ['template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye-slash password-toggle-icon toggle-password"></span></div> {error}',]
                         )->passwordInput(['autofocus' => true]) ?>
 
                 <div class="form-group">
