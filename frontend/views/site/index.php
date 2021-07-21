@@ -86,7 +86,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 <?php if (!empty($banner)) { ?>
     <section class="marquee-text p-0 d-flex align-items-center">
         <marquee width="100%" direction="left">
-            <ul style="display: flex;flex-direction: row;justify-content:space-around;">
+            <ul style="display: flex;flex-direction: row;justify-content:space-around;" class="mb-0">
                 <?php foreach ($banner as $value) { ?>
                     <li style='margin-left: 4%;'><?= $value->headline ?></li>
                 <?php } ?>
@@ -166,7 +166,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                 </div>
                             </div>
                             <div class="most-popular-jobs-block-hover">
-                                <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->reference_no]) ?>" class="text">View Profile</a>
+                                <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->reference_no]) ?>" class="text">View</a>
                             </div>
                         </div>
                     </div>
