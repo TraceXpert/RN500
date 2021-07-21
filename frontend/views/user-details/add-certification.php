@@ -37,7 +37,7 @@ $frontendDir = yii\helpers\Url::base(true);
     ?>
     <div class="row">
         <div class="col-sm-12">
-            <?= $form->field($model, 'certificate_name')->dropDownList(Yii::$app->params['CERTIFICATION_TYPE']); ?>
+            <?= $form->field($model, 'certificate_name')->dropDownList($certificationList); ?>
         </div>
     </div>
     <div class="row">

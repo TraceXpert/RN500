@@ -14,6 +14,7 @@ use common\CommonFunction;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\UserDetails */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <section class="about-us about-inner-block">
