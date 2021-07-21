@@ -316,7 +316,7 @@ class BrowseJobsController extends Controller {
             $query->select(['cities.id', 'CONCAT(city,"-",cities.state_code) as name'])
                     ->from('cities')
                     ->innerJoin('states', 'states.id=cities.state_id')
-                    ->where(['like', 'cities.city', $q])
+                    ->where(['like', 'cities.city', trim($q)."%",false])
                     ->offset($offset)
                     ->limit($limit);
             $command = $query->createCommand();

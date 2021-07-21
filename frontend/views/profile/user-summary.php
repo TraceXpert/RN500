@@ -21,7 +21,7 @@ use yii\helpers\Html;
 
         <div class="row">
             <div class="col-md-12">
-                <?= $this->render('core-profile-detail', ['model' => $model, 'workExperiences' => $workExperiences, 'certifications' => $certifications, 'documents' => $documents, 'licenses' => $licenses, 'educations' => $educations, 'references' => $references]); ?>
+                <?= $this->render('core-profile-detail', ['model' => $model, 'workExperiences' => $workExperiences, 'certifications' => $certifications, 'documents' => $documents, 'licenses' => $licenses, 'educations' => $educations, 'references' => $references, 'certificationMasterList' => $certificationMasterList]); ?>
             </div>
         </div>
     </div>

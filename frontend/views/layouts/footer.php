@@ -20,16 +20,12 @@ use common\CommonFunction;
                     <h3 class="mb-4">A world of opportunity in your hand</h3>
 
                     <p class="text-justify">
-                        Aliquam vestibulum cursus felis. In iaculis iaculis sapien ac condimentum. Vestibulum congue
-                        posuere lacus,
-                        id tincidunt nisi porta sit amet. Suspendisse et sapien varius, pellentesque dui non, semper
-                        orci. Curabitur
-                        blandit, diam ut ornare ultricies.
+                        To connect through Mobile devices, download RN500 on your Android and iOS. We make easy for job seekers to find for their needs. Please write us on: info@RN500.com, if you need help.
                     </p>
 
                     <h3 class="mb-4">We are available on</h3>
 
-                    <a href="">
+                    <a href="https://play.google.com/store/apps/details?id=com.rm500">
                         <img src="<?= $assetDir ?>/img/google-play.png" alt="google-play" class="img-fluid mr-3">
                     </a>
 
@@ -97,7 +93,7 @@ use common\CommonFunction;
                     <img src="<?= $assetDir ?>/img/location-icon.png" alt="location-icon" class="mr-3">
                     <div class="media-body">                         
                         <p class="mb-0">
-                            RN500 LLC. 445 Park Avenue, 4th Floor, Manhattan, NY 10022 USA.
+                            RN500 LLC. 445 Park Avenue,<br/> Manhattan, NY 10022 USA.
                         </p>
                     </div>
                 </div>

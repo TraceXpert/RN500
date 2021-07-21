@@ -15,6 +15,8 @@ use common\models\Licenses;
 use common\models\Certifications;
 use common\models\Documents;
 use common\models\References;
+use common\models\CertificateMaster;
+use yii\helpers\ArrayHelper;
 
 /**
  * Company Controller API
@@ -60,8 +62,8 @@ class ProfileController extends Controller {
             }
 
             $certification_type = [];
-            foreach (Yii::$app->params['CERTIFICATION_TYPE'] as $value => $text) {
-                $certification_type[] = ['value' => (string) $value, 'text' => $text];
+            foreach (CertificateMaster::find()->all() as $value => $record) {
+                $certification_type[] = ['value' => (string) $record->id, 'text' => $record->name];
             }
 
             $certification_active_startus = [];
@@ -155,11 +157,12 @@ class ProfileController extends Controller {
 
                 // CERTIFICATION LIST OF LOGGED-IN USER
                 $certifications = Certifications::find()->where(['user_id' => $loggedInUserId])->all();
+                $certificationMasterList = ArrayHelper::map(CertificateMaster::find()->all(), 'id', 'name');
                 $certificationList = [];
                 foreach ($certifications as $key => $record) {
                     $certificationList[] = [
                         'id' => $record->id,
-                        'certificat_type' => (isset(Yii::$app->params['CERTIFICATION_TYPE'][$record->certificate_name])) ? Yii::$app->params['CERTIFICATION_TYPE'][$record->certificate_name] : ''
+                        'certificat_type' => (isset($certificationMasterList[$record->certificate_name])) ? $certificationMasterList[$record->certificate_name] : ''
                     ];
                 }
 
@@ -1050,7 +1053,8 @@ class ProfileController extends Controller {
                 $model = Certifications::find()->where(['id' => $id, 'user_id' => $loggedInUserId])->one();
                 if ($model !== null) {
                     $data = array_map('strval', $model->getAttributes());
-                    $data['certificate_name_text'] = (isset(Yii::$app->params['CERTIFICATION_TYPE'][$model->certificate_name])) ? Yii::$app->params['CERTIFICATION_TYPE'][$model->certificate_name] : '';
+                    $certi = CertificateMaster::find()->where(['id' => $model->certificate_name])->one();
+                    $data['certificate_name_text'] = ($certi !== null) ? $certi->name : '';
                     $data['issuing_state_name'] = $model->getCityStateName();
                     $data['expiry_date'] = CommonFunction::getAPIDateDisplayFormat($model->expiry_date, 'Y-m');
                     $data['certification_active_status'] = (isset(Yii::$app->params['CERTIFICATION_ACTIVE_STATUS'][$model->certification_active])) ? Yii::$app->params['CERTIFICATION_ACTIVE_STATUS'][$model->certification_active] : '';

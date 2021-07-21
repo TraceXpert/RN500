@@ -25,6 +25,7 @@ use common\models\CompanyMaster;
 use common\CommonFunction;
 use common\models\Cities;
 use common\models\States;
+use common\models\CertificateMaster;
 
 /**
  * UserDetailsController implements the CRUD actions for UserDetails model.
@@ -189,11 +190,11 @@ class UserDetailsController extends Controller {
                 $model->dob = date('M-d-Y', strtotime($model->dob));
             }
 
-            $states = ArrayHelper::map(\common\models\States::find()->where(['country_id' => 226])->all(), 'id', 'state');
+            $states = ArrayHelper::map(States::find()->where(['country_id' => 226])->all(), 'id', 'state');
             $city = ArrayHelper::map(Cities::findAll(['state_id' => $model->state]), 'id', 'city');
             if (isset($model->city) && !empty($model->city)) {
                 $model->state = $model->cityRef->state_id;
-                $states = ArrayHelper::map(\common\models\States::find()->where(['id' => $model->cityRef->state_id])->all(), 'id', 'state');
+//              $states = ArrayHelper::map(\common\models\States::find()->where(['id' => $model->cityRef->state_id])->all(), 'id', 'state');
                 $city = ArrayHelper::map(Cities::findAll(['state_id' => $model->cityRef->state_id]), 'id', 'city');
             }
             if ($model->load(Yii::$app->request->post())) {
@@ -493,6 +494,8 @@ class UserDetailsController extends Controller {
         $isRecordFlag = false;
         $document_upload_flag = '';
         $message = '';
+        $certificationList = ArrayHelper::map(CertificateMaster::find()->all(), 'id', 'name');
+        
 
         if ($id !== null) {
             $model = Certifications::findOne($id);
@@ -568,7 +571,7 @@ class UserDetailsController extends Controller {
 
         return $this->renderAjax('add-certification', [
                     'model' => $model,
-                    'isRecordFlag' => $isRecordFlag, 'selectedLocations' => $selectedLocations
+                    'isRecordFlag' => $isRecordFlag, 'selectedLocations' => $selectedLocations,'certificationList' => $certificationList
         ]);
     }
 

@@ -13,17 +13,6 @@ $frontendDir = yii\helpers\Url::base(true);
 <style>
     .mb-15{margin-bottom: 15px;}
     .optionlist{margin-left:-40px;}
-    .select2-container--krajee-bs4 .select2-selection--single{
-        height: 50px;
-        padding: .375rem 2rem;
-        background: #FFFFFF;
-        border-radius: 6px;
-        box-shadow: none;
-        color: #495057;
-    }
-    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
-        padding: .375rem 2rem;
-    }
     .button-wrapper {position: relative;}
     .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 15px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
     #certifications-document {display: inline-block;position: absolute;z-index: 1;width: 100%;height: 50px;top: 0;left: 0;opacity: 0;cursor: pointer;}
@@ -37,7 +26,16 @@ $frontendDir = yii\helpers\Url::base(true);
     ?>
     <div class="row">
         <div class="col-sm-12">
-            <?= $form->field($model, 'certificate_name')->dropDownList(Yii::$app->params['CERTIFICATION_TYPE']); ?>
+            
+             <?php
+                    echo $form->field($model, 'certificate_name')->widget(Select2::classname(), [
+                        'data' => $certificationList,
+                        'options' => ['placeholder' => $model->getAttributeLabel('certificate_name')],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                    ?>
         </div>
     </div>
     <div class="row">

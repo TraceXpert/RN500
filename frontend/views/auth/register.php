@@ -33,7 +33,7 @@ use borales\extensions\phoneInput\PhoneInput;
     <div class="tab-content">
         <div id="jobseeker" class="container tab-pane active"><br>
             <div class="row jobseeker">
-
+            <div class="col-lg-12">
                 <?php
                 $form = ActiveForm::begin(['id' => 'candidate-form',
                             'options' => ['class' => 'w-100', 'autocomplete' => 'off']])
@@ -59,6 +59,7 @@ use borales\extensions\phoneInput\PhoneInput;
                 <?php echo Html::submitButton('Sign Up', ['class' => 'read-more contact-us d-block w-100']) ?>
                 <p class="create-link mt-3 mb-3">Already a Member? <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/login"); ?>">Login Here</a>
                     <?php ActiveForm::end(); ?>
+                </div>
             </div>
         </div>
 
