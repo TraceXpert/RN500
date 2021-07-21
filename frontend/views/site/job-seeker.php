@@ -434,7 +434,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                         <?php foreach ($certification as $key => $value) { ?>
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h3 class="job-title main-title"><?= isset(Yii::$app->params['CERTIFICATION_TYPE'][$value['certificate_name']]) ? Yii::$app->params['CERTIFICATION_TYPE'][$value['certificate_name']] : '' ?></h3>
+                                    <h3 class="job-title main-title"><?= (isset($value['certificate_name']) && !empty($value['certificate_name'])) ? $certificationList[$value['certificate_name']] : '' ?></h3>
                                     <p class="light-weight mb-0">&nbsp</p>
                                 </div>
                                 <div class="col-sm-6">
