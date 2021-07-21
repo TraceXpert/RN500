@@ -11,6 +11,8 @@ use common\models\Licenses;
 use common\models\Certifications;
 use common\models\Education;
 use common\models\References;
+use yii\helpers\ArrayHelper;
+use common\models\CertificateMaster;
 
 /**
  * Site controller
@@ -88,8 +90,8 @@ class ProfileController extends Controller {
             $licenses = Licenses::find()->where(['user_id' => $userId])->all();
             $educations = Education::find()->where(['user_id' => $userId])->all();
             $references = References::find()->where(['user_id' => $userId])->all();
-
-            return $this->render('user-summary', ['model' => $model, 'workExperiences' => $workExperiences, 'certifications' => $certifications, 'documents' => $documents, 'licenses' => $licenses, 'educations' => $educations, 'references' => $references]);
+            $certificationMasterList = ArrayHelper::map(CertificateMaster::find()->all(), 'id', 'name');
+            return $this->render('user-summary', ['model' => $model, 'workExperiences' => $workExperiences, 'certifications' => $certifications, 'documents' => $documents, 'licenses' => $licenses, 'educations' => $educations, 'references' => $references, 'certificationMasterList' => $certificationMasterList]);
         } else {
             throw new \yii\web\NotFoundHttpException("Oops! Something went wrong");
         }

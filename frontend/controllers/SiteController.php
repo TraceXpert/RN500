@@ -29,6 +29,7 @@ use yii\web\NotFoundHttpException;
 use common\models\Banner;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
+use common\models\CertificateMaster;
 /**
  * Site controller
  */
@@ -147,7 +148,7 @@ class SiteController extends Controller {
         $references = References::find()->where(['user_id' => Yii::$app->user->id])->asArray()->all();
         $userDetails = UserDetails::findOne(['user_id' => Yii::$app->user->id]);
         $jobPreference = JobPreference::find()->where(['user_id' => Yii::$app->user->id])->all();
-        $certificationList = ArrayHelper::map((new \yii\db\Query())->select(['id', 'name'])->from('certificate_master')->all(),'id','name');
+        $certificationList = ArrayHelper::map(CertificateMaster::find()->all(), 'id', 'name');
 
         return $this->render('job-seeker', [
                     'workExperience' => $workExperience,

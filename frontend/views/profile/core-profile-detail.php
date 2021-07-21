@@ -117,7 +117,7 @@ use yii\helpers\Html;
                             <tbody>
                                 <?php foreach ($certifications as $model) { ?>
                                     <tr>
-                                        <td> <?php echo (isset(Yii::$app->params['CERTIFICATION_TYPE'][$model->certificate_name])) ? Yii::$app->params['LICENSE_TYPE'][$model->certificate_name] : '' ?> </td>
+                                        <td> <?php echo (isset($certificationMasterList[$model->certificate_name])) ? $certificationMasterList[$model->certificate_name] : '' ?> </td>
                                         <td> <?php echo (isset($model->expiry_date) && $model->expiry_date != '' && !in_array($model->expiry_date, ['1970-01-01', '0000-00-00'])) ? date('M-Y', strtotime($model->expiry_date)) : ''; ?> </td>
                                         <td> <?php echo $model->getCityStateName(); ?> </td>
                                         <td> <?php echo (isset($model->issue_by) && $model->issue_by != '' ) ? $model->issue_by : ''; ?> </td>

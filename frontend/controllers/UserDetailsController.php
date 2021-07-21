@@ -25,6 +25,7 @@ use common\models\CompanyMaster;
 use common\CommonFunction;
 use common\models\Cities;
 use common\models\States;
+use common\models\CertificateMaster;
 
 /**
  * UserDetailsController implements the CRUD actions for UserDetails model.
@@ -493,7 +494,8 @@ class UserDetailsController extends Controller {
         $isRecordFlag = false;
         $document_upload_flag = '';
         $message = '';
-        $certificationList = ArrayHelper::map((new \yii\db\Query())->select(['id', 'name'])->from('certificate_master')->all(),'id','name');
+        $certificationList = ArrayHelper::map(CertificateMaster::find()->all(), 'id', 'name');
+        
 
         if ($id !== null) {
             $model = Certifications::findOne($id);
