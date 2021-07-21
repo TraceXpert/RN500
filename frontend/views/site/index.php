@@ -262,9 +262,6 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
             <div class="col-lg-2 col-md-4 col-6">
                 <img src="<?= $assetDir ?>/img/18.png" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
-            <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/19.png" alt="about-us" class="img-fluid mx-auto d-block">
-            </div>
         </div>
 
     </div>

@@ -69,7 +69,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                     </svg>                                            
                                     <div class="media-body">
                                         <p class="mb-0">
-                                            RN500 LLC . 445 Park Avenue, <br />  4th Floor, Manhattan, NY 10022 USA.
+                                            RN500 LLC.<br/> 445 Park Avenue, <br />     Manhattan, NY 10022 USA.
                                         </p>
                                     </div>
                                 </div>

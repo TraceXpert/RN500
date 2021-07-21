@@ -135,16 +135,16 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
         display: none !important;
     }
 </style>
-<div id="overlay" class="show">
+<div id="overlay" class="hide">
     <h1 data-text="RN500">RN500</h1>
 </div>
 <script>
-    $(window).on('load', function () {
-        setInterval(function () {
-            $('#overlay').removeClass("show");
-            $('#overlay').addClass("hide");
-        }, 2000);
-    });
+//    $(window).on('load', function () {
+//        setInterval(function () {
+//            $('#overlay').removeClass("show");
+//            $('#overlay').addClass("hide");
+//        }, 2000);
+//    });
     $(document).bind("ajaxStart.mine", function () {
         $('#overlay').removeClass("hide");
         $('#overlay').addClass("show");
