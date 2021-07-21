@@ -131,11 +131,11 @@ class BrowseJobsController extends Controller {
         $request = Yii::$app->request->post();
         try {
             $paging = (isset($request['page']) && $request['page'] != '' && $request['page'] != 0) ? $request['page'] : 1;
-            $search = (isset($request['filter']) && !empty($request['filter'])) ? $request['filter'] : '';
+            $search = (isset($request['filter']) && !empty($request['filter'])) ? trim($request['filter']) : '';
             $citiesList = [];
             $query = Cities::find();
             if (!empty($search)) {
-                $query->andWhere(['LIKE', 'city', $search]);
+                $query->andWhere(['LIKE', 'city', $search."%", false]);
             }
             $total_pages = (ceil($query->count() / Yii::$app->params['API_PAGINATION_RECORD_LIMIT'])) ? ceil($query->count() / Yii::$app->params['API_PAGINATION_RECORD_LIMIT']) : 1;
             if ($paging <= $total_pages) {
