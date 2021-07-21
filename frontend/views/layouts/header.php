@@ -54,7 +54,7 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                 <?php if (Yii::$app->user->isGuest) { ?>
 
                     <li class="nav-item position-relative d-flex align-items-center">
-                        <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/login"); ?>" class="btn btn-primary readmore mt-md-0 ml-0 mb-3 mb-md-0 mt-2 mt-md-0">Sign In / Sign Up</a>
+                        <a href="<?= Yii::$app->urlManagerFrontend->createUrl("auth/login"); ?>" class="btn btn-primary readmore ml-md-3 ml-0 mb-3 mb-md-0 mt-2 mt-md-0">Sign In / Sign Up</a>
                     </li>
                 <?php } else { ?>
                     <li class="nav-item dropdown position-relative profile-d">

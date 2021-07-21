@@ -13,7 +13,7 @@ use yii\bootstrap4\ActiveForm;
 
 $is_otp_sent = $model->is_otp_sent;
 ?>
-<div class="signin-form text-center"> 
+<div class="signin-form overflow-form text-center"> 
     <h1>Sign in</h1>
     <p>Sign in on the RN500 platform</p>
 
