@@ -275,15 +275,15 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
     <div class="container">
         <div class="row">
             <div class="col-md-12 main-title about-us text-center">
-                <h2 class="mb-4">Popular Searches</h2>
+                <h2 class="mb-5">Popular Searches</h2>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-lg-1 offset-lg-1 col-md-4 col-6">
-            </div>
-            <div class="col-lg-3 offset-lg-1 col-md-4 col-6">
-                <ul class="list-unstyled">
+            <!-- <div class="col-lg-1 offset-lg-1 col-md-4 col-6">
+            </div> -->
+            <div class="col-lg-12">
+                <ul class="list-unstyled d-flex flex-wrap">
                     <li>
                         <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/index', 'location[]' => '20861']) ?>" class="popular-location">
                             <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -374,11 +374,11 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                             </svg>San Diego
                         </a>
                     </li>
-                </ul>                    
+                <!-- </ul>                    
             </div>
 
             <div class="col-lg-3 offset-lg-1 col-md-4 col-6">
-                <ul class="list-unstyled">
+                <ul class="list-unstyled"> -->
                     <li>
                         <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/index', 'location[]' => 15499]) ?>" class="popular-location">
                             <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
