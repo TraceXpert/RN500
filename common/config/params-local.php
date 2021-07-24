@@ -35,5 +35,6 @@ return [
     'RECRUITER_COMMISSION_TYPE' => [1 => 'Percentage (%)', 0 => 'Amount ($)'],
     "HTMLTAG_ERR_MSG" => "Please enter valid data.",
     "NO_HTMLTAG_PATTERN" => '/<(.|\n)*?>/',
-    "LEAD_SUSPENDED" => ["0" => "No", "1" => "Yes"]
+    "LEAD_SUSPENDED" => ["0" => "No", "1" => "Yes"],
+    "ALLOWED_MAX_RECEIPIENTS_LEAD_SHARE" => 10,
 ];
