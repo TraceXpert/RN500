@@ -27,6 +27,8 @@ use common\models\Emergency;
 use common\models\LeadRating;
 use common\models\ReferralMaster;
 use common\models\LeadEmergency;
+use common\models\ReferralRecipients;
+use yii\base\Model;
 
 /**
  * BrowseJobs controller
@@ -316,7 +318,7 @@ class BrowseJobsController extends Controller {
             $query->select(['cities.id', 'CONCAT(city,"-",cities.state_code) as name'])
                     ->from('cities')
                     ->innerJoin('states', 'states.id=cities.state_id')
-                    ->where(['like', 'cities.city', trim($q)."%",false])
+                    ->where(['like', 'cities.city', trim($q) . "%", false])
                     ->offset($offset)
                     ->limit($limit);
             $command = $query->createCommand();
@@ -374,31 +376,63 @@ class BrowseJobsController extends Controller {
     public function actionReferToFriend($lead_id) {
         $model = new ReferralMaster();
         $model->lead_id = $lead_id;
+        $modelsRecipient = [new ReferralRecipients];
         if (isset(Yii::$app->user->identity->id)) {
             $model->from_name = Yii::$app->user->identity->getFullName();
             $model->from_email = Yii::$app->user->identity->email;
         }
-        return $this->renderAjax("_refer_form", ['model' => $model]);
+        return $this->renderAjax("_refer_form", ['model' => $model, 'modelsRecipient' => (empty($modelsRecipient)) ? [new ReferralRecipients] : $modelsRecipient]);
     }
 
     public function actionReferToFriendPost($lead_id) {
         $model = new ReferralMaster();
         $model->lead_id = $lead_id;
-        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post()) && $model->sendReferralMail()) {
-            Yii::$app->session->setFlash("success", "Referral mail sent successfully.");
-            echo json_encode(['code' => 200]);
-            exit;
+        $modelsRecipient = [new ReferralRecipients];
+        if (Yii::$app->request->isPost) {
+             $modelsRecipient = ReferralRecipients::createMultiple(ReferralRecipients::classname());
+            Model::loadMultiple($modelsRecipient, Yii::$app->request->post());
+            $postData = Yii::$app->request->post();
+            $model->load($postData);
+            // validate all models
+            $valid = $model->validate(['lead_id', 'from_name', 'from_email', 'description']);
+            $valid = Model::validateMultiple($modelsRecipient) && $valid;
+            if ($valid) {
+                try {
+                    foreach ($modelsRecipient as $modelRecipient) {
+                        $ref = new ReferralMaster();
+                        $ref->lead_id = $model->lead_id;
+                        $ref->from_name = $model->from_name;
+                        $ref->from_email = $model->from_email;
+                        $ref->to_name = $modelRecipient->to_name;
+                        $ref->to_email = $modelRecipient->to_email;
+                        $ref->created_at = CommonFunction::currentTimestamp();
+
+                        if (($flag = $ref->save(false))) {
+                            $ref->sendReferralMail();
+                        }
+                    }
+
+                    if ($flag) {
+                        Yii::$app->session->setFlash("success", "Referral mail sent successfully.");
+                        echo json_encode(['code' => 200]);
+                        exit;
+                    }
+                } catch (Exception $e) {
+                    Yii::$app->session->setFlash("warning", "Something went wrong while sending the mail.");
+                    echo json_encode(['code' => 201]);
+                    exit;
+                }
+            } else {
+                Yii::$app->session->setFlash("warning", "Something went wrong while sending the mail.");
+                echo json_encode(['code' => 201]);
+                exit;
+            }
         }
-//        else {
-//            Yii::$app->session->setFlash("warning", "Something went wrong while sending the mail.");
-//            echo json_encode(['code' => 201]);
-//            exit;
-//        }
     }
 
     public function actionApply($ref) {
         if (CommonFunction::isJobSeeker()) {
-            $model = LeadMaster::find()->where(['reference_no' => $ref,'is_suspended' => LeadMaster::IS_SUSPENDED_NO])->one();
+            $model = LeadMaster::find()->where(['reference_no' => $ref, 'is_suspended' => LeadMaster::IS_SUSPENDED_NO])->one();
             if ($model != null) {
                 $searchModel = new LeadMasterSearch();
                 $searchModel->loggedInUserId = Yii::$app->user->identity->id;
