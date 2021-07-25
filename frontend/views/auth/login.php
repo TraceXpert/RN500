@@ -13,7 +13,7 @@ use yii\bootstrap4\ActiveForm;
 
 $is_otp_sent = $model->is_otp_sent;
 ?>
-<div class="signin-form text-center"> 
+<div class="signin-form justify-content-start overflow-form text-center"> 
     <h1>Sign in</h1>
     <p>Sign in on the RN500 platform</p>
 
@@ -36,7 +36,7 @@ $is_otp_sent = $model->is_otp_sent;
 
     <?php
     echo $form->field($model, 'password', [
-                'template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye password-toggle-icon toggle-password"></span></div> {error}',
+                'template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye-slash password-toggle-icon toggle-password"></span></div> {error}',
                 'options' => ['class' => 'form-group has-feedback']
             ])->label(false)
             ->passwordInput(['placeholder' => $model->getAttributeLabel('password'), 'readOnly' => $is_otp_sent])

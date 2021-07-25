@@ -52,9 +52,9 @@ return [
         ],
         'user' => [
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
             'identityCookie' => ['name' => '_identity-rn500', 'httpOnly' => true],
-            'authTimeout' => 172800,
+            'authTimeout' => 600,
             'loginUrl' => 'http://localhost/rn500/auth/login'
         ],
         'session' => [

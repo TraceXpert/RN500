@@ -13,13 +13,17 @@ $is_otp_sent = $model->is_otp_sent;
                 <div class="signin-form text-center h-auto mt-0">
                     <h1 class="mb-4 pb-2">Change Password</h1>                        
                     <?php
-                    $form = ActiveForm::begin(['options' => [
-                                    'class' => 'w-100'
-                    ]]);
+                    $form = ActiveForm::begin([
+                                'id'=>'change_password_form',
+                                'options' => [
+                                    'class' => 'w-100',
+                                    'autocomplete' => 'off'
+                                ]
+                    ]);
                     ?>
-                    <?= $form->field($model, 'password', ['template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye password-toggle-icon toggle-password"></span></div> {error}',])->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
-                    <?= $form->field($model, 'new_password', ['template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye password-toggle-icon toggle-password"></span></div> {error}',])->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('new_password')]) ?>
-                    <?= $form->field($model, 'confirm_password', ['template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye password-toggle-icon toggle-password"></span></div> {error}',])->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('confirm_password')]) ?>
+                    <?= $form->field($model, 'password', ['template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye-slash password-toggle-icon toggle-password"></span></div> {error}',])->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+                    <?= $form->field($model, 'new_password', ['template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye-slash password-toggle-icon toggle-password"></span></div> {error}',])->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('new_password')]) ?>
+                    <?= $form->field($model, 'confirm_password', ['template' => '<div class="password-field">{input}<span toggle="#password-field" class="fa fa-fw fa-eye-slash password-toggle-icon toggle-password"></span></div> {error}',])->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('confirm_password')]) ?>
                     <?php if ($is_otp_sent) { ?>
                         <div class="text-left">
                             <div class="row">
@@ -49,27 +53,6 @@ $is_otp_sent = $model->is_otp_sent;
 </section>
 <?php
 $script = <<< JS
-        $(document).on('click', '#p1', function() {
-
-    $(this).toggleClass("fa-eye fa-eye-slash");
-    
-    var input = $("#changepasswordform-password");
-    input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
-});
-        $(document).on('click', '#p2', function() {
-
-    $(this).toggleClass("fa-eye fa-eye-slash");
-    
-    var input = $("#changepasswordform-new_password");
-    input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
-});
-        $(document).on('click', '#p3', function() {
-
-    $(this).toggleClass("fa-eye fa-eye-slash");
-    
-    var input = $("#changepasswordform-confirm_password");
-    input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
-});
 $(document).on('click', '#resend_otp', function() {
         var action=$(this).attr('url');
         $.ajax({

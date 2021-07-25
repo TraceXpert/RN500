@@ -86,7 +86,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 <?php if (!empty($banner)) { ?>
     <section class="marquee-text p-0 d-flex align-items-center">
         <marquee width="100%" direction="left">
-            <ul style="display: flex;flex-direction: row;justify-content:space-around;">
+            <ul style="display: flex;flex-direction: row;justify-content:space-around;" class="mb-0">
                 <?php foreach ($banner as $value) { ?>
                     <li style='margin-left: 4%;'><?= $value->headline ?></li>
                 <?php } ?>
@@ -262,9 +262,6 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
             <div class="col-lg-2 col-md-4 col-6">
                 <img src="<?= $assetDir ?>/img/18.png" alt="about-us" class="img-fluid mx-auto d-block">
             </div>
-            <div class="col-lg-2 col-md-4 col-6">
-                <img src="<?= $assetDir ?>/img/19.png" alt="about-us" class="img-fluid mx-auto d-block">
-            </div>
         </div>
 
     </div>
@@ -278,15 +275,15 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
     <div class="container">
         <div class="row">
             <div class="col-md-12 main-title about-us text-center">
-                <h2 class="mb-4">Popular Searches</h2>
+                <h2 class="mb-5">Popular Searches</h2>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-lg-1 offset-lg-1 col-md-4 col-6">
-            </div>
-            <div class="col-lg-3 offset-lg-1 col-md-4 col-6">
-                <ul class="list-unstyled">
+            <!-- <div class="col-lg-1 offset-lg-1 col-md-4 col-6">
+            </div> -->
+            <div class="col-lg-12">
+                <ul class="list-unstyled d-flex flex-wrap">
                     <li>
                         <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/index', 'location[]' => '20861']) ?>" class="popular-location">
                             <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -377,11 +374,11 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                             </svg>San Diego
                         </a>
                     </li>
-                </ul>                    
+                <!-- </ul>                    
             </div>
 
             <div class="col-lg-3 offset-lg-1 col-md-4 col-6">
-                <ul class="list-unstyled">
+                <ul class="list-unstyled"> -->
                     <li>
                         <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/index', 'location[]' => 15499]) ?>" class="popular-location">
                             <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">

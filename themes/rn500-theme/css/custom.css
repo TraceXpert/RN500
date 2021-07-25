@@ -62,9 +62,14 @@ nav .readmore{padding: 10px 26px !important}
 .signin-form h1{font-size: 36px;color: #253858;font-weight: 600;}
 .signin-form p{color: #5D6A83;font-size: 14px;}
 .signin-form .form-control,.model-form .form-control,.post-job .form-control,.select2-selection{background: #FFFFFF;border: 1px solid #C4C4C4;border-radius: 6px;width: 100%;height: 56px;padding: .375rem 2rem;box-shadow: none;}
+.signin-form.overflow-form{
+ padding: 250px 0 0 !important;
+ overflow-x: hidden !important;
+}
 .select2-selection{padding: 0rem}
 .select2-selection .select2-selection__choice{padding: 0.05rem 0.25rem !important;}
 .select2-selection .select2-selection__choice__remove {line-height: 1.3rem !important}
+.select2-selection.select2-selection--single{padding-top: 0 !important}
 .signin-form a{color: #1656A0;font-weight: 600;font-size: 14px;}
 .create-link p{color: #5D6A83;font-weight: 500;}
 .create-link a{color: #1656A0;font-weight: 600;}
@@ -125,8 +130,8 @@ section{padding: 80px 0;}
 .rating{padding: 12px 20px;background: #F6F9FE;}
 .rating p{font-size: 14px;color: #65686F;}
 
-.industry-logo img{margin-bottom: 50px;filter: grayscale(1);transition: 0.2s ease-in-out;cursor: pointer;}
-.industry-logo img:hover{margin-bottom: 50px;filter: grayscale(0);transition: 0.2s ease-in-out;}
+.industry-logo img{margin-bottom: 50px;transition: 0.2s ease-in-out;cursor: pointer;}
+.industry-logo img:hover{margin-bottom: 50px;transition: 0.2s ease-in-out;}
 
 .cta{background-image: url(../img/cta-bg.png);background-size: cover;color: #ffffff;padding: 100px 0;}
 .cta h2{line-height: 48px;}
@@ -136,7 +141,7 @@ section{padding: 80px 0;}
 .cta .find-job:hover path{fill: #183B56;}
 .cta .find-job:hover{background:#ffffff;border: 1px solid #ffffff;color: #183B56;}
 
-.popular-searches li{margin-bottom: 20px;cursor: pointer;}
+.popular-searches li{margin-bottom: 30px;cursor: pointer;flex: 0 0 20%;}
 .popular-searches li:hover,.popular-searches li:hover circle{color: #46AEE0;fill:#46AEE0;transition: all 0.2s ease-in-out;}
 .main-title a{font-size: 18px;color: #46AEE0;font-weight: 600;}
 
@@ -163,8 +168,12 @@ section{padding: 80px 0;}
 .contact-us-shape{background: url(../img/contact-us-shape.png);background-size: cover;height: 530px;}
 .contact-us-shape .main-title{padding-top: 30px;}
 .contact-us-shape .main-title p,.contact-us-shape .main-title a{color: #182637;font-size: 16px;font-weight: 400;}
-.contact-us-shape .media{padding: 10px}
-.contact-us-shape .media:hover{background:#1656A0;border-radius: 8px;max-width: 400px;transition: all 0.3s ease-in;}
+
+.contact-us-shape .media{padding: 10px;border-radius: 8px;}
+.contact-us-shape .div-hover{display: inline-block;cursor: pointer;}
+.contact-us-shape .div-hover:hover{min-width: 400px;}
+.contact-us-shape .div-hover:hover .media{background:#1656A0;border-radius: 8px;transition: all 0.3s ease-in;}
+
 .contact-us-shape .media:hover a,.contact-us-shape .media:hover p,.contact-us-shape .media:hover path{color: #ffffff !important;fill: #ffffff;}
 .contact-block a{color: #ffffff !important;font-weight: 600;}
 .contact-form-block{background: #FFFFFF;border: 1px solid #B6CEEA;border-radius: 20px;padding: 44px 32px 20px;}
@@ -172,7 +181,7 @@ section{padding: 80px 0;}
 .contact-form-block .form-control {border: 0;border-bottom: 1px solid #B6CEEA;height: calc(0.5em + .75rem + 2px);border-radius: 0;box-shadow: none;padding: 0;}
 .contact-form-block textarea,.model-form textarea {height: auto !important;resize: none;}
 .contact-form-block .form-group {margin-bottom: 1.5rem;}
-.contact-form-block .read-more,.job-details .rating .read-more,.signin-form .read-more,.view-details .read-more,.model-form .read-more,.post-job .read-more{background: #1656A0;border: 1px solid #1656A0;border-radius: 38px;color: #ffffff;font-size: 14px;}
+.contact-form-block .read-more,.job-details .rating .read-more,.signin-form .read-more,.view-details .read-more,.model-form .read-more,.post-job .read-more{background: #1656A0;border: 1px solid #1656A0;border-radius: 38px;color: #ffffff;font-size: 14px;outline: none;}
 .contact-form-block .read-more:hover,.job-details .rating .read-more:hover,.signin-form .read-more:hover,.view-details .read-more:hover,.model-form .read-more:hover,.post-job .read-more:hover{background: transparent;border: 1px solid #1656A0;color: #1656A0;;}
 iframe{border-radius: 20px;}
 
@@ -294,7 +303,10 @@ footer .media a{color: rgb(233 247 254 / 50%)}
 footer hr{border-top: 1px solid #8C97AC;}
 
 @media only screen and (max-width: 1600px) and (min-width: 1200px) {
+    .signin-form.overflow-form{padding: 150px 0 0 !important;}
+    .main-banner{height: 600px;}
     .the-rn-app img{width: 200px;}
+    .inner-banner{padding: 200px 0px 100px;}
 }
 @media (min-width: 1200px) {    
     .container, .container-lg, .container-md, .container-sm, .container-xl {
@@ -323,6 +335,7 @@ footer hr{border-top: 1px solid #8C97AC;}
     .contact-us-shape{height: auto;}
     .contact-form-block {margin-top: 30px;}
     .otp-text{font-size: 12px !important;}
+    .popular-searches li{flex: 0 0 33.33%;}
 }
 @media (min-width: 768px) {
     .login-header{width: -moz-calc(100% - 40%);width: -webkit-calc(100% - 40%);width: -o-calc(100% - 40%);width: calc(100% - 40%);}
@@ -330,8 +343,8 @@ footer hr{border-top: 1px solid #8C97AC;}
 @media (max-width: 767px){
     body{font-size: 14px;}
     .main-banner {height: auto}
-    .forny-two-pane > div:last-child{background-image: none;flex: none;}        
-    .signin-form{margin-top: 80px;align-items: unset;justify-content: unset;}    
+    .forny-two-pane > div:last-child{background-image: none;flex: none;}
+    .signin-form{margin-top: 80px;align-items: unset;justify-content: unset;}
 
     .filter-block .d-flex{display: block !important;}
     .browse-search .filter-block .form-control,.browse-search .filter-block .form-control,.filter-block .select2-selection--multiple{border: 2px dashed #E2E4E8;border-right:2px dashed #E2E4E8 !important;box-shadow: none !important;}
@@ -346,10 +359,12 @@ footer hr{border-top: 1px solid #8C97AC;}
     .profile-details .view-details .text-right {text-align: right !important;margin-top: 0px;}
 }
 @media (max-width: 575px){
+    .popular-searches li{flex: 0 0 50%;}
     .job-d .text-right {text-align: left!important;}
     .job-d .text-right .read-more{margin-top: 16px;}
     .otp-text a{display: block;}
     .signup .nav-tabs .nav-item{width: 100%;}
+    .contact-us-shape .div-hover:hover {max-width: 400px;}
 }
 @media (max-width: 350px){
     .the-rn-app img{margin-bottom: 16px;}
