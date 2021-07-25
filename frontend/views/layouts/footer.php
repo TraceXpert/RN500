@@ -50,11 +50,11 @@ use common\CommonFunction;
                 </p>
 
 
-                <a href="">
+                <a href="https://twitter.com/TheRN500">
                     <img src="<?= $assetDir ?>/img/twitter.png" alt="twitter" class="img-fluid mr-2">
                 </a>
 
-                <a href="">
+                <a href="https://www.facebook.com/RN500-LLC-103500725353353">
                     <img src="<?= $assetDir ?>/img/facebook.png" alt="facebook" class="img-fluid mr-2">
                 </a>
 
