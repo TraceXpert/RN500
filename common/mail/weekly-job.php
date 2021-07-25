@@ -19,7 +19,7 @@
                                        style="width: 100%;">
                                     <tr style="background: #ffffff;padding: 20px 0px;display: block">
                                         <td align="left">
-                                            <img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/logo.png']) ?>" alt="log" style="width: 160px;margin-right: 20px;" />
+                                            <img src="http://rn500.com/images/email/logo.png" alt="log" style="width: 160px;margin-right: 20px;" />
                                         </td>
                                     </tr>
                                 </table>
@@ -47,7 +47,7 @@
                                             <tr>
                                                 <td
                                                     style="padding: 0px 20px 6px;color: #000000;font-weight: 600;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;line-height: 26px;">
-                                                    <img src="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/images/email/location.png']) ?>" alt="Location"/> <?= $model->citiesName ?>
+                                                    <img src="http://rn500.com/images/email/location.png" alt="Location" style="height: 16px;width: 16px;color: #2470b3;margin-right: 6px;" /> <?= $model->citiesName ?>
                                                 </td>
                                             </tr>
 
@@ -60,7 +60,7 @@
 
                                             <tr>
                                                 <td align="left" style="padding: 0px 20px 6px;">
-                                                    <a href="<?php echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/browse-jobs/view', 'id' => $model->reference_no]) ?>" style="text-decoration: none;color: #FFF;padding: 16px 20px;background:#2470b3;
+                                                    <a href="http://rn500.com/browse-jobs/view?id=<?= $model->reference_no ?>" style="text-decoration: none;color: #FFF;padding: 16px 20px;background:#2470b3;
                                                        font-weight: 500;text-align: center;cursor: pointer;display: inline-block;
                                                        border-radius: 0px;font-family: 'Montserrat', sans-serif;">I'am interested</a>
                                                 </td>
@@ -85,7 +85,18 @@
                                             </td>
                                         </tr>
 
-                                        <?php echo $this->render('_social_links') ?>
+                                        <tr>
+                                            <td align="left" style="padding: 20px 20px 20px;display: flex;">
+                                                <span style="color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;font-size: 16px;font-weight: 600;margin-right: 10px;display: flex;align-items: center;">Follow us on:</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="padding: 20px 20px 20px;display: flex;">
+                                                <a href=""><img src="http://rn500.com/images/email/facebook.png" alt="facebook" style="margin-right: 10px;"/></a>
+                                                <a href=""><img src="http://rn500.com/images/email/instagram.png" alt="Instagram" style="margin-right: 10px;"/></a>
+                                                <a href=""><img src="http://rn500.com/images/email/twitter.png" alt="Twitter"/></a>
+                                            </td>
+                                        </tr>
 
                                     </table>
                                 </td>
