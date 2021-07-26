@@ -28,7 +28,7 @@ use common\CommonFunction;
         color: #495057;
     }
     .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
-        padding: .375rem 2rem;
+        padding: 0;
     }
 
     .field-userdetails-interest_level{width:200px;}
@@ -123,15 +123,21 @@ use common\CommonFunction;
         </div>
     </div>
     <div class="row">
+        <div class="col-sm-6">
+            <?= $form->field($model, 'zip_code')->textInput(['maxlength' => 5]) ?>
+        </div>
+        
         <?php if (isset(Yii::$app->user->id) && !empty(Yii::$app->user->id)) { ?>
             <?php if (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
                 <div class="col-sm-6">
-                    <?= $form->field($model, 'ssn')->textInput(['maxlength' => 4]) ?>
+                    <?= $form->field($model, 'ssn')->textInput(['maxlength' => 5]) ?>
                 </div>
             <?php } ?>
         <?php } ?>
+    </div>
+    
+    <div class="row">
         <div class="col-sm-6">
-
             <?php
             echo $form->field($model, 'dob')->widget(DatePicker::classname(), [
                 'name' => 'dob',
@@ -146,10 +152,7 @@ use common\CommonFunction;
             ]);
             ?>
         </div>
-    </div>
-    <div class="row">
         <div class="col-sm-6">
-
             <!--<label>Upload File</label>-->
             <?= $form->field($model, 'profile_pic', ['template' => "<label for='real-file'>Upload Your Profile Picture</label><br/><input type='file' id='userdetails-profile_pic' name='UserDetails[profile_pic]' hidden='hidden'><button type='button' id='custom-button'>Choose File</button>{error}"])->fileInput() ?>
 
@@ -159,13 +162,16 @@ use common\CommonFunction;
                 <span id="custom-text">No file selected.</span>
             <?php } ?>   
         </div>
+    </div>
+    
+    <div class="row">
         <div class="col-sm-6">
-
             <?php if (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
                 <?= $form->field($model, 'interest_level')->dropDownList(Yii::$app->params['INTERESTS_LEVEL']) ?>
             <?php } ?>
         </div>
     </div>
+    
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
