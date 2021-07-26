@@ -77,9 +77,10 @@ class CronController extends Controller {
     }
 
     public function actionWeeklyJobs() {
-        $to_date = Date('Y-m-d');
-        $from_date = Date('Y-m-d', strtotime("-7 Days")); //get before 7 days date    
-        $models = \common\models\LeadMaster::find()->where("created_at BETWEEN '$from_date' AND '$to_date'")->andWhere(['status' => 1])->all();
+//        $to_date = Date('Y-m-d');
+//        $from_date = Date('Y-m-d', strtotime("-7 Days")); //get before 7 days date    
+//        $models = \common\models\LeadMaster::find()->where("created_at BETWEEN '$from_date' AND '$to_date'")->andWhere(['status' => 1])->all();
+        $models = \common\models\LeadMaster::find()->andWhere(['status' => 1])->orderBy(['created_at'=>SORT_DESC])->all();
         $jobseekers = \common\models\User::findAll(['type' => \common\models\User::TYPE_JOB_SEEKER, 'is_suspend' => 0, 'status' => 1]);
         $success = 0;
         if (isset($models) && !empty($models) && isset($jobseekers) && !empty($jobseekers)) {
