@@ -296,6 +296,9 @@ class SiteController extends Controller {
     public function actionAboutUs() {
         return $this->render('about-us');
     }
+    public function actionPrivacyPolicy() {
+        return $this->render('privacy-policy');
+    }
 
     public function actionAdvertise() {
         return $this->render('advertise');

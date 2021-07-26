@@ -84,6 +84,7 @@ use common\CommonFunction;
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a></li>
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact Us</a></li>
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Browse Jobs</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/privacy-policy"); ?>">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="col-lg-4 col-md-12">
