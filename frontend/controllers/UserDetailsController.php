@@ -123,9 +123,8 @@ class UserDetailsController extends Controller {
         $model->updated_at = CommonFunction::currentTimestamp();
         if (isset($model->dob) && !empty($model->dob)) {
             $model->dob = date('M-d-Y', strtotime($model->dob));
-        } else {
-            $model->dob = date('d-m-Y');
         }
+        
         if (isset($model->city) && !empty($model->city)) {
             $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->city])->all(), 'id', function ($data) {
                         return $data->city . "-" . $data->state_code;

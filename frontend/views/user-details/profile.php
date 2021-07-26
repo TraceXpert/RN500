@@ -100,6 +100,11 @@ use common\CommonFunction;
                         ?>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?= $form->field($model, 'zip_code')->textInput(['maxlength' => 5]) ?>
+                    </div>
+                </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
@@ -131,7 +136,7 @@ use common\CommonFunction;
                     </div>
                 <?php } ?>
 
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
                         <?=
                         $form->field($model, 'profile_pic', [
