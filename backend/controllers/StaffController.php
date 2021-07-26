@@ -167,6 +167,7 @@ class StaffController extends Controller {
                         if ($userDetailModel->save()) {
                             $is_error = 1;
                             $resetPasswordModel = new \common\models\PasswordResetRequestForm();
+                            $resetPasswordModel->unique_id = $userDetailModel->unique_id;
                             $resetPasswordModel->email = $model->email;
                             $is_welcome_mail = 1;
                             if ($resetPasswordModel->sendEmail($is_welcome_mail)) {

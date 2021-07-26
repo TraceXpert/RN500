@@ -50,11 +50,11 @@ use common\CommonFunction;
                 </p>
 
 
-                <a href="">
+                <a href="https://twitter.com/TheRN500">
                     <img src="<?= $assetDir ?>/img/twitter.png" alt="twitter" class="img-fluid mr-2">
                 </a>
 
-                <a href="">
+                <a href="https://www.facebook.com/RN500-LLC-103500725353353">
                     <img src="<?= $assetDir ?>/img/facebook.png" alt="facebook" class="img-fluid mr-2">
                 </a>
 
@@ -84,6 +84,7 @@ use common\CommonFunction;
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a></li>
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact Us</a></li>
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Browse Jobs</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/privacy-policy"); ?>">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="col-lg-4 col-md-12">
@@ -93,7 +94,7 @@ use common\CommonFunction;
                     <img src="<?= $assetDir ?>/img/location-icon.png" alt="location-icon" class="mr-3">
                     <div class="media-body">                         
                         <p class="mb-0">
-                            RN500 LLC. 445 Park Avenue,<br/> Manhattan, NY 10022 USA.
+                            RN500 LLC.<br/> 445 Park Avenue,<br/> Manhattan, NY 10022 USA.
                         </p>
                     </div>
                 </div>
