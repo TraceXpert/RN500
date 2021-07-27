@@ -116,6 +116,7 @@ class ProfileController extends Controller {
                 $aboutYou['email'] = (isset($model->user->email) && $model->user->email != "") ? $model->user->email : "";
                 $aboutYou['mobile_no'] = ($model->mobile_no) ? $model->mobile_no : "";
                 $aboutYou['ssn'] = ($model->ssn) ? (string) $model->ssn : "";
+                $aboutYou['zip_code'] = (isset($model->zip_code)) ? (string) $model->zip_code : "";
                 $aboutYou['interest_level'] = ($model->interest_level) ? (string) $model->interest_level : '';
                 $aboutYou['interest_level_text'] = (isset(Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level])) ? Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level] : '';
                 $aboutYou['profile_pic'] = ($model->profile_pic) ? $model->profile_pic : "";
@@ -240,6 +241,7 @@ class ProfileController extends Controller {
                 $data['city_name'] = $model->getCityStateName();
                 $data['ssn'] = ($model->ssn) ? (string) $model->ssn : "";
                 $data['dob'] = ($model->dob) ? $model->dob : "";
+                $data['zip_code'] = (isset($model->zip_code)) ? $model->zip_code : "";
                 $data['interest_level'] = ($model->interest_level) ? (string) $model->interest_level : '';
                 $data['interest_level_text'] = (isset(Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level])) ? Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level] : '';
                 $data['profile_pic'] = ($model->profile_pic) ? $model->profile_pic : "";
@@ -317,6 +319,7 @@ class ProfileController extends Controller {
                         $model->city = ($city != '') ? $city : null;
                         $model->ssn = ($ssn != '') ? $ssn : null;
                         $model->dob = ($dob != '') ? date('Y-m-d', strtotime($dob)) : null;
+                        $model->zip_code = (isset($zip_code) && $zip_code != '') ? $zip_code : null;
                         $model->interest_level = ($interest_level != '') ? $interest_level : null;
                         $model->updated_at = CommonFunction::currentTimestamp();
                         if ($model->update(false)) {

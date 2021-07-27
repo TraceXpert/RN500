@@ -19,6 +19,23 @@ $isEmployer = CommonFunction::isEmployer();
 $isRecruiter = CommonFunction::isRecruiter();
 $isJobSeeker = CommonFunction::isJobSeeker();
 ?>
+<style>
+    .header-menu-pop-up.dropdown-menu{
+        top: 115% !important;
+        border: 0 !important;
+        right: 0 !important;
+        top: 75px !important;
+        left: auto !important;
+        background: #F7FBFC !important;
+        box-shadow: 0px 4px 4px rgb(0 0 0 / 25%) !important;
+        border-radius: 12px !important;
+        padding: 0 !important;
+        border-radius: 12px !important;
+    }
+    .header-menu-pop-up.dropdown-menu > .dropdown-item{
+        padding: .70rem 1rem !important;
+    }
+</style>
 <nav class="navbar navbar-expand-lg bg-white navbar-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/index"); ?>"><img src="<?= $assetDir ?>/img/logo.png" alt="logo" class="img-fluid logo-w"></a>
@@ -73,7 +90,7 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                                 </div>
                             </div>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown07">
+                        <div class="dropdown-menu header-menu-pop-up" aria-labelledby="dropdown07">
                             <?php if ($isJobSeeker) { ?>
                                 <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl(["site/job-seeker"]); ?>">
                                     <div class="media">
