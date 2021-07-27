@@ -200,7 +200,5 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                 <p style='margin:0in;font-size:16px;font-family:"Calibri",sans-serif;color:black;'><span style="font-size:19px;">&nbsp;</span></p>
             </div>
         </div>
-
-
     </div>
 </section>
