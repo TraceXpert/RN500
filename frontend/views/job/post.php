@@ -16,6 +16,19 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
  * and open the template in the editor.
  */
 ?>
+<style>
+     /*SOME PROPERTIES ARE OVERRIDES*/
+    .select2-container--krajee-bs4 .select2-selection--multiple .select2-search--inline .select2-search__field,
+    .input-lg.select2-container--krajee-bs4 .select2-selection--single, .input-group-lg .select2-container--krajee-bs4 .select2-selection--single{
+        background-color: transparent !important;
+    }
+    .select2-selection {
+        padding: .375rem 1.4em !important;
+    }
+    .select2-selection.select2-selection--multiple.select2-selection--clearable{
+        overflow-y: scroll !important;
+    }
+</style>
 <section class="about-us about-inner-block">
     <div class="container">
         <div class="row align-items-center">

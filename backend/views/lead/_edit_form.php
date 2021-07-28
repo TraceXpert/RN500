@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 use kartik\date\DatePicker;
+use dosamigos\ckeditor\CKEditor;
 
 $form = ActiveForm::begin(['id' => 'edit-lead-form',
             'options' => ['autocomplete' => 'off']
@@ -58,13 +59,13 @@ $form = ActiveForm::begin(['id' => 'edit-lead-form',
     <div class="col-md-12 col-sm-12">
         <div class="formrow">
             <?php
-            echo $form->field($model, 'description', [
-                        'options' => ['class' => 'form-group has-feedback'],
-                        'inputTemplate' => '{input}',
-                        'template' => '{input}{error}',
+            echo $form->field($model, 'description')->widget(CKEditor::className(), [
+                        'options' => ['rows' => 2],
+                        'clientOptions' => [
+                            'removeButtons' => 'Maximize,Image,Source,Table,About,Anchor,Link,Path,SpecialChar,PageBreak,HorizontalRule',
+                        ],
+                        'preset' => 'standard'
                     ])
-                    ->label(false)
-                    ->textarea(['placeholder' => $model->getAttributeLabel('description')]);
             ?>
         </div>
     </div>

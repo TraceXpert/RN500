@@ -38,9 +38,10 @@ class RecruiterCompanyForm extends CompanyMaster {
             [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
             [['website_link'], 'url'],
             [['state', 'type', 'status', 'reference_no', 'employer_identification_number','website_link','extension'], 'safe'],
-            [['company_name'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
-            [['street_no'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field'],
-            [['extension'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field']
+            [['state', 'type', 'status', 'reference_no', 'employer_identification_number','website_link','extension'], 'trim'],
+//            [['company_name'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
+            [['street_no'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute}.'],
+            [['extension'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute}.']
         ];
     }
 

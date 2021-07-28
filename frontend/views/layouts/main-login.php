@@ -51,7 +51,9 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
             </div>
         </div>
         <?php
-        echo FlashmessageWidget::widget();
+        if (!Yii::$app->session->hasFlash("success")) {
+            echo FlashmessageWidget::widget(); // AS BOOTSTRAP ALERT WAS USED IN LOGIN PAGE 
+        }
         ?>
         <?php $this->endBody() ?>
     </body>
