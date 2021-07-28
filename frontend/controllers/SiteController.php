@@ -299,6 +299,9 @@ class SiteController extends Controller {
     public function actionPrivacyPolicy() {
         return $this->render('privacy-policy');
     }
+    public function actionTearmsCondition() {
+        return $this->render('terms-condition');
+    }
 
     public function actionAdvertise() {
         return $this->render('advertise');
