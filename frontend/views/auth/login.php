@@ -13,10 +13,18 @@ use yii\bootstrap4\ActiveForm;
 
 $is_otp_sent = $model->is_otp_sent;
 ?>
+
 <div class="signin-form justify-content-start text-center"> 
     <h1>Sign in</h1>
     <p>Sign in on the RN500 platform</p>
-
+    <?php if (Yii::$app->session->hasFlash("success")) { ?>
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <?php echo Yii::$app->session->getFlash("success") ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php } ?>
     <?php
     $form = ActiveForm::begin([
                 'id' => 'login-form',

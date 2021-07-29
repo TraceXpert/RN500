@@ -91,6 +91,8 @@ use yii\helpers\Html;
                                             <td align="left" style="padding: 0px 20px 20px; color: #000000;font-weight: 500;font-family: 'Montserrat', sans-serif;text-align: justify;font-size: 16px;">
                                                 <br/>
                                                 Regards,<br/> 
+                                                RN500, LLC.<br/>
+                                                www.RN500.com <br/>
                                             </td>
 
                                         </tr>
