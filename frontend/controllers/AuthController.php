@@ -184,7 +184,9 @@ class AuthController extends Controller {
                         }
                         if ($is_error) {
                             $transaction->commit();
-                            Yii::$app->session->setFlash("success", "You have registered successfully. Please check your email for verification.");
+//                            Yii::$app->session->setFlash("success", "You have registered successfully. Please check your email for verification.");
+                            Yii::$app->session->setFlash("success", Yii::$app->params['senderName'] . " has received your sign up information. You will receive confirmation as soon as after approval in your email. If you have any questions, please contact us on: +1 917 806 5507 or email at: " . Yii::$app->params['senderEmail']);
+
                             return $this->redirect(['login']);
                         } else {
                             $transaction->rollBack();
@@ -248,7 +250,8 @@ class AuthController extends Controller {
                         }
                         if ($is_error) {
                             $transaction->commit();
-                            Yii::$app->session->setFlash("success", "You have registered successfully. Please check your email for verification.");
+//                            Yii::$app->session->setFlash("success", "You have registered successfully. Please check your email for verification.");
+                            Yii::$app->session->setFlash("success", Yii::$app->params['senderName'] . " has received your sign up information. You will receive confirmation as soon as after approval in your email. If you have any questions, please contact us on: +1 917 806 5507 or email at: " . Yii::$app->params['senderEmail']);
                             return $this->redirect(['login']);
                         } else {
                             $transaction->rollBack();

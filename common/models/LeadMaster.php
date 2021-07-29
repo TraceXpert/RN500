@@ -142,7 +142,7 @@ class LeadMaster extends \yii\db\ActiveRecord {
             'apt' => 'Suit/Apt.',
             'specialities' => 'Speciality',
             'zip_code' => 'Zipcode',
-            'emergency' => 'Urgent',
+            'emergency' => 'Optional',
             'is_suspended' => 'Is Suspended'
         ];
     }

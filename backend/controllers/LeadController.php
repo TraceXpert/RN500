@@ -101,8 +101,8 @@ class LeadController extends Controller {
                 $model->title,
                 $model->recruiter_commission_type == 1 ? $model->recruiter_commission . "%" : "$" . $model->recruiter_commission,
                 "$" . $model->jobseeker_payment . "/" . Yii::$app->params['job.payment_type'][$model->payment_type],
-                $model->start_date,
-                $model->end_date,
+                CommonFunction::getAPIDateDisplayFormat($model->start_date, "Y-m-d"),
+                CommonFunction::getAPIDateDisplayFormat($model->end_date, "Y-m-d"),
                 $actionDiv
             ];
             $i++;
@@ -149,8 +149,8 @@ class LeadController extends Controller {
                 $model->title,
                 $model->recruiter_commission_type == 1 ? $model->recruiter_commission . "%" : "$" . $model->recruiter_commission,
                 "$" . $model->jobseeker_payment . "/" . Yii::$app->params['job.payment_type'][$model->payment_type],
-                $model->start_date,
-                $model->end_date,
+                CommonFunction::getAPIDateDisplayFormat($model->start_date, "Y-m-d"),
+                CommonFunction::getAPIDateDisplayFormat($model->end_date, "Y-m-d"),
             ];
             $i++;
         }
