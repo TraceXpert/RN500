@@ -29,7 +29,7 @@ $actionUrl = (CommonFunction::isRecruiter()) ? Yii::$app->urlManagerFrontend->cr
                         'pluginOptions' => [
                             'autoclose' => true,
                             'format' => Yii::$app->params['date.format.datepicker.js'],
-                            'startDate' => date('d-m-Y'),
+                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']),
                             'clearBtn' => true,
                         ],
                          'pluginEvents' => [

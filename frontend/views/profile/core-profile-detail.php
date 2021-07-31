@@ -6,6 +6,7 @@
  */
 
 use yii\helpers\Html;
+use common\CommonFunction;
 ?>
 <style>
     .detail-view th{
@@ -22,7 +23,7 @@ use yii\helpers\Html;
                 <tr><th> <?php echo $model->getAttributeLabel('mobile_no') ?> </th><td> <?php echo (isset($model->mobile_no) && $model->mobile_no != '') ? $model->mobile_no : '' ?> </td></tr>
                 <tr><th>looking For </th><td> <?php echo (isset($model->looking_for) && $model->looking_for != '') ? $model->looking_for : '' ?> </td></tr>
                 <tr><th> <?php echo $model->getAttributeLabel('ssn') ?> </th><td> <?php echo (isset($model->ssn) && $model->ssn != '') ? $model->ssn : '' ?> </td></tr>
-                <tr><th> <?php echo $model->getAttributeLabel('dob') ?> </th><td> <?php echo (isset($model->dob) && $model->dob != '') ? date('d-M-Y', strtotime($model->dob)) : '' ?> </td></tr>
+                <tr><th> <?php echo $model->getAttributeLabel('dob') ?> </th><td> <?php echo (isset($model->dob) && $model->dob != '') ? CommonFunction::getAPIDateDisplayFormat($model->dob, Yii::$app->params['date.format.display.php']) : '' ?> </td></tr>
 
             </tbody>
         </table>
@@ -149,8 +150,8 @@ use yii\helpers\Html;
 
                                     <tr>
                                         <td> <?php echo (isset($model->title) && $model->title != '') ? $model->title : ''; ?> </td>
-                                        <td> <?php echo (isset($model->start_date) && $model->start_date != '' && !in_array($model->start_date, ['1970-01-01', '0000-00-00'])) ? date('d-M-Y', strtotime($model->start_date)) : ''; ?> </td>
-                                        <td> <?php echo (isset($model->end_date) && $model->end_date != '' && !in_array($model->end_date, ['1970-01-01', '0000-00-00'])) ? date('d-M-Y', strtotime($model->end_date)) : ''; ?> </td>
+                                        <td> <?php echo (isset($model->start_date) && $model->start_date != '' && !in_array($model->start_date, ['1970-01-01', '0000-00-00'])) ? date('M-Y', strtotime($model->start_date)) : ''; ?> </td>
+                                        <td> <?php echo (isset($model->end_date) && $model->end_date != '' && !in_array($model->end_date, ['1970-01-01', '0000-00-00'])) ? date('M-Y', strtotime($model->end_date)) : ''; ?> </td>
                                         <td> <?php echo (isset($model->organization_name) && $model->organization_name != '') ? $model->organization_name : ''; ?> </td>
                                         <td> <?php echo $model->getCityStateName(); ?> </td>
                                     </tr>

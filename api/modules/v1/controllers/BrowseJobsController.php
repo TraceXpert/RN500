@@ -258,7 +258,7 @@ class BrowseJobsController extends Controller {
                         'location' => $value->citiesName,
                         'posted_at' => CommonFunction::dateDiffInDays($value->created_at),
                         'estimated_pay' => "$" . $value->jobseeker_payment . "/" . Yii::$app->params['job.payment_type'][$value->payment_type],
-                        'start_date' => $value->start_date,
+                        'start_date' => CommonFunction::getAPIDateDisplayFormat($value->start_date),
                         'shift' => $value->shift == 1 ? CommonFunction::getAllShiftsCommaSeprated() : Yii::$app->params['job.shift'][$value->shift],
                         'job_type' => Yii::$app->params['job.type'][$value->job_type],
                         'description' => $value->description,
@@ -306,7 +306,7 @@ class BrowseJobsController extends Controller {
                 $msg = "Success";
                 $data = [
                     'title' => $model->title,
-                    'created_at' => CommonFunction::getAPIDateDisplayFormat($model->created_at),
+                    'created_at' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d',$model->created_at)),
                     'location' => $model->citiesName,
                     'salary' => $model->jobseeker_payment,
                     'salary_type' => Yii::$app->params['job.payment_type'][$model->payment_type],

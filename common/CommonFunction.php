@@ -276,7 +276,8 @@ class CommonFunction {
         }
     }
 
-    public static function getAPIDateDisplayFormat($date, $format = 'm-d-Y') {
+//    public static function getAPIDateDisplayFormat($date, $format = 'm-d-Y') {
+    public static function getAPIDateDisplayFormat($date, $format = 'M-d-Y') {
         if ($date != '' && $date != '0000-00-00' && date('Y-m-d', strtotime($date)) != '1970-01-01') {
             return date($format, strtotime($date));
         }
@@ -289,6 +290,9 @@ class CommonFunction {
 //            if ($postDateMMDDYY != '' && $postDateMMDDYY != '0000-00-00' && date('Y-m-d', strtotime($date)) != '1970-01-01') {
 //                return date($format, strtotime($date));
 //            }
+    /*
+     * $postDateMMDDYY : format must Jul-01-2021
+     */
     public static function getStorableDate($postDateMMDDYY) {
         $storable_date = null;
         try {
@@ -297,7 +301,7 @@ class CommonFunction {
             $convertedDate = "$actualDate[2]-$actualDate[0]-$actualDate[1]";
 
             if ($postDateMMDDYY != '' && $postDateMMDDYY != '0000-00-00' && date('Y-m-d', strtotime($convertedDate)) != '1970-01-01') {
-                $storable_date = $convertedDate;
+                $storable_date = date('Y-m-d', strtotime($convertedDate));
             }
         } catch (\Exception $e) {
             $storable_date = null;

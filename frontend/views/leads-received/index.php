@@ -7,7 +7,6 @@ use yii\widgets\Pjax;
 use yii\grid\GridView;
 use common\models\LeadRecruiterJobSeekerMapping;
 use kartik\date\DatePicker;
-
 ?>
 <section class="inner-banner">
     <div class="container">
@@ -57,7 +56,7 @@ use kartik\date\DatePicker;
                                         [
                                         'attribute' => 'leadTitleWithRef',
                                         'value' => function($model) {
-                                            return Html::a($model->leadTitleWithRef, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/browse-jobs/recruiter-view', 'id' => $model->lead_id]), ['data-pjax' => '0', 'target' => '_blank']);
+                                            return Html::a($model->leadTitleWithRef, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/browse-jobs/recruiter-view', 'id' => isset($model->lead->reference_no)? ($model->lead->reference_no) : $model->lead_id]), ['data-pjax' => '0', 'target' => '_blank']);
                                         },
                                         'format' => 'raw',
                                         'enableSorting' => false,
@@ -79,8 +78,7 @@ use kartik\date\DatePicker;
                                         'enableSorting' => false,
                                         'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                                         'value' => function($model) {
-//                                            return ($model->rec_joining_date != '') ? date("d-M-Y", strtotime($model->rec_joining_date)) : '';
-                                            return CommonFunction::getAPIDateDisplayFormat($model->rec_joining_date);
+                                            return CommonFunction::getAPIDateDisplayFormat($model->rec_joining_date, Yii::$app->params['date.format.display.php']);
                                         },
                                         'filter' => DatePicker::widget([
                                             'attribute' => 'rec_joining_date',
@@ -155,7 +153,7 @@ use kartik\date\DatePicker;
                                         'attribute' => 'leadTitleWithRef',
                                         'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                                         'value' => function($model) {
-                                            return Html::a($model->leadTitleWithRef, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/browse-jobs/recruiter-view', 'id' => $model->lead_id]), ['data-pjax' => '0', 'target' => '_blank']);
+                                            return Html::a($model->leadTitleWithRef, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/browse-jobs/recruiter-view', 'id' => isset($model->lead->reference_no)? $model->lead->reference_no : $model->lead_id]), ['data-pjax' => '0', 'target' => '_blank']);
                                         },
                                         'format' => 'raw',
                                         'enableSorting' => false,
@@ -177,7 +175,7 @@ use kartik\date\DatePicker;
                                         'enableSorting' => false,
                                         'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                                         'value' => function($model) {
-                                            return CommonFunction::getAPIDateDisplayFormat($model->rec_joining_date);
+                                            return CommonFunction::getAPIDateDisplayFormat($model->rec_joining_date, Yii::$app->params['date.format.display.php']);
                                         },
                                         'filter' => DatePicker::widget([
                                             'attribute' => 'rec_joining_date',
@@ -247,7 +245,7 @@ use kartik\date\DatePicker;
                                         [
                                         'attribute' => 'leadTitleWithRef',
                                         'value' => function($model) {
-                                            return Html::a($model->leadTitleWithRef, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/browse-jobs/recruiter-view', 'id' => $model->lead_id]), ['data-pjax' => '0', 'target' => '_blank']);
+                                            return Html::a($model->leadTitleWithRef, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/browse-jobs/recruiter-view', 'id' => isset($model->lead->reference_no)? $model->lead->reference_no : $model->lead_id]), ['data-pjax' => '0', 'target' => '_blank']);
                                         },
                                         'format' => 'raw',
                                         'enableSorting' => false,
@@ -260,7 +258,7 @@ use kartik\date\DatePicker;
                                         'enableSorting' => false,
                                         'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                                         'value' => function($model) {
-                                            return CommonFunction::getAPIDateDisplayFormat($model->rec_joining_date);
+                                            return CommonFunction::getAPIDateDisplayFormat($model->rec_joining_date, Yii::$app->params['date.format.display.php']);
                                         },
                                         'filter' => DatePicker::widget([
                                             'attribute' => 'rec_joining_date_selected',
@@ -337,7 +335,7 @@ use kartik\date\DatePicker;
                                         [
                                         'attribute' => 'leadTitleWithRef',
                                         'value' => function($model) {
-                                            return Html::a($model->leadTitleWithRef, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/browse-jobs/recruiter-view', 'id' => $model->lead_id]), ['data-pjax' => '0', 'target' => '_blank']);
+                                            return Html::a($model->leadTitleWithRef, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['/browse-jobs/recruiter-view', 'id' => isset($model->lead->reference_no)? $model->lead->reference_no : $model->lead_id]), ['data-pjax' => '0', 'target' => '_blank']);
                                         },
                                         'format' => 'raw',
                                         'enableSorting' => false,
