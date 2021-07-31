@@ -295,7 +295,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                             <div class="col-md-4 mt-3">
                                 <div>
                                     <p class="mb-0 small-text">Starting Date :</p>
-                                    <p><?= CommonFunction::getAPIDateDisplayFormat($model->start_date); ?></p>
+                                    <p><?= CommonFunction::getAPIDateDisplayFormat($model->start_date, Yii::$app->params['date.format.display.php']); ?></p>
                                 </div>
                                 <div>
                                     <p class="mb-0 small-text">Benefits starts from</p>

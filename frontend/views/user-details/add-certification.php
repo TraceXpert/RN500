@@ -53,7 +53,7 @@ $frontendDir = yii\helpers\Url::base(true);
                 'type' => DatePicker::TYPE_INPUT,
                 'options' => ['placeholder' => $model->getAttributeLabel('expiry_date'), 'readonly' => true],
                 'pluginOptions' => [
-                    'format' => 'mm-yyyy',
+                    'format' => 'M-yyyy',
                     'todayHighlight' => true,
                     'autoclose' => true,
                     'minViewMode' => 'months',

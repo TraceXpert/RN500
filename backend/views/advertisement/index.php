@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use kartik\date\DatePicker;
+use common\CommonFunction;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\AdvertisementSearch */
@@ -14,6 +15,7 @@ $status = [0 => 'No', 1 => 'Yes'];
 
 $this->title = 'Advertisements';
 $this->params['breadcrumbs'][] = $this->title;
+$jsFormat = Yii::$app->params['date.format.datepicker.js'];
 ?>
 
 <div class="card card-default color-palette-box">
@@ -31,31 +33,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                            ['class' => 'yii\grid\SerialColumn'],
                         'name',
                         'description:ntext',
                         'link_url:url',
-                        [
+                            [
                             'attribute' => 'is_active',
                             'value' => function ($model) use ($status) {
                                 return isset($model->is_active) ? $status[$model->is_active] : '';
                             },
                             'filter' => \yii\bootstrap\Html::activeDropDownList($searchModel, 'is_active', ['' => 'All', '1' => 'Yes', '2' => 'No'], ['class' => 'form-control'])
                         ],
-//                        [
-//                            'attribute' => 'active_from',
-//                            'value' => function ($model) {
-//                                return date("d/m/Y", strtotime($model->active_from));
-//                            },
-//                        ],
-                        [
+                            [
                             'attribute' => 'active_from',
                             'format' => 'raw',
-                        'headerOptions' => ['style' => 'width:15%;'],
+                            'headerOptions' => ['style' => 'width:15%;'],
                             'filter' => DatePicker::widget([
                                 'model' => $searchModel,
                                 'attribute' => 'active_from',
-                                'options' => ["style" => "cursor:pointer"],
+                                'options' => ["style" => "cursor:pointer", 'readonly' => true],
                                 'layout' => '<div class="input-group-prepend"></div>
                             {picker}
                             <div class="input-group-append"></div>
@@ -64,24 +60,23 @@ $this->params['breadcrumbs'][] = $this->title;
                             {remove}',
                                 'pluginOptions' => [
                                     'autoclose' => true,
-//                                'startDate' => date(),
-//                                'endDate' => "0d",
                                     'todayHighlight' => true,
-                                    'format' => 'dd-mm-yyyy',
+                                    'format' => $jsFormat,
                                 ]
                             ]),
                             'value' => function ($model) {
-                                return date('M-d-Y', strtotime($model->active_from));
+//                                return date('M-d-Y', strtotime($model->active_from));
+                                return CommonFunction::getAPIDateDisplayFormat($model->active_from, Yii::$app->params['date.format.display.php']);
                             },
                         ],
-                        [
+                            [
                             'attribute' => 'active_to',
                             'format' => 'raw',
-                        'headerOptions' => ['style' => 'width:15%;'],
+                            'headerOptions' => ['style' => 'width:15%;'],
                             'filter' => DatePicker::widget([
                                 'model' => $searchModel,
                                 'attribute' => 'active_to',
-                                'options' => ["style" => "cursor:pointer"],
+                                'options' => ["style" => "cursor:pointer", 'readonly' => true],
                                 'layout' => '<div class="input-group-prepend"></div>
                             {picker}
                             <div class="input-group-append"></div>
@@ -93,14 +88,14 @@ $this->params['breadcrumbs'][] = $this->title;
 //                                'startDate' => date(),
 //                                'endDate' => "0d",
                                     'todayHighlight' => true,
-                                    'format' => 'dd-mm-yyyy',
+                                    'format' => $jsFormat,
                                 ]
                             ]),
                             'value' => function ($model) {
-                                return date('M-d-Y', strtotime($model->active_to));
+                                return CommonFunction::getAPIDateDisplayFormat($model->active_to, Yii::$app->params['date.format.display.php']);
                             },
                         ],
-                        [
+                            [
                             'class' => 'yii\grid\ActionColumn',
                             'contentOptions' => ['style' => 'width:10%;'],
                             'header' => 'Actions',

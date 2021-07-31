@@ -364,10 +364,10 @@ class BrowseJobsController extends Controller {
         $model = LeadMaster::find()->where(['OR', ['id' => $id], ['reference_no' => $id]])->one();
         $today = date('Y-m-d');
         $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->andWhere(['location' => $model->city])->orderBy(['id' => SORT_DESC])->limit(6)->all();
-        $benefit = LeadBenefit::findAll(['lead_id' => $id]);
-        $specialty = LeadSpeciality::findAll(['lead_id' => $id]);
-        $discipline = LeadDiscipline::findAll(['lead_id' => $id]);
-        $emergency = LeadEmergency::findAll(['lead_id' => $id]);
+        $benefit = LeadBenefit::findAll(['lead_id' => $model->id]);
+        $specialty = LeadSpeciality::findAll(['lead_id' => $model->id]);
+        $discipline = LeadDiscipline::findAll(['lead_id' => $model->id]);
+        $emergency = LeadEmergency::findAll(['lead_id' => $model->id]);
         return $this->render('recruiter-view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency, 'advertisments' => $advertisments]);
     }
 

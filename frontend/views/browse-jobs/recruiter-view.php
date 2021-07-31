@@ -32,7 +32,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
 
         <div class="row view-details mb-4 m-0">
             <div class="col-md-4">
-                <p class="mb-0">Date Posted: <?= CommonFunction::getAPIDateDisplayFormat($model->created_at) ?></p>
+                <p class="mb-0">Date Posted: <?= CommonFunction::getAPIDateDisplayFormat(date('Y-m-d',$model->created_at), Yii::$app->params['date.format.display.php']) ?></p>
                 <p><?= $model->citiesName ?></p>
 
 

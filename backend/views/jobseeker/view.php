@@ -1,10 +1,10 @@
 <?php
+
 use common\CommonFunction;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use yii\grid\GridView;
-
 ?>
 <style>
     .detail-view th{
@@ -22,7 +22,7 @@ use yii\grid\GridView;
                         <tr><th> <?php echo $model->getAttributeLabel('mobile_no') ?> </th><td> <?php echo (isset($model->mobile_no) && $model->mobile_no != '') ? $model->mobile_no : '' ?> </td></tr>
                         <tr><th>looking For </th><td> <?php echo (isset($model->looking_for) && $model->looking_for != '') ? $model->looking_for : '' ?> </td></tr>
                         <tr><th> <?php echo $model->getAttributeLabel('ssn') ?> </th><td> <?php echo (isset($model->ssn) && $model->ssn != '') ? $model->ssn : '' ?> </td></tr>
-                        <tr><th> <?php echo $model->getAttributeLabel('dob') ?> </th><td> <?php echo (isset($model->dob) && $model->dob != '') ? date('d-M-Y', strtotime($model->dob)) : '' ?> </td></tr>
+                        <tr><th> <?php echo $model->getAttributeLabel('dob') ?> </th><td> <?php echo CommonFunction::getAPIDateDisplayFormat($model->dob, Yii::$app->params['date.format.display.php']); ?> </td></tr>
                         <tr><th> <?php echo $model->getAttributeLabel('interest_level') ?> </th><td> <?php echo (isset(Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level])) ? Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level] : '' ?> </td></tr>
 
                     </tbody>
@@ -57,8 +57,8 @@ use yii\grid\GridView;
 
                                             <tr>
                                                 <td> <?php echo (isset($model->title) && $model->title != '') ? $model->title : ''; ?> </td>
-                                                <td> <?php echo (isset($model->start_date) && $model->start_date != '' && !in_array($model->start_date, ['1970-01-01', '0000-00-00'])) ? date('d-M-Y', strtotime($model->start_date)) : ''; ?> </td>
-                                                <td> <?php echo (isset($model->end_date) && $model->end_date != '' && !in_array($model->end_date, ['1970-01-01', '0000-00-00'])) ? date('d-M-Y', strtotime($model->end_date)) : ''; ?> </td>
+                                                <td> <?php echo CommonFunction::getAPIDateDisplayFormat($model->start_date, Yii::$app->params['date.format.display.php']); ?> </td>
+                                                <td> <?php echo CommonFunction::getAPIDateDisplayFormat($model->end_date, Yii::$app->params['date.format.display.php']); ?> </td>
                                                 <td> <?php echo (isset($model->organization_name) && $model->organization_name != '') ? $model->organization_name : ''; ?> </td>
                                                 <td> <?php echo $model->getCityStateName(); ?> </td>
                                             </tr>

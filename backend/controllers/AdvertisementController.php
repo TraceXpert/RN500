@@ -124,8 +124,8 @@ class AdvertisementController extends Controller {
         if ($model->load(Yii::$app->request->post())) {
 
 
-            $model->active_from = date('Y-m-d', strtotime($model->active_from));
-            $model->active_to = date('Y-m-d', strtotime($model->active_to));
+            $model->active_from = CommonFunction::getStorableDate($model->active_from);
+            $model->active_to = CommonFunction::getStorableDate($model->active_to);
 
             $icon = UploadedFile::getInstance($model, 'icon');
             $folder = \Yii::getAlias('@frontend') . "/web/uploads/advertisement/";
@@ -169,8 +169,8 @@ class AdvertisementController extends Controller {
 
         $temp_document_file = isset($model->icon) && !empty($model->icon) ? $model->icon : NULL;
 
-        $model->active_from = date("d-m-Y", strtotime($model->active_from));
-        $model->active_to = date("d-m-Y", strtotime($model->active_to));
+        $model->active_from = (!in_array($model->active_from,['','0000-00-00','1970-01-01'])) ? date(Yii::$app->params['date.format.display.php'], strtotime($model->active_from)) : null;
+        $model->active_to = (!in_array($model->active_to,['','0000-00-00','1970-01-01'])) ? date(Yii::$app->params['date.format.display.php'], strtotime($model->active_to)) : null;
 
         $model->updated_at = CommonFunction::currentTimestamp();
         $model->updated_by = \Yii::$app->user->id;
@@ -181,8 +181,8 @@ class AdvertisementController extends Controller {
         }
         if ($model->load(Yii::$app->request->post())) {
 
-            $model->active_from = date('Y-m-d', strtotime($model->active_from));
-            $model->active_to = date('Y-m-d', strtotime($model->active_to));
+            $model->active_from = CommonFunction::getStorableDate($model->active_from);
+            $model->active_to = CommonFunction::getStorableDate($model->active_to);
 
             $document_file = UploadedFile::getInstance($model, 'icon');
 

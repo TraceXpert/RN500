@@ -6,6 +6,8 @@ use yii\widgets\Pjax;
 use common\CommonFunction;
 use kartik\date\DatePicker;
 
+$jsFormat = Yii::$app->params['date.format.datepicker.js'];
+
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\RoleMasterSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -31,24 +33,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 if (CommonFunction::isMasterAdmin(\Yii::$app->user->identity->id)) {
                     array_push($cols, ['attribute' => 'company_id',
                         'value' => function ($model) {
-                            return $model->company->company_name;
+                            return (isset($model->company->company_name)) ? $model->company->company_name : '';
                         }
                     ]);
                 }
                 array_push($cols, [
                     'attribute' => 'created_at',
                     'value' => function($model) {
-                        return date('m-d-Y', $model->created_at);
+                        return CommonFunction::getAPIDateDisplayFormat(date('Y-m-d', $model->created_at), Yii::$app->params['date.format.display.php']);
                     },
                     'format' => 'raw',
                     'options' => ['width' => '200'],
                     'filter' => DatePicker::widget([
                         'attribute' => 'created_at',
                         'model' => $searchModel,
+                        'options' => ['readonly' => true],
                         'pluginOptions' => [
                             'autoclose' => true,
-                            'format' => 'mm-dd-yyyy',
-                            'endDate' => date('m-d-Y'),
+                            'format' => $jsFormat,
+                            'endDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']),
                             'clearBtn' => true,
                         ]
                     ]),
@@ -56,17 +59,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 array_push($cols, [
                     'attribute' => 'updated_at',
                     'value' => function($model) {
-                        return date('m-d-Y', $model->updated_at);
+                        return CommonFunction::getAPIDateDisplayFormat(date('Y-m-d', $model->updated_at), Yii::$app->params['date.format.display.php']);
                     },
                     'format' => 'raw',
                     'options' => ['width' => '200'],
                     'filter' => DatePicker::widget([
                         'attribute' => 'updated_at',
                         'model' => $searchModel,
+                        'options' => ['readonly' => true],
                         'pluginOptions' => [
                             'autoclose' => true,
-                            'format' => 'mm-dd-yyyy',
-                            'endDate' => date('m-d-Y'),
+                            'format' => $jsFormat,
+                            'endDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']),
                             'clearBtn' => true,
                         ]
                     ]),

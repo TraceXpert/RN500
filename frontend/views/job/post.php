@@ -134,7 +134,7 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                             'clearBtn' => true,
                             'format' => $jsFormat,
                             'autoclose' => true,
-                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d')),
+                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']),
                         ],
                         'pluginEvents' => [
                             "changeDate" => "function(e) {
@@ -157,8 +157,8 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                         'pluginOptions' => [
                             'clearBtn' => true,
                             'autoclose' => true,
-                            'format' => Yii::$app->params['date.format.datepicker.js'],
-                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d')),
+                            'format' => $jsFormat,
+                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']),
                         ],
                         'pluginEvents' => [
                             "changeDate" => "function(e) {
