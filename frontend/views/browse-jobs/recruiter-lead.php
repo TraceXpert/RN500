@@ -36,7 +36,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
     <div class="container">
         <div class="row filter-block">
             <div class="col-xl-12 col-lg-12">
-                <form class="d-flex home-page-search" method="GET">
+                <form class="d-flex home-page-search" method="GET" autocomplete="off">
                     <div class="col-md-5 p-0">
                         <div class="form-group">
                             <img src="<?= $assetDir ?>/img/search-icon.png" alt="search-icon"><input type="text" class="form-control br-1" name="title" id="lead_title" value="<?= isset($_GET['title']) && !empty($_GET['title']) ? $_GET['title'] : "" ?>" placeholder="Search Open Jobs">

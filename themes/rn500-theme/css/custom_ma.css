@@ -341,7 +341,9 @@ ul.select2-selection__rendered{
 .post-job .custom-control.custom-checkbox{
     margin-top: 42px;
 }
-.home-page-search .select2-container--krajee-bs4 .select2-selection--multiple .select2-search--inline .select2-search__field
-{
-    height: 42px !important;
+.home-page-search .select2-container--krajee-bs4 .select2-selection--multiple .select2-search--inline .select2-search__field{
+    height: 35px !important;
+}
+.home-page-search ul.select2-selection__rendered{
+    max-height: inherit !important;
 }

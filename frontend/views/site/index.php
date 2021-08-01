@@ -28,7 +28,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
 
         <div class="row filter-block mb-4">
             <div class="col-xl-12 col-lg-12">
-                <form class="d-flex home-page-search" action="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/index']) ?>" method="GET">
+                <form class="d-flex home-page-search" autocomplete="off" action="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/index']) ?>" method="GET">
                     <div class="col-md-5 p-0">
                         <div class="form-group">
                             <img src="<?= $assetDir ?>/img/search-icon.png" alt="search-icon"><input type="text" class="form-control br-1" name="title" id="lead_title" placeholder="Search Open Jobs">
