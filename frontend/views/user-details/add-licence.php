@@ -77,11 +77,10 @@ $frontendDir = yii\helpers\Url::base(true);
             <?php
             echo $form->field($model, 'expiry_date')->widget(DatePicker::classname(), [
                 'name' => 'expiry_date',
-                'value' => date('d-M-Y'),
                 'type' => DatePicker::TYPE_INPUT,
                 'options' => ['placeholder' => $model->getAttributeLabel('expiry_date'), 'readonly' => true],
                 'pluginOptions' => [
-                    'format' => 'mm-yyyy',
+                    'format' => 'M-yyyy',
                     'todayHighlight' => true,
                     'autoclose' => true,
                     'minViewMode' => 'months',

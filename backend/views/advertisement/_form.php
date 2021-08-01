@@ -7,11 +7,13 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 use kartik\select2\Select2;
 use kartik\date\DatePicker;
+use common\CommonFunction;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Advertisement */
 /* @var $form yii\widgets\ActiveForm */
 $url = Url::to(['advertisement/get-cities']);
+$jsFormat = Yii::$app->params['date.format.datepicker.js'];
 ?>
 
 <div class="card card-default color-palette-box">
@@ -53,20 +55,19 @@ $url = Url::to(['advertisement/get-cities']);
                         <?php
                         echo $form->field($model, 'active_from')->widget(DatePicker::classname(), [
                             'name' => 'active_from',
-                            'value' => date('d-M-Y'),
-                            'options' => ['placeholder' => 'Enter Start Date'],
+                            'options' => ['placeholder' => 'Enter Start Date', 'readonly' => true],
                             'pluginOptions' => [
-                               'format' => 'M-d-yyyy',
+                                'format' => $jsFormat,
                                 'todayHighlight' => true,
                                 'autoclose' => true,
-                                'startDate' => date('d-m-Y'),
+                                'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']),
                                 'minDate' => "0"
                             ],
                             'pluginEvents' => [
                                 "changeDate" => "function(e) {
                                 $('#advertisement-active_to').kvDatepicker({
                                                     autoclose : true,
-                                                    format : 'M-d-yyyy',
+                                                    format : '$jsFormat',
                                                 });
                                                 $('#advertisement-active_to').kvDatepicker('setStartDate', e.date);
                             }"
@@ -78,10 +79,9 @@ $url = Url::to(['advertisement/get-cities']);
                         <?php
                         echo $form->field($model, 'active_to')->widget(DatePicker::classname(), [
                             'name' => 'active_to',
-                            'value' => date('d-M-Y'),
-                            'options' => ['placeholder' => 'Enter End Date'],
+                            'options' => ['placeholder' => 'Enter End Date', 'readonly' => true],
                             'pluginOptions' => [
-                                'format' => 'M-d-yyyy',
+                                'format' => $jsFormat,
                                 'todayHighlight' => true,
                                 'autoclose' => true,
                                 'minDate' => "0"
@@ -91,7 +91,7 @@ $url = Url::to(['advertisement/get-cities']);
                                 
                                 $('#advertisement-active_from').kvDatepicker({
                                                     autoclose : true,
-                                                    format : 'M-d-yyyy',
+                                                    format : '$jsFormat',
                                                     minDate : '0'
                                                 });
                                                 $('#advertisement-active_from').kvDatepicker('setEndDate', e.date);
@@ -152,7 +152,7 @@ $url = Url::to(['advertisement/get-cities']);
                         <div class="image" style="<?= isset($model->icon) && !empty($model->icon) ? "" : "display: none" ?>">
                             <?php
                             echo $form->field($model, 'icon')->fileInput()->label(false);
-                            echo "<input type='hidden' id='image' name='image' value='" .$model->icon . "'>";
+                            echo "<input type='hidden' id='image' name='image' value='" . $model->icon . "'>";
                             ?>
                             <?php if (isset($model->icon) && !empty($model->icon)) { ?>
                                 <p><?php echo $model->icon; ?></p>

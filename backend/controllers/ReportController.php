@@ -32,17 +32,17 @@ class ReportController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['lead-referral', 'lead-referral-load', 'payment', 'payment-load', 'recruited-jobseeker', 'recruited-jobseeker-load'],
                 'rules' => [
-                    [
+                        [
                         'actions' => ['lead-referral', 'lead-referral-load'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('refferal-reports', Yii::$app->user->identity->id) ? ['@'] : ['*'] : ['*'],
                     ],
-                    [
+                        [
                         'actions' => ['recruited-jobseeker', 'recruited-jobseeker-load'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('recruited-jobseeker', Yii::$app->user->identity->id) ? ['@'] : ['*'] : ['*'],
                     ],
-                    [
+                        [
                         'actions' => ['payment', 'payment-load'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('payment', Yii::$app->user->identity->id) ? ['@'] : ['*'] : ['*'],
@@ -75,8 +75,8 @@ class ReportController extends Controller {
         $this->activeBreadcrumb = "Report : Lead Referral";
         $filterFormModel = new DynamicModel(['from_date', 'to_date']);
         $filterFormModel->addRule(['from_date', 'to_date'], 'required');
-        $filterFormModel->to_date = date('d-M-Y');
-        $filterFormModel->from_date = date('d-M-Y', strtotime("-7 days"));
+        $filterFormModel->to_date = CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']);
+        $filterFormModel->from_date = CommonFunction::getAPIDateDisplayFormat(date('Y-m-d', strtotime("-7 days")), Yii::$app->params['date.format.display.php']);
         return $this->render('lead-referral', ['filterFormModel' => $filterFormModel]);
     }
 
@@ -97,8 +97,8 @@ class ReportController extends Controller {
         $this->activeBreadcrumb = "Report : Payment";
         $filterFormModel = new DynamicModel(['from_date', 'to_date']);
         $filterFormModel->addRule(['from_date', 'to_date'], 'required');
-        $filterFormModel->to_date = date('d-M-Y');
-        $filterFormModel->from_date = date('d-M-Y', strtotime("-7 days"));
+        $filterFormModel->to_date = CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']);
+        $filterFormModel->from_date = CommonFunction::getAPIDateDisplayFormat(date('Y-m-d', strtotime("-7 days")), Yii::$app->params['date.format.display.php']);
         return $this->render('payment', ['filterFormModel' => $filterFormModel]);
     }
 
@@ -121,7 +121,8 @@ class ReportController extends Controller {
                         "payment_status" => new Expression("CASE WHEN csp.status = 1 THEN 'Success' ELSE 'Fail' END"),
                         "csp.amount",
                         "csp.customer_transaction_id as transaction_id",
-                        "transaction_date" => new Expression("DATE_FORMAT(FROM_UNIXTIME(csp.created_at), '%d %M %Y')"),
+//                        "transaction_date" => new Expression("DATE_FORMAT(FROM_UNIXTIME(csp.created_at), '%d %M %Y')"),
+                        "transaction_date" => "csp.created_at",
                     ])
                     ->from("company_subscription_payment as csp")
                     ->leftJoin("company_subscription as cs", "cs.id = csp.subscription_id")
@@ -155,8 +156,8 @@ class ReportController extends Controller {
         $this->activeBreadcrumb = "Report : Recruited Job Seeker";
         $filterFormModel = new DynamicModel(['from_date', 'to_date']);
         $filterFormModel->addRule(['from_date', 'to_date'], 'required');
-        $filterFormModel->to_date = date('d-M-Y');
-        $filterFormModel->from_date = date('d-M-Y', strtotime("-7 days"));
+        $filterFormModel->to_date = CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']);
+        $filterFormModel->from_date = CommonFunction::getAPIDateDisplayFormat(date('Y-m-d', strtotime("-7 days")), Yii::$app->params['date.format.display.php']);
         return $this->render('recruited_job_seeker', ['filterFormModel' => $filterFormModel]);
     }
 

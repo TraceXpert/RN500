@@ -194,8 +194,8 @@ class JobController extends Controller {
                 }
             }
         }
-        $model->start_date = CommonFunction::getAPIDateDisplayFormat($model->start_date);
-        $model->end_date = CommonFunction::getAPIDateDisplayFormat($model->end_date);
+        $model->start_date = CommonFunction::getAPIDateDisplayFormat($model->start_date, Yii::$app->params['date.format.display.php']);
+        $model->end_date = CommonFunction::getAPIDateDisplayFormat($model->end_date, Yii::$app->params['date.format.display.php']);
         return $this->render('post', [
                     'model' => $model,
                     'disciplinesList' => $disciplineList,

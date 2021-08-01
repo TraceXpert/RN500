@@ -14,7 +14,7 @@ use yii\bootstrap4\ActiveForm;
 $is_otp_sent = $model->is_otp_sent;
 ?>
 
-<div class="signin-form justify-content-start text-center"> 
+<div class="signin-form overflow-form justify-content-start text-center"> 
     <h1>Sign in</h1>
     <p>Sign in on the RN500 platform</p>
     <?php if (Yii::$app->session->hasFlash("success")) { ?>

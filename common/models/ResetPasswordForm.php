@@ -36,6 +36,9 @@ class ResetPasswordForm extends Model {
         if (!$this->_user) {
             throw new \yii\web\NotFoundHttpException('Wrong password reset token.');
         }
+        if($this->_user->password === null || $this->_user->password ===''){
+            $this->first_time = true;
+        }
         parent::__construct($config);
     }
 

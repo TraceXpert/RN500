@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use common\CommonFunction;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Advertisement */
@@ -46,13 +47,13 @@ $status = [0=>'No',1=>'Yes'];
                         [
                             'attribute' => 'active_from',
                             'value' => function ($model) {
-                                return date("m/d/Y", strtotime($model->active_from));
+                                return CommonFunction::getAPIDateDisplayFormat($model->active_from, Yii::$app->params['date.format.display.php']);
                             },
                         ],
                         [
                             'attribute' => 'active_to',
                             'value' => function ($model) {
-                                return date("m/d/Y", strtotime($model->active_to));
+                                return CommonFunction::getAPIDateDisplayFormat($model->active_to, Yii::$app->params['date.format.display.php']);
                             },
                         ],
                         [

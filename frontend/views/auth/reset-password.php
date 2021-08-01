@@ -11,7 +11,11 @@ $this->title = 'RN500';
 
 
 <div class="signin-form text-center">
+    <?php if($model->first_time) { ?>
+    <h1>Setup Password</h1>
+    <?php } else { ?>
     <h1>Reset Password</h1>
+    <?php }  ?>
     <?php $form = ActiveForm::begin(['id' => 'reset-password-form', 'options' => ['autocomplete' => 'off', 'class' => 'w-100']]) ?>
 
     <div class="form-group mb-4">

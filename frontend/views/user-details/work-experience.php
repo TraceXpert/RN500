@@ -63,11 +63,10 @@ use yii\web\JsExpression;
             <?php
             echo $form->field($model, 'start_date')->widget(DatePicker::classname(), [
                 'name' => 'start_date',
-                'value' => date('d-M-Y'),
                 'type' => DatePicker::TYPE_INPUT,
                 'options' => ['placeholder' => $model->getAttributeLabel('start_date'), 'readonly' => true],
                 'pluginOptions' => [
-                    'format' => 'mm-yyyy',
+                    'format' => 'M-yyyy',
                     'todayHighlight' => true,
                     'autoclose' => true,
                     'minViewMode' => 'months',
@@ -79,7 +78,7 @@ use yii\web\JsExpression;
                                     minViewMode : 'months',
                                     startView : 'year',
                                     autoclose : true,
-                                    format : 'mm-yyyy'
+                                    format : 'M-yyyy'
                                 });
                                 $('#workexperience-end_date').kvDatepicker('setStartDate', e.date);
                             }"
@@ -93,14 +92,12 @@ use yii\web\JsExpression;
             <?php
             echo $form->field($model, 'end_date')->widget(DatePicker::classname(), [
                 'name' => 'end_date',
-                'value' => date('d-M-Y'),
                 'type' => DatePicker::TYPE_INPUT,
                 'options' => ['placeholder' => $model->getAttributeLabel('end_date'), 'readonly' => true],
                 'pluginOptions' => [
-                    'format' => 'mm-yyyy',
+                    'format' => 'M-yyyy',
                     'todayHighlight' => true,
                     'autoclose' => true,
-                    'startDate' => date('d-m-Y'),
                     'minViewMode' => 'months',
                     'startView' => 'year',
                 ],
@@ -110,7 +107,7 @@ use yii\web\JsExpression;
                                     minViewMode : 'months',
                                     startView : 'year',
                                     autoclose : true,
-                                    format : 'mm-yyyy'
+                                    format : 'M-yyyy'
                                 });
                                 $('#workexperience-start_date').kvDatepicker('setEndDate', e.date);
                             }"
