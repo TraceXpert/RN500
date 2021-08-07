@@ -101,8 +101,8 @@ class LeadController extends Controller {
                 $model->title,
                 $model->recruiter_commission_type == 1 ? $model->recruiter_commission . "%" : "$" . $model->recruiter_commission,
                 "$" . $model->jobseeker_payment . "/" . Yii::$app->params['job.payment_type'][$model->payment_type],
-                CommonFunction::getAPIDateDisplayFormat($model->start_date, "M-d-Y"),
-                CommonFunction::getAPIDateDisplayFormat($model->end_date, "M-d-Y"),
+                CommonFunction::getAPIDateDisplayFormat($model->start_date, Yii::$app->params['date.format.display.php']),
+                CommonFunction::getAPIDateDisplayFormat($model->end_date, Yii::$app->params['date.format.display.php']),
                 $actionDiv
             ];
             $i++;
@@ -149,8 +149,8 @@ class LeadController extends Controller {
                 $model->title,
                 $model->recruiter_commission_type == 1 ? $model->recruiter_commission . "%" : "$" . $model->recruiter_commission,
                 "$" . $model->jobseeker_payment . "/" . Yii::$app->params['job.payment_type'][$model->payment_type],
-                CommonFunction::getAPIDateDisplayFormat($model->start_date, "M-d-Y"),
-                CommonFunction::getAPIDateDisplayFormat($model->end_date, "M-d-Y"),
+                CommonFunction::getAPIDateDisplayFormat($model->start_date, Yii::$app->params['date.format.display.php']),
+                CommonFunction::getAPIDateDisplayFormat($model->end_date, Yii::$app->params['date.format.display.php']),
             ];
             $i++;
         }
@@ -177,11 +177,11 @@ class LeadController extends Controller {
 
     public function actionEdit($id) {
         $model = LeadMaster::findOne(['id' => $id]);
-        $model->start_date = date(Yii::$app->params['date.format.display.php'], strtotime($model->start_date));
-        $model->end_date = ($model->end_date != '') ? date(Yii::$app->params['date.format.display.php'], strtotime($model->end_date)) : null;
+        $model->start_date = CommonFunction::getAPIDateDisplayFormat($model->start_date, Yii::$app->params['date.format.display.php']);
+        $model->end_date = CommonFunction::getAPIDateDisplayFormat($model->end_date, Yii::$app->params['date.format.display.php']);
         if ($model->load(Yii::$app->request->post())) {
-            $model->start_date = date("Y-m-d", strtotime($model->start_date));
-            $model->end_date = ($model->end_date) ? $model->end_date = date("Y-m-d", strtotime($model->end_date)) : null;
+            $model->start_date = CommonFunction::getStorableDate($model->start_date);
+            $model->end_date = CommonFunction::getStorableDate($model->end_date);
             $model->updated_at = CommonFunction::currentTimestamp();
             $model->updated_by = Yii::$app->user->identity->id;
             if ($model->save(false)) {

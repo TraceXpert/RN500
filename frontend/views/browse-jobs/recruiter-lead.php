@@ -36,7 +36,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
     <div class="container">
         <div class="row filter-block">
             <div class="col-xl-12 col-lg-12">
-                <form class="d-flex" method="GET">
+                <form class="d-flex home-page-search" method="GET" autocomplete="off">
                     <div class="col-md-5 p-0">
                         <div class="form-group">
                             <img src="<?= $assetDir ?>/img/search-icon.png" alt="search-icon"><input type="text" class="form-control br-1" name="title" id="lead_title" value="<?= isset($_GET['title']) && !empty($_GET['title']) ? $_GET['title'] : "" ?>" placeholder="Search Open Jobs">
@@ -295,7 +295,7 @@ $shift_prams = isset($_GET['shift']) ? $_GET['shift'] : [];
                             <div class="col-md-4 mt-3">
                                 <div>
                                     <p class="mb-0 small-text">Starting Date :</p>
-                                    <p><?= CommonFunction::getAPIDateDisplayFormat($model->start_date); ?></p>
+                                    <p><?= CommonFunction::getAPIDateDisplayFormat($model->start_date, Yii::$app->params['date.format.display.php']); ?></p>
                                 </div>
                                 <div>
                                     <p class="mb-0 small-text">Benefits starts from</p>

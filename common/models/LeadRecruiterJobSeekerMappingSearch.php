@@ -113,8 +113,10 @@ class LeadRecruiterJobSeekerMappingSearch extends LeadRecruiterJobSeekerMapping 
         }
 
         if ($this->rec_joining_date) {
-            $MMDDYYYY = explode('-', $this->rec_joining_date);
-            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
+//            $MMDDYYYY = explode('-', $this->rec_joining_date);
+//            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
+
+            $query->andWhere(['like', 'lrjm.rec_joining_date', CommonFunction::getStorableDate($this->rec_joining_date)]);
         }
 
         if ($this->jobSeekerName) {
@@ -167,8 +169,10 @@ class LeadRecruiterJobSeekerMappingSearch extends LeadRecruiterJobSeekerMapping 
         }
 
         if ($this->rec_joining_date) {
-            $MMDDYYYY = explode('-', $this->rec_joining_date);
-            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
+//            $MMDDYYYY = explode('-', $this->rec_joining_date);
+//            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
+            $query->andWhere(['like', 'lrjm.rec_joining_date', CommonFunction::getStorableDate($this->rec_joining_date)]);
+            
         }
 
         if ($this->jobSeekerName) {
@@ -223,9 +227,9 @@ class LeadRecruiterJobSeekerMappingSearch extends LeadRecruiterJobSeekerMapping 
 
         if ($this->rec_joining_date || $this->rec_joining_date_selected) {
             $joiningDate = ($this->rec_joining_date) ? $this->rec_joining_date : $this->rec_joining_date_selected;
-            $MMDDYYYY = explode('-', $joiningDate);
-            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
-            
+//            $MMDDYYYY = explode('-', $joiningDate);
+//            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
+            $query->andWhere(['like', 'lrjm.rec_joining_date', CommonFunction::getStorableDate($joiningDate)]);
         }
 
         if ($this->jobSeekerName) {
@@ -279,9 +283,11 @@ class LeadRecruiterJobSeekerMappingSearch extends LeadRecruiterJobSeekerMapping 
         }
 
         if ($this->rec_joining_date) {
-            
-            $MMDDYYYY = explode('-', $this->rec_joining_date);
-            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
+
+//            $MMDDYYYY = explode('-', $this->rec_joining_date);
+//            $query->andWhere(['like', 'lrjm.rec_joining_date', "$MMDDYYYY[2]-$MMDDYYYY[0]-$MMDDYYYY[1]"]);
+//            $MMDDYYYY = explode('-', $this->rec_joining_date);
+            $query->andWhere(['like', 'lrjm.rec_joining_date', CommonFunction::getStorableDate($this->rec_joining_date)]);
         }
 
         if ($this->jobSeekerName) {

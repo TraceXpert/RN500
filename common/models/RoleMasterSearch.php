@@ -17,8 +17,8 @@ class RoleMasterSearch extends RoleMaster {
      */
     public function rules() {
         return [
-            [['id'], 'integer'],
-            [['created_at', 'updated_at', 'role_name', 'company_id'], 'safe'],
+                [['id'], 'integer'],
+                [['created_at', 'updated_at', 'role_name', 'company_id'], 'safe'],
         ];
     }
 
@@ -64,39 +64,48 @@ class RoleMasterSearch extends RoleMaster {
         $updated_at = $this->updated_at;
         if (isset($created_at) && !empty($created_at)) {
 
-            $date = \DateTime::createFromFormat('m-d-Y', $this->created_at);
-            $date->setTime(0, 0, 0);
+//            $date = \DateTime::createFromFormat('m-d-Y', $this->created_at);
+//            $date->setTime(0, 0, 0);
+//
+//            // set lowest date value
+//            $unixDateStart = $date->getTimeStamp();
+//
+//            // add 1 day and subtract 1 second
+//            $date->add(new \DateInterval('P1D'));
+//            $date->sub(new \DateInterval('PT1S'));
+//
+//            // set highest date value
+//            $unixDateEnd = $date->getTimeStamp();
+//
+//            $query->andFilterWhere(
+//                    ['between', 'role_master.created_at', $unixDateStart, $unixDateEnd]);
 
-            // set lowest date value
-            $unixDateStart = $date->getTimeStamp();
-
-            // add 1 day and subtract 1 second
-            $date->add(new \DateInterval('P1D'));
-            $date->sub(new \DateInterval('PT1S'));
-
-            // set highest date value
-            $unixDateEnd = $date->getTimeStamp();
-
+            $from_date = strtotime($created_at . ' 00:00:01');
+            $to_date = strtotime($created_at . ' 23:59:59');
             $query->andFilterWhere(
-                    ['between', 'role_master.created_at', $unixDateStart, $unixDateEnd]);
+                    ['between', 'role_master.created_at', $from_date, $to_date]);
         }
         if (isset($updated_at) && !empty($updated_at)) {
 
-            $date = \DateTime::createFromFormat('m-d-Y', $this->$updated_at);
-            $date->setTime(0, 0, 0);
-
-            // set lowest date value
-            $unixDateStart = $date->getTimeStamp();
-
-            // add 1 day and subtract 1 second
-            $date->add(new \DateInterval('P1D'));
-            $date->sub(new \DateInterval('PT1S'));
-
-            // set highest date value
-            $unixDateEnd = $date->getTimeStamp();
-
+//            $date = \DateTime::createFromFormat('m-d-Y', $this->$updated_at);
+//            $date->setTime(0, 0, 0);
+//
+//            // set lowest date value
+//            $unixDateStart = $date->getTimeStamp();
+//
+//            // add 1 day and subtract 1 second
+//            $date->add(new \DateInterval('P1D'));
+//            $date->sub(new \DateInterval('PT1S'));
+//
+//            // set highest date value
+//            $unixDateEnd = $date->getTimeStamp();
+//
+//            $query->andFilterWhere(
+//                    ['between', 'role_master.updated_at', $unixDateStart, $unixDateEnd]);
+            $from_date = strtotime($updated_at . ' 00:00:01');
+            $to_date = strtotime($updated_at . ' 23:59:59');
             $query->andFilterWhere(
-                    ['between', 'role_master.updated_at', $unixDateStart, $unixDateEnd]);
+                    ['between', 'role_master.updated_at', $from_date, $to_date]);
         }
         // grid filtering conditions
         $query->andFilterWhere([

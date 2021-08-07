@@ -12,10 +12,10 @@ return [
     'job.type' => [1 => 'Part Time', 2 => 'Permanent', 3 => 'Travel', 4 => 'On Call', 5 => 'Contract'],
     'job.shift' => ['1' => 'All', '2' => 'Morning', '3' => 'Evening', '4' => 'Night', '5' => 'Flexible'],
     'company.priority' => [1 => 'High', 2 => 'Modrate', 3 => 'Semi Modrate', 4 => 'Low'],
-    'COMMISSION_MODE' => [0 => 'One Time', 1=>'Weekly', 2 => 'Monthly', 3 => 'Yearly'],
+    'COMMISSION_MODE' => [0 => 'One Time', 1 => 'Weekly', 2 => 'Monthly', 3 => 'Yearly'],
     'job.visible' => [0 => 'Both', 1 => 'Other Recruiter', 2 => 'RN500'],
-    'date.format.display.php' => "m-d-Y", // 04-15-2021
-    'date.format.datepicker.js' => "mm-dd-yyyy", // 04-15-2021
+    'date.format.display.php' => "M-d-Y", // Jul-01-2021
+    'date.format.datepicker.js' => "M-dd-yyyy", // Jul-01-2021
     'STRIP_TEST_MODE' => "on",
     'STRIP_TEST_PUBLISH_KEY' => 'pk_test_51IqPMBIKm0LSAwLzNM5vFAGoyXLwjiQxjX8gjsiuzN0ArwUnI0DrgXFKWH4AgIttjviilrwPVojltZjgf74HmGVQ00vgCSvB81',
     'STRIPE_TEST_SECRET_KEY' => 'sk_test_51IqPMBIKm0LSAwLz6672ovXLSQcnc8ZiJXMBipHOT0LvXw4eExEOXVL81AYPghIMY6teNjBEdwbE9JgfHSaO0X9q00tJ1Xr7H6',

@@ -144,7 +144,7 @@ use common\CommonFunction;
                 'options' => ['placeholder' => $model->getAttributeLabel('dob'), 'readonly' => true],
                 'type' => DatePicker::TYPE_INPUT,
                 'pluginOptions' => [
-                    'format' => 'M-dd-yyyy',
+                    'format' => Yii::$app->params['date.format.datepicker.js'],
                     'todayHighlight' => true,
                     'autoclose' => true,
                     'endDate' => "-0d"
