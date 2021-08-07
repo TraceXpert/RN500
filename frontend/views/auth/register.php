@@ -118,7 +118,6 @@ use borales\extensions\phoneInput\PhoneInput;
                 <div class="col-lg-6 pr-3 pr-lg-0">
                     <?= $form->field($companyMasterModel, 'street_address')->textInput(['maxlength' => true, 'placeholder' => $companyMasterModel->getAttributeLabel('street_address')])->label(false); ?>
                 </div>
-                
             </div>
 
             <div class="row">
