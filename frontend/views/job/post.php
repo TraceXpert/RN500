@@ -17,7 +17,7 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
  */
 ?>
 <style>
-     /*SOME PROPERTIES ARE OVERRIDES*/
+    /*SOME PROPERTIES ARE OVERRIDES*/
     .select2-container--krajee-bs4 .select2-selection--multiple .select2-search--inline .select2-search__field,
     .input-lg.select2-container--krajee-bs4 .select2-selection--single, .input-group-lg .select2-container--krajee-bs4 .select2-selection--single{
         background-color: transparent !important;
@@ -27,6 +27,10 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
     }
     .select2-selection.select2-selection--multiple.select2-selection--clearable{
         overflow-y: scroll !important;
+    }
+    input[disabled] {
+        background-color: #e9ecef !important;
+        opacity: 1;
     }
 </style>
 <section class="about-us about-inner-block">
@@ -169,7 +173,7 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                                                 $('#leadmaster-start_date').kvDatepicker('setEndDate', e.date);
                                             }"
                         ]
-                    ]);
+                    ])->label('Job End Date  <span title="if Candidate’s Job Type is Permanent than leave Job End Date column empty otherwise needs to have Job End Date for all other Job Type" class="fa fa-info" data-toggle="tooltip" style="cursor:pointer;"></span>');
                     ?>
                 </div>
 
@@ -257,6 +261,17 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
 <?php
 $getCitiesUrl = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['job/get-cities']);
 $script = <<< JS
+    $(function () { 
+        $("[data-toggle='tooltip']").tooltip(); 
+    });
+    $(document).on('change','#leadmaster-job_type',function(){
+        var type=$(this).val();
+        if(type==2){
+            $('#leadmaster-end_date').attr('disabled','true');
+        }else{
+            $('#leadmaster-end_date').removeAttr('disabled');
+        }
+    });
     $(document).on('change','#leadmaster-state',function(){
         var state=$(this).val();
         if(state){
