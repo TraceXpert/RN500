@@ -7,6 +7,7 @@ use common\CommonFunction;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
+
 /**
  * This is the model class for table "blog_master".
  *
@@ -32,6 +33,9 @@ class BlogMaster extends \yii\db\ActiveRecord {
     public $coverImageFile;
     public $tagsList;
 
+    const STATUS_ACTIVE = "1";
+    const STATUS_INACTIVE = "0";
+    
     const SCENARIO_ADD = "add-blog";
 
     public static function tableName() {
@@ -62,7 +66,8 @@ class BlogMaster extends \yii\db\ActiveRecord {
                 [['description', 'tags'], 'string'],
                 [['category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'status'], 'integer'],
                 [['reference_no'], 'string', 'max' => 50],
-                [['title', 'short_description'], 'string', 'max' => 255],
+                [['short_description'], 'string', 'max' => 255],
+                [['title'], 'string', 'max' => 65],
                 [['conver_image_name'], 'string', 'max' => 100],
                 [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => BlogCategoryMaster::className(), 'targetAttribute' => ['category_id' => 'id']],
                 [['coverImageFile'], 'required', 'on' => self::SCENARIO_ADD],
@@ -175,6 +180,22 @@ class BlogMaster extends \yii\db\ActiveRecord {
             $tags = explode(",", $this->tags);
         }
         return $tags;
+    }
+
+    public function getCreatedBy() {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+
+    public function getCreatedByName() {
+        $name = "";
+        if (!empty($this->createdBy)) {
+            $name = $this->createdBy->getFullName();
+        }
+        return $name;
+    }
+    
+    public function getDetailUrl() {
+        return Yii::$app->urlManagerFrontend->createAbsoluteUrl(['blogs/detail','reference_no'=> $this->reference_no]);
     }
 
 }

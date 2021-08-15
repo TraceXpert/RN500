@@ -50,12 +50,26 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                 <li class="nav-item position-relative  <?php echo $controller == 'site' && $action == 'about-us' ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a>
                 </li>
-                
+
                 <li class="nav-item position-relative <?php echo $controller == 'browse-jobs' && ($action == 'index' || $action == 'view') ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Browse Job</a>
                 </li>
                 <li class="nav-item position-relative  <?php echo $controller == 'site' && $action == 'contact-us' ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact </a>
+                </li>
+
+                <li class="nav-item position-relative  <?php echo ($controller == 'blogs' && $action == 'list') ? 'active' : '' ?>">
+                    <!--<a class="nav-link" href="<? Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Resource</a>-->
+                    <a class="nav-link dropdown-toggle " href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Resource 
+                    </a>
+
+                    <div class="dropdown-menu header-menu-pop-up" aria-labelledby="dropdown07">
+
+                        <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl(["blogs/list"]); ?>">
+                            Blogs
+                        </a>
+                    </div>
                 </li>
                 <?php if ($isRecruiter) { ?>
                     <li class="nav-item position-relative  <?php echo $controller == 'browse-jobs' && ($action == 'recruiter-lead' || $action == 'recruiter-view') ? 'active' : '' ?>">
@@ -64,10 +78,11 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                 <?php } ?>
 
                 <?php if ($isEmployer || $isRecruiter) { ?>
-                    <li class="nav-item position-relative  <?php echo $controller == 'job' && ($action == 'post' || $action == 'list' )? 'active' : '' ?>">
+                    <li class="nav-item position-relative  <?php echo $controller == 'job' && ($action == 'post' || $action == 'list' ) ? 'active' : '' ?>">
                         <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("job/list"); ?>">Post A Job</a>
                     </li>
                 <?php } ?>
+
                 <?php if (Yii::$app->user->isGuest) { ?>
 
                     <li class="nav-item position-relative d-flex align-items-center">
@@ -84,7 +99,7 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                                 <?php } else { ?>
                                     <img src="<?= $assetDir ?>/img/profile.png" alt="profile-img" class="mr-3 rounded-circle header-profile-img-size">
                                 <?php } ?>
-                                    <?php Pjax::end(); ?>
+                                <?php Pjax::end(); ?>
                                 <div class="media-body">
                                     <p class="mb-0"><?= $userIdentity->fullName ?> </p>
                                 </div>
@@ -128,11 +143,11 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                                     </div>
                                 </a>
                             <?php } ?>
-                            
+
                             <?php if ($isEmployer || $isRecruiter) { ?>
                                 <a class="dropdown-item" href="<?= Yii::$app->urlManagerAdmin->createUrl("site/index"); ?>">
                                     <div class="media">
-<!--                                        <img src="<?= $assetDir ?>/img/drop-track-app.png" alt="profile-img" class="mr-2 rounded-circle">-->
+        <!--                                        <img src="<?= $assetDir ?>/img/drop-track-app.png" alt="profile-img" class="mr-2 rounded-circle">-->
                                         <span class="fa fa-cogs mr-2 rounded-circle pop-menu-icon"></span>
                                         <div class="media-body">
                                             <p class="mb-0">Admin Settings</p>
