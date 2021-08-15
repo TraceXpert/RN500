@@ -37,4 +37,5 @@ return [
     "NO_HTMLTAG_PATTERN" => '/<(.|\n)*?>/',
     "LEAD_SUSPENDED" => ["0" => "No", "1" => "Yes"],
     "ALLOWED_MAX_RECEIPIENTS_LEAD_SHARE" => 10,
+    'BLOG_CATEGORY_STATUS' => [1 => 'Active', 0 => 'Inactive'],
 ];
