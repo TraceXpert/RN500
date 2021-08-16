@@ -40,17 +40,15 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                     </a>
                     <div class="dropdown-menu" aria-labelledby="resources">
                         <a class="dropdown-item <?php echo $controller == 'site' && $action == 'about-us' ? 'active' : '' ?>" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a>
-                        <a class="dropdown-item" href="#">Blogs</a>
-                        <a class="dropdown-item" href="#">Contracts</a>
-                        <a class="dropdown-item" href="#">Benefits</a>
-                        <a class="dropdown-item" href="#">Programs</a>
-                        <a class="dropdown-item" href="#">Travel</a>
-                        <a class="dropdown-item" href="#">Local</a>
-                        <a class="dropdown-item" href="#">Permanent</a>
+                        <a class="dropdown-item" href="#">The RN500 Blog</a>
+                        <a class="dropdown-item <?php echo $controller == 'site' && $action == 'contact-us' ? 'active' : '' ?>" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact RN500</a>
+                        <!--<a class="dropdown-item" href="#">Contracts</a>-->
+                        <!--<a class="dropdown-item" href="#">Benefits</a>-->
+                        <!--<a class="dropdown-item" href="#">Programs</a>-->
+                        <!--<a class="dropdown-item" href="#">Travel</a>-->
+                        <!--<a class="dropdown-item" href="#">Local</a>-->
+                        <!--<a class="dropdown-item" href="#">Permanent</a>-->
                     </div>
-                </li>
-                <li class="nav-item position-relative  <?php echo $controller == 'site' && $action == 'contact-us' ? 'active' : '' ?>">
-                    <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact </a>
                 </li>
                 <?php if ($isRecruiter) { ?>
                     <li class="nav-item position-relative  <?php echo $controller == 'browse-jobs' && ($action == 'recruiter-lead' || $action == 'recruiter-view') ? 'active' : '' ?>">
