@@ -23,7 +23,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
-                <h1>Find Your Leads</h1>
+                <h1>Find Your Contracts Jobs</h1>
             </div>
         </div>
     </div>
@@ -114,7 +114,6 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-right mt-2 mt-sm-0">
-                                    <b><span>Commission:- <?= ($model->recruiter_commission_type == 1) ? $model->recruiter_commission."%"."/".Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode] : "$".$model->recruiter_commission."/".Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode] ?></span></b>
                                     <?php if (isset($model->emergency) && !empty($model->emergency)) { ?>
                                         <span class="badge badge-warning">Urgent</span>
                                     <?php } ?>
@@ -175,18 +174,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                     </div>
                                 </div>
                                 <div class="col-sm-6 p-0 text-right">
-                                    <?php if (!CommonFunction::isExpired() || in_array($model->id, CommonFunction::getAllPurchasedLead()) || CommonFunction::getLoggedInUserCompanyId() == 1 || (isset($model->branch->company_id) && $model->branch->company_id == CommonFunction::getLoggedInUserCompanyId())) { ?>
-                                        <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/recruiter-view', 'id' => $model->reference_no]) ?>" class="read-more contact-us mb-0">View Job</a>
-                                    <?php } else { ?>
-                                        <?php if (CommonFunction::isVisibleLead($model->approved_at)) { ?>
-                                            <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['payment/index', 'id' => $model->id]) ?>" class="read-more contact-us mb-0">Buy Now <?= "$" . $model->price ?></a>
-                                        <?php } else {
-                                            ?>
-                                            <a href="javascript:void(0)" class="read-more contact-us mb-0">Coming Soon</a>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
+                                    <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $model->reference_no]) ?>" class="read-more contact-us mb-0">View Job</a>
                                 </div>
 
 
