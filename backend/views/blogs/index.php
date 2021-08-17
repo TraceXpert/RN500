@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use common\models\BlogMaster;
 ?>
 
 <div class="card card-default color-palette-box">
@@ -50,7 +51,7 @@ use yii\widgets\Pjax;
                                 [
                                 'headerOptions' => ['style' => 'width:12%'],
                                 'attribute' => 'statusText',
-                                'filter' => Html::activeDropDownList($searchModel, 'statusText', Yii::$app->params['BLOG_CATEGORY_STATUS'], ['class' => 'form-control', 'prompt' => 'All']),
+                                'filter' => Html::activeDropDownList($searchModel, 'statusText', Yii::$app->params['BLOG_SUSPENDED'], ['class' => 'form-control', 'prompt' => 'All']),
                             ],
                                 [
                                 'class' => 'yii\grid\ActionColumn',
@@ -64,9 +65,9 @@ use yii\widgets\Pjax;
                                     <div class="dropdown-menu dropdown-menu-right" >
                                       {view}
                                       {update}
+                                      {suspend}
                                     </div>
-                              </div>
-                ',
+                                </div>',
                                 'buttons' => [
                                     //view button
                                     'view' => function ($url, $model) {
@@ -83,6 +84,27 @@ use yii\widgets\Pjax;
                                                     'class' => 'dropdown-item  btn btn-primary',
                                         ]);
                                     },
+                                    'suspend' => function ($url, $model) {
+                                        if ($model->status == BlogMaster::IS_SUSPENDED_YES) {
+                                            $url = Yii::$app->urlManager->createAbsoluteUrl(['blogs/suspend', 'id' => $model->id, 'status' => BlogMaster::IS_SUSPENDED_NO]);
+                                            return Html::a('Remove suspension', 'javascript:void(0)', [
+                                                        'data-url' => $url,
+                                                        'data-pjax' => 0,
+                                                        'data-confirm-text' => "Are you sure you want to remove suspension?",
+                                                        'title' => Yii::t('app', 'Remove suspension'),
+                                                        'class' => 'dropdown-item  btn btn-primary suspension',
+                                            ]);
+                                        } else if ($model->status == BlogMaster::IS_SUSPENDED_NO) {
+                                            $url = Yii::$app->urlManager->createAbsoluteUrl(['blogs/suspend', 'id' => $model->id, 'status' => BlogMaster::IS_SUSPENDED_YES]);
+                                            return Html::a('Suspend', 'javascript:void(0)', [
+                                                        'data-url' => $url,
+                                                        'data-pjax' => 0,
+                                                        'data-confirm-text' => "Are you sure you want to suspend?",
+                                                        'title' => Yii::t('app', 'Suspend'),
+                                                        'class' => 'dropdown-item  btn btn-primary suspension',
+                                            ]);
+                                        }
+                                    },
                                 ],
                             ],
                         ],
@@ -98,4 +120,21 @@ use yii\widgets\Pjax;
 </div>
 
 
-
+<?php
+$script = <<< JS
+  
+   $(document).on('click','.suspension',function(){
+        if(confirm($(this).data('confirm-text'))){
+            var state=$(this).val();
+            $.ajax({
+                method: 'POST',
+                url: $(this).data('url'),
+                success: function (response) {
+    //                $('#userdetails-city').html(response);
+                }
+            });
+        }
+   });
+JS;
+$this->registerJs($script);
+?>

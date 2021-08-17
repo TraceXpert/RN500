@@ -20,7 +20,11 @@ use yii\widgets\DetailView;
                             'reference_no',
                             'title',
                             'short_description',
-                            'description:ntext',
+//                            'description:ntext',
+                            [
+                                'attribute' => 'description',
+                                'format' => 'raw'
+                            ],
                             'categoryName',
                                 [
                                 'attribute' => 'conver_image_name',
@@ -30,8 +34,10 @@ use yii\widgets\DetailView;
                                 [
                                 'attribute' => 'tags',
                                 'value' => str_replace(",", " , ", $model->tags)
-                                
-                                
+                            ],
+                                [
+                                'attribute' => 'status',
+                                'value' => Yii::$app->params['BLOG_SUSPENDED'][$model->status]
                             ],
                         ],
                     ])

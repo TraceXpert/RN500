@@ -3,10 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\BlogMaster */
-/* @var $form yii\widgets\ActiveForm */
+use dosamigos\ckeditor\CKEditor;
 ?>
 <style>
     .s2-togall-select,.s2-togall-unselect{
@@ -36,7 +33,16 @@ use kartik\select2\Select2;
 
             <div class="row">
                 <div class="col-md-12 col-sm-12">
-                    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+                    <!--<? $form->field($model, 'description')->textarea(['rows' => 6]) ?>-->
+                    <?=
+                    $form->field($model, 'description')->widget(CKEditor::className(), [
+                        'options' => ['rows' => 4],
+                        'clientOptions' => [
+                            'removeButtons' => 'Maximize,Image,Source,Table,About,Anchor,Link,Path,SpecialChar,PageBreak,HorizontalRule',
+                        ],
+                        'preset' => 'standard'
+                    ])
+                    ?>
                 </div>
             </div>
 
@@ -51,12 +57,6 @@ use kartik\select2\Select2;
                             'tokenSeparators' => [',', ' '],
                             'maximumInputLength' => 50
                         ],
-//                        'toggleAllSettings' => [
-//                            'selectLabel' => '<i class="fas fa-check-circle"></i> Tag All',
-//                            'unselectLabel' => '<i class="fas fa-times-circle"></i> Untag All',
-//                            'selectOptions' => ['class' => 'text-success'],
-//                            'unselectOptions' => ['class' => 'text-danger'],
-//                        ],
                     ]);
                     ?>
                 </div>
@@ -67,7 +67,7 @@ use kartik\select2\Select2;
                     <?= $form->field($model, 'category_id')->dropDownList($categories, ['prompt' => 'Select ' . $model->getAttributeLabel('category_id')]) ?>
                 </div>
                 <div class="col-md-6 col-sm-12">
-                    <?= $form->field($model, 'status')->dropDownList(Yii::$app->params['BLOG_CATEGORY_STATUS'], ['prompt' => 'Select ' . $model->getAttributeLabel('status')]) ?>
+                    <?= $form->field($model, 'status')->dropDownList(Yii::$app->params['BLOG_SUSPENDED'])->label("Suspend") ?>
                 </div>
             </div>
             <div class="row">

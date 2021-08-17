@@ -7,7 +7,6 @@ use common\CommonFunction;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
-
 /**
  * This is the model class for table "blog_master".
  *
@@ -33,10 +32,11 @@ class BlogMaster extends \yii\db\ActiveRecord {
     public $coverImageFile;
     public $tagsList;
 
-    const STATUS_ACTIVE = "1";
-    const STATUS_INACTIVE = "0";
+    const IS_SUSPENDED_YES = "1";
+    const IS_SUSPENDED_NO = "0";
     
     const SCENARIO_ADD = "add-blog";
+    const SCENARIO_SUSPEND = "suspend-blog";
 
     public static function tableName() {
         return 'blog_master';
@@ -48,14 +48,11 @@ class BlogMaster extends \yii\db\ActiveRecord {
             $this->created_by = Yii::$app->user->id;
             $this->reference_no = $this->getUniqueReferenceNumber();
         }
-
-
         if (!empty($this->tagsList) && count($this->tagsList)) {
             $this->tags = implode(",", $this->tagsList);
         }
         $this->updated_at = CommonFunction::currentTimestamp();
         $this->updated_by = Yii::$app->user->id;
-//        $this->conver_image_name = "123.png";
         return true;
     }
 
@@ -71,6 +68,7 @@ class BlogMaster extends \yii\db\ActiveRecord {
                 [['conver_image_name'], 'string', 'max' => 100],
                 [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => BlogCategoryMaster::className(), 'targetAttribute' => ['category_id' => 'id']],
                 [['coverImageFile'], 'required', 'on' => self::SCENARIO_ADD],
+                [['status'], 'required', 'on' => self::SCENARIO_SUSPEND],
                 [['coverImageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
                 [['coverImageFile', 'tags', 'tagsList'], 'safe'],
                 [['reference_no', 'title', 'short_description', 'description', 'tags'], 'trim'],
@@ -90,7 +88,8 @@ class BlogMaster extends \yii\db\ActiveRecord {
             'updated_by' => 'Updated By',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'statusText' => 'Status',
+            'status' => 'Is Suspended',
+            'statusText' => 'Is Suspended',
             'coverImageFile' => 'Cover Image',
             'tags' => 'Tags',
             'tagsList' => 'Tags',
@@ -165,8 +164,8 @@ class BlogMaster extends \yii\db\ActiveRecord {
 
     public function getStatusText() {
         $statusText = '';
-        if (isset(Yii::$app->params['BLOG_CATEGORY_STATUS'][$this->status]) && !empty(Yii::$app->params['BLOG_CATEGORY_STATUS'][$this->status])) {
-            $statusText = Yii::$app->params['BLOG_CATEGORY_STATUS'][$this->status];
+        if (isset(Yii::$app->params['BLOG_SUSPENDED'][$this->status]) && !empty(Yii::$app->params['BLOG_SUSPENDED'][$this->status])) {
+            $statusText = Yii::$app->params['BLOG_SUSPENDED'][$this->status];
         }
         return $statusText;
     }
@@ -193,9 +192,17 @@ class BlogMaster extends \yii\db\ActiveRecord {
         }
         return $name;
     }
-    
+
+    public function getCreatedByEmail() {
+        $name = "";
+        if (!empty($this->createdBy)) {
+            $name = $this->createdBy->email;
+        }
+        return $name;
+    }
+
     public function getDetailUrl() {
-        return Yii::$app->urlManagerFrontend->createAbsoluteUrl(['blogs/detail','reference_no'=> $this->reference_no]);
+        return Yii::$app->urlManagerFrontend->createAbsoluteUrl(['blogs/detail', 'reference_no' => $this->reference_no]);
     }
 
 }

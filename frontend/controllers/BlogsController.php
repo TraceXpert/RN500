@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use common\models\BlogMaster;
 use yii\data\Pagination;
+use common\models\BlogCategoryMaster;
 
 class BlogsController extends Controller {
 
@@ -43,8 +44,7 @@ class BlogsController extends Controller {
 
     public function actionList() {
         $search = trim(Yii::$app->request->get('search'));
-
-        $query = BlogMaster::find()->alias('blog')->where(['blog.status' => BlogMaster::STATUS_ACTIVE]);
+        $query = BlogMaster::find()->alias('blog')->where(['blog.status' => BlogMaster::IS_SUSPENDED_NO]);
         if ($search != '') {
             $query->andWhere(['OR',
                     ['like', 'blog.title', $search],
@@ -60,6 +60,17 @@ class BlogsController extends Controller {
         return $this->render('list', [
                     'blogList' => $models,
                     'pages' => $pages,
+        ]);
+    }
+
+    public function actionDetail($reference_no) {
+        $model = BlogMaster::find()->alias('blog')->where(['reference_no' => $reference_no, 'blog.status' => BlogMaster::IS_SUSPENDED_NO])->one();
+        $popularBlogs = BlogMaster::find()->alias('blog')->where(['blog.status' => BlogMaster::IS_SUSPENDED_NO])->orderBy(['created_at' => SORT_DESC])->limit(3)->all();
+        $categories = BlogCategoryMaster::find()->where(['status' => BlogCategoryMaster::STATUS_ACTIVE])->orderBy(['created_at' => SORT_DESC])->limit(7)->all();
+        return $this->render('detail', [
+                    'model' => $model,
+                    'popularBlogs' => $popularBlogs,
+                    'categories' => $categories
         ]);
     }
 

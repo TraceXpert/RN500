@@ -43,7 +43,8 @@ class BlogsController extends Controller {
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+//                    'delete' => ['POST'],
+                    'suspend' => ['POST'],
                 ],
             ],
         ];
@@ -78,6 +79,7 @@ class BlogsController extends Controller {
         $this->activeBreadcrumb = "Add";
         $model = new BlogMaster();
         $model->setScenario(BlogMaster::SCENARIO_ADD);
+        $model->status = BlogMaster::IS_SUSPENDED_NO;
         $categories = BlogCategoryMaster::getBlogCategories(true);
         if ($model->load(Yii::$app->request->post())) {
             if (isset($_FILES['BlogMaster']['name']['coverImageFile']) && $_FILES['BlogMaster']['name']['coverImageFile'] != '') {
@@ -90,7 +92,7 @@ class BlogsController extends Controller {
                     ]);
                 }
             }
-            
+
             if ($model->validate(['title', 'short_description', 'description', 'category_id']) && $model->beforeSaveInit() && $model->save(false)) {
                 Yii::$app->session->setFlash("success", "Blog was added.");
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -123,7 +125,7 @@ class BlogsController extends Controller {
                 }
                 $isCoverImageUpdated = true;
             }
-             
+
             if ($model->beforeSaveInit() && $model->save(false)) {
                 ($isCoverImageUpdated) ? $model->deleteCoverImage($oldCoverImage) : "";
                 Yii::$app->session->setFlash("success", "Blog was updated.");
@@ -139,11 +141,29 @@ class BlogsController extends Controller {
         ]);
     }
 
-    public function actionDelete($id) {
-        $this->findBlogModel($id)->delete();
+    public function actionSuspend($id, $status) {
 
+        $model = $this->findBlogModel($id);
+        $model->status = $status;
+        $model->setScenario(BlogMaster::SCENARIO_SUSPEND);
+        $flashMessage  = ($status == BlogMaster::IS_SUSPENDED_YES) ? "Blog was suspended." :"Removed from suspension.";
+        if ($model->beforeSaveInit() && $model->save(false)) {
+            Yii::$app->session->setFlash("success", $flashMessage);
+        } else {
+            echo "<pre>";
+            print_r($model->getErrors());
+            exit;
+            Yii::$app->session->setFlash("warning", "Something went wrong, please try after some time.");
+        }
         return $this->redirect(['index']);
     }
+
+//    
+//    public function actionDelete($id) {
+//        $this->findBlogModel($id)->delete();
+//
+//        return $this->redirect(['index']);
+//    }
 
     protected function findBlogModel($id) {
         if (($model = BlogMaster::findOne($id)) !== null) {

@@ -65,6 +65,10 @@ class BlogCategoryMaster extends \yii\db\ActiveRecord {
         return $this->hasMany(BlogMaster::className(), ['category_id' => 'id']);
     }
 
+    public function getBlogMastersCnt() {
+        return $this->hasMany(BlogMaster::className(), ['category_id' => 'id'])->count();
+    }
+
     public function getStatusText() {
         $statusText = '';
         if (isset(Yii::$app->params['BLOG_CATEGORY_STATUS'][$this->status]) && !empty(Yii::$app->params['BLOG_CATEGORY_STATUS'][$this->status])) {
