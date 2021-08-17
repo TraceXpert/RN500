@@ -106,7 +106,7 @@ marquee{letter-spacing: 1.5px;color: #FFFFFF;font-weight: 600;font-size: 18px;}
 
 section{padding: 80px 0;}
 .main-title h2 {font-size: 36px;font-weight: 600;}
-.about-us p{color: #939598;line-height: 32px;}
+.about-us p{color: gray;line-height: 32px;}
 .read-more{border: 1px solid #45ADDE;color: #45ADDE;padding: 12px 30px;border-radius: 50px;font-weight: 600;display: inline-block;margin-bottom: 10px;}
 .read-more:hover{border: 1px solid #232731;color: #232731;}
 
