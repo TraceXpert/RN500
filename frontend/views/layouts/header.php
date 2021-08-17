@@ -34,14 +34,14 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                 <li class="nav-item position-relative <?php echo $controller == 'browse-jobs' && ($action == 'index' || $action == 'view') ? 'active' : '' ?>">
                     <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Browse Job</a>
                 </li>
-                <li class="nav-item dropdown position-relative active">
-                    <a class="nav-link dropdown-toggle" id="resources" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <li class="nav-item dropdown position-relative <?php echo (($controller == 'site' && $action == 'about-us') || ($controller == 'site' && $action == 'contact-us') || $controller == 'blogs' && in_array($action, ['list', 'detail']) ) ? 'active' : '' ?>">
+                    <a class="nav-link " id="resources" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="javascript:void(0)">
                         Resources 
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="resources">
-                        <a class="dropdown-item <?php echo $controller == 'site' && $action == 'about-us' ? 'active' : '' ?>" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a>
-                        <a class="dropdown-item" href="#">The RN500 Blog</a>
-                        <a class="dropdown-item <?php echo $controller == 'site' && $action == 'contact-us' ? 'active' : '' ?>" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact RN500</a>
+                    <div class="dropdown-menu " aria-labelledby="resources">
+                        <a class="dropdown-item " href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a>
+                        <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl(["blogs/list"]); ?>">The RN500 Blog</a>
+                        <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact RN500</a>
                         <!--<a class="dropdown-item" href="#">Contracts</a>-->
                         <!--<a class="dropdown-item" href="#">Benefits</a>-->
                         <!--<a class="dropdown-item" href="#">Programs</a>-->
@@ -50,6 +50,7 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                         <!--<a class="dropdown-item" href="#">Permanent</a>-->
                     </div>
                 </li>
+
                 <?php if ($isRecruiter) { ?>
                     <li class="nav-item position-relative  <?php echo $controller == 'browse-jobs' && ($action == 'recruiter-lead' || $action == 'recruiter-view') ? 'active' : '' ?>">
                         <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/recruiter-lead"); ?>">For Recruiter</a>
@@ -61,6 +62,7 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                         <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("job/list"); ?>">Post A Job</a>
                     </li>
                 <?php } ?>
+
                 <?php if (Yii::$app->user->isGuest) { ?>
 
                     <li class="nav-item position-relative d-flex align-items-center">
