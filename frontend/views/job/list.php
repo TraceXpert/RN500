@@ -98,6 +98,7 @@ use kartik\date\DatePicker;
                                 [
                                 'attribute' => 'is_suspended',
 //                                'visible' => CommonFunction::isEmployer(),
+                                'label'=>'Is Suspended',
                                 'headerOptions' => ['style' => 'width:2%'],
                                 'enableSorting' => false,
                                 'filterInputOptions' => ['autocomplete' => 'off',],

@@ -407,5 +407,15 @@ class CommonFunction {
             return $result;
         }
     }
+    
+    
+    public static function getBlogsCoverImageBasePath() {
+        return Yii::getAlias('@frontend') . "/web/uploads/blogs-cover";
+    }
+
+    public static function getBlogsCoverImageBaseUrl() {
+//        return Yii::getAlias('@frontend') . "/web/uploads/advertisement";
+        return \yii\helpers\Url::to(Yii::$app->urlManagerFrontend->createUrl(["/uploads/blogs-cover"]), true);
+    }
 
 }

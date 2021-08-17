@@ -1,120 +1,86 @@
-html,
-body {
-    height: 100%;
+/*
+Theme Name: Consult Child Theme
+Description: This is a custom child theme for Consult
+Author: My Name
+Template: consult/consult
+Text Domain: consult-child
+Version: 0.1.2
+*/
+
+@import url("../consult/consult/style.css");
+
+ul.list-style-1{
+    list-style-type: circle !important;
+    padding-left: 15px;
+    margin-bottom: 15px;
+}
+ul.list-stlye-1 li{
+    margin: 0;
+}
+.vc_column_container.col-md-6{width: 50% !important;}
+.vc_column_container.col-md-4 {
+    width: 33.33% !important;
 }
 
-.wrap {
-    min-height: 100%;
-    height: auto;
-    margin: 0 auto -60px;
-    padding: 0 0 60px;
+.wpb_button, .wpb_content_element, ul.wpb_thumbnails-fluid>li {
+    margin-bottom: 0px  !important;
 }
-
-.wrap > .container {
-    padding: 70px 15px 20px;
+.form-control{
+    background-color: #eef1f5;
+    height: 45px;
+    border: 0;
+    box-shadow: none;
+    padding-left: 20px;
 }
-
-.footer {
-    height: 60px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
-}
-
-.jumbotron {
-    text-align: center;
-    background-color: transparent;
-}
-
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-}
-
-.not-set {
-    color: #c55;
-    font-style: italic;
-}
-
-/* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
-    position: relative;
-    top: 1px;
+.contact-box{text-align:center;padding:15px !important;}
+.contact-box .vc_column-inner{padding: 30px;
+    border-width: 1px;
+    border-color: #193775;
+    border-style: dashed;
+    /* background: #f2f4f7; */
+    box-shadow: 1px 1px 1px 1px #f2f4f7;  }
+ .widget-footer h3{margin-bottom: 20px;}   
+.links  ul {list-style: none; padding: 0;}
+.links li {padding-left: 1.3em;margin-bottom: 10px;}
+.links li a{color:#8e8989 !important;}
+.links li:before {
+    content: "\f105"; /* FontAwesome Unicode */
+    font-family: FontAwesome;
     display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: normal;
-    line-height: 1;
-    padding-left: 5px;
+    margin-left: -1.3em; /* same as padding-left set on li */
+    width: 1.3em; /* same as padding-left set on li */
 }
-
-a.asc:after {
-    content: "\e151";
+.widget-footer .textwidget {color:#8e8989;}
+.site-footer .upper-footer {
+    background-color: #152029;
+    padding: 70px;
 }
-
-a.desc:after {
-    content: "\e152";
+.navbar-brand{padding:0px 15px}
+.site-header-style2 .navbar-brand, .site-header-style3 .navbar-brand{margin-top:0px;}
+.site-header .upper-topbar, .site-header-style2 .upper-topbar, .site-header-style3 .upper-topbar {
+    background-color: #0077B7;
 }
+.section-title h2 {
 
-.sort-numerical a.asc:after {
-    content: "\e153";
+    color: #0077B7;
 }
-
-.sort-numerical a.desc:after {
-    content: "\e154";
+.site-header .upper-topbar, .site-header-style2 .upper-topbar, .site-header-style3 .upper-topbar {
+    padding: 10px 0 !important;
 }
-
-.sort-ordinal a.asc:after {
-    content: "\e155";
+.section-padding {
+    padding: 25px 0 20px !important;
 }
-
-.sort-ordinal a.desc:after {
-    content: "\e156";
+.page-title{
+	max-height: 260px !important;
 }
-
-.grid-view td {
-    white-space: nowrap;
+.page-title .title-box {   
+    top: 33% !important;
 }
-
-.grid-view .filters input,
-.grid-view .filters select {
-    min-width: 50px;
+.section-title h2 {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    font-weight: bold;
 }
-
-.hint-block {
-    display: block;
-    margin-top: 5px;
-    color: #999;
-}
-
-.error-summary {
-    color: #a94442;
-    background: #fdf7f7;
-    border-left: 3px solid #eed3d7;
-    padding: 10px 20px;
-    margin: 0 0 15px 0;
-}
-
-/* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
-    padding: 15px;
-    border: none;
-}
-
-@media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
-        text-align: left;
-        width: 100%;
-        padding: 10px 15px;
-    }
-}
-
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
-    text-decoration: none;
-}
-
-.nav > li > form > button.logout:focus {
-    outline: none;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    font-weight: bold;
 }

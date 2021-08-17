@@ -347,3 +347,13 @@ ul.select2-selection__rendered{
 .home-page-search ul.select2-selection__rendered{
     max-height: inherit !important;
 }
+
+.blog-list-page .pagination-wrap .pagination li a{
+    color: #fff !important;
+}
+.blog-list-page .pagination li.active{
+    background-color: inherit !important;
+}
+.blog-list-page .pagination .disabled-a{
+    background-color: lightblue !important;
+}
