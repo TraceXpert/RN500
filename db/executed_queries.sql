@@ -539,3 +539,37 @@ ALTER TABLE `certificate_master`
 COMMIT;
 
 -- 21-07-2021 By Nirav End
+
+
+----------------------------
+-- 17-AUG-20 FOR BLOGS 
+----------------------------
+CREATE TABLE `blog_category_master` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(255) NOT NULL,
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '0: Inactive, 1 :Active',
+  `created_by` int NOT NULL,
+  `updated_by` int NOT NULL,
+  `created_at` int NOT NULL,
+  `updated_at` int NOT NULL
+);
+
+
+CREATE TABLE `blog_master` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `reference_no` varchar(50) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `short_description` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `conver_image_name` varchar(100)  NULL,
+  `tags` text NOT NULL,
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '0:Non-Suspended, 1:Suspended',
+  `created_by` int NOT NULL,
+  `updated_by` int NOT NULL,
+  `created_at` int NOT NULL,
+  `updated_at` int NOT NULL,
+  FOREIGN KEY (`category_id`) REFERENCES `blog_category_master` (`id`) ON DELETE RESTRICT
+);
+
+-- 17-AUG-20 END FOR BLOGS 
