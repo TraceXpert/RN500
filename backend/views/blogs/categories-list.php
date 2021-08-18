@@ -3,15 +3,20 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use common\CommonFunction;
+
+$loggedInUser = Yii::$app->user->identity->id;
 ?>
 <div class="card card-default color-palette-box">
     <div class="card-body">
 
-        <div class="row">
-            <div class="col-12">
-                <?= Html::a('Add New Category', ['category-add'], ['class' => 'btn btn-primary float-right']) ?>
+        <?php if (CommonFunction::checkAccess('blog-create', $loggedInUser) || CommonFunction::checkAccess('blog-update', $loggedInUser)) { ?>
+            <div class="row">
+                <div class="col-12">
+                    <?= Html::a('Add New Category', ['category-add'], ['class' => 'btn btn-primary float-right']) ?>
+                </div>
             </div>
-        </div>
+        <?php } ?>
 
         <div class="row">
             <div class="col-12">
@@ -39,6 +44,7 @@ use yii\widgets\Pjax;
                             ],
                                 [
                                 'class' => 'yii\grid\ActionColumn',
+                                'visible'=>(CommonFunction::checkAccess('blog-create', $loggedInUser) || CommonFunction::checkAccess('blog-update', $loggedInUser)),
                                 'header' => 'Actions',
                                 'headerOptions' => ['style' => 'width:8%', 'class' => 'text-primary'],
                                 'template' => '
@@ -52,13 +58,15 @@ use yii\widgets\Pjax;
                               </div>
                 ',
                                 'buttons' => [
-                                    'update' => function ($url, $model) {
-                                        $url = Yii::$app->urlManagerAdmin->createAbsoluteUrl(['blogs/category-update', 'id' => $model->id]);
-                                        return Html::a('Update', $url, [
-                                                    'data-pjax' => 0,
-                                                    'title' => Yii::t('app', 'Update'),
-                                                    'class' => 'dropdown-item  btn btn-primary',
-                                        ]);
+                                    'update' => function ($url, $model) use ($loggedInUser) {
+                                        if (CommonFunction::checkAccess('blog-create', $loggedInUser) || CommonFunction::checkAccess('blog-update', $loggedInUser)) {
+                                            $url = Yii::$app->urlManagerAdmin->createAbsoluteUrl(['blogs/category-update', 'id' => $model->id]);
+                                            return Html::a('Update', $url, [
+                                                        'data-pjax' => 0,
+                                                        'title' => Yii::t('app', 'Update'),
+                                                        'class' => 'dropdown-item  btn btn-primary',
+                                            ]);
+                                        }
                                     },
                                 ],
                             ],

@@ -16,17 +16,17 @@ $searchInput = trim(Yii::$app->request->get('search'));
 
 <section class="contact-form blog-list-page">
     <div class="container">
-        <?php if (count($blogList)) { ?>
-            <div class="row">
-                <div class="col-lg-12">
-                    <form role="search" method="get" class="search-form mb-5" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['blogs/list']) ?>">
-                        <label class="d-block">                        
-                            <input type="search" class="search-field" placeholder="Search …" value="<?php echo $searchInput; ?>" name="search" autocomplete="off">
-                        </label>
-                        <input type="submit" class="search-submit" value="Search">
-                    </form>
-                </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <form role="search" method="get" class="search-form mb-5" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['blogs/list']) ?>">
+                    <label class="d-block">                        
+                        <input type="search" class="search-field" placeholder="Search …" value="<?php echo $searchInput; ?>" name="search" autocomplete="off">
+                    </label>
+                    <input type="submit" class="search-submit" value="Search">
+                </form>
             </div>
+        </div>
+        <?php if (count($blogList)) { ?>
 
             <div class="row">
                 <?php foreach ($blogList as $k => $blog) { ?>

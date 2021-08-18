@@ -4,16 +4,21 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use common\models\BlogMaster;
+use common\CommonFunction;
+
+$loggedInUser = Yii::$app->user->identity->id;
 ?>
 
 <div class="card card-default color-palette-box">
     <div class="card-body">
 
-        <div class="row">
-            <div class="col-12">
-                <?= Html::a('Add New Blog', ['add'], ['class' => 'btn btn-primary float-right mb-3']) ?>
+        <?php if (CommonFunction::checkAccess('blog-create', $loggedInUser)) { ?>
+            <div class="row">
+                <div class="col-12">
+                    <?= Html::a('Add New Blog', ['add'], ['class' => 'btn btn-primary float-right mb-3']) ?>
+                </div>
             </div>
-        </div>
+        <?php } ?>
 
         <div class="row">
             <div class="col-12">
@@ -77,32 +82,36 @@ use common\models\BlogMaster;
                                                     'class' => 'dropdown-item btn btn-primary',
                                         ]);
                                     },
-                                    'update' => function ($url, $model) {
-                                        return Html::a('Update', $url, [
-                                                    'data-pjax' => 0,
-                                                    'title' => Yii::t('app', 'Update'),
-                                                    'class' => 'dropdown-item  btn btn-primary',
-                                        ]);
+                                    'update' => function ($url, $model) use ($loggedInUser) {
+                                        if (CommonFunction::checkAccess("blog-update", $loggedInUser) || CommonFunction::checkAccess("blog-create", $loggedInUser)) {
+                                            return Html::a('Update', $url, [
+                                                        'data-pjax' => 0,
+                                                        'title' => Yii::t('app', 'Update'),
+                                                        'class' => 'dropdown-item  btn btn-primary',
+                                            ]);
+                                        }
                                     },
-                                    'suspend' => function ($url, $model) {
-                                        if ($model->status == BlogMaster::IS_SUSPENDED_YES) {
-                                            $url = Yii::$app->urlManager->createAbsoluteUrl(['blogs/suspend', 'id' => $model->id, 'status' => BlogMaster::IS_SUSPENDED_NO]);
-                                            return Html::a('Remove suspension', 'javascript:void(0)', [
-                                                        'data-url' => $url,
-                                                        'data-pjax' => 0,
-                                                        'data-confirm-text' => "Are you sure you want to remove suspension?",
-                                                        'title' => Yii::t('app', 'Remove suspension'),
-                                                        'class' => 'dropdown-item  btn btn-primary suspension',
-                                            ]);
-                                        } else if ($model->status == BlogMaster::IS_SUSPENDED_NO) {
-                                            $url = Yii::$app->urlManager->createAbsoluteUrl(['blogs/suspend', 'id' => $model->id, 'status' => BlogMaster::IS_SUSPENDED_YES]);
-                                            return Html::a('Suspend', 'javascript:void(0)', [
-                                                        'data-url' => $url,
-                                                        'data-pjax' => 0,
-                                                        'data-confirm-text' => "Are you sure you want to suspend?",
-                                                        'title' => Yii::t('app', 'Suspend'),
-                                                        'class' => 'dropdown-item  btn btn-primary suspension',
-                                            ]);
+                                    'suspend' => function ($url, $model) use ($loggedInUser) {
+                                        if (CommonFunction::checkAccess("blog-suspend", $loggedInUser) || CommonFunction::checkAccess("blog-update", $loggedInUser) || CommonFunction::checkAccess("blog-create", $loggedInUser)) {
+                                            if ($model->status == BlogMaster::IS_SUSPENDED_YES) {
+                                                $url = Yii::$app->urlManager->createAbsoluteUrl(['blogs/suspend', 'id' => $model->id, 'status' => BlogMaster::IS_SUSPENDED_NO]);
+                                                return Html::a('Remove suspension', 'javascript:void(0)', [
+                                                            'data-url' => $url,
+                                                            'data-pjax' => 0,
+                                                            'data-confirm-text' => "Are you sure you want to remove suspension?",
+                                                            'title' => Yii::t('app', 'Remove suspension'),
+                                                            'class' => 'dropdown-item  btn btn-primary suspension',
+                                                ]);
+                                            } else if ($model->status == BlogMaster::IS_SUSPENDED_NO) {
+                                                $url = Yii::$app->urlManager->createAbsoluteUrl(['blogs/suspend', 'id' => $model->id, 'status' => BlogMaster::IS_SUSPENDED_YES]);
+                                                return Html::a('Suspend', 'javascript:void(0)', [
+                                                            'data-url' => $url,
+                                                            'data-pjax' => 0,
+                                                            'data-confirm-text' => "Are you sure you want to suspend?",
+                                                            'title' => Yii::t('app', 'Suspend'),
+                                                            'class' => 'dropdown-item  btn btn-primary suspension',
+                                                ]);
+                                            }
                                         }
                                     },
                                 ],
