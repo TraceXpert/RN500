@@ -143,24 +143,21 @@ $action = Yii::$app->controller->action->id;
                         'label' => 'Blogs',
                         'icon' => 'expand',
                         'active' => ($controller == "blogs"),
-//                        'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('refferal-reports', Yii::$app->user->identity->id) || CommonFunction::checkAccess('recruited-jobseeker', Yii::$app->user->identity->id) || CommonFunction::checkAccess('payment', Yii::$app->user->identity->id) : false,
-                        'visible' => true,
+                        'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('blog-create', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-update', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-view', Yii::$app->user->identity->id)|| CommonFunction::checkAccess('blog-suspend', Yii::$app->user->identity->id) : false,
                         'items' => [
                                 [
                                 'label' => 'Categories',
                                 'url' => ['/blogs/categories'],
                                 'icon' => 'expand',
                                 'active' => ($controller == "blogs" && in_array($action, ['categories', 'categories', 'category-view', 'category-add', 'category-update'])),
-//                                'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('refferal-reports', Yii::$app->user->identity->id) : false,
-                                'visible' => true,
+                                'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('blog-create', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-update', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-view', Yii::$app->user->identity->id) : false,
                             ],
                                 [
                                 'label' => 'Manage',
                                 'url' => ['/blogs/index'],
                                 'icon' => 'expand',
                                 'active' => ($controller == "blogs" && in_array($action, ['index', 'add', 'update', 'view'])),
-//                                'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('recruited-jobseeker', Yii::$app->user->identity->id) : false,
-                                'visible' => true,
+                                'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('blog-create', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-update', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-view', Yii::$app->user->identity->id)|| CommonFunction::checkAccess('blog-suspend', Yii::$app->user->identity->id) : false,
                             ]
                         ]
                     ],
