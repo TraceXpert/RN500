@@ -34,7 +34,6 @@ class BlogMaster extends \yii\db\ActiveRecord {
 
     const IS_SUSPENDED_YES = "1";
     const IS_SUSPENDED_NO = "0";
-    
     const SCENARIO_ADD = "add-blog";
     const SCENARIO_SUSPEND = "suspend-blog";
 
@@ -203,6 +202,21 @@ class BlogMaster extends \yii\db\ActiveRecord {
 
     public function getDetailUrl() {
         return Yii::$app->urlManagerFrontend->createAbsoluteUrl(['blogs/detail', 'reference_no' => $this->reference_no]);
+    }
+
+    public function getAPIDetails() {
+        return [
+            'id' => (string) $this->id,
+            'reference_no' => $this->reference_no,
+            'title' => $this->title,
+            'short_description' => $this->short_description,
+            'description' => $this->description,
+            'category_id' => (string) $this->category_id,
+            'category_name' => $this->getCategoryName(),
+            'cover_image_url' => $this->getCoverImageUrl(),
+            'tags' => $this->tags,
+            'tag_list' => $this->getTagsList()
+        ];
     }
 
 }
