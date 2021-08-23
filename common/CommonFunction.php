@@ -115,6 +115,58 @@ class CommonFunction {
     public static function isJobSeeker() {
         return (isset(Yii::$app->user->identity->type) && Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) ? true : false;
     }
+    
+    // RETURN DISCIPLINE NAME OF JOB SEEKER
+    public static function jobSeekerDiscipline() {
+        $disciplineName = '';
+        try {
+            if (self::isJobSeeker() && isset(Yii::$app->user->identity->details)) {
+                $disciplineName = Yii::$app->user->identity->details->getDisciplineName();
+            }
+            return $disciplineName;
+        } catch (\Exception $ex) {
+            return "";
+        }
+    }
+    
+    // RETURN DISCIPLINE ID OF JOB SEEKER
+    public static function jobSeekerDisciplineId() {
+        $disciplineId = '';
+        try {
+            if (self::isJobSeeker() && isset(Yii::$app->user->identity->details)) {
+                $disciplineId = Yii::$app->user->identity->details->discipline_id;
+            }
+            return $disciplineId;
+        } catch (\Exception $ex) {
+            return "";
+        }
+    }
+    
+    // RETURN SPECIALITY NAME OF JOB SEEKER
+    public static function jobSeekerSpeciality() {
+        $specialityName = '';
+        try {
+            if (self::isJobSeeker() && isset(Yii::$app->user->identity->details)) {
+                $specialityName = Yii::$app->user->identity->details->getSpecialityName();
+            }
+            return $specialityName;
+        } catch (\Exception $ex) {
+            return "";
+        }
+    }
+    
+    // RETURN SPECIALITY ID OF JOB SEEKER
+    public static function jobSeekerSpecialityId() {
+        $specialityId = '';
+        try {
+            if (self::isJobSeeker() && isset(Yii::$app->user->identity->details)) {
+                $specialityId = Yii::$app->user->identity->details->speciality_id;
+            }
+            return $specialityId;
+        } catch (\Exception $ex) {
+            return "";
+        }
+    }
 
     // RETURN TRUE IF LOGGED_IN USER assign permission ELSE FALSE
     public static function checkAccess($permission, $user_id) {

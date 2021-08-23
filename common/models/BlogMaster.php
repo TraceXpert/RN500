@@ -215,7 +215,8 @@ class BlogMaster extends \yii\db\ActiveRecord {
             'category_name' => $this->getCategoryName(),
             'cover_image_url' => $this->getCoverImageUrl(),
             'tags' => $this->tags,
-            'tag_list' => $this->getTagsList()
+            'tag_list' => $this->getTagsList(),
+            'sharing_url' => $this->getDetailUrl()
         ];
     }
 
