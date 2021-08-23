@@ -38,7 +38,8 @@ use dosamigos\ckeditor\CKEditor;
                     $form->field($model, 'description')->widget(CKEditor::className(), [
                         'options' => ['rows' => 4],
                         'clientOptions' => [
-                            'removeButtons' => 'Maximize,Image,Source,Table,About,Anchor,Link,Path,SpecialChar,PageBreak,HorizontalRule',
+                            // 'removeButtons' => 'Maximize,Image,Source,Table,About,Anchor,Link,Path,SpecialChar,PageBreak,HorizontalRule',
+                            'removeButtons' => 'Image,About,Source,Anchor',
                         ],
                         'preset' => 'standard'
                     ])

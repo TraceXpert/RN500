@@ -65,13 +65,18 @@ class BlogsController extends Controller {
 
     public function actionDetail($reference_no) {
         $model = BlogMaster::find()->alias('blog')->where(['reference_no' => $reference_no, 'blog.status' => BlogMaster::IS_SUSPENDED_NO])->one();
-        $popularBlogs = BlogMaster::find()->alias('blog')->where(['blog.status' => BlogMaster::IS_SUSPENDED_NO])->orderBy(['created_at' => SORT_DESC])->limit(3)->all();
-        $categories = BlogCategoryMaster::find()->where(['status' => BlogCategoryMaster::STATUS_ACTIVE])->orderBy(['created_at' => SORT_DESC])->limit(7)->all();
-        return $this->render('detail', [
-                    'model' => $model,
-                    'popularBlogs' => $popularBlogs,
-                    'categories' => $categories
-        ]);
+        if ($model !== null) {
+
+            $popularBlogs = BlogMaster::find()->alias('blog')->where(['blog.status' => BlogMaster::IS_SUSPENDED_NO])->andWhere(['<>','id',$model->id])->orderBy(['created_at' => SORT_DESC])->limit(3)->all();
+            $categories = BlogCategoryMaster::find()->where(['status' => BlogCategoryMaster::STATUS_ACTIVE])->orderBy(['created_at' => SORT_DESC])->limit(7)->all();
+            return $this->render('detail', [
+                        'model' => $model,
+                        'popularBlogs' => $popularBlogs,
+                        'categories' => $categories
+            ]);
+        } else {
+            throw  new \yii\web\NotFoundHttpException("");
+        }
     }
 
 }

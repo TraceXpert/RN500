@@ -13,6 +13,7 @@ use common\models\BlogCategoryMaster;
 use common\models\BlogCategoryMasterSearch;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
+use common\CommonFunction;
 
 /**
  * BlogsController implements the CRUD actions for BlogMaster model.
@@ -26,17 +27,25 @@ class BlogsController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'add', 'update', 'delete',
-                    'categories', 'category-view', 'category-add', 'category-update', 'category-delete'
+                'only' => [
+                    'index', 'add', 'update', 'view', 'suspend',
+                    'categories', 'category-add', 'category-update', 'category-delete',
                 ],
                 'rules' => [
                         [
-                        'actions' => ['index', 'view', 'add', 'update', 'delete',
-                            'categories', 'category-view', 'category-add', 'category-update', 'category-delete'
-                        ],
+                        'actions' => ['index', 'add', 'update', 'view', 'suspend', 'categories', 'category-add', 'category-update', 'category-delete'],
                         'allow' => true,
-//                        'roles' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('blog-manage', Yii::$app->user->identity->id) ? ['@'] : ['*'] : ['*'],
-                        'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*'],
+                        'roles' => isset(Yii::$app->user->identity) ? (CommonFunction::checkAccess('blog-create', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-update', Yii::$app->user->identity->id)) ? ['@'] : ['*'] : ['*'],
+                    ],
+                        [
+                        'actions' => ['index', 'view', 'categories'],
+                        'allow' => true,
+                        'roles' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('blog-view', Yii::$app->user->identity->id) ? ['@'] : ['*'] : ['*'],
+                    ],
+                        [
+                        'actions' => ['index', 'suspend','view'],
+                        'allow' => true,
+                        'roles' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('blog-suspend', Yii::$app->user->identity->id) ? ['@'] : ['*'] : ['*'],
                     ]
                 ]
             ],
@@ -146,7 +155,7 @@ class BlogsController extends Controller {
         $model = $this->findBlogModel($id);
         $model->status = $status;
         $model->setScenario(BlogMaster::SCENARIO_SUSPEND);
-        $flashMessage  = ($status == BlogMaster::IS_SUSPENDED_YES) ? "Blog was suspended." :"Removed from suspension.";
+        $flashMessage = ($status == BlogMaster::IS_SUSPENDED_YES) ? "Blog was suspended." : "Removed from suspension.";
         if ($model->beforeSaveInit() && $model->save(false)) {
             Yii::$app->session->setFlash("success", $flashMessage);
         } else {

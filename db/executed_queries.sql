@@ -542,7 +542,7 @@ COMMIT;
 
 
 ----------------------------
--- 17-AUG-20 FOR BLOGS 
+-- 16-AUG-21 FOR BLOGS 
 ----------------------------
 CREATE TABLE `blog_category_master` (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -572,4 +572,22 @@ CREATE TABLE `blog_master` (
   FOREIGN KEY (`category_id`) REFERENCES `blog_category_master` (`id`) ON DELETE RESTRICT
 );
 
--- 17-AUG-20 END FOR BLOGS 
+-- 16-AUG-21 END FOR BLOGS 
+
+-- 17-AUG-20 END FOR BLOGS RBAC
+
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog', '1', 'Blog');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog-create', '2', 'Create');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog-update', '2', 'Update');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog-view', '2', 'View');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog-suspend', '2', 'Suspend');
+
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('blog','blog-create');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('blog','blog-update');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('blog','blog-view');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('blog','blog-suspend');
+-- 17-AUG-20 END FOR BLOGS RBAC
+
+
+
+

@@ -174,7 +174,7 @@ class BlogMaster extends \yii\db\ActiveRecord {
      * Return tags list in array format
      */
     public function getTagsList() {
-        $tags = '';
+        $tags = [];
         if ($this->tags != '') {
             $tags = explode(",", $this->tags);
         }

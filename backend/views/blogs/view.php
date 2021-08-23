@@ -2,15 +2,18 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use common\CommonFunction;
+
+$loggedInUser = Yii::$app->user->identity->id;
 ?>
 <div class="blog-master-view">
     <div class="card card-default color-palette-box">
         <div class="card-body">
-            <p class="text-right">
-
-                <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-
-            </p>
+            <?php if (CommonFunction::checkAccess('blog-create', $loggedInUser) || CommonFunction::checkAccess('blog-update', $loggedInUser)) { ?>
+                <p class="text-right">
+                    <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                </p>
+            <?php } ?>
             <div class="row">
                 <div class="col-12">
                     <?=
