@@ -574,7 +574,7 @@ CREATE TABLE `blog_master` (
 
 -- 16-AUG-21 END FOR BLOGS 
 
--- 17-AUG-20 END FOR BLOGS RBAC
+-- 17-AUG-21 END FOR BLOGS RBAC
 
 INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog', '1', 'Blog');
 INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog-create', '2', 'Create');
@@ -590,4 +590,13 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('blog','blog-suspend')
 
 
 
+
+--------23-AUG-21--------Add addiotinal field in job seeker profile
+ALTER TABLE `user_details`
+ADD `speciality_id` int(11) NULL COMMENT 'For Job seeker only ' AFTER `interest_level`,
+ADD `discipline_id` int(11) NULL COMMENT 'For Job seeker only ' AFTER `speciality_id`,
+ADD `year_of_exprience` varchar(3) NULL COMMENT 'For Job seeker only ' AFTER `discipline_id`,
+ADD FOREIGN KEY (`speciality_id`) REFERENCES `speciality` (`id`) ON DELETE SET NULL,
+ADD FOREIGN KEY (`discipline_id`) REFERENCES `discipline` (`id`) ON DELETE SET NULL;
+---------------END 23-AUG-21 
 

@@ -86,68 +86,61 @@ $searchInput = trim(Yii::$app->request->get('search'));
 
             <div class="col-lg-4">
                 <div class="blog-sidebar">
-                    <div class="title">
-                        <h5 class="pt-0">Categories</h5>
-                    </div>
-
-
-                    <ul class="list-unstyled">
-                        <?php foreach ($categories as $category) { ?>
-
-                            <li>
-                                <a href="javascript:void(0)" class="d-flex justify-content-between">
-                                    <p><?php echo $category->name ?></p>
-                                    <p>(<?php echo $category->getBlogMastersCnt() ?>)</p>
-                                </a>
-                            </li>
-                        <?php } ?>
-
-                    </ul>
-
-                    <div class="popular">
+                    <?php if (!empty($categories)) { ?>
                         <div class="title">
-
-                            <h5>Popular Blogs</h5>
+                            <h5 class="pt-0">Categories</h5>
                         </div>
+                        <ul class="list-unstyled">
+                            <?php foreach ($categories as $category) { ?>
 
-                        <ul class="small-item list-unstyled">
-                            <?php foreach ($popularBlogs as $blog) { ?>
-
-                                <li class="item d-flex align-items-center">
-                                    <div class="image">
-                                        <a href="<?php echo $blog->getDetailUrl(); ?>">
-                                            <img src="<?php echo $blog->getCoverImageUrl(); ?>" alt="popular Blog Civer Image" width="90px" height="90px">
-                                        </a>
-                                    </div>
-                                    <div class="item-body">
-                                        <a href="<?php echo $blog->getDetailUrl(); ?>">
-                                            <h6><?php echo $blog->title; ?></h6>
-                                        </a>
-                                        <p><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="calendar-alt" class="svg-inline--fa fa-calendar-alt fa-w-14 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"></path></svg><?php echo date('M d, Y', $blog->created_at) ?></p>
-                                    </div>
+                                <li>
+                                    <a href="javascript:void(0)" class="d-flex justify-content-between">
+                                        <p><?php echo $category->name ?></p>
+                                        <p>(<?php echo $category->getBlogMastersCnt() ?>)</p>
+                                    </a>
                                 </li>
                             <?php } ?>
                         </ul>
-                    </div>
+                    <?php } ?>
 
-                    <div class="title">
-                        <h5>Tag</h5>
-                    </div>
+                    <?php if (!empty($popularBlogs)) { ?>
+                        <div class="popular">
+                            <div class="title">
+                                <h5>Popular Blogs</h5>
+                            </div>
 
-                    <div class="all-tag">
-                        <!--                        <a href="#!">marketing</a>
-                                                <a href="#!">design</a>
-                                                <a href="#!">mobile</a>
-                                                <a href="#!">IOS</a>
-                                                <a href="#!">developemnt</a>
-                                                <a href="#!">social</a>
-                                                <a href="#!">android</a>
-                                                <a href="#!">application</a>-->
-                        <?php foreach ($model->getTagsList() as $tag) { ?>
-                            <a href="javascript:void(0)"><?php echo $tag; ?></a>
+                            <ul class="small-item list-unstyled">
+                                <?php foreach ($popularBlogs as $blog) { ?>
 
-                        <?php } ?>
-                    </div>
+                                    <li class="item d-flex align-items-center">
+                                        <div class="image">
+                                            <a href="<?php echo $blog->getDetailUrl(); ?>">
+                                                <img src="<?php echo $blog->getCoverImageUrl(); ?>" alt="popular Blog Civer Image" width="90px" height="90px">
+                                            </a>
+                                        </div>
+                                        <div class="item-body">
+                                            <a href="<?php echo $blog->getDetailUrl(); ?>">
+                                                <h6><?php echo $blog->title; ?></h6>
+                                            </a>
+                                            <p><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="calendar-alt" class="svg-inline--fa fa-calendar-alt fa-w-14 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"></path></svg><?php echo date('M d, Y', $blog->created_at) ?></p>
+                                        </div>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    <?php } ?>
+
+                    <?php if ($model->getTagsList()) { ?>
+                        <div class="title">
+                            <h5>Tag</h5>
+                        </div>
+
+                        <div class="all-tag">
+                            <?php foreach ($model->getTagsList() as $tag) { ?>
+                                <a href="javascript:void(0)"><?php echo $tag; ?></a>
+                            <?php } ?>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
