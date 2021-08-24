@@ -36,7 +36,7 @@ class JobController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['post', 'list'],
                 'rules' => [
-                        [
+                    [
                         'actions' => ['post', 'list'],
                         'allow' => true,
                         'roles' => (CommonFunction::isEmployer() || CommonFunction::isRecruiter()) ? ['@'] : ['*'],
@@ -98,6 +98,7 @@ class JobController extends Controller {
         $states = ArrayHelper::map(\common\models\States::find()->where(['country_id' => 226])->all(), 'id', 'state');
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->recruiter_commission = $model->recruiter_commission_type = $model->recruiter_commission_mode = 0;
             if (!CommonFunction::isLoggedInUserDefaultBranch()) {
                 $model->branch_id = CommonFunction::getLoggedInUserBranchId();
             }

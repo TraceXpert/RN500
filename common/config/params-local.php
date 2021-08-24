@@ -39,4 +39,5 @@ return [
     "ALLOWED_MAX_RECEIPIENTS_LEAD_SHARE" => 10,
     'BLOG_CATEGORY_STATUS' => [1 => 'Active', 0 => 'Inactive'],
     'BLOG_SUSPENDED' => [1 => 'Yes', 0 => 'No'],
+    'NEWSLETTER_SUSPENDED' => [1 => 'Yes', 0 => 'No'],
 ];

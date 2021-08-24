@@ -114,7 +114,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-right mt-2 mt-sm-0">
-                                    <b><span>Commission:- <?= ($model->recruiter_commission_type == 1) ? $model->recruiter_commission."%"."/".Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode] : "$".$model->recruiter_commission."/".Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode] ?></span></b>
+                                    <!--<b><span>Commission:- <?php // echo ($model->recruiter_commission_type == 1) ? $model->recruiter_commission."%"."/".Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode] : "$".$model->recruiter_commission."/".Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode] ?></span></b>-->
                                     <?php if (isset($model->emergency) && !empty($model->emergency)) { ?>
                                         <span class="badge badge-warning">Urgent</span>
                                     <?php } ?>

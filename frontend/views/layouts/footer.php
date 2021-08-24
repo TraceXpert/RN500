@@ -89,7 +89,7 @@ use common\CommonFunction;
                 </ul>
             </div>
             <div class="col-lg-4 col-md-12">
-                <h3 class="mb-4 mt-4">Contacts</h3>
+                <h3 class="mb-4 mt-4">Contact Us</h3>
 
                 <div class="media mb-3">
                     <img src="<?= $assetDir ?>/img/location-icon.png" alt="location-icon" class="mr-3">

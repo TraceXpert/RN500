@@ -4,27 +4,29 @@ namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Banner;
+use common\models\NewsletterMaster;
 
 /**
- * BannerSearch represents the model behind the search form of `common\models\Banner`.
+ * NewsletterMasterSearch represents the model behind the search form of `common\models\NewsletterMaster`.
  */
-class BannerSearch extends Banner {
-
+class NewsletterMasterSearch extends NewsletterMaster
+{
     /**
      * {@inheritdoc}
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            [['id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['headline'], 'safe'],
+            [['id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['reference_no', 'title', 'short_description', 'description', 'conver_image_name', 'tags'], 'safe'],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function scenarios() {
+    public function scenarios()
+    {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -36,8 +38,9 @@ class BannerSearch extends Banner {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
-        $query = Banner::find();
+    public function search($params)
+    {
+        $query = NewsletterMaster::find();
 
         // add conditions that should always apply here
 
@@ -57,13 +60,19 @@ class BannerSearch extends Banner {
         $query->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'headline', $this->headline]);
+        $query->andFilterWhere(['like', 'reference_no', $this->reference_no])
+            ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'short_description', $this->short_description])
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'conver_image_name', $this->conver_image_name])
+            ->andFilterWhere(['like', 'tags', $this->tags]);
 
         return $dataProvider;
     }
-
 }

@@ -53,7 +53,7 @@ class LeadRecruiterJobSeekerMapping extends \yii\db\ActiveRecord {
             [['branch_id', 'lead_id', 'job_seeker_id', 'rec_comment', 'rec_status ', 'updated_at', 'updated_by', 'rec_joining_date', 'rec_end_date', 'employer_comment', 'employer_status'], 'safe'],
             [['rec_comment', 'employer_comment'], 'trim'],
             // SCENARIO BASE VALIDATION
-            [['rec_joining_date'], 'required', 'on' => 'rec_approve'],
+//            [['rec_joining_date'], 'required', 'on' => 'rec_approve'],
             [['rec_comment'], 'required', 'on' => 'rec_reject'],
             [['employer_comment'], 'required', 'on' => 'employer_reject'],
             [['rec_comment','employer_comment'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
