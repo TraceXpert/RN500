@@ -76,6 +76,11 @@ class ProfileController extends Controller {
                 $interest_levels[] = ['value' => (string) $value, 'text' => $text];
             }
 
+            $year_of_experience = [];
+            foreach (Yii::$app->params['JOB_SEEKER_EXPERIENCE_LIST'] as $value => $text) {
+                $year_of_experience[] = ['value' => (string) $value, 'text' => $text];
+            }
+
             $data['document_type'] = $documents_type;
             $data['employment_type'] = $employment_type;
             $data['licenses_type'] = $licenses_type;
@@ -84,6 +89,7 @@ class ProfileController extends Controller {
             $data['degree_type'] = $degree_type;
             $data['certification_active_startus'] = $certification_active_startus;
             $data['interest_levels'] = $interest_levels;
+            $data['year_of_experience'] = $year_of_experience;
             $code = 200;
             $msg = "success!!";
         } catch (\Exception $exc) {
@@ -121,6 +127,11 @@ class ProfileController extends Controller {
                 $aboutYou['interest_level_text'] = (isset(Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level])) ? Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level] : '';
                 $aboutYou['profile_pic'] = ($model->profile_pic) ? $model->profile_pic : "";
                 $aboutYou['profile_pic_url'] = ($model->profile_pic_url) ? $model->profile_pic_url : "";
+                $aboutYou['speciality_id'] = (isset($model->speciality_id)) ? (string) $model->speciality_id : '';
+                $aboutYou['speciality_text'] = $model->getSpecialityName();
+                $aboutYou['discipline_id'] = (isset($model->discipline_id)) ? (string) $model->discipline_id : '';
+                $aboutYou['discipline_text'] = $model->getDisciplineName();
+                $aboutYou['year_of_exprience'] = (isset($model->year_of_exprience)) ? (string) $model->year_of_exprience : "";
 
                 // WORK EXPERIENCES LIST OF LOGGED-IN USER
                 $workExperiences = WorkExperience::find()->where(['user_id' => $loggedInUserId])->all();
@@ -246,6 +257,11 @@ class ProfileController extends Controller {
                 $data['interest_level_text'] = (isset(Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level])) ? Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level] : '';
                 $data['profile_pic'] = ($model->profile_pic) ? $model->profile_pic : "";
                 $data['profile_pic_url'] = ($model->profile_pic_url) ? $model->profile_pic_url : "";
+                $data['speciality_id'] = (isset($model->speciality_id)) ? (string) $model->speciality_id : '';
+                $data['speciality_text'] = $model->getSpecialityName();
+                $data['discipline_id'] = (isset($model->discipline_id)) ? (string) $model->discipline_id : '';
+                $data['discipline_text'] = $model->getDisciplineName();
+                $data['year_of_exprience'] = (isset($model->year_of_exprience)) ? (string) $model->year_of_exprience : "";
                 $code = 200;
                 $msg = "success!";
             } else {
@@ -321,6 +337,9 @@ class ProfileController extends Controller {
                         $model->dob = ($dob != '') ? date('Y-m-d', strtotime($dob)) : null;
                         $model->zip_code = (isset($zip_code) && $zip_code != '') ? $zip_code : null;
                         $model->interest_level = ($interest_level != '') ? $interest_level : null;
+                        $model->year_of_exprience = (isset($year_of_exprience) && $year_of_exprience != '') ? (string)$year_of_exprience : null;
+                        $model->speciality_id = (isset($speciality_id) && $speciality_id != '') ? (int) $speciality_id : null;
+                        $model->discipline_id = (isset($discipline_id) && $discipline_id != '') ? (int) $discipline_id : null;
                         $model->updated_at = CommonFunction::currentTimestamp();
                         if ($model->update(false)) {
                             $code = 200;

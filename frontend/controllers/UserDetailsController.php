@@ -121,26 +121,23 @@ class UserDetailsController extends Controller {
         $model = UserDetails::findOne(['user_id' => $uid]);
         $model->scenario = 'profile';
         $model->updated_at = CommonFunction::currentTimestamp();
+        $selectedLocations = [];
         if (isset($model->dob) && !empty($model->dob)) {
             $model->dob = date(Yii::$app->params['date.format.display.php'], strtotime($model->dob));
         }
-        
+
         if (isset($model->city) && !empty($model->city)) {
             $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->city])->all(), 'id', function ($data) {
                         return $data->city . "-" . $data->state_code;
                     });
-        } else {
-            $selectedLocations = [];
         }
         $old_profile_image = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
         $document_upload_flag = '';
+        $specialityList = ArrayHelper::map(Speciality::getAllSpecialities(), 'id', 'name');
+        $disciplineList = ArrayHelper::map(Discipline::getAllDiscipline(), 'id', 'name');
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-
-//            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
             $model->dob = CommonFunction::getStorableDate($model->dob);
-
             $document_file = UploadedFile::getInstance($model, 'profile_pic');
-
             $folder = CommonFunction::getProfilePictureBasePath();
             if (!file_exists($folder)) {
                 FileHelper::createDirectory($folder, 0777);
@@ -169,7 +166,9 @@ class UserDetailsController extends Controller {
         }
 
         return $this->renderAjax('update', [
-                    'model' => $model, 'selectedLocations' => $selectedLocations
+                    'model' => $model, 'selectedLocations' => $selectedLocations,
+                    'specialityList'=>$specialityList,
+                    'disciplineList'=>$disciplineList,
         ]);
     }
 
@@ -494,7 +493,7 @@ class UserDetailsController extends Controller {
         $document_upload_flag = '';
         $message = '';
         $certificationList = ArrayHelper::map(CertificateMaster::find()->all(), 'id', 'name');
-        
+
 
         if ($id !== null) {
             $model = Certifications::findOne($id);
@@ -570,7 +569,7 @@ class UserDetailsController extends Controller {
 
         return $this->renderAjax('add-certification', [
                     'model' => $model,
-                    'isRecordFlag' => $isRecordFlag, 'selectedLocations' => $selectedLocations,'certificationList' => $certificationList
+                    'isRecordFlag' => $isRecordFlag, 'selectedLocations' => $selectedLocations, 'certificationList' => $certificationList
         ]);
     }
 

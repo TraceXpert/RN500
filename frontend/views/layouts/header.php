@@ -18,6 +18,8 @@ $baseUrl = Url::base(true);
 $isEmployer = CommonFunction::isEmployer();
 $isRecruiter = CommonFunction::isRecruiter();
 $isJobSeeker = CommonFunction::isJobSeeker();
+$jsDisciplineId = CommonFunction::jobSeekerDisciplineId();
+$jsSpecialityId = CommonFunction::jobSeekerSpecialityId();
 ?>
 <nav class="navbar navbar-expand-lg bg-white navbar-dark fixed-top">
     <div class="container">
@@ -32,7 +34,16 @@ $isJobSeeker = CommonFunction::isJobSeeker();
                 </li>
 
                 <li class="nav-item position-relative <?php echo $controller == 'browse-jobs' && ($action == 'index' || $action == 'view') ? 'active' : '' ?>">
-                    <a class="nav-link" href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Browse Job</a>
+                    <?php
+                    if ($jsSpecialityId != '') {
+                        $browseUrl = Yii::$app->urlManagerFrontend->createUrl(["browse-jobs/index", "speciality" => [$jsSpecialityId]]);
+                    } else if ($jsDisciplineId != '') {
+                        $browseUrl = Yii::$app->urlManagerFrontend->createUrl(["browse-jobs/index", "discipline" => [$jsDisciplineId]]);
+                    } else {
+                        $browseUrl = Yii::$app->urlManagerFrontend->createUrl(["browse-jobs/index"]);
+                    }
+                    ?>
+                    <a class="nav-link" href="<?= $browseUrl ?>">Browse Job</a>
                 </li>
                 <li class="nav-item dropdown position-relative <?php echo (($controller == 'site' && $action == 'about-us') || ($controller == 'site' && $action == 'contact-us') || $controller == 'blogs' && in_array($action, ['list', 'detail']) ) ? 'active' : '' ?>">
                     <a class="nav-link " id="resources" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="javascript:void(0)">
