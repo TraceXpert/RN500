@@ -104,7 +104,7 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                     <?php
                     echo $form->field($model, 'emergency')->widget(Select2::classname(), [
                         'data' => $emergencyList,
-                        'options' => ['placeholder' => $model->getAttributeLabel('emergency'), 'multiple' => true],
+                        'options' => ['placeholder' => 'Optional', 'multiple' => true],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
@@ -177,29 +177,29 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                     ?>
                 </div>
 
-                <div class="col-md-6">
-                    <?php echo $form->field($model, 'recruiter_commission')->textInput(['placeholder' => $model->getAttributeLabel('recruiter_commission')]); ?>
+<!--                <div class="col-md-6">
+                    <?php // echo $form->field($model, 'recruiter_commission')->textInput(['placeholder' => $model->getAttributeLabel('recruiter_commission')]); ?>
                 </div>
 
                 <div class="col-md-6">
-                    <?php echo $form->field($model, 'recruiter_commission_type')->dropdownList(Yii::$app->params['RECRUITER_COMMISSION_TYPE'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('recruiter_commission_type')]); ?>
+                    <?php // echo $form->field($model, 'recruiter_commission_type')->dropdownList(Yii::$app->params['RECRUITER_COMMISSION_TYPE'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('recruiter_commission_type')]); ?>
                 </div>
 
                 <div class="col-md-6">
-                    <?php echo $form->field($model, 'recruiter_commission_mode')->dropdownList(Yii::$app->params['COMMISSION_MODE'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('recruiter_commission_mode')]); ?>
+                    <?php // echo $form->field($model, 'recruiter_commission_mode')->dropdownList(Yii::$app->params['COMMISSION_MODE'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('recruiter_commission_mode')]); ?>
+                </div>-->
+
+<!--                <div class="col-md-6">
+                    <?php // echo $form->field($model, 'street_no')->textInput(['placeholder' => $model->getAttributeLabel('street_no')]); ?>
                 </div>
 
                 <div class="col-md-6">
-                    <?php echo $form->field($model, 'street_no')->textInput(['placeholder' => $model->getAttributeLabel('street_no')]); ?>
-                </div>
+                    <?php // echo $form->field($model, 'street_address')->textInput(['placeholder' => $model->getAttributeLabel('street_address')]); ?>
+                </div>-->
 
-                <div class="col-md-6">
-                    <?php echo $form->field($model, 'street_address')->textInput(['placeholder' => $model->getAttributeLabel('street_address')]); ?>
-                </div>
-
-                <div class="col-md-6">
-                    <?php echo $form->field($model, 'apt')->textInput(['placeholder' => $model->getAttributeLabel('apt')]); ?>
-                </div>
+<!--                <div class="col-md-6">
+                    <?php // echo $form->field($model, 'apt')->textInput(['placeholder' => $model->getAttributeLabel('apt')]); ?>
+                </div>-->
 
                 <div class="col-md-6">
                     <?php echo $form->field($model, 'state')->dropdownList($states, ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('state')]); ?>

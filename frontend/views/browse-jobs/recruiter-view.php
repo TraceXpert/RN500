@@ -204,12 +204,12 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
                             <p><?= $model->branch->company->company_name . "-" . $model->branch->branch_name ?></p>
                         </div>
 
-                        <div class="col-lg-6">
+<!--                        <div class="col-lg-6">
                             <p class="font-weight-400">Address</p>
                         </div>
                         <div class="col-lg-6">                   
-                            <p><?= $model->branch->street_no . " " . $model->branch->street_address . " " . $model->branch->apt . " " . $model->branch->location . " " . $model->branch->zip_code ?></p>
-                        </div>
+                            <p><?php // echo $model->branch->street_no . " " . $model->branch->street_address . " " . $model->branch->apt . " " . $model->branch->location . " " . $model->branch->zip_code ?></p>
+                        </div>-->
 
                         <div class="col-lg-6">
                             <p class="font-weight-400">Email Id</p>

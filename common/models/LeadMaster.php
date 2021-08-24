@@ -57,10 +57,10 @@ class LeadMaster extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['branch_id'], 'required', 'message' => 'Location cannot be blank.', 'on' => 'post-job'],
-            [['street_no', 'state', 'street_address', 'city', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'title', 'reference_no', 'jobseeker_payment', 'payment_type', 'job_type', 'shift', 'start_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'description', 'branch_id'], 'required'],
+            [['state', 'city', 'title', 'reference_no', 'jobseeker_payment', 'payment_type', 'job_type', 'shift', 'start_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'description', 'branch_id'], 'required'],
             [['description', 'apt', 'zip_code'], 'string'],
             [['payment_type', 'job_type', 'shift', 'recruiter_commission_type', 'recruiter_commission_mode', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer', 'message' => '{attribute} must be a numeric only'],
-            [['recruiter_commission', 'price'], 'number', 'min' => 1, 'message' => 'Please enter valid {attribute}.'],
+            [['price'], 'number', 'min' => 1, 'message' => 'Please enter valid {attribute}.'],
             [['jobseeker_payment',], 'number', 'min' => 1],
             [['title'], 'string', 'max' => 250],
             [['reference_no'], 'string', 'max' => 50],
@@ -146,7 +146,7 @@ class LeadMaster extends \yii\db\ActiveRecord {
             'apt' => 'Suit',
             'specialities' => 'Speciality',
             'zip_code' => 'Zipcode',
-            'emergency' => 'Optional',
+            'emergency' => 'Eemergency',
             'is_suspended' => 'if you would like to suspend this job immediately'
         ];
     }
