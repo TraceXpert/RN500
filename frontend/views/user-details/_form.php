@@ -31,7 +31,7 @@ use common\CommonFunction;
         padding: 0;
     }
 
-    .field-userdetails-interest_level{width:200px;}
+    /*.field-userdetails-interest_level{width:200px;}*/
     .button-wrapper {position: relative;}
     .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 10px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
     #userdetails-profile_pic {display: inline-block;position: absolute;z-index: 1;width: 100%;height: 50px;top: 0;left: 0;opacity: 0;cursor: pointer;}
@@ -122,20 +122,21 @@ use common\CommonFunction;
             </ul>
         </div>
     </div>
+
     <div class="row">
         <div class="col-sm-6">
             <?= $form->field($model, 'zip_code')->textInput(['maxlength' => 5]) ?>
         </div>
-        
-        <?php if (isset(Yii::$app->user->id) && !empty(Yii::$app->user->id)) { ?>
-            <?php if (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
-                <div class="col-sm-6">
-                    <?= $form->field($model, 'ssn')->textInput(['maxlength' => 5]) ?>
-                </div>
-            <?php } ?>
+
+        <?php if (isset(Yii::$app->user->id) && !empty(Yii::$app->user->id) && (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER)) { ?>
+
+            <div class="col-sm-6">
+                <?= $form->field($model, 'ssn')->textInput(['maxlength' => 5]) ?>
+            </div>
+
         <?php } ?>
     </div>
-    
+
     <div class="row">
         <div class="col-sm-6">
             <?php
@@ -144,7 +145,7 @@ use common\CommonFunction;
                 'options' => ['placeholder' => $model->getAttributeLabel('dob'), 'readonly' => true],
                 'type' => DatePicker::TYPE_INPUT,
                 'pluginOptions' => [
-                    'format' => 'M-dd-yyyy',
+                    'format' => Yii::$app->params['date.format.datepicker.js'],
                     'todayHighlight' => true,
                     'autoclose' => true,
                     'endDate' => "-0d"
@@ -163,15 +164,49 @@ use common\CommonFunction;
             <?php } ?>   
         </div>
     </div>
-    
-    <div class="row">
-        <div class="col-sm-6">
-            <?php if (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
-                <?= $form->field($model, 'interest_level')->dropDownList(Yii::$app->params['INTERESTS_LEVEL']) ?>
-            <?php } ?>
+  <div class="mt-3">
+      
+      </div>
+    <?php if (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
+        <div class="row">
+            <div class="col-sm-6">
+                <?php
+                echo $form->field($model, 'speciality_id')->widget(Select2::classname(), [
+                    'data' => isset($specialityList) ? $specialityList : [],
+                    'options' => ['placeholder' => 'Select Speciality'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+                ?>
+            </div>
+            <div class="col-sm-6">
+                <?php
+                echo $form->field($model, 'discipline_id')->widget(Select2::classname(), [
+                    'data' => isset($disciplineList) ? $disciplineList : [],
+                    'options' => ['placeholder' => 'Select Discipline'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+                ?>
+            </div>
+
         </div>
-    </div>
-    
+    <?php } ?>
+
+    <?php if (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
+        <div class="row">
+            <div class="col-sm-6">
+                <?= $form->field($model, 'interest_level')->dropDownList(Yii::$app->params['INTERESTS_LEVEL']) ?>
+            </div>
+
+            <div class="col-sm-6">
+                <?= $form->field($model, 'year_of_exprience')->dropDownList(Yii::$app->params['JOB_SEEKER_EXPERIENCE_LIST'], ['prompt' => 'Select']) ?>
+            </div>
+        </div>
+    <?php } ?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>

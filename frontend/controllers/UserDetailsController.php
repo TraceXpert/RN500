@@ -121,26 +121,23 @@ class UserDetailsController extends Controller {
         $model = UserDetails::findOne(['user_id' => $uid]);
         $model->scenario = 'profile';
         $model->updated_at = CommonFunction::currentTimestamp();
+        $selectedLocations = [];
         if (isset($model->dob) && !empty($model->dob)) {
-            $model->dob = date('M-d-Y', strtotime($model->dob));
+            $model->dob = date(Yii::$app->params['date.format.display.php'], strtotime($model->dob));
         }
-        
+
         if (isset($model->city) && !empty($model->city)) {
             $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $model->city])->all(), 'id', function ($data) {
                         return $data->city . "-" . $data->state_code;
                     });
-        } else {
-            $selectedLocations = [];
         }
         $old_profile_image = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
         $document_upload_flag = '';
+        $specialityList = ArrayHelper::map(Speciality::getAllSpecialities(), 'id', 'name');
+        $disciplineList = ArrayHelper::map(Discipline::getAllDiscipline(), 'id', 'name');
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-
-//            $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
-            $model->dob = date('Y-m-d', strtotime($model->dob));
-
+            $model->dob = CommonFunction::getStorableDate($model->dob);
             $document_file = UploadedFile::getInstance($model, 'profile_pic');
-
             $folder = CommonFunction::getProfilePictureBasePath();
             if (!file_exists($folder)) {
                 FileHelper::createDirectory($folder, 0777);
@@ -169,7 +166,9 @@ class UserDetailsController extends Controller {
         }
 
         return $this->renderAjax('update', [
-                    'model' => $model, 'selectedLocations' => $selectedLocations
+                    'model' => $model, 'selectedLocations' => $selectedLocations,
+                    'specialityList'=>$specialityList,
+                    'disciplineList'=>$disciplineList,
         ]);
     }
 
@@ -186,7 +185,7 @@ class UserDetailsController extends Controller {
             $companyDetail = CompanyMaster::findOne(['id' => CommonFunction::getLoggedInUserCompanyId()]);
 
             if (isset($model->dob) && !empty($model->dob)) {
-                $model->dob = date('M-d-Y', strtotime($model->dob));
+                $model->dob = date(Yii::$app->params['date.format.display.php'], strtotime($model->dob));
             }
 
             $states = ArrayHelper::map(States::find()->where(['country_id' => 226])->all(), 'id', 'state');
@@ -198,7 +197,7 @@ class UserDetailsController extends Controller {
             }
             if ($model->load(Yii::$app->request->post())) {
 //                $model->city = isset($_POST['city']) && !empty($_POST['city']) ? $_POST['city'] : '';
-                $model->dob = date('Y-m-d', strtotime($model->dob));
+                $model->dob = CommonFunction::getStorableDate($model->dob);
 
                 $document_file = UploadedFile::getInstance($model, 'profile_pic');
 
@@ -321,10 +320,10 @@ class UserDetailsController extends Controller {
             $model = WorkExperience::findOne($id);
             $message = 'updated';
             $model->updated_at = CommonFunction::currentTimestamp();
-            $model->start_date = date('m-Y', strtotime($model->start_date));
+            $model->start_date = date('M-Y', strtotime($model->start_date));
 
             if ($model->currently_working != '1') {
-                $model->end_date = date('m-Y', strtotime($model->end_date));
+                $model->end_date = date('M-Y', strtotime($model->end_date));
             } else {
                 $model->end_date = null;
             }
@@ -379,7 +378,7 @@ class UserDetailsController extends Controller {
             $model = Education::findOne($id);
             $message = 'Updated';
             $model->updated_at = CommonFunction::currentTimestamp();
-            $model->year_complete = date('m-Y', strtotime($model->year_complete));
+            $model->year_complete = date('M-Y', strtotime($model->year_complete));
         } else {
             $model = new Education();
             $message = 'added';
@@ -424,7 +423,7 @@ class UserDetailsController extends Controller {
             $model = Licenses::findOne($id);
             $message = 'updated';
             $model->updated_at = CommonFunction::currentTimestamp();
-            $model->expiry_date = date('m-Y', strtotime($model->expiry_date));
+            $model->expiry_date = date('M-Y', strtotime($model->expiry_date));
             $old_document_file = isset($model->document) && !empty($model->document) ? $model->document : NULL;
             $isRecordFlag = true;
         } else {
@@ -494,14 +493,14 @@ class UserDetailsController extends Controller {
         $document_upload_flag = '';
         $message = '';
         $certificationList = ArrayHelper::map(CertificateMaster::find()->all(), 'id', 'name');
-        
+
 
         if ($id !== null) {
             $model = Certifications::findOne($id);
             $message = 'updated';
             $model->updated_at = CommonFunction::currentTimestamp();
             if (isset($model->expiry_date) && !empty($model->expiry_date)) {
-                $model->expiry_date = date('m-Y', strtotime($model->expiry_date));
+                $model->expiry_date = date('M-Y', strtotime($model->expiry_date));
             }
             if (isset($model->certification_active) && !empty($model->certification_active)) {
                 $model->certification_active = $model->certification_active;
@@ -570,7 +569,7 @@ class UserDetailsController extends Controller {
 
         return $this->renderAjax('add-certification', [
                     'model' => $model,
-                    'isRecordFlag' => $isRecordFlag, 'selectedLocations' => $selectedLocations,'certificationList' => $certificationList
+                    'isRecordFlag' => $isRecordFlag, 'selectedLocations' => $selectedLocations, 'certificationList' => $certificationList
         ]);
     }
 

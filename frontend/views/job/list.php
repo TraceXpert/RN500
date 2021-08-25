@@ -60,7 +60,7 @@ use kartik\date\DatePicker;
                                 'enableSorting' => false,
                                 'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                                 'value' => function($model) {
-                                    return CommonFunction::getAPIDateDisplayFormat($model->start_date);
+                                    return CommonFunction::getAPIDateDisplayFormat($model->start_date, Yii::$app->params['date.format.display.php']);
                                 },
                                 'filter' => DatePicker::widget([
                                     'attribute' => 'start_date',
@@ -81,7 +81,7 @@ use kartik\date\DatePicker;
                                 'enableSorting' => false,
                                 'filterInputOptions' => ['autocomplete' => 'off', 'class' => 'form-control'],
                                 'value' => function($model) {
-                                    return CommonFunction::getAPIDateDisplayFormat($model->end_date);
+                                    return CommonFunction::getAPIDateDisplayFormat($model->end_date, Yii::$app->params['date.format.display.php']);
                                 },
                                 'filter' => DatePicker::widget([
                                     'attribute' => 'end_date',
@@ -98,6 +98,7 @@ use kartik\date\DatePicker;
                                 [
                                 'attribute' => 'is_suspended',
 //                                'visible' => CommonFunction::isEmployer(),
+                                'label'=>'Is Suspended',
                                 'headerOptions' => ['style' => 'width:2%'],
                                 'enableSorting' => false,
                                 'filterInputOptions' => ['autocomplete' => 'off',],

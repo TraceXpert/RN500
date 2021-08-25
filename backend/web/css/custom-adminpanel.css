@@ -7,3 +7,22 @@
 .report-result-height {max-height: 400px; }
 .report-result-height thead { background: white;position: sticky; top: -15px; }
 .report-result-height thead th {vertical-align: top }
+
+.clickable {
+    cursor: pointer !important;
+}
+/*FOR GRIDVIEW*/
+.grid-view table thead tr:first-child {
+    background-color: #007bff !important;
+}
+.grid-view table thead tr:first-child  th, .grid-view table thead tr:first-child  a{
+    color:  #fff !important;
+}
+.grid-view table {
+    border: 2px solid #007bff !important;
+}
+/*END FOR GRIDVIEW*/    
+
+.btn{
+    border-radius: 18px !important; 
+}

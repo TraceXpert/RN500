@@ -79,11 +79,10 @@ use yii\web\JsExpression;
             <?php
             echo $form->field($model, 'year_complete')->widget(DatePicker::classname(), [
                 'name' => 'year_complete',
-                'value' => date('d-M-Y'),
                 'type' => DatePicker::TYPE_INPUT,
                 'options' => ['placeholder' => $model->getAttributeLabel('year_complete'), 'readonly' => true],
                 'pluginOptions' => [
-                    'format' => 'mm-yyyy',
+                    'format' => 'M-yyyy',
                     'todayHighlight' => true,
                     'autoclose' => true,
                     'minViewMode' => 'months',

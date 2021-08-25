@@ -539,3 +539,80 @@ ALTER TABLE `certificate_master`
 COMMIT;
 
 -- 21-07-2021 By Nirav End
+
+
+----------------------------
+-- 16-AUG-21 FOR BLOGS 
+----------------------------
+CREATE TABLE `blog_category_master` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(255) NOT NULL,
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '0: Inactive, 1 :Active',
+  `created_by` int NOT NULL,
+  `updated_by` int NOT NULL,
+  `created_at` int NOT NULL,
+  `updated_at` int NOT NULL
+);
+
+
+CREATE TABLE `blog_master` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `reference_no` varchar(50) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `short_description` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `conver_image_name` varchar(100)  NULL,
+  `tags` text NOT NULL,
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '0:Non-Suspended, 1:Suspended',
+  `created_by` int NOT NULL,
+  `updated_by` int NOT NULL,
+  `created_at` int NOT NULL,
+  `updated_at` int NOT NULL,
+  FOREIGN KEY (`category_id`) REFERENCES `blog_category_master` (`id`) ON DELETE RESTRICT
+);
+
+-- 16-AUG-21 END FOR BLOGS 
+
+-- 17-AUG-21 END FOR BLOGS RBAC
+
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog', '1', 'Blog');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog-create', '2', 'Create');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog-update', '2', 'Update');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog-view', '2', 'View');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('blog-suspend', '2', 'Suspend');
+
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('blog','blog-create');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('blog','blog-update');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('blog','blog-view');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('blog','blog-suspend');
+-- 17-AUG-20 END FOR BLOGS RBAC
+
+ALTER TABLE `lead_master`
+CHANGE `street_no` `street_no` varchar(255) COLLATE 'latin1_swedish_ci' NULL AFTER `updated_by`,
+CHANGE `street_address` `street_address` varchar(255) COLLATE 'latin1_swedish_ci' NULL AFTER `street_no`;
+
+--------23-AUG-21--------Add addiotinal field in job seeker profile
+ALTER TABLE `user_details`
+ADD `speciality_id` int(11) NULL COMMENT 'For Job seeker only ' AFTER `interest_level`,
+ADD `discipline_id` int(11) NULL COMMENT 'For Job seeker only ' AFTER `speciality_id`,
+ADD `year_of_exprience` varchar(3) NULL COMMENT 'For Job seeker only ' AFTER `discipline_id`,
+ADD FOREIGN KEY (`speciality_id`) REFERENCES `speciality` (`id`) ON DELETE SET NULL,
+ADD FOREIGN KEY (`discipline_id`) REFERENCES `discipline` (`id`) ON DELETE SET NULL;
+---------------END 23-AUG-21 
+
+CREATE TABLE `newsletter_master` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `reference_no` varchar(50) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `short_description` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `conver_image_name` varchar(100)  NULL,
+  `tags` text NOT NULL,
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '0:Non-Suspended, 1:Suspended',
+  `created_by` int NOT NULL,
+  `updated_by` int NOT NULL,
+  `created_at` int NOT NULL,
+  `updated_at` int NOT NULL
+);
+

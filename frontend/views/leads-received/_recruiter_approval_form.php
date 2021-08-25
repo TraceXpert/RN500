@@ -19,44 +19,44 @@ $actionUrl = (CommonFunction::isRecruiter()) ? Yii::$app->urlManagerFrontend->cr
                 <?php echo $form->field($model, 'rec_comment')->textarea(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('rec_comment')]) ?>
             </div>
         </div>
-        <?php if ($status == LeadRecruiterJobSeekerMapping::STATUS_APPROVED) { ?>
-            <div class="row">
-                <div class="col-md-6 mb-3">
+        <?php // if ($status == LeadRecruiterJobSeekerMapping::STATUS_APPROVED) { ?>
+            <!--<div class="row">-->
+                <!--<div class="col-md-6 mb-3">-->
                     <?php
-                    echo $form->field($model, 'rec_joining_date')->widget(DatePicker::classname(), [
-                        'options' => ['placeholder' => 'Select ' . $model->getAttributeLabel('rec_joining_date'), 'readonly' => true],
-                        'type' => DatePicker::TYPE_INPUT,
-                        'pluginOptions' => [
-                            'autoclose' => true,
-                            'format' => Yii::$app->params['date.format.datepicker.js'],
-                            'startDate' => date('d-m-Y'),
-                            'clearBtn' => true,
-                        ],
-                         'pluginEvents' => [
-                            "changeDate" => "function(e) {
-                                                $('#leadrecruiterjobseekermapping-rec_end_date').kvDatepicker('setStartDate', e.date);
-                                            }"
-                        ]
-                    ]);
+//                    echo $form->field($model, 'rec_joining_date')->widget(DatePicker::classname(), [
+//                        'options' => ['placeholder' => 'Select ' . $model->getAttributeLabel('rec_joining_date'), 'readonly' => true],
+//                        'type' => DatePicker::TYPE_INPUT,
+//                        'pluginOptions' => [
+//                            'autoclose' => true,
+//                            'format' => Yii::$app->params['date.format.datepicker.js'],
+//                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']),
+//                            'clearBtn' => true,
+//                        ],
+//                         'pluginEvents' => [
+//                            "changeDate" => "function(e) {
+//                                                $('#leadrecruiterjobseekermapping-rec_end_date').kvDatepicker('setStartDate', e.date);
+//                                            }"
+//                        ]
+//                    ]);
                     ?>
 
-                </div>
-                <div class="col-md-6 mb-3">
+                <!--</div>-->
+                <!--<div class="col-md-6 mb-3">-->
                     <?php
-                    echo $form->field($model, 'rec_end_date')->widget(DatePicker::classname(), [
-                        'options' => ['placeholder' => 'Select ' . $model->getAttributeLabel('rec_end_date'), 'readonly' => true],
-                        'type' => DatePicker::TYPE_INPUT,
-                        'pluginOptions' => [
-                            'autoclose' => true,
-                            'format' => Yii::$app->params['date.format.datepicker.js'],
-                            'clearBtn' => true,
-                        ]
-                    ]);
+//                    echo $form->field($model, 'rec_end_date')->widget(DatePicker::classname(), [
+//                        'options' => ['placeholder' => 'Select ' . $model->getAttributeLabel('rec_end_date'), 'readonly' => true],
+//                        'type' => DatePicker::TYPE_INPUT,
+//                        'pluginOptions' => [
+//                            'autoclose' => true,
+//                            'format' => Yii::$app->params['date.format.datepicker.js'],
+//                            'clearBtn' => true,
+//                        ]
+//                    ]);
                     ?>
 
-                </div>
-            </div>
-        <?php } ?>
+                <!--</div>-->
+            <!--</div>-->
+        <?php // } ?>
     <?php } ?>
 
     <?php if (CommonFunction::isEmployer()) { ?>

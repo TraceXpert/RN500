@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 use kartik\date\DatePicker;
+use dosamigos\ckeditor\CKEditor;
 
 $form = ActiveForm::begin(['id' => 'edit-lead-form',
             'options' => ['autocomplete' => 'off']
@@ -30,10 +31,10 @@ $form = ActiveForm::begin(['id' => 'edit-lead-form',
         <div class="formrow">
             <?php
             echo $form->field($model, 'start_date')->widget(DatePicker::classname(), [
-                'options' => ['placeholder' => $model->getAttributeLabel('start_date')],
+                'options' => ['placeholder' => $model->getAttributeLabel('start_date'), 'readonly' => true],
                 'pluginOptions' => [
                     'autoclose' => true,
-                       'format' => Yii::$app->params['date.format.datepicker.js'],
+                    'format' => Yii::$app->params['date.format.datepicker.js'],
                 ]
             ])->label(false);
             ?>
@@ -43,7 +44,7 @@ $form = ActiveForm::begin(['id' => 'edit-lead-form',
         <div class="formrow">
             <?php
             echo $form->field($model, 'end_date')->widget(DatePicker::classname(), [
-                'options' => ['placeholder' => $model->getAttributeLabel('end_date')],
+                'options' => ['placeholder' => $model->getAttributeLabel('end_date'), 'readonly' => true],
                 'pluginOptions' => [
                     'autoclose' => true,
                     'format' => Yii::$app->params['date.format.datepicker.js'],
@@ -58,13 +59,13 @@ $form = ActiveForm::begin(['id' => 'edit-lead-form',
     <div class="col-md-12 col-sm-12">
         <div class="formrow">
             <?php
-            echo $form->field($model, 'description', [
-                        'options' => ['class' => 'form-group has-feedback'],
-                        'inputTemplate' => '{input}',
-                        'template' => '{input}{error}',
-                    ])
-                    ->label(false)
-                    ->textarea(['placeholder' => $model->getAttributeLabel('description')]);
+            echo $form->field($model, 'description')->widget(CKEditor::className(), [
+                'options' => ['rows' => 2],
+                'clientOptions' => [
+                    'removeButtons' => 'Maximize,Image,Source,Table,About,Anchor,Link,Path,SpecialChar,PageBreak,HorizontalRule',
+                ],
+                'preset' => 'standard'
+            ])
             ?>
         </div>
     </div>

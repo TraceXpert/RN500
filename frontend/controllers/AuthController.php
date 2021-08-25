@@ -140,6 +140,8 @@ class AuthController extends Controller {
                 if ($employer->load(Yii::$app->request->post()) && $companyMasterModel->load(Yii::$app->request->post()) && $employer->validate()) {
                     $transaction = Yii::$app->db->beginTransaction();
                     try {
+                        $companyMasterModel->type = CompanyMaster::TYPE_EMPLOYER;
+                        $companyMasterModel->status = CompanyMaster::STATUS_PENDING;
                         $companyMasterModel->reference_no = $companyMasterModel->getUniqueReferenceNumber();
                         $companyMasterModel->created_at = $companyMasterModel->updated_at = CommonFunction::currentTimestamp();
                         if ($companyMasterModel->save()) {
@@ -184,7 +186,9 @@ class AuthController extends Controller {
                         }
                         if ($is_error) {
                             $transaction->commit();
-                            Yii::$app->session->setFlash("success", "You have registered successfully. Please check your email for verification.");
+//                            Yii::$app->session->setFlash("success", "You have registered successfully. Please check your email for verification.");
+                            Yii::$app->session->setFlash("success", Yii::$app->params['senderName'] . " has received your sign up information. You will receive confirmation as soon as after approval in your email. If you have any questions, please contact us on: +1 917 806 5507 or email at: " . Yii::$app->params['senderEmail']);
+
                             return $this->redirect(['login']);
                         } else {
                             $transaction->rollBack();
@@ -206,6 +210,8 @@ class AuthController extends Controller {
                         $recruiterCompany->company_mobile = $recruiterCompany->mobile;
                         $recruiterCompany->type = 1;
                         $companyMasterModel = clone $recruiterCompany;
+                        $companyMasterModel->type = CompanyMaster::TYPE_RECRUITER;
+                        $companyMasterModel->status = CompanyMaster::STATUS_PENDING;
                         if ($companyMasterModel->save()) {
                             $company_branch = new CompanyBranch();
                             $company_branch->branch_name = "Head Office";
@@ -248,7 +254,8 @@ class AuthController extends Controller {
                         }
                         if ($is_error) {
                             $transaction->commit();
-                            Yii::$app->session->setFlash("success", "You have registered successfully. Please check your email for verification.");
+//                            Yii::$app->session->setFlash("success", "You have registered successfully. Please check your email for verification.");
+                            Yii::$app->session->setFlash("success", Yii::$app->params['senderName'] . " has received your sign up information. You will receive confirmation as soon as after approval in your email. If you have any questions, please contact us on: +1 917 806 5507 or email at: " . Yii::$app->params['senderEmail']);
                             return $this->redirect(['login']);
                         } else {
                             $transaction->rollBack();
@@ -387,7 +394,11 @@ class AuthController extends Controller {
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'Password reset successfully. Please login to continue.');
+            if ($model->first_time) {
+                Yii::$app->session->setFlash('success', 'Password set successfully. Please login to continue.');
+            } else {
+                Yii::$app->session->setFlash('success', 'Password reset successfully. Please login to continue.');
+            }
             return $this->redirect(['login']);
         }
 

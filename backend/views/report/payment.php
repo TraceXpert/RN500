@@ -5,6 +5,8 @@ use yii\grid\GridView;
 use kartik\date\DatePicker;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
+use common\CommonFunction;
+$jsFormat = Yii::$app->params['date.format.datepicker.js'];
 ?>
 
 <div class="card card-default color-palette-box">
@@ -29,9 +31,9 @@ use yii\helpers\Url;
                         'readonly' => true,
                         'pluginOptions' => [
                             'autoclose' => true,
-                            'format' => 'dd-M-yyyy',
-                            'startDate' => date('d-M-Y', strtotime('-4 months')),
-                            'endDate' => date('d-M-Y')
+                            'format' => $jsFormat,
+                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d', strtotime('-4 months')), Yii::$app->params['date.format.display.php']),
+                            'endDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']),
                         ]
                     ]);
                     ?>
@@ -44,9 +46,9 @@ use yii\helpers\Url;
                         'readonly' => true,
                         'pluginOptions' => [
                             'autoclose' => true,
-                            'format' => 'dd-M-yyyy',
-                            'startDate' => date('d-M-Y', strtotime('-4 months')),
-                            'endDate' => date('d-M-Y')
+                            'format' => $jsFormat,
+                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d', strtotime('-4 months')), Yii::$app->params['date.format.display.php']),
+                            'endDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php'])
                         ]
                     ]);
                     ?>

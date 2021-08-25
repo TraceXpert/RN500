@@ -56,24 +56,29 @@ class LeadMaster extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-                [['branch_id'], 'required', 'message' => 'Location cannot be blank.', 'on' => 'post-job'],
-                [['street_no', 'state', 'street_address', 'city', 'recruiter_commission', 'recruiter_commission_type', 'recruiter_commission_mode', 'title', 'reference_no', 'jobseeker_payment', 'payment_type', 'job_type', 'shift', 'start_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'description', 'branch_id'], 'required'],
-                [['description', 'apt', 'zip_code'], 'string'],
-                [['payment_type', 'job_type', 'shift', 'recruiter_commission_type', 'recruiter_commission_mode', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer', 'message' => '{attribute} must be a numeric only'],
-                [['recruiter_commission', 'price'], 'number', 'message' => 'Please enter valid {attribute}.'],
-                [['jobseeker_payment',], 'number'],
-                [['title'], 'string', 'max' => 250],
-                [['reference_no'], 'string', 'max' => 50],
-                [['comment'], 'string', 'max' => 500],
-                [['reference_no'], 'unique'],
-                [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
+            [['branch_id'], 'required', 'message' => 'Location cannot be blank.', 'on' => 'post-job'],
+            [['state', 'city', 'title', 'reference_no', 'jobseeker_payment', 'payment_type', 'job_type', 'shift', 'start_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'description', 'branch_id'], 'required'],
+            [['description', 'apt', 'zip_code'], 'string'],
+            [['payment_type', 'job_type', 'shift', 'recruiter_commission_type', 'recruiter_commission_mode', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer', 'message' => '{attribute} must be a numeric only'],
+            [['price'], 'number', 'min' => 1, 'message' => 'Please enter valid {attribute}.'],
+            [['jobseeker_payment',], 'number', 'min' => 1],
+            [['title'], 'string', 'max' => 250],
+            [['reference_no'], 'string', 'max' => 50],
+            [['comment'], 'string', 'max' => 500],
+            [['reference_no'], 'unique'],
+            [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
 //            [['street_no'], 'match', 'pattern' => '/^([0-9])?$/', 'message' => 'Please enter a digit numeric for {attribute}.'],
             [['comment', 'visible_to'], 'safe', 'on' => 'approve'],
-                [['price'], 'required', 'on' => 'approve'],
-                [['end_date', 'start_date'], 'checkEndDate', 'on' => 'post-job'],
-                [['is_suspended'], 'checkSuspendDependency', 'on' => 'post-job'],
-                [['approved_at', 'branch_id', 'state', 'comment', 'disciplines', 'benefits', 'specialities', 'end_date', 'start_date', 'emergency', 'is_suspended'], 'safe'],
-                [['title',  'apt', 'zip_code', 'comment'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
+            [['price'], 'required', 'on' => 'approve'],
+            [['end_date', 'start_date'], 'checkEndDate', 'on' => 'post-job'],
+            [['is_suspended'], 'checkSuspendDependency', 'on' => 'post-job'],
+            [['approved_at', 'branch_id', 'state', 'comment', 'disciplines', 'benefits', 'specialities', 'end_date', 'start_date', 'emergency', 'is_suspended'], 'safe'],
+            [['title', 'apt', 'zip_code', 'comment'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
+            [['end_date'], 'required',
+                'when' => function($model) {
+                    return $model->job_type != 2;
+                }, 'whenClient' => "function (attribute, value) {return ($('#leadmaster-job_type').val() != 2);}"
+            ],
         ];
     }
 
@@ -92,15 +97,14 @@ class LeadMaster extends \yii\db\ActiveRecord {
                     ->andWhere(
                             [
                                 'OR',
-                                    ['rec_status' => LeadRecruiterJobSeekerMapping::STATUS_PENDING, 'employer_status' => LeadRecruiterJobSeekerMapping::STATUS_PENDING],
-                                    ['rec_status' => LeadRecruiterJobSeekerMapping::STATUS_APPROVED, 'employer_status' => LeadRecruiterJobSeekerMapping::STATUS_PENDING]
+                                ['rec_status' => LeadRecruiterJobSeekerMapping::STATUS_PENDING, 'employer_status' => LeadRecruiterJobSeekerMapping::STATUS_PENDING],
+                                ['rec_status' => LeadRecruiterJobSeekerMapping::STATUS_APPROVED, 'employer_status' => LeadRecruiterJobSeekerMapping::STATUS_PENDING]
                     ])
                     ->one();
             if ($isAppliedLeadExist != null) {
                 $errorMsg = "You cannot suspend this post as the Jobseker has already applied and his/her job was in in-progress state.";
                 Yii::$app->session->setFlash("warning", "$errorMsg");
                 return $this->addError('is_suspended', "$errorMsg");
-                
             }
         }
     }
@@ -124,8 +128,8 @@ class LeadMaster extends \yii\db\ActiveRecord {
             'payment_type' => 'Payment Type',
             'job_type' => 'Job Type',
             'shift' => 'Shift',
-            'start_date' => 'Start Date',
-            'end_date' => 'End Date',
+            'start_date' => 'Job Start Date',
+            'end_date' => 'Job End Date',
             'recruiter_commission' => 'Recruiter Commission',
             'recruiter_commission_type' => 'Recruiter Commision Type',
             'recruiter_commission_mode' => 'Recruiter Commision Mode',
@@ -139,11 +143,11 @@ class LeadMaster extends \yii\db\ActiveRecord {
             'branch_id' => 'Branch',
             'comment' => 'Comment',
             'street_no' => 'Street No.',
-            'apt' => 'Suit/Apt.',
+            'apt' => 'Suit',
             'specialities' => 'Speciality',
             'zip_code' => 'Zipcode',
-            'emergency' => 'Urgent',
-            'is_suspended' => 'Is Suspended'
+            'emergency' => 'Eemergency',
+            'is_suspended' => 'if you would like to suspend this job immediately'
         ];
     }
 

@@ -44,22 +44,22 @@ class BrowseJobsController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['recruiter-lead', 'recruiter-view', 'apply', 'apply-job', 'track-my-application', 'set-rating'],
                 'rules' => [
-                        [
+                    [
                         'actions' => ['apply', 'apply-job'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*']
                     ],
-                        [
+                    [
                         'actions' => ['recruiter-lead', 'recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isRecruiter() ? ['@'] : ['*'] : ['*'],
                     ],
-                        [
+                    [
                         'actions' => ['recruiter-view'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isEmployer() ? ['@'] : ['*'] : ['*'],
                     ],
-                        [
+                    [
                         'actions' => ['track-my-application', 'set-rating'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? CommonFunction::isJobSeeker() ? ['@'] : ['*'] : ['*'],
@@ -77,6 +77,22 @@ class BrowseJobsController extends Controller {
 
     public function actionIndex() {
         $request = \Yii::$app->getRequest()->get();
+        $query = $this->getQuery($request);
+        $countQuery = clone $query;
+        $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count()]);
+        $pages->setPageSize(10);
+        $models = $query->offset($pages->offset)->limit($pages->limit)->all();
+        if (isset($request['location']) && !empty($request['location'])) {
+            $selectedLocations = ArrayHelper::map(Cities::find()->where(['IN', 'id', $request['location']])->all(), 'id', function($model) {
+                        return $model->city . "-" . $model->state_code;
+                    });
+        } else {
+            $selectedLocations = [];
+        }
+        return $this->render('index', ['models' => $models, 'pages' => $pages, 'selectedLocations' => $selectedLocations]);
+    }
+
+    public function getQuery($request) {
         $query = LeadMaster::find()->joinWith(['benefits', 'disciplines', 'specialty', 'branch', 'emergency'])->where(['lead_master.status' => LeadMaster::STATUS_APPROVED, 'lead_master.is_suspended' => LeadMaster::IS_SUSPENDED_NO]);
         if (isset($request['discipline']) && !empty($request['discipline'])) {
             $query->andFilterWhere(['IN', 'lead_discipline.discipline_id', implode(',', $request['discipline'])]);
@@ -124,72 +140,14 @@ class BrowseJobsController extends Controller {
                 }
             }
         }
-
-        $query->groupBy(['lead_master.id']);
+        $query->groupBy(['lead_benefit.lead_id', 'lead_discipline.lead_id', 'lead_speciality.lead_id', 'lead_master.id']);
         $query->orderBy(['lead_master.created_at' => SORT_DESC]);
-//        echo "<pre/>";print_r($query->createCommand()->rawSql);exit;
-        $countQuery = clone $query;
-        $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count()]);
-        $pages->setPageSize(10);
-        $models = $query->offset($pages->offset)->limit($pages->limit)->all();
-        if (isset($request['location']) && !empty($request['location'])) {
-            $selectedLocations = ArrayHelper::map(Cities::find()->where(['IN', 'id', $request['location']])->all(), 'id', function($model) {
-                        return $model->city . "-" . $model->state_code;
-                    });
-        } else {
-            $selectedLocations = [];
-        }
-        return $this->render('index', ['models' => $models, 'pages' => $pages, 'selectedLocations' => $selectedLocations]);
+        return $query;
     }
 
     public function actionRecruiterLead() {
         $request = \Yii::$app->getRequest()->get();
-        $query = LeadMaster::find()->joinWith(['benefits', 'disciplines', 'specialty', 'branch', 'emergency'])->where(['lead_master.status' => LeadMaster::STATUS_APPROVED, 'lead_master.is_suspended' => LeadMaster::IS_SUSPENDED_NO]);
-        if (isset($request['discipline']) && !empty($request['discipline'])) {
-            $query->andFilterWhere(['IN', 'lead_discipline.discipline_id', implode(',', $request['discipline'])]);
-        }
-        if (isset($request['speciality']) && !empty($request['speciality'])) {
-            $query->andFilterWhere(['IN', 'lead_speciality.speciality_id', implode(',', $request['discipline'])]);
-        }
-        if (isset($request['benefit']) && !empty($request['benefit'])) {
-            $query->andFilterWhere(['IN', 'lead_benefit.benefit_id', implode(',', $request['benefit'])]);
-        }
-        if (isset($request['location']) && !empty($request['location'])) {
-            $query->andFilterWhere(['IN', 'lead_master.city', implode(',', $request['location'])]);
-        }
-        if (isset($request['emergency']) && !empty($request['emergency'])) {
-            $query->andFilterWhere(['IN', 'lead_emergency.emergency_id', implode(',', $request['emergency'])]);
-        }
-        if (isset($request['salary']) && !empty($request['salary'])) {
-            foreach ($request['salary'] as $value) {
-                if ($value == 1) {
-                    $query->andFilterWhere(['>=', 'jobseeker_payment', 0]);
-                    $query->andFilterWhere(['<=', 'jobseeker_payment', 100]);
-                }
-                if ($value == 2) {
-                    $query->andFilterWhere(['>=', 'jobseeker_payment', 100]);
-                    $query->andFilterWhere(['<=', 'jobseeker_payment', 199]);
-                }
-                if ($value == 3) {
-                    $query->andFilterWhere(['>=', 'jobseeker_payment', 199]);
-                    $query->andFilterWhere(['<=', 'jobseeker_payment', 499]);
-                }
-                if ($value == 4) {
-                    $query->andFilterWhere(['>=', 'jobseeker_payment', 499]);
-                    $query->andFilterWhere(['<=', 'jobseeker_payment', 999]);
-                }
-                if ($value == 5) {
-                    $query->andFilterWhere(['>=', 'jobseeker_payment', 999]);
-                    $query->andFilterWhere(['<=', 'jobseeker_payment', 4999]);
-                }
-                if ($value == 6) {
-                    $query->andFilterWhere(['>=', 'jobseeker_payment', 4999]);
-                }
-            }
-        }
-        $query->groupBy(['lead_benefit.lead_id', 'lead_discipline.lead_id', 'lead_speciality.lead_id', 'lead_master.id']);
-
-        $query->orderBy(['lead_master.created_at' => SORT_DESC]);
+        $query = $this->getQuery($request);
         $countQuery = clone $query;
         $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count()]);
         $pages->setPageSize(10);
@@ -201,6 +159,24 @@ class BrowseJobsController extends Controller {
             $selectedLocations = [];
         }
         return $this->render('recruiter-lead', ['models' => $models, 'pages' => $pages, 'selectedLocations' => $selectedLocations]);
+    }
+
+    public function actionContracts() {
+        $request = \Yii::$app->getRequest()->get();
+        $query = $this->getQuery($request);
+        $query->andWhere(['job_type'=> 5]);
+        $countQuery = clone $query;
+        $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count()]);
+        $pages->setPageSize(10);
+        $models = $query->offset($pages->offset)->limit($pages->limit)->all();
+        if (isset($request['location']) && !empty($request['location'])) {
+            $selectedLocations = ArrayHelper::map(Cities::find()->where(['IN', 'id', $request['location']])->all(), 'id', function($model) {
+                        return $model->city . "-" . $model->state_code;
+                    });
+        } else {
+            $selectedLocations = [];
+        }
+        return $this->render('contracts', ['models' => $models, 'pages' => $pages, 'selectedLocations' => $selectedLocations]);
     }
 
     public function actionGetDiscipline() {
@@ -364,10 +340,10 @@ class BrowseJobsController extends Controller {
         $model = LeadMaster::find()->where(['OR', ['id' => $id], ['reference_no' => $id]])->one();
         $today = date('Y-m-d');
         $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->andWhere(['location' => $model->city])->orderBy(['id' => SORT_DESC])->limit(6)->all();
-        $benefit = LeadBenefit::findAll(['lead_id' => $id]);
-        $specialty = LeadSpeciality::findAll(['lead_id' => $id]);
-        $discipline = LeadDiscipline::findAll(['lead_id' => $id]);
-        $emergency = LeadEmergency::findAll(['lead_id' => $id]);
+        $benefit = LeadBenefit::findAll(['lead_id' => $model->id]);
+        $specialty = LeadSpeciality::findAll(['lead_id' => $model->id]);
+        $discipline = LeadDiscipline::findAll(['lead_id' => $model->id]);
+        $emergency = LeadEmergency::findAll(['lead_id' => $model->id]);
         return $this->render('recruiter-view', ['model' => $model, 'benefit' => $benefit, 'specialty' => $specialty, 'discipline' => $discipline, 'emergency' => $emergency, 'advertisments' => $advertisments]);
     }
 
@@ -389,7 +365,7 @@ class BrowseJobsController extends Controller {
         $model->lead_id = $lead_id;
         $modelsRecipient = [new ReferralRecipients];
         if (Yii::$app->request->isPost) {
-             $modelsRecipient = ReferralRecipients::createMultiple(ReferralRecipients::classname());
+            $modelsRecipient = ReferralRecipients::createMultiple(ReferralRecipients::classname());
             Model::loadMultiple($modelsRecipient, Yii::$app->request->post());
             $postData = Yii::$app->request->post();
             $model->load($postData);

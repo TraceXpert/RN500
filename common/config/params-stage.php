@@ -14,8 +14,8 @@ return [
     'company.priority' => [1 => 'High', 2 => 'Modrate', 3 => 'Semi Modrate', 4 => 'Low'],
     'COMMISSION_MODE' => [0 => 'One Time', 1=>'Weekly', 2 => 'Monthly', 3 => 'Yearly'],
     'job.visible' => [0 => 'Both', 1 => 'Other Recruiter', 2 => 'RN500'],
-    'date.format.display.php' => "m-d-Y", // 04-15-2021
-    'date.format.datepicker.js' => "mm-dd-yyyy", // 04-15-2021
+    'date.format.display.php' => "M-d-Y", // Jul-01-2021
+    'date.format.datepicker.js' => "M-dd-yyyy", // Jul-01-2021
     'STRIP_TEST_MODE' => "on",
     'STRIP_TEST_PUBLISH_KEY' => 'pk_test_51IqPMBIKm0LSAwLzNM5vFAGoyXLwjiQxjX8gjsiuzN0ArwUnI0DrgXFKWH4AgIttjviilrwPVojltZjgf74HmGVQ00vgCSvB81',
     'STRIPE_TEST_SECRET_KEY' => 'sk_test_51IqPMBIKm0LSAwLz6672ovXLSQcnc8ZiJXMBipHOT0LvXw4eExEOXVL81AYPghIMY6teNjBEdwbE9JgfHSaO0X9q00tJ1Xr7H6',
@@ -37,4 +37,8 @@ return [
     "NO_HTMLTAG_PATTERN" => '/<(.|\n)*?>/',
     "LEAD_SUSPENDED" => ["0" => "No", "1" => "Yes"],
     "ALLOWED_MAX_RECEIPIENTS_LEAD_SHARE" => 10,
+    'BLOG_CATEGORY_STATUS' => [1 => 'Active', 0 => 'Inactive'],
+    'BLOG_SUSPENDED' => [1 => 'Yes', 0 => 'No'],
+    'JOB_SEEKER_EXPERIENCE_LIST' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '10+' => '10+'],
+    'NEWSLETTER_SUSPENDED' => [1 => 'Yes', 0 => 'No']
 ];

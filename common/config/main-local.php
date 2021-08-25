@@ -54,7 +54,7 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => false,
             'identityCookie' => ['name' => '_identity-rn500', 'httpOnly' => true],
-            'authTimeout' => 600,
+            'authTimeout' => 6000,
             'loginUrl' => 'http://localhost/rn500/auth/login'
         ],
         'session' => [

@@ -115,6 +115,58 @@ class CommonFunction {
     public static function isJobSeeker() {
         return (isset(Yii::$app->user->identity->type) && Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) ? true : false;
     }
+    
+    // RETURN DISCIPLINE NAME OF JOB SEEKER
+    public static function jobSeekerDiscipline() {
+        $disciplineName = '';
+        try {
+            if (self::isJobSeeker() && isset(Yii::$app->user->identity->details)) {
+                $disciplineName = Yii::$app->user->identity->details->getDisciplineName();
+            }
+            return $disciplineName;
+        } catch (\Exception $ex) {
+            return "";
+        }
+    }
+    
+    // RETURN DISCIPLINE ID OF JOB SEEKER
+    public static function jobSeekerDisciplineId() {
+        $disciplineId = '';
+        try {
+            if (self::isJobSeeker() && isset(Yii::$app->user->identity->details)) {
+                $disciplineId = Yii::$app->user->identity->details->discipline_id;
+            }
+            return $disciplineId;
+        } catch (\Exception $ex) {
+            return "";
+        }
+    }
+    
+    // RETURN SPECIALITY NAME OF JOB SEEKER
+    public static function jobSeekerSpeciality() {
+        $specialityName = '';
+        try {
+            if (self::isJobSeeker() && isset(Yii::$app->user->identity->details)) {
+                $specialityName = Yii::$app->user->identity->details->getSpecialityName();
+            }
+            return $specialityName;
+        } catch (\Exception $ex) {
+            return "";
+        }
+    }
+    
+    // RETURN SPECIALITY ID OF JOB SEEKER
+    public static function jobSeekerSpecialityId() {
+        $specialityId = '';
+        try {
+            if (self::isJobSeeker() && isset(Yii::$app->user->identity->details)) {
+                $specialityId = Yii::$app->user->identity->details->speciality_id;
+            }
+            return $specialityId;
+        } catch (\Exception $ex) {
+            return "";
+        }
+    }
 
     // RETURN TRUE IF LOGGED_IN USER assign permission ELSE FALSE
     public static function checkAccess($permission, $user_id) {
@@ -276,7 +328,8 @@ class CommonFunction {
         }
     }
 
-    public static function getAPIDateDisplayFormat($date, $format = 'm-d-Y') {
+//    public static function getAPIDateDisplayFormat($date, $format = 'm-d-Y') {
+    public static function getAPIDateDisplayFormat($date, $format = 'M-d-Y') {
         if ($date != '' && $date != '0000-00-00' && date('Y-m-d', strtotime($date)) != '1970-01-01') {
             return date($format, strtotime($date));
         }
@@ -289,6 +342,9 @@ class CommonFunction {
 //            if ($postDateMMDDYY != '' && $postDateMMDDYY != '0000-00-00' && date('Y-m-d', strtotime($date)) != '1970-01-01') {
 //                return date($format, strtotime($date));
 //            }
+    /*
+     * $postDateMMDDYY : format must Jul-01-2021
+     */
     public static function getStorableDate($postDateMMDDYY) {
         $storable_date = null;
         try {
@@ -297,7 +353,7 @@ class CommonFunction {
             $convertedDate = "$actualDate[2]-$actualDate[0]-$actualDate[1]";
 
             if ($postDateMMDDYY != '' && $postDateMMDDYY != '0000-00-00' && date('Y-m-d', strtotime($convertedDate)) != '1970-01-01') {
-                $storable_date = $convertedDate;
+                $storable_date = date('Y-m-d', strtotime($convertedDate));
             }
         } catch (\Exception $e) {
             $storable_date = null;
@@ -402,6 +458,25 @@ class CommonFunction {
             $result = $matches[1] . '-' . $matches[2] . '-' . $matches[3];
             return $result;
         }
+    }
+    
+    
+    public static function getBlogsCoverImageBasePath() {
+        return Yii::getAlias('@frontend') . "/web/uploads/blogs-cover";
+    }
+
+    public static function getBlogsCoverImageBaseUrl() {
+//        return Yii::getAlias('@frontend') . "/web/uploads/advertisement";
+        return \yii\helpers\Url::to(Yii::$app->urlManagerFrontend->createUrl(["/uploads/blogs-cover"]), true);
+    }
+    
+    public static function getNewsletterCoverImageBasePath() {
+        return Yii::getAlias('@frontend') . "/web/uploads/newsletter-cover";
+    }
+
+    public static function getNewsletterCoverImageBaseUrl() {
+//        return Yii::getAlias('@frontend') . "/web/uploads/advertisement";
+        return \yii\helpers\Url::to(Yii::$app->urlManagerFrontend->createUrl(["/uploads/newsletter-cover"]), true);
     }
 
 }

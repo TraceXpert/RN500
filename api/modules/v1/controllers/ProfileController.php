@@ -76,6 +76,11 @@ class ProfileController extends Controller {
                 $interest_levels[] = ['value' => (string) $value, 'text' => $text];
             }
 
+            $year_of_experience = [];
+            foreach (Yii::$app->params['JOB_SEEKER_EXPERIENCE_LIST'] as $value => $text) {
+                $year_of_experience[] = ['value' => (string) $value, 'text' => $text];
+            }
+
             $data['document_type'] = $documents_type;
             $data['employment_type'] = $employment_type;
             $data['licenses_type'] = $licenses_type;
@@ -84,6 +89,7 @@ class ProfileController extends Controller {
             $data['degree_type'] = $degree_type;
             $data['certification_active_startus'] = $certification_active_startus;
             $data['interest_levels'] = $interest_levels;
+            $data['year_of_experience'] = $year_of_experience;
             $code = 200;
             $msg = "success!!";
         } catch (\Exception $exc) {
@@ -116,10 +122,16 @@ class ProfileController extends Controller {
                 $aboutYou['email'] = (isset($model->user->email) && $model->user->email != "") ? $model->user->email : "";
                 $aboutYou['mobile_no'] = ($model->mobile_no) ? $model->mobile_no : "";
                 $aboutYou['ssn'] = ($model->ssn) ? (string) $model->ssn : "";
+                $aboutYou['zip_code'] = (isset($model->zip_code)) ? (string) $model->zip_code : "";
                 $aboutYou['interest_level'] = ($model->interest_level) ? (string) $model->interest_level : '';
                 $aboutYou['interest_level_text'] = (isset(Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level])) ? Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level] : '';
                 $aboutYou['profile_pic'] = ($model->profile_pic) ? $model->profile_pic : "";
                 $aboutYou['profile_pic_url'] = ($model->profile_pic_url) ? $model->profile_pic_url : "";
+                $aboutYou['speciality_id'] = (isset($model->speciality_id)) ? (string) $model->speciality_id : '';
+                $aboutYou['speciality_text'] = $model->getSpecialityName();
+                $aboutYou['discipline_id'] = (isset($model->discipline_id)) ? (string) $model->discipline_id : '';
+                $aboutYou['discipline_text'] = $model->getDisciplineName();
+                $aboutYou['year_of_exprience'] = (isset($model->year_of_exprience)) ? (string) $model->year_of_exprience : "";
 
                 // WORK EXPERIENCES LIST OF LOGGED-IN USER
                 $workExperiences = WorkExperience::find()->where(['user_id' => $loggedInUserId])->all();
@@ -240,10 +252,16 @@ class ProfileController extends Controller {
                 $data['city_name'] = $model->getCityStateName();
                 $data['ssn'] = ($model->ssn) ? (string) $model->ssn : "";
                 $data['dob'] = ($model->dob) ? $model->dob : "";
+                $data['zip_code'] = (isset($model->zip_code)) ? $model->zip_code : "";
                 $data['interest_level'] = ($model->interest_level) ? (string) $model->interest_level : '';
                 $data['interest_level_text'] = (isset(Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level])) ? Yii::$app->params['INTERESTS_LEVEL'][$model->interest_level] : '';
                 $data['profile_pic'] = ($model->profile_pic) ? $model->profile_pic : "";
                 $data['profile_pic_url'] = ($model->profile_pic_url) ? $model->profile_pic_url : "";
+                $data['speciality_id'] = (isset($model->speciality_id)) ? (string) $model->speciality_id : '';
+                $data['speciality_text'] = $model->getSpecialityName();
+                $data['discipline_id'] = (isset($model->discipline_id)) ? (string) $model->discipline_id : '';
+                $data['discipline_text'] = $model->getDisciplineName();
+                $data['year_of_exprience'] = (isset($model->year_of_exprience)) ? (string) $model->year_of_exprience : "";
                 $code = 200;
                 $msg = "success!";
             } else {
@@ -317,7 +335,11 @@ class ProfileController extends Controller {
                         $model->city = ($city != '') ? $city : null;
                         $model->ssn = ($ssn != '') ? $ssn : null;
                         $model->dob = ($dob != '') ? date('Y-m-d', strtotime($dob)) : null;
+                        $model->zip_code = (isset($zip_code) && $zip_code != '') ? $zip_code : null;
                         $model->interest_level = ($interest_level != '') ? $interest_level : null;
+                        $model->year_of_exprience = (isset($year_of_exprience) && $year_of_exprience != '') ? (string)$year_of_exprience : null;
+                        $model->speciality_id = (isset($speciality_id) && $speciality_id != '') ? (int) $speciality_id : null;
+                        $model->discipline_id = (isset($discipline_id) && $discipline_id != '') ? (int) $discipline_id : null;
                         $model->updated_at = CommonFunction::currentTimestamp();
                         if ($model->update(false)) {
                             $code = 200;
@@ -416,8 +438,8 @@ class ProfileController extends Controller {
                 if ($model !== null) {
 //                    $data = array_map('strval', $model);
                     $data = array_map('strval', $model->getAttributes());
-                    $data['start_date'] = CommonFunction::getAPIDateDisplayFormat($model->start_date, 'Y-m');
-                    $data['end_date'] = CommonFunction::getAPIDateDisplayFormat($model->end_date, 'Y-m');
+                    $data['start_date'] = CommonFunction::getAPIDateDisplayFormat($model->start_date, 'M-Y');
+                    $data['end_date'] = CommonFunction::getAPIDateDisplayFormat($model->end_date, 'M-Y');
                     $data['discipline_name'] = (isset($model->discipline->name)) ? $model->discipline->name : '';
                     $data['specialty_name'] = (isset($model->specialityRel->name)) ? $model->specialityRel->name : '';
                     $data['employment_type_name'] = $model->getEmploymentTypeName();
@@ -542,7 +564,7 @@ class ProfileController extends Controller {
                 $model = Education::find()->where(['id' => $id, 'user_id' => $loggedInUserId])->one();
                 if ($model !== null) {
                     $data = array_map('strval', $model->getAttributes());
-                    $data['year_complete'] = CommonFunction::getAPIDateDisplayFormat($model['year_complete'], 'Y-m');
+                    $data['year_complete'] = CommonFunction::getAPIDateDisplayFormat($model['year_complete'], 'M-Y');
                     $data['degree_complete_name'] = $model->getDegreeTypeName();
                     $data['location_name'] = $model->getCityStateName();
 
@@ -663,7 +685,7 @@ class ProfileController extends Controller {
                 $model = Licenses::find()->where(['id' => $id, 'user_id' => $loggedInUserId])->one();
                 if ($model !== null) {
                     $data = array_map('strval', $model->getAttributes());
-                    $data['expiry_date'] = CommonFunction::getAPIDateDisplayFormat($model['expiry_date'], 'Y-m');
+                    $data['expiry_date'] = CommonFunction::getAPIDateDisplayFormat($model['expiry_date'], 'M-Y');
                     $data['license_name_text'] = (isset(Yii::$app->params['LICENSE_TYPE'][$model->license_name])) ? Yii::$app->params['LICENSE_TYPE'][$model->license_name] : '';
                     $data['issuing_state_name'] = $model->getCityStateName();
 
@@ -1056,7 +1078,7 @@ class ProfileController extends Controller {
                     $certi = CertificateMaster::find()->where(['id' => $model->certificate_name])->one();
                     $data['certificate_name_text'] = ($certi !== null) ? $certi->name : '';
                     $data['issuing_state_name'] = $model->getCityStateName();
-                    $data['expiry_date'] = CommonFunction::getAPIDateDisplayFormat($model->expiry_date, 'Y-m');
+                    $data['expiry_date'] = CommonFunction::getAPIDateDisplayFormat($model->expiry_date, 'M-Y');
                     $data['certification_active_status'] = (isset(Yii::$app->params['CERTIFICATION_ACTIVE_STATUS'][$model->certification_active])) ? Yii::$app->params['CERTIFICATION_ACTIVE_STATUS'][$model->certification_active] : '';
                     if ($model->document != '' && file_exists(CommonFunction::getCertificateBasePath() . "/" . $model->document)) {
                         $data['document_url'] = Url::to(Yii::$app->urlManagerFrontend->createUrl(["/uploads/user-details/certification/" . $model->document]), true);

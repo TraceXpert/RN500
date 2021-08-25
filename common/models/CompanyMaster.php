@@ -28,11 +28,20 @@ use borales\extensions\phoneInput\PhoneInputValidator;
 class CompanyMaster extends \yii\db\ActiveRecord {
 
     public $state;
+    public $mobile;
 
     const PRIORITY_HIGH = 1;
     const PRIORITY_MODRATE = 2;
     const PRIORITY_SEMIMODRATE = 3;
     const PRIORITY_LOW = 4;
+    
+    const TYPE_EMPLOYER = '0';
+    const TYPE_RECRUITER = '1';
+    
+    const STATUS_PENDING = '0';
+    const STATUS_APPROVED = '1';
+    const STATUS_REJECTED = '2';
+    
 
     public static function tableName() {
         return 'company_master';
@@ -60,8 +69,9 @@ class CompanyMaster extends \yii\db\ActiveRecord {
                 [['extension'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field'],
                 [['company_name', 'company_email', 'state', 'type', 'status', 'company_mobile', 'reference_no', 'employer_identification_number', 'mobile', 'street_no', 'street_address', 'apt', 'zip_code'], 'safe'],
                 [['website_link'], 'url'],
-                [['company_name'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
-                [['street_no'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute} field'],
+//                [['company_name'], 'match', 'pattern' => '/^[a-zA-Z0-9 ]*$/', 'message' => 'Only number and alphabets allowed for {attribute} field'],
+                [['company_name', 'company_email', 'state', 'type', 'status', 'company_mobile', 'reference_no', 'employer_identification_number', 'mobile', 'street_no', 'street_address', 'apt', 'zip_code'], 'trim'],
+                [['street_no'], 'match', 'pattern' => '/^[0-9 ]*$/', 'message' => 'Only number allowed for {attribute}.'],
                 [['is_suspend','extension'], 'safe'],
                 [['company_name', 'employer_identification_number', 'street_no', 'street_address', 'apt', 'zip_code'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];

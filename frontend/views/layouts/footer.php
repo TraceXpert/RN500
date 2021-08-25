@@ -85,10 +85,11 @@ use common\CommonFunction;
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact Us</a></li>
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Browse Jobs</a></li>
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/privacy-policy"); ?>">Privacy Policy</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("site/tearms-condition"); ?>">Terms Conditions</a></li>
                 </ul>
             </div>
             <div class="col-lg-4 col-md-12">
-                <h3 class="mb-4 mt-4">Contacts</h3>
+                <h3 class="mb-4 mt-4">Contact Us</h3>
 
                 <div class="media mb-3">
                     <img src="<?= $assetDir ?>/img/location-icon.png" alt="location-icon" class="mr-3">

@@ -140,6 +140,35 @@ $action = Yii::$app->controller->action->id;
                         'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('emergency-create', Yii::$app->user->identity->id) || CommonFunction::checkAccess('emergency-update', Yii::$app->user->identity->id) || CommonFunction::checkAccess('emergency-delete', Yii::$app->user->identity->id) || CommonFunction::checkAccess('emergency-view', Yii::$app->user->identity->id) : false
                     ],
                     [
+                        'label' => 'Blogs',
+                        'icon' => 'expand',
+                        'active' => ($controller == "blogs"),
+                        'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('blog-create', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-update', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-view', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-suspend', Yii::$app->user->identity->id) : false,
+                        'items' => [
+                            [
+                                'label' => 'Categories',
+                                'url' => ['/blogs/categories'],
+                                'icon' => 'expand',
+                                'active' => ($controller == "blogs" && in_array($action, ['categories', 'categories', 'category-view', 'category-add', 'category-update'])),
+                                'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('blog-create', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-update', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-view', Yii::$app->user->identity->id) : false,
+                            ],
+                            [
+                                'label' => 'Manage',
+                                'url' => ['/blogs/index'],
+                                'icon' => 'expand',
+                                'active' => ($controller == "blogs" && in_array($action, ['index', 'add', 'update', 'view'])),
+                                'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('blog-create', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-update', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-view', Yii::$app->user->identity->id) || CommonFunction::checkAccess('blog-suspend', Yii::$app->user->identity->id) : false,
+                            ]
+                        ]
+                    ],
+                    [
+                        'label' => 'Newsletter',
+                        'url' => ['/newsletter'],
+                        'icon' => 'newspaper',
+                        'active' => ($controller == "newsletter"),
+                        'visible' => isset(Yii::$app->user->identity) ? CommonFunction::checkAccess('newsletter-create', Yii::$app->user->identity->id) || CommonFunction::checkAccess('newsletter-update', Yii::$app->user->identity->id) || CommonFunction::checkAccess('newsletter-view', Yii::$app->user->identity->id) || CommonFunction::checkAccess('newsletter-suspend', Yii::$app->user->identity->id) : false
+                    ],
+                    [
                         'label' => 'Report',
                         'icon' => 'book',
                         'active' => ($controller == "report"),

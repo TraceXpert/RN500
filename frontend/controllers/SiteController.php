@@ -30,6 +30,8 @@ use common\models\Banner;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
 use common\models\CertificateMaster;
+use common\CommonFunction;
+
 /**
  * Site controller
  */
@@ -44,17 +46,17 @@ class SiteController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['logout', 'signup', 'job-seeker'],
                 'rules' => [
-                    [
+                        [
                         'actions' => ['signup'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
-                    [
+                        [
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                    [
+                        [
                         'actions' => ['job-seeker'],
                         'allow' => true,
                         'roles' => isset(Yii::$app->user->identity) ? ['@'] : ['*'],
@@ -91,12 +93,28 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
+        $isJobSeeker = CommonFunction::isJobSeeker();
+        $jobSeekerDiscipline = CommonFunction::jobSeekerDiscipline();
+        $jobSeekerSpeciality = CommonFunction::jobSeekerSpeciality();
+
         $today = date('Y-m-d');
         $advertisments = \common\models\Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->orderBy(['id' => SORT_DESC])->limit(6)->all();
         $banner = Banner::find()->where(['status' => '1'])->all();
-        $query = LeadMaster::find()->joinWith(['benefits', 'disciplines', 'specialty', 'branch'])->where(['lead_master.status' => LeadMaster::STATUS_APPROVED, 'lead_master.is_suspended' => LeadMaster::IS_SUSPENDED_NO]);
-        $query->groupBy(['lead_master.id']);
-        $query->orderBy(['lead_master.created_at' => SORT_DESC]);
+        $query = LeadMaster::find()->alias("leads")->joinWith(['benefits benefits', 'disciplines disciplines', 'specialty specialty', 'branch branch'])
+                ->leftJoin("discipline as discipline_master", "discipline_master.id = disciplines.discipline_id")
+                ->leftJoin("speciality as speciality_master", "speciality_master.id = specialty.speciality_id")
+                ->where(['leads.status' => LeadMaster::STATUS_APPROVED, 'leads.is_suspended' => LeadMaster::IS_SUSPENDED_NO]);
+        if ($isJobSeeker && ($jobSeekerDiscipline != '' || $jobSeekerSpeciality != '' )) {
+            $query->andWhere([
+                'OR',
+                    ['LIKE', 'discipline_master.name', $jobSeekerDiscipline],
+                    ['LIKE', 'speciality_master.name', $jobSeekerSpeciality]
+            ]);
+        }
+
+        $query->groupBy(['leads.id']);
+        $query->orderBy(['leads.created_at' => SORT_DESC]);
+
         $leadModels = $query->limit(8)->all();
         return $this->render('index', [
                     'advertisments' => $advertisments, 'leadModels' => $leadModels, 'banner' => $banner
@@ -290,20 +308,25 @@ class SiteController extends Controller {
             }
         }
 
-        return $this->render('contact-us',['model'=>$model]);
+        return $this->render('contact-us', ['model' => $model]);
     }
 
     public function actionAboutUs() {
         return $this->render('about-us');
     }
+
     public function actionPrivacyPolicy() {
         return $this->render('privacy-policy');
+    }
+
+    public function actionTearmsCondition() {
+        return $this->render('terms-condition');
     }
 
     public function actionAdvertise() {
         return $this->render('advertise');
     }
-    
+
     public function actionGetCities($page, $q = null, $id = null) {
         $limit = 10;
         $offset = ($page - 1) * $limit;

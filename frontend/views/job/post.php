@@ -16,6 +16,23 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
  * and open the template in the editor.
  */
 ?>
+<style>
+    /*SOME PROPERTIES ARE OVERRIDES*/
+    .select2-container--krajee-bs4 .select2-selection--multiple .select2-search--inline .select2-search__field,
+    .input-lg.select2-container--krajee-bs4 .select2-selection--single, .input-group-lg .select2-container--krajee-bs4 .select2-selection--single{
+        background-color: transparent !important;
+    }
+    .select2-selection {
+        padding: .375rem 1.4em !important;
+    }
+    .select2-selection.select2-selection--multiple.select2-selection--clearable{
+        overflow-y: scroll !important;
+    }
+    input[disabled] {
+        background-color: #e9ecef !important;
+        opacity: 1;
+    }
+</style>
 <section class="about-us about-inner-block">
     <div class="container">
         <div class="row align-items-center">
@@ -87,7 +104,7 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                     <?php
                     echo $form->field($model, 'emergency')->widget(Select2::classname(), [
                         'data' => $emergencyList,
-                        'options' => ['placeholder' => $model->getAttributeLabel('emergency'), 'multiple' => true],
+                        'options' => ['placeholder' => 'Optional', 'multiple' => true],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
@@ -121,7 +138,7 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                             'clearBtn' => true,
                             'format' => $jsFormat,
                             'autoclose' => true,
-                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d')),
+                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']),
                         ],
                         'pluginEvents' => [
                             "changeDate" => "function(e) {
@@ -144,8 +161,8 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                         'pluginOptions' => [
                             'clearBtn' => true,
                             'autoclose' => true,
-                            'format' => Yii::$app->params['date.format.datepicker.js'],
-                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d')),
+                            'format' => $jsFormat,
+                            'startDate' => CommonFunction::getAPIDateDisplayFormat(date('Y-m-d'), Yii::$app->params['date.format.display.php']),
                         ],
                         'pluginEvents' => [
                             "changeDate" => "function(e) {
@@ -156,33 +173,33 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
                                                 $('#leadmaster-start_date').kvDatepicker('setEndDate', e.date);
                                             }"
                         ]
-                    ]);
+                    ])->label('Job End Date  <span title="if Candidate’s Job Type is Permanent than leave Job End Date column empty otherwise needs to have Job End Date for all other Job Type" class="fa fa-info" data-toggle="tooltip" style="cursor:pointer;"></span>');
                     ?>
                 </div>
 
-                <div class="col-md-6">
-                    <?php echo $form->field($model, 'recruiter_commission')->textInput(['placeholder' => $model->getAttributeLabel('recruiter_commission')]); ?>
+<!--                <div class="col-md-6">
+                    <?php // echo $form->field($model, 'recruiter_commission')->textInput(['placeholder' => $model->getAttributeLabel('recruiter_commission')]); ?>
                 </div>
 
                 <div class="col-md-6">
-                    <?php echo $form->field($model, 'recruiter_commission_type')->dropdownList(Yii::$app->params['RECRUITER_COMMISSION_TYPE'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('recruiter_commission_type')]); ?>
+                    <?php // echo $form->field($model, 'recruiter_commission_type')->dropdownList(Yii::$app->params['RECRUITER_COMMISSION_TYPE'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('recruiter_commission_type')]); ?>
                 </div>
 
                 <div class="col-md-6">
-                    <?php echo $form->field($model, 'recruiter_commission_mode')->dropdownList(Yii::$app->params['COMMISSION_MODE'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('recruiter_commission_mode')]); ?>
+                    <?php // echo $form->field($model, 'recruiter_commission_mode')->dropdownList(Yii::$app->params['COMMISSION_MODE'], ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('recruiter_commission_mode')]); ?>
+                </div>-->
+
+<!--                <div class="col-md-6">
+                    <?php // echo $form->field($model, 'street_no')->textInput(['placeholder' => $model->getAttributeLabel('street_no')]); ?>
                 </div>
 
                 <div class="col-md-6">
-                    <?php echo $form->field($model, 'street_no')->textInput(['placeholder' => $model->getAttributeLabel('street_no')]); ?>
-                </div>
+                    <?php // echo $form->field($model, 'street_address')->textInput(['placeholder' => $model->getAttributeLabel('street_address')]); ?>
+                </div>-->
 
-                <div class="col-md-6">
-                    <?php echo $form->field($model, 'street_address')->textInput(['placeholder' => $model->getAttributeLabel('street_address')]); ?>
-                </div>
-
-                <div class="col-md-6">
-                    <?php echo $form->field($model, 'apt')->textInput(['placeholder' => $model->getAttributeLabel('apt')]); ?>
-                </div>
+<!--                <div class="col-md-6">
+                    <?php // echo $form->field($model, 'apt')->textInput(['placeholder' => $model->getAttributeLabel('apt')]); ?>
+                </div>-->
 
                 <div class="col-md-6">
                     <?php echo $form->field($model, 'state')->dropdownList($states, ['class' => 'form-control', 'prompt' => 'Select ' . $model->getAttributeLabel('state')]); ?>
@@ -244,6 +261,17 @@ $jsFormat = Yii::$app->params['date.format.datepicker.js'];
 <?php
 $getCitiesUrl = Yii::$app->urlManagerFrontend->createAbsoluteUrl(['job/get-cities']);
 $script = <<< JS
+    $(function () { 
+        $("[data-toggle='tooltip']").tooltip(); 
+    });
+    $(document).on('change','#leadmaster-job_type',function(){
+        var type=$(this).val();
+        if(type==2){
+            $('#leadmaster-end_date').attr('disabled','true');
+        }else{
+            $('#leadmaster-end_date').removeAttr('disabled');
+        }
+    });
     $(document).on('change','#leadmaster-state',function(){
         var state=$(this).val();
         if(state){

@@ -37,7 +37,7 @@ class BannerSearch extends Banner {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Banner::find()->where(['status' => 1]);
+        $query = Banner::find();
 
         // add conditions that should always apply here
 

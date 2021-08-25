@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use common\CommonFunction;
 ?>
 <thead>
     <tr>
@@ -21,13 +22,13 @@ use yii\helpers\Html;
         <tr>
             <td> <?php echo ++$sr ?> </td>
             <td> <?php echo isset($row['package']) ? $row['package'] : '' ?> </td>
-            <td> <?php echo isset($row['pkg_start_date']) ? $row['pkg_start_date'] : '' ?> </td>
-            <td> <?php echo isset($row['pkg_end_date']) ? $row['pkg_end_date'] : '' ?> </td>
+            <td> <?php echo isset($row['pkg_start_date']) ? CommonFunction::getAPIDateDisplayFormat($row['pkg_start_date'], Yii::$app->params['date.format.display.php']) : '' ?> </td>
+            <td> <?php echo isset($row['pkg_end_date']) ? CommonFunction::getAPIDateDisplayFormat($row['pkg_end_date'], Yii::$app->params['date.format.display.php']) : '' ?> </td>
             <td> <?php echo isset($row['lead_title']) ? Html::a($row['lead_title'], Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/view', 'id' => $row['lead_reference_no']]), ['target' => '_blank']) : '' ?> </td>
             <td> <?php echo isset($row['payment_status']) ? $row['payment_status'] : '' ?> </td>
             <td> <?php echo isset($row['amount']) ? $row['amount'] : '' ?> </td>
             <td> <?php echo isset($row['transaction_id']) ? $row['transaction_id'] : '' ?> </td>
-            <td> <?php echo isset($row['transaction_date']) ? $row['transaction_date'] : '' ?> </td>
+            <td> <?php echo isset($row['transaction_date']) ? CommonFunction::getAPIDateDisplayFormat(date('Y-m-d',$row['transaction_date']), Yii::$app->params['date.format.display.php']) : '' ?> </td>
         </tr>
     <?php } ?>
 </tbody>
