@@ -122,6 +122,7 @@ class UserDetailsController extends Controller {
         $model->scenario = 'profile';
         $model->updated_at = CommonFunction::currentTimestamp();
         $selectedLocations = [];
+        $selectedState = [];
         if (isset($model->dob) && !empty($model->dob)) {
             $model->dob = date(Yii::$app->params['date.format.display.php'], strtotime($model->dob));
         }
@@ -131,6 +132,13 @@ class UserDetailsController extends Controller {
                         return $data->city . "-" . $data->state_code;
                     });
         }
+        
+        if (isset($model->licensed_suspend_state_id) && !empty($model->licensed_suspend_state_id)) {
+            $selectedState = ArrayHelper::map(Cities::find()->where(['id' => $model->licensed_suspend_state_id])->all(), 'id', function ($data) {
+                        return $data->city . "-" . $data->state_code;
+                    });
+        }
+        
         $old_profile_image = isset($model->profile_pic) && !empty($model->profile_pic) ? $model->profile_pic : NULL;
         $document_upload_flag = '';
         $specialityList = ArrayHelper::map(Speciality::getAllSpecialities(), 'id', 'name');
@@ -169,6 +177,7 @@ class UserDetailsController extends Controller {
                     'model' => $model, 'selectedLocations' => $selectedLocations,
                     'specialityList'=>$specialityList,
                     'disciplineList'=>$disciplineList,
+                    'selectedState' => $selectedState
         ]);
     }
 

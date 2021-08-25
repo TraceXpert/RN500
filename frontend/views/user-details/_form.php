@@ -13,28 +13,22 @@ use common\CommonFunction;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\UserDetails */
 /* @var $form yii\widgets\ActiveForm */
+
+$isWorkAuthorization = (isset($model->is_us_citizen) && !empty($model->is_us_citizen)) ? $model->is_us_citizen : '';
+$isLicensedSuspend = (isset($model->is_licensed_suspend) && !empty($model->is_licensed_suspend)) ? $model->is_us_citizen : '';
+
 ?>
 <style>
     .field-userdetails-street_address{margin-bottom: 5px;}
     .iti--allow-dropdown{width: 100%;}
     .optionlist{margin-left:-40px;}
-
-    .select2-container--krajee-bs4 .select2-selection--single{
-        height: 50px;
-        padding: .375rem 2rem;
-        background: #FFFFFF;
-        border-radius: 6px;
-        box-shadow: none;
-        color: #495057;
-    }
-    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{
-        padding: 0;
-    }
-
+    .select2-container--krajee-bs4 .select2-selection--single{height: 50px;padding: .375rem 2rem;background: #FFFFFF;border-radius: 6px;box-shadow: none;color: #495057;}
+    .select2-container--krajee-bs4 .select2-selection--single .select2-selection__rendered{padding: 0;}
     /*.field-userdetails-interest_level{width:200px;}*/
     .button-wrapper {position: relative;}
     .button-wrapper span.label {position: relative;z-index: 0;display: inline-block;width: 150px;background: #1756a0;cursor: pointer;color: #fff;padding: 10px 0;text-transform:uppercase;font-size:12px;border-radius: 15px;text-align: center;}
     #userdetails-profile_pic {display: inline-block;position: absolute;z-index: 1;width: 100%;height: 50px;top: 0;left: 0;opacity: 0;cursor: pointer;}
+    .work-authorization,.licensed-suspend{display:none;}
 </style>
 <div class="user-details-form">
     <?php
@@ -164,9 +158,9 @@ use common\CommonFunction;
             <?php } ?>   
         </div>
     </div>
-  <div class="mt-3">
-      
-      </div>
+    <div class="mt-3">
+
+    </div>
     <?php if (Yii::$app->user->identity->type == User::TYPE_JOB_SEEKER) { ?>
         <div class="row">
             <div class="col-sm-6">
@@ -207,6 +201,75 @@ use common\CommonFunction;
         </div>
     <?php } ?>
 
+    <div class="row">
+        <div class="col-sm-12">
+            <?= $form->field($model, 'is_us_citizen')->radioList([1 => 'Yes', 0 => 'No']); ?>
+        </div>
+    </div>
+    <div class="row work-authorization">
+        <div class="col-sm-12">
+            <?= $form->field($model, 'is_work_authorization')->radioList([1 => 'Yes', 0 => 'No']); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <?= $form->field($model, 'is_ilegal_activity')->radioList([1 => 'Yes', 0 => 'No']); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <?= $form->field($model, 'is_licensed_suspend')->radioList([1 => 'Yes', 0 => 'No']); ?>
+        </div>
+    </div>
+    <div class="row licensed-suspend">
+        <div class="col-sm-12">
+            <?php
+            $url = Url::to(['site/get-cities']);
+
+            echo $form->field($model, 'licensed_suspend_state_id')->widget(Select2::classname(), [
+                'name' => 'licensed_suspend_state_id',
+                'value' => isset($model->licensed_suspend_state_id) && !empty($model->licensed_suspend_state_id) ? $model->licensed_suspend_state_id : '',
+                'data' => $selectedState,
+                'options' => [
+                    'id' => 'licensed_suspend_state_id',
+                    'placeholder' => 'Select Location...',
+                    'multiple' => false,
+                    'class' => 'form-control select2-hidden-accessible'
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'minimumInputLength' => 1,
+                    'ajax' => [
+                        'url' => $url,
+                        'dataType' => 'json',
+                        'data' => new JsExpression('function(params) {return {q:params.term, page:params.page || 1}; }'),
+                        'cache' => true,
+                    ],
+                    'escapeMarkup' => new JsExpression('function (markup) {return markup; }'),
+                    'templateResult' => new JsExpression('function(location) {return "<b>"+location.name+"</b>"; }'),
+                    'templateSelection' => new JsExpression('function (location) {
+                                if(location.selected==true){
+                                    return location.text; 
+                                }else{
+                                    return location.name;
+                                }
+                            }'),
+                ],
+            ]);
+            ?>
+        </div>
+    </div>
+    <div class="row licensed-suspend">
+        <div class="col-sm-12">
+            <?= $form->field($model, 'is_provide_document')->radioList([1 => 'Yes', 0 => 'No']); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <?= $form->field($model, 'is_profesional_liability')->radioList([1 => 'Yes', 0 => 'No']); ?>
+        </div>
+    </div>
+
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'read-more contact-us mb-3 mt-2']) ?>
@@ -219,6 +282,16 @@ use common\CommonFunction;
 </div>
 <?php
 $script = <<< JS
+var isWorkAuthorization = '$isWorkAuthorization';
+var isLicensedSuspend = '$isLicensedSuspend';
+     
+if(isWorkAuthorization == '0'){
+    $('.work-authorization').show();
+}
+   
+if(isLicensedSuspend == '1'){
+    $('.licensed-suspend').show();
+}        
         
 $(document).on("beforeSubmit", "#user-details", function () {
         var form = $(this);
@@ -252,6 +325,24 @@ $(document).on("beforeSubmit", "#user-details", function () {
         });
         return false;
 });
+        
+$("#userdetails-is_us_citizen label input").change(function(){
+    var val = $(this).val();
+    if(val == '0'){
+        $('.work-authorization').show();
+    } else {
+        $('.work-authorization').hide();
+    }
+}); 
+    
+$("#userdetails-is_licensed_suspend label input").change(function(){
+    var val = $(this).val();
+    if(val == '1'){
+        $('.licensed-suspend').show();
+    } else {
+        $('.licensed-suspend').hide();
+    }
+});        
         
 $('#userdetails-profile_pic').change(function() {
             var filename = $(this).val();
