@@ -18,9 +18,9 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
 <style>
     .my-profilepic-size{width: 100px;height: 100px;}
     .fixed-sidebar{position: fixed;width: 360px;top: 105px;}
-
+    .sidebar-responsive{top: -320px !important;position: fixed;width: 360px;}
     @media (max-width:1200px){
-        .fixed-sidebar{position: relative;width: auto;}
+        .fixed-sidebar,.sidebar-responsive{position: relative;width: auto;}
     }
 
 
@@ -680,12 +680,22 @@ getProfilePercentage();
 $(window).scroll(function(){
   var scroll = $(window).scrollTop();    
   var profileSectionHeight = $('.listpgWraper').height() - 650;
+  var detailsSection = $('.profile-form').height() - 120;    
         
   if(scroll >= 100 && scroll <= profileSectionHeight){
       $('.sticky_sidebar').addClass('fixed-sidebar ');
-      $('.font-a').css("right","-5px");  
+      $('.font-a').css("right","-5px");
+      $('.sticky_sidebar').removeClass('sidebar-responsive');
+          
+   } else if(scroll >= profileSectionHeight && scroll <= detailsSection){
+        console.log('enter');
+       $('.sticky_sidebar').addClass('sidebar-responsive');
+//        $('.sidebar-responsive').addClass('fixed-sidebar');
+      $('.font-a').css("right","-5px");
+        
    } else {
-        $('.sticky_sidebar').removeClass('fixed-sidebar ');
+        $('.sticky_sidebar').removeClass('fixed-sidebar');
+        $('.sticky_sidebar').removeClass('sidebar-responsive');
         $('.font-a').css("right","10px");
    }      
 });
