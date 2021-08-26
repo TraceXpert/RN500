@@ -37,6 +37,13 @@ use borales\extensions\phoneInput\PhoneInputValidator;
  * @property int|null $speciality_id
  * @property int|null $discipline_id
  * @property string|null $year_of_exprience
+ * @property int|null $is_us_citizen
+ * @property int|null $is_work_authorization
+ * @property int|null $is_ilegal_activity
+ * @property int|null $is_licensed_suspend
+ * @property int|null $licensed_suspend_state_id
+ * @property int|null $is_provide_document
+ * @property int|null $is_profesional_liability
  *
  * @property User $user
  */
@@ -86,7 +93,7 @@ class UserDetails extends \yii\db\ActiveRecord {
                 [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
                 [['first_name', 'last_name', 'email'], 'required', 'on' => 'registration'],
                 [['created_at', 'updated_at', 'unique_id', 'user_id'], 'safe', 'on' => 'registration'],
-                [['job_looking_from', 'interest_level', 'first_name', 'last_name', 'email', 'mobile_no', 'street_no', 'street_address', 'apt', 'zip_code', 'extension', 'speciality_id', 'discipline_id', 'year_of_exprience'], 'safe'],
+                [['job_looking_from', 'interest_level', 'first_name', 'last_name', 'email', 'mobile_no', 'street_no', 'street_address', 'apt', 'zip_code', 'extension', 'speciality_id', 'discipline_id', 'year_of_exprience','is_us_citizen','is_work_authorization','is_ilegal_activity','is_licensed_suspend','licensed_suspend_state_id','is_provide_document','is_profesional_liability'], 'safe'],
                 [['company_id'], 'required', 'when' => function ($model) {
                     return CommonFunction::isHoAdmin(\Yii::$app->user->identity->id) || CommonFunction::isMasterAdmin(\Yii::$app->user->identity->id);
                 }, 'on' => 'staff'
@@ -114,7 +121,7 @@ class UserDetails extends \yii\db\ActiveRecord {
         $scenarios['staff'] = ['branch_id', 'company_id', 'type', 'city', 'state', 'created_at', 'updated_at', 'user_id', 'unique_id', 'role_id', 'email', 'first_name', 'last_name', 'mobile_no', 'street_no', 'street_address', 'apt', 'zip_code', 'profile_pic', 'current_position', 'speciality', 'work experience', 'job_looking_from', 'work_authorization_comment', 'license_suspended', 'professional_liability'];
         $scenarios['employer'] = ['branch_id', 'company_id', 'type', 'city', 'state', 'created_at', 'updated_at', 'user_id', 'unique_id', 'email', 'first_name', 'last_name', 'mobile_no', 'extension', 'street_no', 'street_address', 'apt', 'zip_code', 'profile_pic', 'current_position', 'speciality', 'work experience', 'job_looking_from', 'work_authorization_comment', 'license_suspended', 'professional_liability'];
         $scenarios['recruiter'] = ['type', 'city', 'state', 'created_at', 'updated_at', 'user_id', 'unique_id', 'email', 'first_name', 'last_name', 'mobile_no', 'street_no', 'street_address', 'apt', 'zip_code', 'profile_pic', 'current_position', 'speciality', 'work experience', 'job_looking_from', 'work_authorization_comment', 'license_suspended', 'professional_liability'];
-        $scenarios['profile'] = ['first_name', 'last_name', 'email', 'looking_for', 'apt', 'street_no', 'street_address', 'city', 'zip_code', 'ssn', 'dob', 'profile_pic', 'interest_level', 'created_at', 'updated_at', 'mobile_no', 'speciality_id', 'discipline_id', 'year_of_exprience'];
+        $scenarios['profile'] = ['first_name', 'last_name', 'email', 'looking_for', 'apt', 'street_no', 'street_address', 'city', 'zip_code', 'ssn', 'dob', 'profile_pic', 'interest_level', 'created_at', 'updated_at', 'mobile_no', 'speciality_id', 'discipline_id', 'year_of_exprience','is_us_citizen','is_work_authorization','is_ilegal_activity','is_licensed_suspend','licensed_suspend_state_id','is_provide_document','is_profesional_liability'];
         return $scenarios;
     }
 
@@ -156,6 +163,13 @@ class UserDetails extends \yii\db\ActiveRecord {
             'speciality_id' => 'Speciality',
             'discipline_id' => 'Discipline',
             'year_of_exprience' => 'Year Of Exprience',
+            'is_us_citizen' => 'Are you a United States citizen?',
+            'is_work_authorization' => 'can you provide work authorization when asked?',
+            'is_ilegal_activity' => 'Have you ever been charged with  a felony, any illegal activities, or arrested by any court or jurisdiction of United States?',
+            'is_licensed_suspend' => 'Has your license or certification been investigated, suspended or revoked in any state?',
+            'licensed_suspend_state_id' => 'which State?',
+            'is_provide_document' => 'If required by Employer or local state Government will you be able to provide those documents to the appropriate authority?',
+            'is_profesional_liability' => 'Have you ever been involved as a defendant in a professional liability action?',
         ];
     }
 
