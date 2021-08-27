@@ -31,6 +31,7 @@ use yii\web\Response;
 use yii\helpers\ArrayHelper;
 use common\models\CertificateMaster;
 use common\CommonFunction;
+use common\models\Cities;
 
 /**
  * Site controller
@@ -165,6 +166,13 @@ class SiteController extends Controller {
         $education = Education::find()->where(['user_id' => Yii::$app->user->id])->asArray()->all();
         $references = References::find()->where(['user_id' => Yii::$app->user->id])->asArray()->all();
         $userDetails = UserDetails::findOne(['user_id' => Yii::$app->user->id]);
+        $selectedLocations = '';
+        if(isset($userDetails->licensed_suspend_state_id) && !empty($userDetails->licensed_suspend_state_id)){
+            $selectedLocations = ArrayHelper::map(Cities::find()->where(['id' => $userDetails->licensed_suspend_state_id])->all(), 'id', function ($data) {
+                        return $data->city . "-" . $data->state_code;
+                    });
+        }
+        
         $jobPreference = JobPreference::find()->where(['user_id' => Yii::$app->user->id])->all();
         $certificationList = ArrayHelper::map(CertificateMaster::find()->all(), 'id', 'name');
 
@@ -176,6 +184,7 @@ class SiteController extends Controller {
                     'education' => $education,
                     'references' => $references,
                     'userDetails' => $userDetails,
+                    'selectedLocations' => $selectedLocations,
                     'jobPreference' => $jobPreference,
                     'certificationList' => $certificationList
         ]);

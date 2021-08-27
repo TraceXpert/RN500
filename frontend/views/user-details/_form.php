@@ -15,7 +15,7 @@ use common\CommonFunction;
 /* @var $form yii\widgets\ActiveForm */
 
 $isWorkAuthorization = (isset($model->is_us_citizen) && !empty($model->is_us_citizen)) ? $model->is_us_citizen : '';
-$isLicensedSuspend = (isset($model->is_licensed_suspend) && !empty($model->is_licensed_suspend)) ? $model->is_us_citizen : '';
+$isLicensedSuspend = (isset($model->is_licensed_suspend) && !empty($model->is_licensed_suspend)) ? $model->is_licensed_suspend : '';
 
 ?>
 <style>
@@ -203,22 +203,22 @@ $isLicensedSuspend = (isset($model->is_licensed_suspend) && !empty($model->is_li
 
     <div class="row">
         <div class="col-sm-12">
-            <?= $form->field($model, 'is_us_citizen')->radioList([1 => 'Yes', 0 => 'No']); ?>
+            <?= $form->field($model, 'is_us_citizen')->radioList(Yii::$app->params['USER_QA']); ?>
         </div>
     </div>
     <div class="row work-authorization">
         <div class="col-sm-12">
-            <?= $form->field($model, 'is_work_authorization')->radioList([1 => 'Yes', 0 => 'No']); ?>
+            <?= $form->field($model, 'is_work_authorization')->radioList(Yii::$app->params['USER_QA']); ?>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <?= $form->field($model, 'is_ilegal_activity')->radioList([1 => 'Yes', 0 => 'No']); ?>
+            <?= $form->field($model, 'is_ilegal_activity')->radioList(Yii::$app->params['USER_QA']); ?>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <?= $form->field($model, 'is_licensed_suspend')->radioList([1 => 'Yes', 0 => 'No']); ?>
+            <?= $form->field($model, 'is_licensed_suspend')->radioList(Yii::$app->params['USER_QA']); ?>
         </div>
     </div>
     <div class="row licensed-suspend">
@@ -261,12 +261,12 @@ $isLicensedSuspend = (isset($model->is_licensed_suspend) && !empty($model->is_li
     </div>
     <div class="row licensed-suspend">
         <div class="col-sm-12">
-            <?= $form->field($model, 'is_provide_document')->radioList([1 => 'Yes', 0 => 'No']); ?>
+            <?= $form->field($model, 'is_provide_document')->radioList(Yii::$app->params['USER_QA']); ?>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <?= $form->field($model, 'is_profesional_liability')->radioList([1 => 'Yes', 0 => 'No']); ?>
+            <?= $form->field($model, 'is_profesional_liability')->radioList(Yii::$app->params['USER_QA']); ?>
         </div>
     </div>
 
@@ -285,13 +285,17 @@ $script = <<< JS
 var isWorkAuthorization = '$isWorkAuthorization';
 var isLicensedSuspend = '$isLicensedSuspend';
      
-if(isWorkAuthorization == '0'){
+if(isWorkAuthorization == '2'){
     $('.work-authorization').show();
+} else {
+    $('.work-authorization').hide();
 }
    
 if(isLicensedSuspend == '1'){
     $('.licensed-suspend').show();
-}        
+} else {
+    $('.licensed-suspend').hide();
+}       
         
 $(document).on("beforeSubmit", "#user-details", function () {
         var form = $(this);
@@ -328,7 +332,7 @@ $(document).on("beforeSubmit", "#user-details", function () {
         
 $("#userdetails-is_us_citizen label input").change(function(){
     var val = $(this).val();
-    if(val == '0'){
+    if(val == '2'){
         $('.work-authorization').show();
     } else {
         $('.work-authorization').hide();
