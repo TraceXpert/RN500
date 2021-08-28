@@ -74,6 +74,8 @@ use common\CommonFunction;
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Jons by Disciptline</a></li>
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Jobs by Benefits</a></li>
                     <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("browse-jobs/index"); ?>">Jobs by Locations</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("blog/list"); ?>">The RN500 Blog</a></li>
+                    <li><a href="<?= Yii::$app->urlManagerFrontend->createUrl("newsletter/list"); ?>">Newsletter</a></li>
                 </ul>
             </div>
 

@@ -114,7 +114,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-right mt-2 mt-sm-0">
-                                    <!--<b><span>Commission:- <?php // echo ($model->recruiter_commission_type == 1) ? $model->recruiter_commission."%"."/".Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode] : "$".$model->recruiter_commission."/".Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode] ?></span></b>-->
+                                    <!--<b><span>Commission:- <?php // echo ($model->recruiter_commission_type == 1) ? $model->recruiter_commission."%"."/".Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode] : "$".$model->recruiter_commission."/".Yii::$app->params['COMMISSION_MODE'][$model->recruiter_commission_mode]       ?></span></b>-->
                                     <?php if (isset($model->emergency) && !empty($model->emergency)) { ?>
                                         <span class="badge badge-warning">Urgent</span>
                                     <?php } ?>
@@ -155,9 +155,19 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                     <p>Day 1</p>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div>
+                                    <?php if (!empty($model->offer_price)) { ?>
+                                        <b><p class="mb-0">Price: <strike><?= "$" . $model->price ?></strike></p></b>
+                                        <b><p style="color:red">Offer Price: <?= "$" . $model->offer_price ?></p></b>
+                                    <?php } else { ?>
+                                        <b><p class="mb-0" style="color:red">Price: <?= "$" . $model->price ?></p></b>
+                                        <p></p>
+                                    <?php } ?>
+                                </div>
+                            </div>
                         </div>
                         <div class="rating">
-
                             <div class="row m-0 job-d">
                                 <div class="col-sm-6 p-0">
                                     <div class="media">
@@ -179,7 +189,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                                         <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/recruiter-view', 'id' => $model->reference_no]) ?>" class="read-more contact-us mb-0">View Job</a>
                                     <?php } else { ?>
                                         <?php if (CommonFunction::isVisibleLead($model->approved_at)) { ?>
-                                            <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['payment/index', 'id' => $model->id]) ?>" class="read-more contact-us mb-0">Buy Now <?= "$" . $model->price ?></a>
+                                            <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['payment/index', 'id' => $model->id]) ?>" class="read-more contact-us mb-0">Buy Now</a>
                                         <?php } else {
                                             ?>
                                             <a href="javascript:void(0)" class="read-more contact-us mb-0">Coming Soon</a>

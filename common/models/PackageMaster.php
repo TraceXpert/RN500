@@ -30,9 +30,9 @@ class PackageMaster extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['title', 'price','status'], 'required'],
+            [['title', 'price','status','half_year_price','q1_price','year_price','description'], 'required'],
 //            ['title','uniqueName'],
-            [['title','price','created_at','updated_at', 'created_by', 'updated_by'], 'safe'],
+            [['title','price','created_at','updated_at', 'created_by', 'updated_by','half_year_price','q1_price','year_price','description'], 'safe'],
             [['is_default', 'status'], 'integer'],
             [['title'], 'string', 'max' => 250],
             [['title'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
@@ -46,7 +46,11 @@ class PackageMaster extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'title' => 'Title',
-            'price' => 'Price',
+            'price' => 'Month Price',
+            'q1_price' => '3 Month Price',
+            'half_year_price' => '6 Month Price',
+            'year_price' => '12 Month Price',
+            'description' => 'Description',
             'is_default' => '1:yes 0:no',
             'status' => 'Status',
         ];

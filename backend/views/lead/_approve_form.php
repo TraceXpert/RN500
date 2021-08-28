@@ -7,6 +7,7 @@ $form = ActiveForm::begin(['id' => 'approval-form']);
 ?>
 <?= $form->field($model, 'comment')->textarea(['rows' => 3, 'maxlength' => true]) ?>
 <?= $form->field($model, 'price')->textInput() ?>
+<?= $form->field($model, 'offer_price')->textInput() ?>
 <?= $form->field($model, 'visible_to')->radioList(Yii::$app->params['job.visible']) ?>
 
 <div class="form-group">

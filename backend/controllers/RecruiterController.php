@@ -131,7 +131,7 @@ class RecruiterController extends Controller {
             $CompanyCity = ArrayHelper::map(Cities::findAll(['state_id' => $companyMasterModel->state]), 'id', 'city');
             $city = ArrayHelper::map(Cities::findAll(['state_id' => $userDetailModel->state]), 'id', 'city');
             $is_error = 0;
-            $userDetailModel->role_id = RoleMaster::RECRUITER_OWNER;
+            $userDetailModel->role_id = Yii::$app->params['RECRUITER_OWNER'];
             $userDetailModel->created_at = $companyMasterModel->created_at = CommonFunction::currentTimestamp();
             $userDetailModel->updated_at = $companyMasterModel->updated_at = CommonFunction::currentTimestamp();
             $companyMasterModel->reference_no = $companyMasterModel->getUniqueReferenceNumber();
@@ -156,7 +156,7 @@ class RecruiterController extends Controller {
                                 $model->type = User::TYPE_RECRUITER;
                                 $model->status = User::STATUS_PENDING;
                                 $model->branch_id = $company_branch->id;
-                                $model->role_id = RoleMaster::RECRUITER_OWNER;
+                                $model->role_id = Yii::$app->params['RECRUITER_OWNER'];
                                 $model->is_owner = User::OWNER_YES;
                                 if ($model->save()) {
                                     $userDetailModel->user_id = $model->id;

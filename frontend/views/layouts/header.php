@@ -52,6 +52,7 @@ $jsSpecialityId = CommonFunction::jobSeekerSpecialityId();
                     <div class="dropdown-menu " aria-labelledby="resources">
                         <a class="dropdown-item " href="<?= Yii::$app->urlManagerFrontend->createUrl("site/about-us"); ?>">About Us</a>
                         <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl(["blogs/list"]); ?>">The RN500 Blog</a>
+                        <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl(["newsletter/list"]); ?>">Newsletter</a>
                         <a class="dropdown-item" href="<?= Yii::$app->urlManagerFrontend->createUrl("site/contact-us"); ?>">Contact RN500</a>
                         <!--<a class="dropdown-item" href="#">Contracts</a>-->
                         <!--<a class="dropdown-item" href="#">Benefits</a>-->
