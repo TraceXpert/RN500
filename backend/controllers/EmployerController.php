@@ -126,7 +126,7 @@ class EmployerController extends Controller {
 
         if ($userDetailModel->load(Yii::$app->request->post()) && $companyMasterModel->load(Yii::$app->request->post())) {
             $is_error = 0;
-            $userDetailModel->role_id = RoleMaster::RECRUITER_OWNER;
+            $userDetailModel->role_id = Yii::$app->params['Employer_OWNER'];
             $userDetailModel->created_at = $companyMasterModel->created_at = CommonFunction::currentTimestamp();
             $userDetailModel->updated_at = $companyMasterModel->updated_at = CommonFunction::currentTimestamp();
             if ($userDetailModel->validate(['first_name', 'last_name', 'mobile_no', 'profile_pic', 'current_position', 'speciality', 'job_title', 'job_looking_from', 'travel_preference', 'ssn', 'work_authorization', 'work_authorization_comment', 'license_suspended', 'professional_liability']) && $companyMasterModel->validate()) {

@@ -44,7 +44,7 @@ $frontendDir = Yii::$app->urlManagerFrontend->getBaseUrl() . "/uploads/advertise
             </div>
 
             <div class="col-md-4 text-right">
-                <a href="javascript:void(0)" id="submit" class="btn apply read-more contact-us mb-0">Pay Now <?= "$" . $model->price ?></a> 
+                <a href="javascript:void(0)" id="submit" class="btn apply read-more contact-us mb-0">Pay Now <?= !empty($model->offer_price) ? "$" . $model->offer_price : "$" . $model->price ?></a> 
             </div>
         </div>
 

@@ -61,7 +61,8 @@ class LeadMaster extends \yii\db\ActiveRecord {
             [['description', 'apt', 'zip_code'], 'string'],
             [['payment_type', 'job_type', 'shift', 'recruiter_commission_type', 'recruiter_commission_mode', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer', 'message' => '{attribute} must be a numeric only'],
             [['price'], 'number', 'min' => 1, 'message' => 'Please enter valid {attribute}.'],
-            [['jobseeker_payment',], 'number', 'min' => 1],
+            [['offer_price'], 'number', 'min' => 1, 'message' => 'Please enter valid {attribute}.'],
+            [['jobseeker_payment','offer_price'], 'safe'],
             [['title'], 'string', 'max' => 250],
             [['reference_no'], 'string', 'max' => 50],
             [['comment'], 'string', 'max' => 500],
@@ -69,7 +70,7 @@ class LeadMaster extends \yii\db\ActiveRecord {
             [['zip_code'], 'match', 'pattern' => '/^([0-9]){5}?$/', 'message' => 'Please enter a valid 5 digit numeric {attribute}.'],
 //            [['street_no'], 'match', 'pattern' => '/^([0-9])?$/', 'message' => 'Please enter a digit numeric for {attribute}.'],
             [['comment', 'visible_to'], 'safe', 'on' => 'approve'],
-            [['price'], 'required', 'on' => 'approve'],
+            [['price','offer_price'], 'required', 'on' => 'approve'],
             [['end_date', 'start_date'], 'checkEndDate', 'on' => 'post-job'],
             [['is_suspended'], 'checkSuspendDependency', 'on' => 'post-job'],
             [['approved_at', 'branch_id', 'state', 'comment', 'disciplines', 'benefits', 'specialities', 'end_date', 'start_date', 'emergency', 'is_suspended'], 'safe'],
@@ -111,7 +112,7 @@ class LeadMaster extends \yii\db\ActiveRecord {
 
     public function scenarios() {
         $scenarios = parent::scenarios();
-        $scenarios['approve'] = ['comment', 'price', 'visible_to'];
+        $scenarios['approve'] = ['comment', 'price', 'visible_to','offer_price'];
         return $scenarios;
     }
 
@@ -134,7 +135,8 @@ class LeadMaster extends \yii\db\ActiveRecord {
             'recruiter_commission_type' => 'Recruiter Commision Type',
             'recruiter_commission_mode' => 'Recruiter Commision Mode',
             'visible_to' => 'Visible To',
-            'price' => 'Price',
+            'price' => 'Actual Price',
+            'offer_price' => 'Offer Price',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

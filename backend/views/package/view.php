@@ -18,6 +18,10 @@ use yii\widgets\DetailView;
             'model' => $model,
             'attributes' => [
                 'title',
+                'price',
+                'q1_price',
+                'half_year_price',
+                'year_price',
                 [
                     'attribute' => 'status',
                     'value' => function ($data) {

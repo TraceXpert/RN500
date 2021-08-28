@@ -616,3 +616,24 @@ CREATE TABLE `newsletter_master` (
   `updated_at` int NOT NULL
 );
 
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('newsletter', '1', 'Newsletter');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('newsletter-create', '2', 'Create');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('newsletter-update', '2', 'Update');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('newsletter-view', '2', 'View');
+INSERT INTO `auth_item` (`name`, `type`, `description`) VALUES ('newsletter-suspend', '2', 'Suspend');
+
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('newsletter','newsletter-create');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('newsletter','newsletter-update');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('newsletter','newsletter-view');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES ('newsletter','newsletter-suspend');
+
+ALTER TABLE `lead_master`
+CHANGE `jobseeker_payment` `jobseeker_payment` text NOT NULL COMMENT 'salary' AFTER `description`,
+CHANGE `price` `price` double NULL COMMENT 'admin or master admin decide lead price' AFTER `visible_to`,
+ADD `offer_price` double NULL AFTER `price`;
+
+ALTER TABLE `package_master`
+ADD `q1_price` float NOT NULL AFTER `price`,
+ADD `half_year_price` float NOT NULL AFTER `q1_price`,
+ADD `year_price` float NOT NULL AFTER `half_year_price`,
+ADD `description` text NOT NULL AFTER `year_price`;

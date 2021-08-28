@@ -374,11 +374,11 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                             </svg>San Diego
                         </a>
                     </li>
-                <!-- </ul>                    
-            </div>
-
-            <div class="col-lg-3 offset-lg-1 col-md-4 col-6">
-                <ul class="list-unstyled"> -->
+                    <!-- </ul>                    
+                </div>
+    
+                <div class="col-lg-3 offset-lg-1 col-md-4 col-6">
+                    <ul class="list-unstyled"> -->
                     <li>
                         <a href="<?= Yii::$app->urlManagerFrontend->createAbsoluteUrl(['browse-jobs/index', 'location[]' => 15499]) ?>" class="popular-location">
                             <svg class="mr-2" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -520,7 +520,9 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@themes/rn500-theme');
                     <div class="col-md-4">
                         <div class="featured-img-block position-relative mb-4">
                             <?php if ($ads->file_type == Advertisement::FILE_TYPE_YOUTUBE_LINK) { ?>
-                                <iframe width="100%"  height="195" src="<?php echo $ads->getYoutubeEmbedUrl() ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="max-height-ads-home"></iframe>
+                                <a href="<?php echo $ads->getYoutubeEmbedUrl() ?>" target="_blank" title="Click me">
+                                    <img src="<?= $ads->getYoutubeEmbedId() ?>" width="100%"  height="195" />
+                                </a>
                                 <div class="ads-title">
                                     <p class="mb-0"><?php echo $adsName ?> <a href="<?php echo $ads->link_url ?>" target="_blank"> <img src="<?= $assetDir ?>/img/right-arrow.png" alt="right-arrow" class="img-fluid float-right"> </a></p>                             
                                 </div>

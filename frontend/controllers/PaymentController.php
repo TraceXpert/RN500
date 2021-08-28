@@ -65,8 +65,8 @@ class PaymentController extends Controller {
         $subscriptionModel = CompanySubscription::find()->innerJoin('company_subscription_payment', ['company_subscription_payment.subscription_id' => 'company_subscription.id'])->where(['company_id' => \common\CommonFunction::getLoggedInUserCompanyId(), 'company_subscription_payment.lead_id' => $lead_id])->one();
         if (empty($subscriptionModel)) {
             $model = LeadMaster::findOne(['id' => $lead_id]);
-
-            $amount_cents = $model->price * 100;
+            $amt = !empty($model->offer_price) ? $model->offer_price : $model->price;
+            $amount_cents = $amt * 100;
 
             $subscription = new CompanySubscription();
             $subscription->company_id = \common\CommonFunction::getLoggedInUserCompanyId();
@@ -76,7 +76,7 @@ class PaymentController extends Controller {
             if ($subscription->save()) {
                 $paymentModel = new CompanySubscriptionPayment();
                 $paymentModel->subscription_id = $subscription->id;
-                $paymentModel->amount = $model->price;
+                $paymentModel->amount = $amt;
                 $paymentModel->lead_id = $lead_id;
                 $paymentModel->status = CompanySubscriptionPayment::STATUS_PENDING;
                 $paymentModel->created_at = $paymentModel->updated_at = \common\CommonFunction::currentTimestamp();

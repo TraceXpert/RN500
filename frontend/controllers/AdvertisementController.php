@@ -36,7 +36,8 @@ class AdvertisementController extends Controller {
 
     public function actionAll() {
         $perPageLimt = Yii::$app->params['PAGE_LENGTH'];
-        $advertismentsTotalCnt = Advertisement::find()->where(['is_active' => '1'])->orderBy(['id' => SORT_DESC])->count();
+        $today = date('Y-m-d');
+        $advertismentsTotalCnt = Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->orderBy(['id' => SORT_DESC])->count();
         $total_pages = (ceil($advertismentsTotalCnt / $perPageLimt)) ? ceil($advertismentsTotalCnt / $perPageLimt) : 1;
 
         return $this->render('all', ['total_pages' => $total_pages]);
@@ -44,7 +45,8 @@ class AdvertisementController extends Controller {
 
     public function actionLoad($page = 1, $location = '') {
         $perPageLimt = Yii::$app->params['PAGE_LENGTH'];
-        $advertisments = Advertisement::find()->where(['is_active' => '1'])->orderBy(['id' => SORT_DESC])->limit($perPageLimt)->offset(($page - 1) * $perPageLimt)->all();
+        $today = date('Y-m-d');
+        $advertisments = Advertisement::find()->where(['is_active' => '1'])->andWhere("'$today' BETWEEN active_from AND active_to")->orderBy(['id' => SORT_DESC])->limit($perPageLimt)->offset(($page - 1) * $perPageLimt)->all();
         return $this->renderAjax('_load_ads', ['advertisments' => $advertisments]);
     }
 

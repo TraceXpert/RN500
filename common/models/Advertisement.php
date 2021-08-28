@@ -23,10 +23,8 @@ class Advertisement extends \yii\db\ActiveRecord {
 
     const FILE_TYPE_IMAGE = 1;
     const FILE_TYPE_YOUTUBE_LINK = 2;
-    
     const STATUS_ACTIVE_YES = 1;
     const STATUS_ACTIVE_NO = 0;
-    
 
     public static function tableName() {
         return 'advertisement';
@@ -58,7 +56,7 @@ class Advertisement extends \yii\db\ActiveRecord {
             [['name', 'icon'], 'string', 'max' => 255],
             [['location'], 'integer'],
             [['icon'], 'file', 'extensions' => ['jpg', 'png', 'jpeg'], 'checkExtensionByMimeType' => false, "wrongExtension" => "File type is not compatible. Please upload a PNG or JPG file."],
-            [['name','description'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
+            [['name', 'description'], 'match', 'not' => true, 'pattern' => Yii::$app->params['NO_HTMLTAG_PATTERN'], 'message' => Yii::t('app', Yii::$app->params['HTMLTAG_ERR_MSG'])],
         ];
     }
 
@@ -92,10 +90,32 @@ class Advertisement extends \yii\db\ActiveRecord {
             $url = $this->video_link;
             if (strpos($this->video_link, 'watch?v=') !== false) { // WATCHING URL COVERTS INTO EMBED
                 $watchUrl = explode('?v=', $this->video_link);
-                $url = 'https://www.youtube.com/embed/' . $watchUrl[1];
+                if (strpos($watchUrl[1], '&') !== false) {
+                    $vUrl = explode('&', $watchUrl[1]);
+                    $url = 'https://www.youtube.com/embed/' . $vUrl[0];
+                } else {
+                    $url = 'https://www.youtube.com/embed/' . $watchUrl[1];
+                }
             }
         }
         return $url;
+    }
+
+    public function getYoutubeEmbedId() {
+        $id = '';
+        if ($this->file_type == self::FILE_TYPE_YOUTUBE_LINK) {
+            $url = $this->video_link;
+            if (strpos($this->video_link, 'watch?v=') !== false) { // WATCHING URL COVERTS INTO EMBED
+                $watchUrl = explode('?v=', $this->video_link);
+                if (strpos($watchUrl[1], '&') !== false) {
+                    $vUrl = explode('&', $watchUrl[1]);
+                    $id = "http://img.youtube.com/vi/" . $vUrl[0] . "/0.jpg";
+                } else {
+                    $id = "http://img.youtube.com/vi/" . $watchUrl[1] . "/0.jpg";
+                }
+            }
+        }
+        return $id;
     }
 
 }

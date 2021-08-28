@@ -130,7 +130,7 @@ class StaffController extends Controller {
         }
         $roles = [];
         if (!\common\CommonFunction::isMasterAdmin(Yii::$app->user->identity->id)) {
-            $roles = ArrayHelper::map(\common\models\RoleMaster::find()->where(['company_id' => \Yii::$app->user->identity->branch->company_id])->andWhere(['NOT IN', 'id', [\common\models\RoleMaster::RECRUITER_OWNER, \common\models\RoleMaster::Employer_OWNER]])->all(), 'id', 'role_name');
+            $roles = ArrayHelper::map(\common\models\RoleMaster::find()->where(['company_id' => \Yii::$app->user->identity->branch->company_id])->andWhere(['NOT IN', 'id', [Yii::$app->params['RECRUITER_OWNER'], Yii::$app->params['Employer_OWNER']]])->all(), 'id', 'role_name');
         }
         $states = ArrayHelper::map(States::find()->where(['country_id' => 226])->all(), 'id', 'state');
         $city = [];
@@ -222,9 +222,9 @@ class StaffController extends Controller {
                 $companyList = [];
             }
         }
-        $roles = ArrayHelper::map(\common\models\RoleMaster::find()->where(['NOT IN', 'id', [\common\models\RoleMaster::RECRUITER_OWNER, \common\models\RoleMaster::Employer_OWNER]])->andWhere(['company_id' => $userDetailModel->company_id])->all(), 'id', 'role_name');
+        $roles = ArrayHelper::map(\common\models\RoleMaster::find()->where(['NOT IN', 'id', [Yii::$app->params['RECRUITER_OWNER'], Yii::$app->params['Employer_OWNER']]])->andWhere(['company_id' => $userDetailModel->company_id])->all(), 'id', 'role_name');
         if (!\common\CommonFunction::isMasterAdmin(Yii::$app->user->identity->id)) {
-            $roles = ArrayHelper::map(\common\models\RoleMaster::find()->where(['company_id' => \Yii::$app->user->identity->branch->company_id])->andWhere(['NOT IN', 'id', [\common\models\RoleMaster::RECRUITER_OWNER, \common\models\RoleMaster::Employer_OWNER]])->all(), 'id', 'role_name');
+            $roles = ArrayHelper::map(\common\models\RoleMaster::find()->where(['company_id' => \Yii::$app->user->identity->branch->company_id])->andWhere(['NOT IN', 'id', [Yii::$app->params['RECRUITER_OWNER'], Yii::$app->params['Employer_OWNER']]])->all(), 'id', 'role_name');
         }
         $branchList = ArrayHelper::map(CompanyBranch::find()->where(['company_id' => $model->branch->company_id])->all(), 'id', 'branch_name');
         $userDetailModel->email = $model->email;
@@ -292,7 +292,7 @@ class StaffController extends Controller {
     }
 
     public function actionGetRoles($id) {
-        $roles = ArrayHelper::map(RoleMaster::find()->where(['NOT IN', 'id', [\common\models\RoleMaster::RECRUITER_OWNER, \common\models\RoleMaster::Employer_OWNER]])->andWhere(['company_id' => $id])->all(), 'id', 'role_name');
+        $roles = ArrayHelper::map(RoleMaster::find()->where(['NOT IN', 'id', [Yii::$app->params['RECRUITER_OWNER'], Yii::$app->params['Employer_OWNER']]])->andWhere(['company_id' => $id])->all(), 'id', 'role_name');
         $options = '';
         if (!empty($roles)) {
             foreach ($roles as $key => $role) {

@@ -83,9 +83,9 @@ $searchInput = trim(Yii::$app->request->get('search'));
                 <div class="col-lg-12 col-md-12">
                     <div class="blog-box">
                         <?php if ($searchInput != '') { ?>
-                            <p class="text text-primary"> Oops!  No blog was found with such searched : &nbsp; <b><?php echo $searchInput ?></b>. </p>
+                            <p class="text text-primary"> Oops!  No newsletter was found with such searched : &nbsp; <b><?php echo $searchInput ?></b>. </p>
                         <?php } else { ?>
-                            <p class="text text-primary"> There is not any blog added yet. </p>
+                            <p class="text text-primary"> There is not any newsletter added yet. </p>
                         <?php } ?>
                     </div>
                 </div>
