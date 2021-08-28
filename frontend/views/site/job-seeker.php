@@ -33,7 +33,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
             <div class="col-lg-4">
                 <div class="sticky_sidebar">
                     <div class="view-details mb-4 progressbars">
-                        <?php Pjax::begin(['id'=>'pjx_profile_strength','enablePushState'=>false])?>
+                        <?php Pjax::begin(['id' => 'pjx_profile_strength', 'enablePushState' => false]) ?>
                         <p>Let's Improve Your Profile !</p>
 
                         <div class="d-flex justify-content-between">
@@ -135,7 +135,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                                     </div>
                                 </a>
                             </li>
-                            
+
                             <li>
                                 <a href="javascript:void(0)" data-type="licence" class="get-current-section">
                                     <div class="media">
@@ -155,8 +155,8 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                                     </div>
                                 </a>
                             </li>
-                            
-                             <li>
+
+                            <li>
                                 <a href="javascript:void(0)" data-type="certifications" class="get-current-section">
                                     <div class="media">
                                         <svg class="mr-3" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -252,7 +252,7 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                                     </div>
                                 </a>
                             </li>
-                            
+
                         </ul>
                     </div>
                 </div>
@@ -336,6 +336,71 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                         <div class="col-sm-8">
                             <p class="mb-0"><?= (isset($userDetails->ssn) && !empty($userDetails->ssn)) ? $userDetails->ssn : "&nbsp;" ?></p>
                         </div>
+
+
+                        <?php if (!empty($userDetails->is_us_citizen)) { ?>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= $userDetails->getAttributeLabel('is_us_citizen') ?></p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= Yii::$app->params['USER_QA'][$userDetails->is_us_citizen] ?></p>
+                            </div>
+                        <?php } ?>
+                        
+                         <?php if (!empty($userDetails->is_work_authorization) && $userDetails->is_us_citizen == UserDetails::USER_QA_NO) { ?>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= $userDetails->getAttributeLabel('is_work_authorization') ?></p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= Yii::$app->params['USER_QA'][$userDetails->is_work_authorization] ?></p>
+                            </div>
+                        <?php } ?>
+                        
+                        <?php if (!empty($userDetails->is_ilegal_activity)) { ?>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= $userDetails->getAttributeLabel('is_ilegal_activity') ?></p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= Yii::$app->params['USER_QA'][$userDetails->is_ilegal_activity] ?></p>
+                            </div>
+                        <?php } ?>
+                        
+                        <?php if (!empty($userDetails->is_licensed_suspend)) { ?>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= $userDetails->getAttributeLabel('is_licensed_suspend') ?></p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= Yii::$app->params['USER_QA'][$userDetails->is_licensed_suspend] ?></p>
+                            </div>
+                        <?php } ?>
+                        
+                        <?php if (!empty($userDetails->licensed_suspend_state_id) && $userDetails->is_licensed_suspend == UserDetails::USER_QA_YES) { ?>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= $userDetails->getAttributeLabel('is_licensed_suspend') ?></p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= $selectedLocations[$userDetails->licensed_suspend_state_id] ?></p>
+                            </div>
+                        <?php } ?>
+                        
+                        <?php if (!empty($userDetails->is_provide_document) && $userDetails->is_licensed_suspend == UserDetails::USER_QA_YES) { ?>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= $userDetails->getAttributeLabel('is_provide_document') ?></p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= Yii::$app->params['USER_QA'][$userDetails->is_provide_document] ?></p>
+                            </div>
+                        <?php } ?>
+                        
+                        <?php if (!empty($userDetails->is_profesional_liability)) { ?>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= $userDetails->getAttributeLabel('is_profesional_liability') ?></p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p class="mb-0"><?= Yii::$app->params['USER_QA'][$userDetails->is_profesional_liability] ?></p>
+                            </div>
+                        <?php } ?>
+                        
                     </div>
 
                 </div>
@@ -353,10 +418,10 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                                 <div class="col-sm-9">
                                     <h3 class="job-title main-title"> <?= isset(Yii::$app->params['JOB_SEEKER_DOCUMENT_TYPE'][$value['document_type']]) ? Yii::$app->params['JOB_SEEKER_DOCUMENT_TYPE'][$value['document_type']] : '' ?></h3>
                                     <?php if (!empty($value['path']) && file_exists(CommonFunction::getDocumentBasePath() . "/" . $value['path'])) { ?>
-                                    <a href="<?= $frontendDir . "/uploads/user-details/document/" . $value['path'] ?>"  target="_blank" data-pjax="0"><?= $value['path'] ?></a>
-                                    &nbsp;&nbsp;
-                                    <a download href="<?= $frontendDir . "/uploads/user-details/document/" . $value['path'] ?>"  target="_blank" data-pjax="0" ><i class="fa fa-download" aria-hidden="true"></i> &nbsp; Download </a>
-                                        
+                                        <a href="<?= $frontendDir . "/uploads/user-details/document/" . $value['path'] ?>"  target="_blank" data-pjax="0"><?= $value['path'] ?></a>
+                                        &nbsp;&nbsp;
+                                        <a download href="<?= $frontendDir . "/uploads/user-details/document/" . $value['path'] ?>"  target="_blank" data-pjax="0" ><i class="fa fa-download" aria-hidden="true"></i> &nbsp; Download </a>
+
                                     <?php } else { ?>
                                         <p class="light-weight mb-0">&nbsp;</p>
                                     <?php } ?>
@@ -383,9 +448,9 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                         </div>
                     </div>
                 </div>
-                
-                
-                 <div class="work-exp mb-4" id="licenses-new">
+
+
+                <div class="work-exp mb-4" id="licenses-new">
                     <div class="view-details">
                         <div class="row align-items-center">
                             <div class="col-md-12 col-12">
@@ -421,9 +486,9 @@ $userIdentity = isset(Yii::$app->user->identity) ? Yii::$app->user->identity : '
                         </div>
                     </div>
                 </div>
-                
-                
-                  <div class="work-exp mb-4" id="certifications">
+
+
+                <div class="work-exp mb-4" id="certifications">
                     <div class="view-details">
                         <div class="row align-items-center">
                             <div class="col-md-12 col-12">

@@ -40,5 +40,6 @@ return [
     'BLOG_CATEGORY_STATUS' => [1 => 'Active', 0 => 'Inactive'],
     'BLOG_SUSPENDED' => [1 => 'Yes', 0 => 'No'],
     'JOB_SEEKER_EXPERIENCE_LIST' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '10+' => '10+'],
-    'NEWSLETTER_SUSPENDED' => [1 => 'Yes', 0 => 'No']
+    'NEWSLETTER_SUSPENDED' => [1 => 'Yes', 0 => 'No'],
+    'USER_QA' => [1 => 'Yes', 2 => 'No'],
 ];
