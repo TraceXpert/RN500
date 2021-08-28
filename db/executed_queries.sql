@@ -637,3 +637,15 @@ ADD `q1_price` float NOT NULL AFTER `price`,
 ADD `half_year_price` float NOT NULL AFTER `q1_price`,
 ADD `year_price` float NOT NULL AFTER `half_year_price`,
 ADD `description` text NOT NULL AFTER `year_price`;
+--------26-AUG-21--------
+
+ALTER TABLE `user_details`
+ADD `is_us_citizen` tinyint(1) NULL COMMENT '0:No, 1:Yes' AFTER `year_of_exprience`,
+ADD `is_work_authorization` tinyint(1) NULL COMMENT '0:No, 1:Yes' AFTER `is_us_citizen`,
+ADD `is_ilegal_activity` tinyint(1) NULL COMMENT '0:No, 1:Yes' AFTER `is_work_authorization`,
+ADD `is_licensed_suspend` tinyint(1) NULL COMMENT '0:No, 1:Yes' AFTER `is_ilegal_activity`,
+ADD `licensed_suspend_state_id` int(11) NULL AFTER `is_licensed_suspend`,
+ADD `is_provide_document` tinyint(1) NULL COMMENT '0:No, 1:Yes' AFTER `licensed_suspend_state_id`,
+ADD `is_profesional_liability` tinyint(1) NULL COMMENT '0:No, 1:Yes' AFTER `is_provide_document`;
+
+--------END 26-AUG-21--------

@@ -43,4 +43,5 @@ return [
     'NEWSLETTER_SUSPENDED' => [1 => 'Yes', 0 => 'No'],
     'RECRUITER_OWNER' => 1,
     'Employer_OWNER' => 5,
+    'USER_QA' => [1 => 'Yes', 2 => 'No'],
 ];
